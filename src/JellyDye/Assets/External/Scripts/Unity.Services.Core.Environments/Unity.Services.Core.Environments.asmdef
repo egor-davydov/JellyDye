@@ -1,7 +1,0 @@
-{
-  "name": "Unity.Services.Core.Environments",
-  "references": [
-    "Unity.Services.Core"
-  ],
-  "allowUnsafeCode": true
-}

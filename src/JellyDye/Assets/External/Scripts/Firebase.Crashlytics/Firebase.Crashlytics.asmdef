@@ -1,7 +1,0 @@
-{
-  "name": "Firebase.Crashlytics",
-  "references": [
-    "Firebase.App"
-  ],
-  "allowUnsafeCode": true
-}

@@ -1,7 +1,0 @@
-{
-  "name": "Firebase.Installations",
-  "references": [
-    "Firebase.App"
-  ],
-  "allowUnsafeCode": true
-}

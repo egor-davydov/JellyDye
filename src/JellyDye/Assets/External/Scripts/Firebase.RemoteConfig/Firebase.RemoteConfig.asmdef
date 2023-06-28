@@ -1,7 +1,0 @@
-{
-  "name": "Firebase.RemoteConfig",
-  "references": [
-    "Firebase.App"
-  ],
-  "allowUnsafeCode": true
-}

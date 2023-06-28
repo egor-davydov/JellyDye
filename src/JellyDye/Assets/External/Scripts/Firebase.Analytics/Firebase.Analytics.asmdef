@@ -1,7 +1,0 @@
-{
-  "name": "Firebase.Analytics",
-  "references": [
-    "Firebase.App"
-  ],
-  "allowUnsafeCode": true
-}

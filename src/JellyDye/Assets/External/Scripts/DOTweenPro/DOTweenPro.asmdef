@@ -1,7 +1,0 @@
-{
-  "name": "DOTweenPro",
-  "references": [
-    "DOTween"
-  ],
-  "allowUnsafeCode": true
-}
