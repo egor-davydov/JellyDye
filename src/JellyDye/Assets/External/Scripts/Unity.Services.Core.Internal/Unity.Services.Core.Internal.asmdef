@@ -1,0 +1,8 @@
+{
+  "name": "Unity.Services.Core.Internal",
+  "references": [
+    "Unity.Services.Core",
+    "Newtonsoft.Json"
+  ],
+  "allowUnsafeCode": true
+}

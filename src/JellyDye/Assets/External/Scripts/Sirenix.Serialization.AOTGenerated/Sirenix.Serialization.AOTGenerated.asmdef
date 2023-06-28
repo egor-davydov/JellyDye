@@ -1,0 +1,7 @@
+{
+  "name": "Sirenix.Serialization.AOTGenerated",
+  "references": [
+    "Sirenix.Serialization"
+  ],
+  "allowUnsafeCode": true
+}

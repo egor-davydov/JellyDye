@@ -1,0 +1,7 @@
+{
+  "name": "Grpc.Core",
+  "references": [
+    "Grpc.Core.Api"
+  ],
+  "allowUnsafeCode": true
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Lofelt.NiceVibrations.Demo",
+  "references": [
+    "Lofelt.NiceVibrations"
+  ],
+  "allowUnsafeCode": true
+}

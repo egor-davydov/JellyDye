@@ -1,0 +1,7 @@
+{
+  "name": "Facebook.Unity.Android",
+  "references": [
+    "Facebook.Unity"
+  ],
+  "allowUnsafeCode": true
+}

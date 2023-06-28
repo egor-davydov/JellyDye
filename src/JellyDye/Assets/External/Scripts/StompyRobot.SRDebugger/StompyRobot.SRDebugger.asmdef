@@ -1,0 +1,7 @@
+{
+  "name": "StompyRobot.SRDebugger",
+  "references": [
+    "StompyRobot.SRF"
+  ],
+  "allowUnsafeCode": true
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Firebase.Messaging",
+  "references": [
+    "Firebase.App"
+  ],
+  "allowUnsafeCode": true
+}

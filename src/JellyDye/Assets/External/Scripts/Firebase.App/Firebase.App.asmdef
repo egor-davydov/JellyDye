@@ -1,0 +1,7 @@
+{
+  "name": "Firebase.App",
+  "references": [
+    "Firebase.Platform"
+  ],
+  "allowUnsafeCode": true
+}

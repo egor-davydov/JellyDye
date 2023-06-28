@@ -1,0 +1,9 @@
+{
+  "name": "Unity.Services.Core.Configuration",
+  "references": [
+    "Unity.Services.Core.Internal",
+    "Unity.Services.Core",
+    "Newtonsoft.Json"
+  ],
+  "allowUnsafeCode": true
+}

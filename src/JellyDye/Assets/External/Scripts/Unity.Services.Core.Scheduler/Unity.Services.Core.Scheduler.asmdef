@@ -1,0 +1,7 @@
+{
+  "name": "Unity.Services.Core.Scheduler",
+  "references": [
+    "Unity.Services.Core.Internal"
+  ],
+  "allowUnsafeCode": true
+}

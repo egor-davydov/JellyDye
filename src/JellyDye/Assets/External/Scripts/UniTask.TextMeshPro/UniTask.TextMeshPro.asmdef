@@ -1,0 +1,8 @@
+{
+  "name": "UniTask.TextMeshPro",
+  "references": [
+    "UniTask",
+    "Unity.TextMeshPro"
+  ],
+  "allowUnsafeCode": true
+}

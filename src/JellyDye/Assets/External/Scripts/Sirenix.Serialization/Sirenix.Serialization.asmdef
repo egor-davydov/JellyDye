@@ -1,0 +1,8 @@
+{
+  "name": "Sirenix.Serialization",
+  "references": [
+    "Sirenix.Serialization.Config",
+    "Sirenix.OdinInspector.Attributes"
+  ],
+  "allowUnsafeCode": true
+}

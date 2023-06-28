@@ -1,0 +1,7 @@
+{
+  "name": "Sirenix.OdinInspector.CompatibilityLayer",
+  "references": [
+    "Sirenix.Serialization"
+  ],
+  "allowUnsafeCode": true
+}
