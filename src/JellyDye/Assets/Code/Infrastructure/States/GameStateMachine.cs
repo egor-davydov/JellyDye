@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Code.Infrastructure.Installers;
 
 namespace Code.Infrastructure.States
 {
@@ -19,6 +20,7 @@ namespace Code.Infrastructure.States
       {
         [typeof(LoadProgressState)] = _gameStateFactory.Get<LoadProgressState>(),
         [typeof(LoadLevelState)] = _gameStateFactory.Get<LoadLevelState>(),
+        [typeof(GameLoopState)] = _gameStateFactory.Get<GameLoopState>(),
       };
     }
 

@@ -1,4 +1,5 @@
-﻿using Code.Infrastructure.States;
+﻿using Code.Gameplay.Logic;
+using Code.Infrastructure.States;
 using Code.Services;
 using UnityEngine;
 using Zenject;
@@ -14,6 +15,16 @@ namespace Code.Infrastructure.Installers
       BindServices();
       BindStates();
       BindGameStateMachine();
+      BindLoadingCurtain();
+    }
+
+    private void BindLoadingCurtain()
+    {
+      GameObject loadingCurtainObject = Container.InstantiatePrefab(Resources.Load<GameObject>("LoadingCurtain/LoadingCurtain"));
+      Container
+        .Bind<LoadingCurtain>()
+        .FromInstance(loadingCurtainObject.GetComponent<LoadingCurtain>())
+        .AsSingle();
     }
 
     public void Initialize()
@@ -33,6 +44,7 @@ namespace Code.Infrastructure.Installers
     {
       Container.Bind<LoadProgressState>().AsSingle();
       Container.Bind<LoadLevelState>().AsSingle();
+      Container.Bind<GameLoopState>().AsSingle();
     }
 
     private void BindGameStateMachine()
