@@ -4,7 +4,7 @@ namespace Code.Gameplay.Syringe
 {
   public class SyringeMove : MonoBehaviour
   {
-    [SerializeField, Range(0, 0.05f)] private float _moveSpeed = 0.01f;
+    [SerializeField, Range(0, 0.05f)] private float _moveSpeed = 0.05f;
     
     private Vector3 _previousMousePosition;
 
@@ -13,7 +13,9 @@ namespace Code.Gameplay.Syringe
       if (Input.GetMouseButton(0))
       {
         Vector3 moveDelta = Input.mousePosition - _previousMousePosition;
-        transform.position += new Vector3(moveDelta.x, 0, moveDelta.y) * _moveSpeed;
+        Debug.Log(moveDelta);
+        //Debug.Break();
+        transform.position += new Vector3(moveDelta.x, 0, moveDelta.y) * _moveSpeed * Time.deltaTime;
       }
       _previousMousePosition = Input.mousePosition;
     }
