@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code.Gameplay.Syringe.Injection
+namespace Code.Gameplay.Injection
 {
   public class Injection : MonoBehaviour
   {
