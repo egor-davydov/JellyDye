@@ -7,8 +7,7 @@ namespace Fluxy
     [AddComponentMenu("Physics/FluXY/Container", 800)]
     [ExecuteInEditMode]
     [ExecutionOrder(9998)]
-    [RequireComponent(typeof(MeshFilter))]
-    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(SkinnedMeshRenderer))]
     public class FluxyContainer : MonoBehaviour
     {
         [Serializable]
@@ -514,7 +513,7 @@ namespace Fluxy
                 DestroyImmediate(proceduralMesh);
 
             if (customMesh != null)
-                GetComponent<MeshFilter>().sharedMesh = customMesh;
+                GetComponent<SkinnedMeshRenderer>().sharedMesh = customMesh;
         }
 
         private void SetSolver(FluxySolver newSolver, bool setMember)

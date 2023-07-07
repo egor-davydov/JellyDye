@@ -12,7 +12,7 @@ namespace Fluxy
         static void CreateFluxyContainer(MenuCommand menuCommand)
         {
             GameObject go = new GameObject("Container", typeof(FluxyContainer), typeof(FluxyTargetDetector));
-            go.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Container");
+            go.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Container");
 
             FluxyEditorUtils.CreateObject(go, menuCommand.context as GameObject);
             go.GetComponent<FluxyContainer>().solver = FluxyEditorUtils.GetOrCreateSolverObject();

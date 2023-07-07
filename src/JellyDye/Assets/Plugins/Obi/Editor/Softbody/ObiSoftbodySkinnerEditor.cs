@@ -88,7 +88,7 @@ namespace Obi{
 
         protected bool ValidateRendererMesh()
         {
-            SkinnedMeshRenderer skin = skinner.GetComponent<SkinnedMeshRenderer>();
+            SkinnedMeshRenderer skin = skinner.m_Target;
 
             if (skin != null && skin.sharedMesh != null)
             {
