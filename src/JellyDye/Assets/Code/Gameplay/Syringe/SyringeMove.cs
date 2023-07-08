@@ -14,7 +14,7 @@ namespace Code.Gameplay.Syringe
       {
         Vector3 moveDelta = Input.mousePosition - _previousMousePosition;
         // Debug.Log(moveDelta);
-        transform.position += new Vector3(moveDelta.x, 0, moveDelta.y) * _moveSpeed * Time.deltaTime;
+        transform.position += new Vector3(moveDelta.x, 0, moveDelta.y) * (_moveSpeed * Time.deltaTime);
       }
       _previousMousePosition = Input.mousePosition;
     }
