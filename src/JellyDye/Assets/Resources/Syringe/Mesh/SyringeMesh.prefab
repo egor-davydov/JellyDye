@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7510090945957888329}
   - component: {fileID: 7510090945957888382}
   - component: {fileID: 7510090945957888326}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Syringe_v2_base_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7510090945957888334}
   - component: {fileID: 7510090945957888377}
   - component: {fileID: 7510090945957888324}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Syringe_v2_base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 7510090945957888332}
   - component: {fileID: 7510090945957888383}
   - component: {fileID: 7510090945957888327}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Liquid_v2_mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7510090945957888320}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: SyringeMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

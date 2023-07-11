@@ -801,9 +801,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -7.2534504
       objectReference: {fileID: 0}
+    - target: {fileID: 7510090945957888336, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510090945957888337, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510090945957888338, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7510090945957888342, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
       propertyPath: m_Name
       value: syringe_v2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510090945957888342, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
