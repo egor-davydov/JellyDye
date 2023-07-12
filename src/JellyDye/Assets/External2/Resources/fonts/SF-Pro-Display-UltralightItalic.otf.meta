@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 135efc8d6cb143aab8f840c6f36bebd1
+timeCreated: 1689179739
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: "SF-Pro-Display-UltralightItalic"
+  fontNames:
+  - SF Pro Display
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData:
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 93179cc0bdae4b79957ca8e537e31dc8
+timeCreated: 1689179739
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: "SF-Pro-Display-Bold"
+  fontNames:
+  - SF Pro Display
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData:
+  assetBundleName: 
+  assetBundleVariant: 
