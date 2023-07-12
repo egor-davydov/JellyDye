@@ -1,9 +1,9 @@
-using Code.Gameplay.Injection;
+using Code.Gameplay.Hud.PaintChange;
 using Code.Gameplay.Logic;
+using Code.Gameplay.Syringe;
 using Code.Infrastructure.Installers;
 using Code.Services;
 using Code.Services.Factories;
-using Fluxy;
 using UnityEngine;
 
 namespace Code.Infrastructure.States
@@ -45,9 +45,9 @@ namespace Code.Infrastructure.States
 
     private void InitHud(GameObject syringeObject)
     {
-      FluxyTarget fluxyTarget = syringeObject.GetComponentInChildren<FluxyTarget>();
+      SyringePaint syringePaint = syringeObject.GetComponent<SyringePaint>();
       GameObject hudObject = _hudFactory.CreateHud();
-      hudObject.GetComponentInChildren<PaintColorChange>().Initialize(fluxyTarget, new []{Color.red, Color.green, Color.blue, });
+      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaint, new []{Color.red, Color.green, Color.blue, });
     }
   }
 }

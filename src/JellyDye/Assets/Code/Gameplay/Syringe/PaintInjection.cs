@@ -2,12 +2,11 @@
 using Fluxy;
 using UnityEngine;
 
-namespace Code.Gameplay.Injection
+namespace Code.Gameplay.Syringe
 {
   public class PaintInjection : MonoBehaviour
   {
     [SerializeField] private FluxyTarget _fluxyTarget;
-    [SerializeField] private MeshRenderer _liquidRenderer;
     [SerializeField] private float _paintIncreaseOverTime;
     [SerializeField] private Transform _pistonTransform;
     [SerializeField] private Transform _liquidTransform;
@@ -24,7 +23,6 @@ namespace Code.Gameplay.Injection
     private const KeyCode InjectionKeyCode = KeyCode.Q;
     private const float MinLiquidScale = 0.05f;
     private static readonly Vector3 MinPistonPosition = new Vector3(0, 0.326f, 0);
-    private static readonly int LiquidColorId = Shader.PropertyToID("_Color");
 
     private Vector3 _injectionStartPosition;
     private Coroutine _injectionCoroutine;
@@ -34,7 +32,6 @@ namespace Code.Gameplay.Injection
 
     private void Awake()
     {
-      _liquidRenderer.sharedMaterial = new Material(_liquidRenderer.sharedMaterial.shader);
       _pistonResetPosition = _pistonTransform.localPosition;
       _liquidResetScale = _liquidTransform.localScale.y;
     }
@@ -57,10 +54,7 @@ namespace Code.Gameplay.Injection
         StartCoroutine(MoveBack());
       }
     }
-
-    public void ChangeLiquidColor(Color newColor) => 
-      _liquidRenderer.sharedMaterial.SetColor(LiquidColorId, newColor);
-
+    
     public void SyringeReset() => 
       StartCoroutine(Reset());
 

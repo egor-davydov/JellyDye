@@ -1,20 +1,20 @@
-﻿using Fluxy;
+﻿using Code.Gameplay.Syringe;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Gameplay.Injection
+namespace Code.Gameplay.Hud.PaintChange
 {
   public class ColorChanger : MonoBehaviour
   {
     [SerializeField] private Image _colorContainerContentImage;
     [SerializeField] private Button _colorChangeButton;
 
-    private FluxyTarget _fluxyTarget;
     private Color _containerColor;
+    private SyringePaint _syringePaint;
 
-    public void Initialize(FluxyTarget fluxyTarget, Color color)
+    public void Initialize(SyringePaint syringePaint, Color color)
     {
-      _fluxyTarget = fluxyTarget;
+      _syringePaint = syringePaint;
       _containerColor = color;
       _colorContainerContentImage.color = _containerColor;
     }
@@ -26,10 +26,8 @@ namespace Code.Gameplay.Injection
 
     private void ChangeColorClick()
     {
-      PaintInjection paintInjection = _fluxyTarget.transform.parent.GetComponent<PaintInjection>();
-      paintInjection.SyringeReset();
-      paintInjection.ChangeLiquidColor(_containerColor);
-      _fluxyTarget.color = _containerColor;
+      _syringePaint.GetComponent<PaintInjection>().SyringeReset();
+      _syringePaint.ChangeLiquidColor(_containerColor);
     }
   }
 }

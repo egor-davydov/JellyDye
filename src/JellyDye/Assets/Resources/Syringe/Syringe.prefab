@@ -67,10 +67,10 @@ MonoBehaviour:
   angularVelocityScale: 1
   force: {x: 0, y: 0, z: 0}
   torque: 0
-  densityWeight: 1
+  densityWeight: 0.71
   densityTexture: {fileID: 0}
-  srcBlend: 5
-  dstBlend: 10
+  srcBlend: 3
+  dstBlend: 3
   blendOp: 0
   color: {r: 1, g: 1, b: 1, a: 1}
   noiseTexture: {fileID: 2800000, guid: ff70acd9d6132428b8cbea06fbf16801, type: 3}
@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 2475913238478514833}
   - component: {fileID: 4188462006210841643}
   - component: {fileID: 1214512074195584675}
+  - component: {fileID: 5631050146303792006}
   m_Layer: 0
   m_Name: Syringe
   m_TagString: Untagged
@@ -421,7 +422,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fluxyTarget: {fileID: 1312922224575281827}
-  _liquidRenderer: {fileID: 8450204995867750371}
   _paintIncreaseOverTime: 0.2
   _pistonTransform: {fileID: 8951687293482863970}
   _liquidTransform: {fileID: 5652007367357789570}
@@ -434,6 +434,20 @@ MonoBehaviour:
   _movingLittleBackDistance: 0.41
   _movingLittleBackTime: 0.2
   _resetTime: 0.3
+--- !u!114 &5631050146303792006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6908023878915511053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2407ce121193496da9e62cc5d6d7d91e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fluxyTarget: {fileID: 1312922224575281827}
+  _liquidRenderer: {fileID: 8450204995867750371}
 --- !u!1 &9083454349401253034
 GameObject:
   m_ObjectHideFlags: 0
