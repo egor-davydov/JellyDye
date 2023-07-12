@@ -1,6 +1,8 @@
 ﻿using Code.Gameplay.Logic;
 using Code.Infrastructure.States;
 using Code.Services;
+using Code.Services.AssetManagement;
+using Code.Services.Factories;
 using UnityEngine;
 using Zenject;
 
@@ -14,8 +16,16 @@ namespace Code.Infrastructure.Installers
 
       BindServices();
       BindStates();
-      BindGameStateMachine();
+      BindFactories();
       BindLoadingCurtain();
+    }
+
+    private void BindFactories()
+    {
+      Container.Bind<GameStateFactory>().AsSingle();
+      Container.Bind<HudFactory>().AsSingle();
+      Container.Bind<ColorChangerFactory>().AsSingle();
+      Container.Bind<SyringeFactory>().AsSingle();
     }
 
     private void BindLoadingCurtain()
@@ -37,20 +47,16 @@ namespace Code.Infrastructure.Installers
 
     private void BindServices()
     {
+      Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
     }
 
     private void BindStates()
     {
+      Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
       Container.Bind<LoadProgressState>().AsSingle();
       Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<GameLoopState>().AsSingle();
-    }
-
-    private void BindGameStateMachine()
-    {
-      Container.Bind<GameStateFactory>().AsSingle();
-      Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
     }
   }
 }

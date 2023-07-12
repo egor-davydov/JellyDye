@@ -32,10 +32,9 @@ namespace Code.Gameplay.Injection
     private Vector3 _pistonResetPosition;
     private float _liquidResetScale;
 
-    private void Start()
+    private void Awake()
     {
       _liquidRenderer.sharedMaterial = new Material(_liquidRenderer.sharedMaterial.shader);
-      _liquidRenderer.sharedMaterial.SetColor(LiquidColorId, new Color(1, 0, 0));
       _pistonResetPosition = _pistonTransform.localPosition;
       _liquidResetScale = _liquidTransform.localScale.y;
     }
@@ -59,6 +58,12 @@ namespace Code.Gameplay.Injection
       }
     }
 
+    public void ChangeLiquidColor(Color newColor) => 
+      _liquidRenderer.sharedMaterial.SetColor(LiquidColorId, newColor);
+
+    public void SyringeReset() => 
+      StartCoroutine(Reset());
+
     private IEnumerator Injection()
     {
       for (float currentTime = 0; currentTime < _movingCloserTime; currentTime += Time.deltaTime)
@@ -80,7 +85,7 @@ namespace Code.Gameplay.Injection
         if (_liquidTransform.localScale.y == MinLiquidScale)
         {
           StopPaint();
-          StartCoroutine(Reset());
+          SyringeReset();
           yield break;
         }
 

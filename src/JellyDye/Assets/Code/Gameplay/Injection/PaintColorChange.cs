@@ -1,29 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using Code.Services.Factories;
 using Fluxy;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Gameplay.Injection
 {
   public class PaintColorChange : MonoBehaviour
   {
-    [SerializeField] private FluxyTarget _fluxyTarget;
-    [SerializeField] private List<Color> _colors;
-    private readonly Dictionary<string, Color> _keyColors = new();
+    private Color[] _colors;
+    private FluxyTarget _fluxyTarget;
+    private ColorChangerFactory _colorChangerFactory;
 
-    private void Start()
+    [Inject]
+    public void Construct(ColorChangerFactory colorChangerFactory)
     {
-      for (int i = 0; i < _colors.Count; i++)
-        _keyColors.Add((i + 1).ToString(), _colors[i]);
-      _fluxyTarget.color = _keyColors["1"];
+      _colorChangerFactory = colorChangerFactory;
     }
 
-    private void Update()
+    public void Initialize(FluxyTarget fluxyTarget, Color[] colors)
     {
-      foreach (KeyValuePair<string, Color> keyColor in _keyColors)
+      _fluxyTarget = fluxyTarget;
+      _colors = colors;
+      InitStartColor();
+      foreach (Color color in colors)
       {
-        if (Input.GetKeyDown(keyColor.Key))
-          _fluxyTarget.color = keyColor.Value;
+        ColorChanger colorChanger = _colorChangerFactory.Create(transform).GetComponent<ColorChanger>();
+        colorChanger.Initialize(fluxyTarget, color);
       }
     }
+
+    private void InitStartColor() => 
+      _fluxyTarget.transform.parent.GetComponent<PaintInjection>().ChangeLiquidColor(_colors[0]);
   }
 }

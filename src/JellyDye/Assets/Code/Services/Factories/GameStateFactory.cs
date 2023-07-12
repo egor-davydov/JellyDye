@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace Code.Infrastructure.States
+namespace Code.Services.Factories
 {
   public class GameStateFactory
   {
@@ -9,7 +9,7 @@ namespace Code.Infrastructure.States
     public GameStateFactory(DiContainer diContainer) => 
       _diContainer = diContainer;
 
-    public TState Get<TState>() => 
+    public TState Create<TState>() => 
       _diContainer.Resolve<TState>();
   }
 }
