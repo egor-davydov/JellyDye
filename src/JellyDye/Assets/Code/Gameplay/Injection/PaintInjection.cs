@@ -29,13 +29,11 @@ namespace Code.Gameplay.Injection
     private Vector3 _injectionStartPosition;
     private Coroutine _injectionCoroutine;
     private bool _isMovingBack;
-    private SphereCollider _paintCollider;
     private Vector3 _pistonResetPosition;
     private float _liquidResetScale;
 
     private void Start()
     {
-      _paintCollider = _fluxyTarget.GetComponent<SphereCollider>();
       _liquidRenderer.sharedMaterial = new Material(_liquidRenderer.sharedMaterial.shader);
       _liquidRenderer.sharedMaterial.SetColor(LiquidColorId, new Color(1, 0, 0));
       _pistonResetPosition = _pistonTransform.localPosition;
@@ -86,7 +84,7 @@ namespace Code.Gameplay.Injection
           yield break;
         }
 
-        _paintCollider.radius += _paintIncreaseOverTime * Time.deltaTime;
+        _fluxyTarget.scale += Vector2.one * (_paintIncreaseOverTime * Time.deltaTime);
         _pistonTransform.localPosition += Vector3.down * (_pistonSpeed * Time.deltaTime);
         MoveLiquid(_liquidTransform.localScale, Vector3.down);
         yield return null;
@@ -95,13 +93,12 @@ namespace Code.Gameplay.Injection
 
     private void StartPaint()
     {
-      _paintCollider.radius = 0.1f;
       _fluxyTarget.enabled = true;
     }
 
     private void StopPaint()
     {
-      _paintCollider.radius = 0;
+      _fluxyTarget.scale = Vector2.zero;
       _fluxyTarget.enabled = false;
     }
 
