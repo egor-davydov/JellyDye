@@ -4,21 +4,21 @@ using Zenject;
 
 namespace Code.Services.Factories
 {
-  public class UIFactory
+  public class LevelButtonFactory
   {
     private readonly IInstantiator _instantiator;
     private readonly IAssetProvider _assetProvider;
 
-    public UIFactory(IInstantiator instantiator, IAssetProvider assetProvider)
+    public LevelButtonFactory(IInstantiator instantiator, IAssetProvider assetProvider)
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
     }
     
-    public GameObject CreateMainMenu()
+    public GameObject CreateLevelButton(Transform parent)
     {
-      GameObject menuPrefab = _assetProvider.Load(AssetPath.MainMenu);
-      GameObject menuObject = _instantiator.InstantiatePrefab(menuPrefab, new GameObject("MenuParent").transform);
+      GameObject levelButtonPrefab = _assetProvider.Load(AssetPath.LevelButton);
+      GameObject menuObject = _instantiator.InstantiatePrefab(levelButtonPrefab, parent);
       return menuObject;
     }
   }

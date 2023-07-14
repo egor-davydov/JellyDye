@@ -18,7 +18,7 @@ namespace Code.Services.Factories
     public GameObject CreateSyringe()
     {
       GameObject syringePrefab = _assetProvider.Load(AssetPath.Syringe);
-      GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab);
+      GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab, new GameObject("SyringeParent").transform);
       
       return syringeObject;
     }

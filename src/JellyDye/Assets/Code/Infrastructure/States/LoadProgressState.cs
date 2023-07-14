@@ -11,7 +11,7 @@ namespace Code.Infrastructure.States
     
     public void Enter()
     {
-      _gameStateMachine.Enter<LoadLevelState, string>("Main");
+      _gameStateMachine.Enter<LoadLevelState, int>(1);
     }
 
     public void Exit()

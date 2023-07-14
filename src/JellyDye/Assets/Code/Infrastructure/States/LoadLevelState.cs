@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Code.Infrastructure.States
 {
-  public class LoadLevelState : IPayloadState<string>
+  public class LoadLevelState : IPayloadState<int>
   {
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -26,21 +26,28 @@ namespace Code.Infrastructure.States
       _syringeFactory = syringeFactory;
     }
     
-    public void Enter(string sceneName)
+    public void Enter(int index)
     {
-      _loadingCurtain.Show();
-      Debug.Log($"Enter LoadLevelState LoadingSceneName: '{sceneName}'");
-      _sceneLoader.StartLoad(sceneName, OnLoadComplete);
+      Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{index}'");
+      _sceneLoader.StartLoad(index, OnLoadComplete);
     }
 
-    public void Exit() => 
-      _loadingCurtain.Hide();
+    public void Exit()
+    {
+    }
 
     private void OnLoadComplete()
     {
-      GameObject syringeObject = _syringeFactory.CreateSyringe();
+      GameObject syringeObject = InitSyringe();
       InitHud(syringeObject);
       _gameStateMachine.Enter<GameLoopState>();
+    }
+
+    private GameObject InitSyringe()
+    {
+      GameObject syringeObject = _syringeFactory.CreateSyringe();
+      syringeObject.GetComponent<PaintInjection>().SyringeReset();
+      return syringeObject;
     }
 
     private void InitHud(GameObject syringeObject)

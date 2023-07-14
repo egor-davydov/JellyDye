@@ -27,15 +27,17 @@ namespace Code.Infrastructure.Installers
       Container.Bind<ColorChangerFactory>().AsSingle();
       Container.Bind<SyringeFactory>().AsSingle();
       Container.Bind<UIFactory>().AsSingle();
+      Container.Bind<LevelButtonFactory>().AsSingle();
     }
 
     private void BindLoadingCurtain()
     {
-      GameObject loadingCurtainObject = Container.InstantiatePrefab(Resources.Load<GameObject>("LoadingCurtain/LoadingCurtain"));
+      LoadingCurtain loadingCurtain = Container.InstantiatePrefabForComponent<LoadingCurtain>(Resources.Load<GameObject>("LoadingCurtain/LoadingCurtain"));
       Container
         .Bind<LoadingCurtain>()
-        .FromInstance(loadingCurtainObject.GetComponent<LoadingCurtain>())
+        .FromInstance(loadingCurtain)
         .AsSingle();
+      loadingCurtain.Hide();
     }
 
     public void Initialize()

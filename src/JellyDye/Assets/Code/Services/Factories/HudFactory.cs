@@ -18,7 +18,7 @@ namespace Code.Services.Factories
     public GameObject CreateHud()
     {
       GameObject hudPrefab = _assetProvider.Load(AssetPath.Hud);
-      GameObject hudObject = _instantiator.InstantiatePrefab(hudPrefab);
+      GameObject hudObject = _instantiator.InstantiatePrefab(hudPrefab, new GameObject("HudParent").transform);
 
       return hudObject;
     }
