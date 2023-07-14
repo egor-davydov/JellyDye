@@ -26,6 +26,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<HudFactory>().AsSingle();
       Container.Bind<ColorChangerFactory>().AsSingle();
       Container.Bind<SyringeFactory>().AsSingle();
+      Container.Bind<UIFactory>().AsSingle();
     }
 
     private void BindLoadingCurtain()

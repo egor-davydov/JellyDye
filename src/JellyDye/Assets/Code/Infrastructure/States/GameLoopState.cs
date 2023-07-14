@@ -1,7 +1,5 @@
 ﻿
-using Code.Infrastructure.States;
-
-namespace Code.Infrastructure.Installers
+namespace Code.Infrastructure.States
 {
   public class GameLoopState : IState
   {

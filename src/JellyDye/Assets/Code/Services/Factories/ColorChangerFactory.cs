@@ -9,7 +9,7 @@ namespace Code.Services.Factories
     private readonly IInstantiator _instantiator;
     private readonly IAssetProvider _assetProvider;
 
-    public ColorChangerFactory(IInstantiator instantiator,IAssetProvider assetProvider)
+    public ColorChangerFactory(IInstantiator instantiator, IAssetProvider assetProvider)
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
