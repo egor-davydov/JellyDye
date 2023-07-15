@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.Gameplay.Hud.MainMenu
+namespace Code.Gameplay.UI.MainMenu
 {
   public class OpenMainMenu : MonoBehaviour
   {

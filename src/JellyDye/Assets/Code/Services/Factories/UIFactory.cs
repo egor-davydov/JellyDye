@@ -21,5 +21,12 @@ namespace Code.Services.Factories
       GameObject menuObject = _instantiator.InstantiatePrefab(menuPrefab, new GameObject("MenuParent").transform);
       return menuObject;
     }
+
+    public GameObject CreateSettingsWindow()
+    {
+      GameObject settingsPrefab = _assetProvider.Load(AssetPath.Settings);
+      GameObject settingsObject = _instantiator.InstantiatePrefab(settingsPrefab, new GameObject("SettingsParent").transform);
+      return settingsObject;
+    }
   }
 }

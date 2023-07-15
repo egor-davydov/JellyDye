@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace Code.Gameplay.Hud.MainMenu
+namespace Code.Gameplay.UI.MainMenu
 {
   public class LevelsGrid : MonoBehaviour
   {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Gameplay.Hud.MainMenu
+namespace Code.Gameplay.UI.MainMenu
 {
   public class OpenTab : MonoBehaviour
   {
