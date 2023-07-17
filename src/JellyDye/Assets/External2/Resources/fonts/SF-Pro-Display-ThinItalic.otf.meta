@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 85bb890d406e472cb929fba7588d37f5
+timeCreated: 1689179739
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: "SF-Pro-Display-ThinItalic"
+  fontNames:
+  - SF Pro Display
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData:
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b0c651a543304686a5e351844b3b059b
+timeCreated: 1689179762
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: "Nunito-Black"
+  fontNames:
+  - Nunito
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData:
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2114bdc8544297b417dfefe9f1e410, type: 3}
+  m_Name: "Default Style Sheet"
+  m_EditorClassIdentifier: 
+  m_StyleList:
+  - m_Name: "H1"
+    m_HashCode: 2425
+    m_OpeningDefinition: "<size=2em><b><#40ff80>*"
+    m_ClosingDefinition: "*<\x2fsize><\x2fb><\x2fcolor>"
+    m_OpeningTagArray: 3C00000073000000690000007A000000650000003D00000032000000650000006D0000003E0000003C000000620000003E0000003C000000230000003400000030000000660000006600000038000000300000003E0000002A000000
+    m_ClosingTagArray: 2A0000003C0000002F00000073000000690000007A000000650000003E0000003C0000002F000000620000003E0000003C0000002F000000630000006F0000006C0000006F000000720000003E000000
+    m_OpeningTagUnicodeArray: 51756F74650000007AB07F05190000003C693E3C
+    m_ClosingTagUnicodeArray: []
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
