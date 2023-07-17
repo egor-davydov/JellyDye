@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Gameplay.UI.Settings
+namespace Code.Gameplay.Hud
 {
   public class SwitchToggle : MonoBehaviour
   {
@@ -9,8 +9,8 @@ namespace Code.Gameplay.UI.Settings
     [SerializeField] private Toggle _toggle;
     [SerializeField] private Image _backgroundImage;
     [SerializeField] private Sprite _onSprite;
-    private Sprite _offSprite;
     
+    private Sprite _offSprite;
     private Vector2 _handlePosition;
 
     private void Awake()
