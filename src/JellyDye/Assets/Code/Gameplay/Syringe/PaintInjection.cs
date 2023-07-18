@@ -14,7 +14,6 @@ namespace Code.Gameplay.Syringe
     [SerializeField] private float _liquidSpeed;
     [SerializeField] private float _movingCloserTime;
     [SerializeField] private float _movingBackTime;
-    [SerializeField] private Vector3 _movingCloserVector;
     [SerializeField, Range(0, 2)] private float _movingCloserDistance = 1;
     [SerializeField, Range(0, 1)] private float _movingLittleBackDistance = 0.3f;
     [SerializeField] private float _movingLittleBackTime;
@@ -30,10 +29,12 @@ namespace Code.Gameplay.Syringe
     private bool _isMovingBack;
     private Vector3 _pistonResetPosition;
     private float _liquidResetScale;
+    private Vector3 _movingCloserDirection;
 
     private void Awake()
     {
       _minPistonPosition = _pistonTransform.localPosition - Vector3.up * _pistonMovingDistance;
+      _movingCloserDirection = transform.localRotation * Vector3.down;
       _pistonResetPosition = _pistonTransform.localPosition;
       _liquidResetScale = _liquidTransform.localScale.y;
     }
@@ -64,13 +65,13 @@ namespace Code.Gameplay.Syringe
     {
       for (float currentTime = 0; currentTime < _movingCloserTime; currentTime += Time.deltaTime)
       {
-        transform.position = Vector3.Lerp(transform.position, transform.position - _movingCloserVector * _movingCloserDistance, currentTime / _movingCloserTime);
+        transform.position = Vector3.Lerp(transform.position, transform.position + _movingCloserDirection * _movingCloserDistance, currentTime / _movingCloserTime);
         yield return null;
       }
 
       for (float currentTime = 0; currentTime < _movingLittleBackTime; currentTime += Time.deltaTime)
       {
-        transform.position = Vector3.Lerp(transform.position, transform.position + _movingCloserVector * _movingLittleBackDistance, currentTime / _movingLittleBackTime);
+        transform.position = Vector3.Lerp(transform.position, transform.position - _movingCloserDirection * _movingLittleBackDistance, currentTime / _movingLittleBackTime);
         yield return null;
       }
 
