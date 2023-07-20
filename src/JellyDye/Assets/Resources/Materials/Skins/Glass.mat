@@ -7,16 +7,22 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TCP2_Demo_Cat style1
-  m_Shader: {fileID: 4800000, guid: 39863a74ba34d9a47a33d8789651486d, type: 3}
-  m_ValidKeywords: []
+  m_Name: Glass
+  m_Shader: {fileID: 4800000, guid: 7d42628fba85ccc49b31ca2d1a16f238, type: 3}
+  m_ValidKeywords:
+  - TCP2_SPEC_TOON
+  - _ALPHAPREMULTIPLY_ON
+  - _GLOSSYREFLECTIONS_OFF
+  - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_InvalidKeywords:
-  - _EMISSION
-  m_LightmapFlags: 1
+  - TCP2_RIMDIR
+  - _LIGHTSOURCE_NONE
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -42,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 08c21915d31a7bb4f9d200a43171b54f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -58,6 +64,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Ramp:
+        m_Texture: {fileID: 2800000, guid: abc83c21d57d4a74cabe12065fa1a8b2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -66,36 +76,48 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
+    - _DstBlend: 10
+    - _DstBlendOutline: 5
+    - _GlossMapScale: 0.691
     - _Glossiness: 0.5
-    - _GlossyReflections: 1
+    - _GlossyReflections: 0
     - _Metallic: 0
-    - _Mode: 0
+    - _Mode: 3
     - _OcclusionStrength: 1
+    - _Offset1: 0
+    - _Offset2: 0
+    - _Outline: 1
     - _Parallax: 0.02
-    - _RampSmooth: 0.001
-    - _RampSmoothOtherLights: 0.5
-    - _RampThreshold: 0.35
-    - _RampThresholdOtherLights: 0.5
-    - _RimMax: 0.906
-    - _RimMin: 0.496
-    - _Shadow_HSV_H: 0
-    - _Shadow_HSV_S: 0
-    - _Shadow_HSV_V: 0
-    - _Shininess: 1.75
-    - _Smoothness: 0.2
-    - _SmoothnessTextureChannel: 0
+    - _RampSmooth: 0.1
+    - _RampSmoothAdd: 0.75
+    - _RampThreshold: 0.5
+    - _RimMax: 0.198
+    - _RimMin: 0.6
+    - _RimStrength: 0.5
+    - _Shininess: 0.086
+    - _SmoothnessTextureChannel: 1
+    - _SpecBlend: 0.865
+    - _SpecSmooth: 0.831
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _SrcBlendOutline: 5
+    - _TCP2_DISABLE_WRAPPED_LIGHT: 0
+    - _TCP2_OUTLINE_CONST_SIZE: 0
+    - _TCP2_OUTLINE_TEXTURED: 0
+    - _TCP2_RAMPTEXT: 0
+    - _TCP2_SPEC_TOON: 1
+    - _TCP2_STYLIZED_FRESNEL: 0
+    - _TCP2_ZSMOOTH_ON: 0
+    - _TexLod: 5
     - _UVSec: 0
-    - _ZWrite: 1
-    - __dummy__: 0
+    - _ZSmooth: -0.5
+    - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 0.050980393}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.578}
-    - _SColor: {r: 0.913, g: 0.62784725, b: 0.545061, a: 1}
-    - _SpecColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
+    - _HColor: {r: 1, g: 1, b: 1, a: 0.1764706}
+    - _OutlineColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.6}
+    - _SColor: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0.3254902}
+    - _SpecColor: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 0.29803923}
   m_BuildTextureStacks: []
