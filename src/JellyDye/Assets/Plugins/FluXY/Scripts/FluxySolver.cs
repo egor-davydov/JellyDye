@@ -140,6 +140,7 @@ namespace Fluxy
         private Vector4[] wrapmode = new Vector4[MAX_TILES];
         private Vector4[] densityFalloff = new Vector4[MAX_TILES];
         private Vector4[] offsets = new Vector4[MAX_TILES];
+        private Camera _camera;
 
         public delegate void SolverCallback(FluxySolver solver);
         public event SolverCallback OnStep;
@@ -157,6 +158,11 @@ namespace Fluxy
             lodGroup = GetComponent<LODGroup>();
             visibleLOD = GetCurrentLOD(Camera.main);
             UpdateFramebuffer();
+        }
+
+        private void Start()
+        {
+            _camera = Camera.main;
         }
 
         private void OnDisable()
@@ -294,7 +300,7 @@ namespace Fluxy
 
         private void UpdateLOD()
         {
-            int newLOD = GetCurrentLOD(Camera.main);
+            int newLOD = GetCurrentLOD(_camera);
 
             if (visibleLOD != newLOD)
             {
@@ -489,7 +495,7 @@ namespace Fluxy
 
                 var acceleration = containers[c].UpdateVelocityAndGetAcceleration();
                 externalForce[tile] = containers[c].gravity + containers[c].externalForce - acceleration * containers[c].accelerationScale;
-                buoyancy[tile] = containers[c].TransformWorldVectorToUVSpace(Vector3.up, rects[tile]) * containers[c].buoyancy;
+                buoyancy[tile] = containers[c].TransformWorldVectorToUVSpace(Vector3.down, rects[tile]) * containers[c].buoyancy;
                 offsets[tile] = containers[c].TransformWorldVectorToUVSpace(containers[c].velocity * deltaTime, rects[tile]) * (1 - containers[c].velocityScale) + (Vector3)containers[c].positionOffset * deltaTime;
             }
 
