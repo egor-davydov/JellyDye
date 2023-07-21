@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7510090945957888382}
   - component: {fileID: 7510090945957888326}
   m_Layer: 0
-  m_Name: Syringe_v2_base_2
+  m_Name: Piston
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,9 +145,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 562f9375b1ea05a4098777bbeace135f, type: 2}
-  - {fileID: 2100000, guid: 0e898763748c95b48a5910f76b32bc34, type: 2}
-  - {fileID: 2100000, guid: 7be257006239ab845a7711a99179bc7a, type: 2}
+  - {fileID: 2100000, guid: 61a61786226f60545937fc3f78f39ab1, type: 2}
+  - {fileID: 2100000, guid: 61a61786226f60545937fc3f78f39ab1, type: 2}
+  - {fileID: 2100000, guid: 1f19e849b8c115f478b288a404717d32, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,7 +230,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a4c1551a0c9f1c1428fe769a3792182f, type: 2}
+  - {fileID: 2100000, guid: ee740d084f51dd1498f11c99e1c2e56a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7510090945957888320}
   m_Layer: 0
-  m_Name: SyringeMesh
+  m_Name: DefaultMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -275,8 +275,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7510090945957888342}
-  m_LocalRotation: {x: -0.58063036, y: -0.23195882, z: -0.102402456, w: 0.77367777}
-  m_LocalPosition: {x: 0.02, y: 0.255, z: 0.474}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -285,4 +285,4 @@ Transform:
   - {fileID: 7510090945957888329}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -75.6225, y: 28.54434, z: -7.2534504}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
