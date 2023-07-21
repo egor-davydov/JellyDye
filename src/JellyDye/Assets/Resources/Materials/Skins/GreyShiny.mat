@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gold
+  m_Name: GreyShiny
   m_Shader: {fileID: 4800000, guid: a6da473b89caeb1409bac856668af764, type: 3}
   m_ValidKeywords:
   - TCP2_SPEC_TOON
@@ -76,17 +76,17 @@ Material:
     - _Parallax: 0.02
     - _RampSmooth: 0.1
     - _RampThreshold: 0.5
-    - _Shininess: 0.1
+    - _Shininess: 0.05
     - _SmoothnessTextureChannel: 0
-    - _SpecSmooth: 0.319
+    - _SpecSmooth: 0.464
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.8039215, b: 0, a: 1}
+    - _Color: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HColor: {r: 1, g: 0.76753974, b: 0.3339622, a: 1}
-    - _SColor: {r: 0.990566, g: 0.61942804, b: 0.04111779, a: 1}
-    - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _HColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+    - _SColor: {r: 0.26415092, g: 0.25767174, b: 0.25767174, a: 1}
+    - _SpecColor: {r: 0.6037736, g: 0.5718761, b: 0.5718761, a: 1}
   m_BuildTextureStacks: []

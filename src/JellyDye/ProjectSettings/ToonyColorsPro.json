@@ -1,0 +1,21 @@
+{
+    "AutoNames": true,
+    "SubFolders": true,
+    "OverwriteConfig": false,
+    "LoadAllShaders": false,
+    "CustomOutputPath": "/JMO Assets/Toony Colors Pro/Shaders Generated/",
+    "LastImplementationExportImportPath": "D:/Unity/Projects/JellyDyeRoot/src/JellyDye/Assets",
+    "OpenedFoldouts": [
+        "SPECIAL EFFECTS",
+        "TRANSPARENCY/BLENDING",
+        "SHADER STATES",
+        "OPTIONS"
+    ],
+    "UseCustomFont": true,
+    "CustomFont": {
+        "fileID": 12800000,
+        "guid": "8a406076b7de34849be1f35585875a66",
+        "type": 3
+    },
+    "CustomFontInitialized": true
+}
