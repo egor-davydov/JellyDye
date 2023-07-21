@@ -19,10 +19,11 @@ namespace Code.Gameplay.Syringe
     [SerializeField, Range(0, 1)] private float _movingLittleBackDistance = 0.3f;
     [SerializeField] private float _movingLittleBackTime;
     [SerializeField] private float _resetTime;
+    [SerializeField] private float _pistonMovingDistance = 0.3f;
 
     private const KeyCode InjectionKeyCode = KeyCode.Q;
     private const float MinLiquidScale = 0.05f;
-    private static readonly Vector3 MinPistonPosition = new Vector3(0, 0.326f, 0);
+    private Vector3 _minPistonPosition;
 
     private Vector3 _injectionStartPosition;
     private Coroutine _injectionCoroutine;
@@ -32,6 +33,7 @@ namespace Code.Gameplay.Syringe
 
     private void Awake()
     {
+      _minPistonPosition = _pistonTransform.localPosition - Vector3.up * _pistonMovingDistance;
       _pistonResetPosition = _pistonTransform.localPosition;
       _liquidResetScale = _liquidTransform.localScale.y;
     }
@@ -112,7 +114,7 @@ namespace Code.Gameplay.Syringe
 
     private IEnumerator Reset()
     {
-      _pistonTransform.localPosition = MinPistonPosition;
+      _pistonTransform.localPosition = _minPistonPosition;
       _liquidTransform.localScale = new Vector3(1, MinLiquidScale, 1);
 
       Vector3 liquidResetScale = new Vector3(_liquidTransform.localScale.x, _liquidResetScale, _liquidTransform.localScale.z);

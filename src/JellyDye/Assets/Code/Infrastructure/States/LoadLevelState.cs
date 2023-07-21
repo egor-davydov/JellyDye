@@ -4,6 +4,7 @@ using Code.Gameplay.Syringe;
 using Code.Infrastructure.Installers;
 using Code.Services;
 using Code.Services.Factories;
+using Code.Services.Progress;
 using UnityEngine;
 
 namespace Code.Infrastructure.States
@@ -15,15 +16,17 @@ namespace Code.Infrastructure.States
     private readonly LoadingCurtain _loadingCurtain;
     private readonly HudFactory _hudFactory;
     private readonly SyringeFactory _syringeFactory;
+    private readonly ProgressService _progressService;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
-      HudFactory hudFactory, SyringeFactory syringeFactory)
+      HudFactory hudFactory, SyringeFactory syringeFactory, ProgressService progressService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
       _loadingCurtain = loadingCurtain;
       _hudFactory = hudFactory;
       _syringeFactory = syringeFactory;
+      _progressService = progressService;
     }
     
     public void Enter(int index)
@@ -45,7 +48,7 @@ namespace Code.Infrastructure.States
 
     private GameObject InitSyringe()
     {
-      GameObject syringeObject = _syringeFactory.CreateSyringe();
+      GameObject syringeObject = _syringeFactory.CreateSyringe(_progressService.Progress.SkinData.EquippedSkin);
       syringeObject.GetComponent<PaintInjection>().SyringeReset();
       return syringeObject;
     }

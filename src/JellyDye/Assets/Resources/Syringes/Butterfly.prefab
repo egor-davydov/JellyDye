@@ -55,6 +55,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButterflyMesh
       objectReference: {fileID: 0}
+    - target: {fileID: 2580148062893272298, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580148062893272298, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580148062893272298, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580148063493899281, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580148063493899281, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.233
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580148063493899281, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580148063828349897, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.000000022351742
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580148063828349897, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0060000718
+      objectReference: {fileID: 0}
+    - target: {fileID: 2580148063828349897, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000014901161
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e6df034235d3b643a4a5e952687453f, type: 3}
 --- !u!4 &8447421486856481450 stripped

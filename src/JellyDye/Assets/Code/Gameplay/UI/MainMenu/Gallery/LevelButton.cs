@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.Gameplay.UI.MainMenu
+namespace Code.Gameplay.UI.MainMenu.Gallery
 {
   public class LevelButton : MonoBehaviour
   {

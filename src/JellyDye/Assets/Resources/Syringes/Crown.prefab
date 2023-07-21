@@ -55,6 +55,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrownMesh
       objectReference: {fileID: 0}
+    - target: {fileID: 1480848217957657316, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480848217957657316, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.231
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480848217957657316, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480848218669613357, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000000030733645
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480848218669613357, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.001000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480848218669613357, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000000009313226
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480848219045865827, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480848219045865827, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.359
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480848219045865827, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc489aed760b021489f0a1f6a6457e24, type: 3}
 --- !u!4 &2607449870738829212 stripped
