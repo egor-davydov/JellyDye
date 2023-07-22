@@ -124,7 +124,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6908023878915511053}
   m_LocalRotation: {x: -0.55475867, y: -0.3433294, z: -0.20201091, w: 0.7304515}
-  m_LocalPosition: {x: 0.061, y: 0.913, z: -0.309}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -230,6 +230,7 @@ MonoBehaviour:
   _movingLittleBackDistance: 0.41
   _movingLittleBackTime: 0.2
   _resetTime: 0.3
+  _pistonMovingDistance: 0.3
 --- !u!114 &5631050146303792006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,3 +245,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fluxyTarget: {fileID: 1312922224575281827}
   _liquidRenderer: {fileID: 0}
+  _shader: {fileID: 4800000, guid: ccfc7d68845db8341944b3091b59be55, type: 3}

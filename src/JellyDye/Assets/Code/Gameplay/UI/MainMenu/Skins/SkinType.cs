@@ -6,5 +6,11 @@
     Crown = 1,
     Butterfly = 2,
     Unicorn = 3,
+    Bee,
+    Sailor,
+    Cocktail,
+    Vintage,
+    Pimp,
+    IceCream,
   }
 }

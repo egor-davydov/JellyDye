@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Code.Data;
-using Code.Gameplay.UI.MainMenu.Skins;
+﻿using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services.AssetManagement;
 using Code.StaticData;
 using UnityEngine;
@@ -23,8 +21,8 @@ namespace Code.Services.Factories
 
     public GameObject CreateSyringe(SkinType skinType)
     {
-      SkinConfig skinConfig = _staticDataService.ForSkins().SkinConfigs.Find(config => config.SkinType == skinType);
-      GameObject syringeObject = _instantiator.InstantiatePrefab(skinConfig.SkinPrefab, new GameObject("SyringeParent").transform);
+      GameObject syringePrefab = _staticDataService.ForSkins().SkinConfigs.Find(config => config.SkinType == skinType).SkinPrefab;
+      GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab, Vector3.up, syringePrefab.transform.rotation, new GameObject("SyringeParent").transform);
       
       return syringeObject;
     }

@@ -17,3 +17,15 @@ MonoBehaviour:
     SkinPrefab: {fileID: 3806195165603101477, guid: b44716ad6535d2942885b08f59ff789c, type: 3}
   - SkinType: 1
     SkinPrefab: {fileID: 3402143449149149435, guid: c610249e1f964ec4d8f8340dd11760ba, type: 3}
+  - SkinType: 2
+    SkinPrefab: {fileID: 3949491158195848176, guid: aac5d43030b6b5445aabca1caeb21703, type: 3}
+  - SkinType: 3
+    SkinPrefab: {fileID: 8135905320102844180, guid: 8b42480325bcfeb4a95738f8189650aa, type: 3}
+  - SkinType: 3
+    SkinPrefab: {fileID: 8135905320102844180, guid: 8b42480325bcfeb4a95738f8189650aa, type: 3}
+  - SkinType: 3
+    SkinPrefab: {fileID: 8135905320102844180, guid: 8b42480325bcfeb4a95738f8189650aa, type: 3}
+  - SkinType: 3
+    SkinPrefab: {fileID: 8135905320102844180, guid: 8b42480325bcfeb4a95738f8189650aa, type: 3}
+  - SkinType: 3
+    SkinPrefab: {fileID: 8135905320102844180, guid: 8b42480325bcfeb4a95738f8189650aa, type: 3}
