@@ -3,6 +3,7 @@ using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
+using Code.Services.Progress;
 using UnityEngine;
 using Zenject;
 
@@ -52,6 +53,8 @@ namespace Code.Infrastructure.Installers
     {
       Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
+      Container.Bind<ProgressService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
     }
 
     private void BindStates()

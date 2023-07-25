@@ -1,4 +1,5 @@
-﻿using Code.Services.AssetManagement;
+﻿using Code.Gameplay.UI.MainMenu.Gallery;
+using Code.Services.AssetManagement;
 using UnityEngine;
 using Zenject;
 

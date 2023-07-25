@@ -1,9 +1,10 @@
 using Code.Gameplay.Hud.PaintChange;
 using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
-using Code.Infrastructure.Installers;
+using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
 using Code.Services.Factories;
+using Code.Services.Progress;
 using UnityEngine;
 
 namespace Code.Infrastructure.States
@@ -15,20 +16,22 @@ namespace Code.Infrastructure.States
     private readonly LoadingCurtain _loadingCurtain;
     private readonly HudFactory _hudFactory;
     private readonly SyringeFactory _syringeFactory;
+    private readonly ProgressService _progressService;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
-      HudFactory hudFactory, SyringeFactory syringeFactory)
+      HudFactory hudFactory, SyringeFactory syringeFactory, ProgressService progressService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
       _loadingCurtain = loadingCurtain;
       _hudFactory = hudFactory;
       _syringeFactory = syringeFactory;
+      _progressService = progressService;
     }
     
     public void Enter(int index)
     {
-      Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{index}'");
+      //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{index}'");
       _sceneLoader.StartLoad(index, OnLoadComplete);
     }
 
@@ -45,7 +48,8 @@ namespace Code.Infrastructure.States
 
     private GameObject InitSyringe()
     {
-      GameObject syringeObject = _syringeFactory.CreateSyringe();
+      SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
+      GameObject syringeObject = _syringeFactory.CreateSyringe(equippedSkin);
       syringeObject.GetComponent<PaintInjection>().SyringeReset();
       return syringeObject;
     }
@@ -54,7 +58,7 @@ namespace Code.Infrastructure.States
     {
       SyringePaint syringePaint = syringeObject.GetComponent<SyringePaint>();
       GameObject hudObject = _hudFactory.CreateHud();
-      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaint, new []{Color.red, Color.green, Color.blue, });
+      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaint, new []{Color.cyan, Color.magenta, Color.blue, });
     }
   }
 }
