@@ -20,9 +20,9 @@ namespace Code.Gameplay.Syringe
     [SerializeField] private float _movingLittleBackTime;
     [SerializeField] private float _resetTime;
     [SerializeField] private float _pistonMovingDistance = 0.3f;
+    [SerializeField, Range(0, 0.1f)] private float _minLiquidScale = 0.01f;
 
     private const KeyCode InjectionKeyCode = KeyCode.Q;
-    private const float MinLiquidScale = 0.05f;
     private Vector3 _minPistonPosition;
 
     private Vector3 _injectionStartPosition;
@@ -74,11 +74,11 @@ namespace Code.Gameplay.Syringe
         yield return null;
       }
 
-      if (_liquidTransform.localScale.y > MinLiquidScale)
+      if (_liquidTransform.localScale.y > _minLiquidScale)
         StartPaint();
       while (Input.GetKey(InjectionKeyCode))
       {
-        if (_liquidTransform.localScale.y == MinLiquidScale)
+        if (_liquidTransform.localScale.y == _minLiquidScale)
         {
           StopPaint();
           SyringeReset();
@@ -106,16 +106,16 @@ namespace Code.Gameplay.Syringe
     private void MoveLiquid(Vector3 liquidScale, Vector3 moveDirection)
     {
       Vector3 liquidMovingDelta = moveDirection * (_pistonSpeed * _liquidSpeed * Time.deltaTime);
-      if ((_liquidTransform.localScale + liquidMovingDelta).y >= MinLiquidScale)
+      if ((_liquidTransform.localScale + liquidMovingDelta).y >= _minLiquidScale)
         _liquidTransform.localScale += liquidMovingDelta;
       else
-        _liquidTransform.localScale = new Vector3(liquidScale.x, MinLiquidScale, liquidScale.z);
+        _liquidTransform.localScale = new Vector3(liquidScale.x, _minLiquidScale, liquidScale.z);
     }
 
     private IEnumerator Reset()
     {
       _pistonTransform.localPosition = _minPistonPosition;
-      _liquidTransform.localScale = new Vector3(1, MinLiquidScale, 1);
+      _liquidTransform.localScale = new Vector3(1, _minLiquidScale, 1);
 
       Vector3 liquidResetScale = new Vector3(_liquidTransform.localScale.x, _liquidResetScale, _liquidTransform.localScale.z);
       for (float currentTime = 0; currentTime < _resetTime; currentTime += Time.deltaTime)

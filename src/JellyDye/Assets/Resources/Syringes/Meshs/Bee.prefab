@@ -51,17 +51,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7510090945957888324, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 000fdad39405a994ebd1db89292ef9d4, type: 2}
+    - target: {fileID: 7510090945957888324, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7823b1c688f2b274583d6ef8a1d9de8c, type: 2}
+    - target: {fileID: 7510090945957888326, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 000fdad39405a994ebd1db89292ef9d4, type: 2}
+    - target: {fileID: 7510090945957888326, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7823b1c688f2b274583d6ef8a1d9de8c, type: 2}
+    - target: {fileID: 7510090945957888327, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7823b1c688f2b274583d6ef8a1d9de8c, type: 2}
+    - target: {fileID: 7510090945957888329, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1562
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510090945957888332, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.224
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510090945957888332, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.028
+      objectReference: {fileID: 0}
     - target: {fileID: 7510090945957888342, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
       propertyPath: m_Name
-      value: bee
+      value: Bee
       objectReference: {fileID: 0}
     - target: {fileID: 7510090945957888377, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -4669951666297150627, guid: 98a312e129d0b914280097baa6bdc572, type: 3}
+      objectReference: {fileID: -2643173543783292932, guid: ea22947e3f2926f4e8cf670e4e6504f4, type: 3}
     - target: {fileID: 7510090945957888382, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -859518711906915680, guid: b6ab09cff873dfb458ee963d44b155c6, type: 3}
+      objectReference: {fileID: -714189961322388107, guid: f6939a5d2408b0d48b3dfc6efe8ffe0e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35cfabf4b2df4e74eb74f4a090a099c9, type: 3}
