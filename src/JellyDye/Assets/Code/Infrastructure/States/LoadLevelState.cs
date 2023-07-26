@@ -58,7 +58,7 @@ namespace Code.Infrastructure.States
     {
       SyringePaint syringePaint = syringeObject.GetComponent<SyringePaint>();
       GameObject hudObject = _hudFactory.CreateHud();
-      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaint, new []{Color.cyan, Color.magenta, Color.blue, });
+      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaint, new []{Color.green, Color.yellow, Color.red, });
     }
   }
 }

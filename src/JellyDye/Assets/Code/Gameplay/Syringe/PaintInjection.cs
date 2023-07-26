@@ -8,6 +8,7 @@ namespace Code.Gameplay.Syringe
   {
     [SerializeField] private FluxyTarget _fluxyTarget;
     [SerializeField] private float _paintIncreaseOverTime;
+    [SerializeField] private float _paintRotationOverTime;
     [SerializeField] private Transform _pistonTransform;
     [SerializeField] private Transform _liquidTransform;
     [SerializeField] private float _pistonSpeed;
@@ -30,9 +31,11 @@ namespace Code.Gameplay.Syringe
     private Vector3 _pistonResetPosition;
     private float _liquidResetScale;
     private Vector3 _movingCloserDirection;
+    private Vector2 _startTargetScale;
 
     private void Awake()
     {
+      _startTargetScale = _fluxyTarget.scale;
       _minPistonPosition = _pistonTransform.localPosition - Vector3.up * _pistonMovingDistance;
       _movingCloserDirection = transform.localRotation * Vector3.down;
       _pistonResetPosition = _pistonTransform.localPosition;
@@ -87,6 +90,7 @@ namespace Code.Gameplay.Syringe
         }
 
         _fluxyTarget.scale += Vector2.one * (_paintIncreaseOverTime * Time.deltaTime);
+        _fluxyTarget.force = Quaternion.AngleAxis(_paintRotationOverTime * Time.deltaTime, Vector3.forward) * _fluxyTarget.force;
         _pistonTransform.localPosition += Vector3.down * (_pistonSpeed * Time.deltaTime);
         MoveLiquid(_liquidTransform.localScale, Vector3.down);
         yield return null;
@@ -100,7 +104,7 @@ namespace Code.Gameplay.Syringe
 
     private void StopPaint()
     {
-      _fluxyTarget.scale = Vector2.zero;
+      _fluxyTarget.scale = _startTargetScale;
       _fluxyTarget.enabled = false;
     }
 

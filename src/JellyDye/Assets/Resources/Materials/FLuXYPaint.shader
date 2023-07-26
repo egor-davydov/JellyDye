@@ -53,7 +53,6 @@ Shader "Custom/NewSurfaceShader"
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = _Color.a;
         }
         ENDCG
     }
