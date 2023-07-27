@@ -49,7 +49,7 @@ namespace Code.Infrastructure.States
     private GameObject InitSyringe()
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      GameObject syringeObject = _syringeFactory.CreateSyringe(equippedSkin);
+      GameObject syringeObject = _syringeFactory.CreateSyringe(equippedSkin, Vector3.up*0.205f);
       syringeObject.GetComponent<PaintInjection>().SyringeReset();
       return syringeObject;
     }

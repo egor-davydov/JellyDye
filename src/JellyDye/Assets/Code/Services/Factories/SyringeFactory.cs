@@ -19,10 +19,10 @@ namespace Code.Services.Factories
       _staticDataService = staticDataService;
     }
 
-    public GameObject CreateSyringe(SkinType skinType)
+    public GameObject CreateSyringe(SkinType skinType, Vector3 at)
     {
       GameObject syringePrefab = _staticDataService.ForSkins().SkinConfigs.Find(config => config.SkinType == skinType).SkinPrefab;
-      GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab, Vector3.up, syringePrefab.transform.rotation, new GameObject("SyringeParent").transform);
+      GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab, at, syringePrefab.transform.rotation, new GameObject("SyringeParent").transform);
       
       return syringeObject;
     }
