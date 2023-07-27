@@ -6,6 +6,8 @@ namespace Code.Gameplay.Syringe
 {
   public class PaintInjection : MonoBehaviour
   {
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _audioClipReset;
     [SerializeField] private FluxyTarget _fluxyTarget;
     [SerializeField] private float _paintIncreaseOverTime;
     [SerializeField] private float _paintRotationOverTime;
@@ -119,6 +121,7 @@ namespace Code.Gameplay.Syringe
 
     private IEnumerator Reset()
     {
+      _audioSource.PlayOneShot(_audioClipReset);
       _pistonTransform.localPosition = _minPistonPosition;
       _liquidTransform.localScale = new Vector3(1, _minLiquidScale, 1);
 
