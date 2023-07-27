@@ -57,20 +57,20 @@ MonoBehaviour:
   rotationRandomness: 0
   scaleWithDistance: 1
   scaleWithTransform: 0
-  scale: {x: 0.1, y: 0.1}
+  scale: {x: 0, y: 0}
   scaleRandomness: 0
   velocityWeight: 1
   velocityTexture: {fileID: 0}
-  maxRelativeVelocity: 8
+  maxRelativeVelocity: 21.4
   velocityScale: {x: 1, y: 1, z: 1}
-  maxRelativeAngularVelocity: 12
-  angularVelocityScale: 1
-  force: {x: 0, y: 0, z: 0}
-  torque: 0
-  densityWeight: 0.71
+  maxRelativeAngularVelocity: 20
+  angularVelocityScale: 20
+  force: {x: -0.5, y: 0, z: 0}
+  torque: 20
+  densityWeight: 1
   densityTexture: {fileID: 0}
-  srcBlend: 3
-  dstBlend: 3
+  srcBlend: 5
+  dstBlend: 10
   blendOp: 0
   color: {r: 1, g: 1, b: 1, a: 1}
   noiseTexture: {fileID: 2800000, guid: ff70acd9d6132428b8cbea06fbf16801, type: 3}
@@ -123,7 +123,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6908023878915511053}
-  m_LocalRotation: {x: -0.55475867, y: -0.3433294, z: -0.20201091, w: 0.7304515}
+  m_LocalRotation: {x: -0.4805146, y: -0.3614716, z: -0.16739711, w: 0.78129524}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
@@ -131,7 +131,7 @@ Transform:
   - {fileID: 4541376051040261362}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -71.652, y: -61.804, z: 15.819}
+  m_LocalEulerAnglesHint: {x: -60.676, y: -55.572, z: 10.091}
 --- !u!136 &4398384092333390608
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -218,19 +218,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fluxyTarget: {fileID: 1312922224575281827}
-  _paintIncreaseOverTime: 0.2
+  _paintIncreaseOverTime: 0.5
+  _paintRotationOverTime: 70
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
   _pistonSpeed: 0.1
   _liquidSpeed: 2.65
-  _movingCloserTime: 0.3
-  _movingBackTime: 0.3
-  _movingCloserVector: {x: 0.05, y: 0, z: -0.05}
-  _movingCloserDistance: 1
-  _movingLittleBackDistance: 0.41
-  _movingLittleBackTime: 0.2
+  _movingCloserTime: 0.2
+  _movingBackTime: 0.2
+  _movingCloserDistance: 0.1
+  _movingLittleBackDistance: 0.01
+  _movingLittleBackTime: 0.01
   _resetTime: 0.3
   _pistonMovingDistance: 0.3
+  _minLiquidScale: 0.01
 --- !u!114 &5631050146303792006
 MonoBehaviour:
   m_ObjectHideFlags: 0

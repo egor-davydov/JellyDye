@@ -52,7 +52,7 @@ namespace Obi{
 		private void BakeMesh()
         {
 
-			SkinnedMeshRenderer skin = skinner.GetComponent<SkinnedMeshRenderer>();
+			SkinnedMeshRenderer skin = skinner.m_Target;
 
 			if (skin != null && skin.sharedMesh != null)
             {
@@ -159,7 +159,7 @@ namespace Obi{
             {
                 skinner.InitializeInfluences();
 
-                SkinnedMeshRenderer skin = skinner.GetComponent<SkinnedMeshRenderer>();
+                SkinnedMeshRenderer skin = skinner.m_Target;
 
                 if (skin != null && skin.sharedMesh != null)
                 {

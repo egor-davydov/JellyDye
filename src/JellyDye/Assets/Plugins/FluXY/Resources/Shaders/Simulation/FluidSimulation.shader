@@ -161,7 +161,7 @@
             ENDHLSL
         }
 
-        Pass
+        Pass //5
         {
             Name "DensityGradient"
 
@@ -335,7 +335,7 @@
             ENDHLSL
         }
         
-        Pass
+        Pass //9
         {
             Name "Splat ID"
 

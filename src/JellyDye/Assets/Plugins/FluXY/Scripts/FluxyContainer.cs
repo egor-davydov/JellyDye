@@ -7,7 +7,6 @@ namespace Fluxy
     [AddComponentMenu("Physics/FluXY/Container", 800)]
     [ExecuteInEditMode]
     [ExecutionOrder(9998)]
-    [RequireComponent(typeof(SkinnedMeshRenderer))]
     public class FluxyContainer : MonoBehaviour
     {
         [Serializable]
@@ -63,6 +62,7 @@ namespace Fluxy
             Custom
         }
 
+        public SkinnedMeshRenderer skinnedMeshRenderer;
         /// <summary>
         /// Shape of the container: can be flat, can be a volume, or can be a custom mesh.
         /// </summary>
@@ -244,7 +244,7 @@ namespace Fluxy
         [SerializeField] [HideInInspector] private FluxySolver m_Solver;
 
         private Renderer m_Renderer;
-        private MeshFilter m_Filter;
+        private SkinnedMeshRenderer m_Filter;
         private MaterialPropertyBlock propertyBlock;
 
         private Vector3 m_Velocity;
@@ -300,8 +300,8 @@ namespace Fluxy
 
         protected virtual void OnEnable()
         {
-            m_Renderer = GetComponent<Renderer>();
-            m_Filter = GetComponent<MeshFilter>();
+            m_Renderer = skinnedMeshRenderer;
+            m_Filter = skinnedMeshRenderer;
             propertyBlock = new MaterialPropertyBlock();
 
             UpdateContainerShape();
@@ -513,7 +513,7 @@ namespace Fluxy
                 DestroyImmediate(proceduralMesh);
 
             if (customMesh != null)
-                GetComponent<SkinnedMeshRenderer>().sharedMesh = customMesh;
+                skinnedMeshRenderer.sharedMesh = customMesh;
         }
 
         private void SetSolver(FluxySolver newSolver, bool setMember)

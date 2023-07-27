@@ -8,13 +8,13 @@ namespace Code.Gameplay.Syringe
   {
     [SerializeField] private FluxyTarget _fluxyTarget;
     [SerializeField] private float _paintIncreaseOverTime;
+    [SerializeField] private float _paintRotationOverTime;
     [SerializeField] private Transform _pistonTransform;
     [SerializeField] private Transform _liquidTransform;
     [SerializeField] private float _pistonSpeed;
     [SerializeField] private float _liquidSpeed;
     [SerializeField] private float _movingCloserTime;
     [SerializeField] private float _movingBackTime;
-    [SerializeField] private Vector3 _movingCloserVector;
     [SerializeField, Range(0, 2)] private float _movingCloserDistance = 1;
     [SerializeField, Range(0, 1)] private float _movingLittleBackDistance = 0.3f;
     [SerializeField] private float _movingLittleBackTime;
@@ -30,10 +30,14 @@ namespace Code.Gameplay.Syringe
     private bool _isMovingBack;
     private Vector3 _pistonResetPosition;
     private float _liquidResetScale;
+    private Vector3 _movingCloserDirection;
+    private Vector2 _startTargetScale;
 
     private void Awake()
     {
+      _startTargetScale = _fluxyTarget.scale;
       _minPistonPosition = _pistonTransform.localPosition - Vector3.up * _pistonMovingDistance;
+      _movingCloserDirection = transform.localRotation * Vector3.down;
       _pistonResetPosition = _pistonTransform.localPosition;
       _liquidResetScale = _liquidTransform.localScale.y;
     }
@@ -64,13 +68,13 @@ namespace Code.Gameplay.Syringe
     {
       for (float currentTime = 0; currentTime < _movingCloserTime; currentTime += Time.deltaTime)
       {
-        transform.position = Vector3.Lerp(transform.position, transform.position - _movingCloserVector * _movingCloserDistance, currentTime / _movingCloserTime);
+        transform.position = Vector3.Lerp(transform.position, transform.position + _movingCloserDirection * _movingCloserDistance, currentTime / _movingCloserTime);
         yield return null;
       }
 
       for (float currentTime = 0; currentTime < _movingLittleBackTime; currentTime += Time.deltaTime)
       {
-        transform.position = Vector3.Lerp(transform.position, transform.position + _movingCloserVector * _movingLittleBackDistance, currentTime / _movingLittleBackTime);
+        transform.position = Vector3.Lerp(transform.position, transform.position - _movingCloserDirection * _movingLittleBackDistance, currentTime / _movingLittleBackTime);
         yield return null;
       }
 
@@ -86,6 +90,7 @@ namespace Code.Gameplay.Syringe
         }
 
         _fluxyTarget.scale += Vector2.one * (_paintIncreaseOverTime * Time.deltaTime);
+        _fluxyTarget.force = Quaternion.AngleAxis(_paintRotationOverTime * Time.deltaTime, Vector3.forward) * _fluxyTarget.force;
         _pistonTransform.localPosition += Vector3.down * (_pistonSpeed * Time.deltaTime);
         MoveLiquid(_liquidTransform.localScale, Vector3.down);
         yield return null;
@@ -99,7 +104,7 @@ namespace Code.Gameplay.Syringe
 
     private void StopPaint()
     {
-      _fluxyTarget.scale = Vector2.zero;
+      _fluxyTarget.scale = _startTargetScale;
       _fluxyTarget.enabled = false;
     }
 

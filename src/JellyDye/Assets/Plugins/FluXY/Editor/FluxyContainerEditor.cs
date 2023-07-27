@@ -11,7 +11,7 @@ namespace Fluxy
         [MenuItem("GameObject/3D Object/FluXY/Container", false, 200)]
         static void CreateFluxyContainer(MenuCommand menuCommand)
         {
-            GameObject go = new GameObject("Container", typeof(FluxyContainer), typeof(FluxyTargetDetector));
+            GameObject go = new GameObject("Container", typeof(FluxyContainer), typeof(FluxyTargetDetector), typeof(SkinnedMeshRenderer));
             go.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Container");
 
             FluxyEditorUtils.CreateObject(go, menuCommand.context as GameObject);
@@ -20,6 +20,7 @@ namespace Fluxy
             Selection.activeObject = go;
         }
 
+        SerializedProperty skinnedMeshRenderer;
         SerializedProperty m_Solver;
         SerializedProperty containerShape;
         SerializedProperty customMesh;
@@ -62,6 +63,7 @@ namespace Fluxy
 
         public void OnEnable()
         {
+            skinnedMeshRenderer = serializedObject.FindProperty("skinnedMeshRenderer");
             m_Solver = serializedObject.FindProperty("m_Solver");
             containerShape = serializedObject.FindProperty("containerShape");
             customMesh = serializedObject.FindProperty("customMesh");
@@ -115,6 +117,7 @@ namespace Fluxy
             if (Application.isPlaying)
                 GUI.enabled = false;
 
+            EditorGUILayout.PropertyField(skinnedMeshRenderer);
             EditorGUILayout.PropertyField(m_Solver);
             GUI.enabled = true;
 
