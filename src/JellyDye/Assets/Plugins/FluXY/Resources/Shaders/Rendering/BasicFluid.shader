@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _MainTex ("Detail", 2D) = "white" {}
+        [MainTexture] _MainTex ("Detail", 2D) = "white" {}
         _Gradient ("Gradient", 2D) = "white" {}
 
         _DetailAdvection("Detail Advection", Range(0.0, 1.0)) = 0.5
@@ -99,8 +99,8 @@
 
                 // edge falloff
                 float falloff = SquareFalloff(i.uv,_Falloff);
-                
-                return color * falloff;
+                color.a = 0.5;
+                return color;
             }
             ENDHLSL
         }
