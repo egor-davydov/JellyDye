@@ -221,8 +221,8 @@ MonoBehaviour:
   _audioSource: {fileID: 8827950845319522821}
   _audioClipReset: {fileID: 8300000, guid: 2abad513665d8c2499ba9a98887d8b6f, type: 3}
   _fluxyTarget: {fileID: 1312922224575281827}
-  _paintIncreaseOverTime: 0.5
-  _paintRotationOverTime: 70
+  _paintIncreaseOverTime: 1
+  _paintRotationOverTime: 120
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
   _pistonSpeed: 0.1

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Code.Gameplay.Hud;
 using Fluxy;
 using UnityEngine;
 
@@ -34,6 +35,14 @@ namespace Code.Gameplay.Syringe
     private float _liquidResetScale;
     private Vector3 _movingCloserDirection;
     private Vector2 _startTargetScale;
+    private InjectionButton _injectionButton;
+
+    public void Initialize(InjectionButton injectionButton)
+    {
+      _injectionButton = injectionButton;
+      _injectionButton.OnStartInjection += OnStartInjection;
+      _injectionButton.OnStopInjection += OnStopInjection;
+    }
 
     private void Awake()
     {
@@ -46,23 +55,33 @@ namespace Code.Gameplay.Syringe
 
     private void Update()
     {
-      if (_isMovingBack)
+      if (!_injectionButton || _isMovingBack)
         return;
 
       if (Input.GetKeyDown(InjectionKeyCode))
       {
-        _injectionStartPosition = transform.position;
-        _injectionCoroutine = StartCoroutine(Injection());
+        OnStartInjection();
       }
 
       if (Input.GetKeyUp(InjectionKeyCode))
       {
-        StopCoroutine(_injectionCoroutine);
-        StopPaint();
-        StartCoroutine(MoveBack());
+        OnStopInjection();
       }
     }
-    
+
+    private void OnStartInjection()
+    {
+      _injectionStartPosition = transform.position;
+      _injectionCoroutine = StartCoroutine(Injection());
+    }
+
+    private void OnStopInjection()
+    {
+      StopCoroutine(_injectionCoroutine);
+      StopPaint();
+      StartCoroutine(MoveBack());
+    }
+
     public void SyringeReset() => 
       StartCoroutine(Reset());
 
@@ -82,7 +101,7 @@ namespace Code.Gameplay.Syringe
 
       if (_liquidTransform.localScale.y > _minLiquidScale)
         StartPaint();
-      while (Input.GetKey(InjectionKeyCode))
+      while (Input.GetKey(InjectionKeyCode) || _injectionButton.IsInjecting)
       {
         if (_liquidTransform.localScale.y == _minLiquidScale)
         {

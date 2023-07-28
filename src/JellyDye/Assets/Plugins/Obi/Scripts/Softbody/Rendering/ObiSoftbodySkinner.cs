@@ -381,6 +381,7 @@ namespace Obi
 
         private void SetBoneWeights()
         {
+            Debug.Log(gameObject.name);
             if (m_BoneWeights != null && m_BoneWeights.count > 0)
                 m_SoftMesh.SetBoneWeights(m_BonesPerVertex.AsNativeArray<byte>(), m_BoneWeights.AsNativeArray<BoneWeight1>());
         }
