@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using Obi;
+﻿using Obi;
 using UnityEngine;
 
 namespace Code.Gameplay.Logic
 {
   public class FixObiParticles : MonoBehaviour
   {
-    [SerializeField] private List<ObiActor> _obiActors;
-    [SerializeField] private Transform _anchorTransform;
-    [SerializeField] private float _anchorRadius;
+    [SerializeField] private ObiActor[] _obiActors;
+    [SerializeField] private BoxCollider _fixingBox;
 
     private void Start()
     {
@@ -16,8 +14,8 @@ namespace Code.Gameplay.Logic
       {
         foreach (int solverIndex in obiActor.solverIndices)
         {
-          float particleDistanceToAnchor = Vector3.Distance(obiActor.GetParticlePosition(solverIndex), _anchorTransform.position);
-          if (particleDistanceToAnchor > _anchorRadius)
+          Vector3 particlePosition = obiActor.GetParticlePosition(solverIndex);
+          if (!_fixingBox.bounds.Contains(particlePosition))
             continue;
         
           obiActor.solver.velocities[solverIndex] = Vector3.zero;
@@ -25,13 +23,5 @@ namespace Code.Gameplay.Logic
         }
       }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-      Gizmos.color = Color.red;
-      Gizmos.DrawSphere(_anchorTransform.position, _anchorRadius);
-    }
-#endif
   }
 }

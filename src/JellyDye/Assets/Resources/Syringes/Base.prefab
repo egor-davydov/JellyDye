@@ -229,7 +229,7 @@ MonoBehaviour:
   _liquidSpeed: 2.65
   _movingCloserTime: 0.2
   _movingBackTime: 0.2
-  _movingCloserDistance: 0.1
+  _movingCloserDistance: 0.07
   _movingLittleBackDistance: 0.01
   _movingLittleBackTime: 0.01
   _resetTime: 0.3
