@@ -66,7 +66,7 @@ namespace Obi
 
         public void Awake()
         {
-            Debug.Log($"{gameObject.name}:: m_BoneWeights= {m_BoneWeights.count}; m_BonesPerVertex= {m_BonesPerVertex.count}");
+            //Debug.Log($"{gameObject.name}:: m_BoneWeights= {m_BoneWeights.count}; m_BonesPerVertex= {m_BonesPerVertex.count}");
             // autoinitialize "target" with the first skinned mesh renderer we find up our hierarchy.
             //m_Target = GetComponent<SkinnedMeshRenderer>();
             InitializeInfluences();
@@ -361,7 +361,6 @@ namespace Obi
                 newBoneWeightOffset += totalBoneCount;
                 yield return new CoroutineJob.ProgressInfo("ObiSoftbody: calculating bone weights...", j / (float)vertices.Length);
             }
-Debug.Log($"m_BoneWeights= {m_BoneWeights.count}; m_BonesPerVertex= {m_BonesPerVertex.count}");
         }
 
         private void NormalizeWeights(int offset, int count)

@@ -525,7 +525,7 @@ namespace Fluxy
                 int c = indices[tile];
 
                 // container's target list:
-                for (int j = 0; j < containers[c].targets.Length; ++j)
+                for (int j = 0; j < containers[c].targets.Count; ++j)
                     if (containers[c].targets[j] != null)
                         containers[c].targets[j].Splat(containers[c], fb, tile, rects[tile]);
 

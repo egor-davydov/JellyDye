@@ -50,7 +50,7 @@ namespace Obi
         }
 
         [Tooltip("Method used to distribute particles on the surface of the mesh.")]
-        public SurfaceSamplingMode surfaceSamplingMode = SurfaceSamplingMode.Voxels;
+        public SurfaceSamplingMode surfaceSamplingMode = SurfaceSamplingMode.Vertices;
 
         [Tooltip("Resolution of the surface particle distribution.")]
         [Range(2, 128)]

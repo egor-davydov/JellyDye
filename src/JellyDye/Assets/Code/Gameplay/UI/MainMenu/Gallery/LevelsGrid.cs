@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Code.Services;
+﻿using Code.Services;
 using Code.Services.Factories;
 using Code.StaticData;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Code.Gameplay.UI.MainMenu.Gallery

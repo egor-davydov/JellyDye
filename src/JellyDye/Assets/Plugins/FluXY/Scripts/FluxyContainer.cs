@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -193,7 +194,7 @@ namespace Fluxy
 #if UNITY_2020_2_OR_NEWER
         [NonReorderable]
 #endif
-        public FluxyTarget[] targets;
+        public List<FluxyTarget> targets;
 
         /// <summary>
         /// Scales fluid pressure.

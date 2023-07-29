@@ -36,6 +36,7 @@ namespace Code.Gameplay.Syringe
     private Vector3 _movingCloserDirection;
     private Vector2 _startTargetScale;
     private InjectionButton _injectionButton;
+    private FluxyContainer _currentContainer;
 
     public void Initialize(InjectionButton injectionButton)
     {
@@ -120,11 +121,26 @@ namespace Code.Gameplay.Syringe
 
     private void StartPaint()
     {
+      var ray = new Ray(transform.position, _movingCloserDirection);
+      Debug.DrawRay(ray.origin, ray.direction);
+      if (!Physics.Raycast(ray, out RaycastHit hit))
+        return;
+      if (hit.collider.transform.parent == null)
+        return;
+      _currentContainer = hit.collider.transform.parent.GetComponentInChildren<FluxyContainer>();
+      if (_currentContainer == null)
+        return;
+      Debug.Log("Successful");
+      _currentContainer.targets.Add(_fluxyTarget);
       _fluxyTarget.enabled = true;
     }
 
     private void StopPaint()
     {
+      if (_currentContainer == null)
+        return;
+      _currentContainer.targets.Remove(_fluxyTarget);
+      _currentContainer = null;
       _fluxyTarget.scale = _startTargetScale;
       _fluxyTarget.enabled = false;
     }
