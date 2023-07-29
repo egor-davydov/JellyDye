@@ -7,6 +7,7 @@ namespace Code.Gameplay.Syringe
 {
   public class PaintInjection : MonoBehaviour
   {
+    [SerializeField] private SyringeMove _syringeMove;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _audioClipReset;
     [SerializeField] private FluxyTarget _fluxyTarget;
@@ -72,18 +73,20 @@ namespace Code.Gameplay.Syringe
 
     private void OnStartInjection()
     {
+      _syringeMove.enabled = false;
       _injectionStartPosition = transform.position;
       _injectionCoroutine = StartCoroutine(Injection());
     }
 
     private void OnStopInjection()
     {
+      _syringeMove.enabled = true;
       StopCoroutine(_injectionCoroutine);
       StopPaint();
       StartCoroutine(MoveBack());
     }
 
-    public void SyringeReset() => 
+    public void SyringeReset() =>
       StartCoroutine(Reset());
 
     private IEnumerator Injection()
@@ -121,8 +124,8 @@ namespace Code.Gameplay.Syringe
 
     private void StartPaint()
     {
-      var ray = new Ray(transform.position, _movingCloserDirection);
-      Debug.DrawRay(ray.origin, ray.direction);
+      var ray = new Ray(transform.position - (_movingCloserDirection *0.5f), _movingCloserDirection);
+      //Debug.DrawRay(ray.origin, ray.direction, Color.red, 20);
       if (!Physics.Raycast(ray, out RaycastHit hit))
         return;
       if (hit.collider.transform.parent == null)
@@ -130,7 +133,7 @@ namespace Code.Gameplay.Syringe
       _currentContainer = hit.collider.transform.parent.GetComponentInChildren<FluxyContainer>();
       if (_currentContainer == null)
         return;
-      Debug.Log("Successful");
+      //Debug.Log("Successful");
       _currentContainer.targets.Add(_fluxyTarget);
       _fluxyTarget.enabled = true;
     }
