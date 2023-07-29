@@ -1,17 +1,20 @@
-﻿using Obi;
+﻿using System.Collections.Generic;
+using Obi;
 using UnityEngine;
 
 namespace Code.Gameplay.Logic
 {
   public class FixObiParticles : MonoBehaviour
   {
-    [SerializeField] private ObiActor[] _obiActors;
+    [SerializeField] public List<ObiActor> _obiActors;
     [SerializeField] private BoxCollider _fixingBox;
 
     private void Start()
     {
       foreach (ObiActor obiActor in _obiActors)
       {
+        if (obiActor.solver == null)
+          return;
         foreach (int solverIndex in obiActor.solverIndices)
         {
           Vector3 particlePosition = obiActor.GetParticlePosition(solverIndex);

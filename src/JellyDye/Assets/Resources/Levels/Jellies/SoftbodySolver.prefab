@@ -412,7 +412,7 @@ MonoBehaviour:
   centerBatch: -1
   centerShape: -1
   _shapeMatchingConstraintsEnabled: 1
-  _deformationResistance: 0.87
+  _deformationResistance: 1
   _maxDeformation: 0
   _plasticYield: 10.01
   _plasticCreep: 0
@@ -433,7 +433,6 @@ MonoBehaviour:
   maxBonesPerVertex: 4
   m_SkinningFalloff: 1
   m_SkinningMaxDistance: 0.5
-  m_Target: {fileID: 6469565776728573653}
   m_SoftMesh: {fileID: 0}
   m_Bindposes: []
   m_BoneWeights:
@@ -443,4 +442,5 @@ MonoBehaviour:
     serializedContents: 
     m_AlignBytes: 16
   m_softbodyInfluences: []
+  m_Target: {fileID: 6469565776728573653}
   m_Source: {fileID: 6469565776794862767}

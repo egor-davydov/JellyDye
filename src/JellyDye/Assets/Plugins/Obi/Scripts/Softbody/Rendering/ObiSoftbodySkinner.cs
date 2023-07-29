@@ -30,13 +30,13 @@ namespace Obi
         public float m_SkinningFalloff = 1.0f;
         [Tooltip("The maximum distance a cluster can be from a vertex before it will not influence it any more.")]
         public float m_SkinningMaxDistance = 0.5f;
-        public SkinnedMeshRenderer m_Target;
 
         [HideInInspector] [SerializeField] private Mesh m_SoftMesh;
         [HideInInspector] [SerializeField] List<Matrix4x4> m_Bindposes = new List<Matrix4x4>();
-        [HideInInspector] [SerializeField] ObiNativeBoneWeightList m_BoneWeights;
-        [HideInInspector] [SerializeField] ObiNativeByteList m_BonesPerVertex;
+        [SerializeField] ObiNativeBoneWeightList m_BoneWeights;
+        [SerializeField] ObiNativeByteList m_BonesPerVertex;
         [HideInInspector] [SerializeField] public float[] m_softbodyInfluences;
+        [SerializeField] public SkinnedMeshRenderer m_Target;
 
         private Mesh m_OriginalMesh;
         private Mesh m_BakedMesh;
@@ -66,6 +66,7 @@ namespace Obi
 
         public void Awake()
         {
+            Debug.Log($"{gameObject.name}:: m_BoneWeights= {m_BoneWeights.count}; m_BonesPerVertex= {m_BonesPerVertex.count}");
             // autoinitialize "target" with the first skinned mesh renderer we find up our hierarchy.
             //m_Target = GetComponent<SkinnedMeshRenderer>();
             InitializeInfluences();
@@ -220,6 +221,7 @@ namespace Obi
         public IEnumerator BindSkin()
         {
             if (m_Source == null || m_Source.softbodyBlueprint == null || m_Target.sharedMesh == null){
+                Debug.LogError("Cant bind skin, something null");
 				yield break;
 			}
 
@@ -357,9 +359,9 @@ namespace Obi
                 // Append total bone count
                 m_BonesPerVertex.Add(totalBoneCount);
                 newBoneWeightOffset += totalBoneCount;
-
                 yield return new CoroutineJob.ProgressInfo("ObiSoftbody: calculating bone weights...", j / (float)vertices.Length);
             }
+Debug.Log($"m_BoneWeights= {m_BoneWeights.count}; m_BonesPerVertex= {m_BonesPerVertex.count}");
         }
 
         private void NormalizeWeights(int offset, int count)
@@ -381,7 +383,6 @@ namespace Obi
 
         private void SetBoneWeights()
         {
-            Debug.Log(gameObject.name);
             if (m_BoneWeights != null && m_BoneWeights.count > 0)
                 m_SoftMesh.SetBoneWeights(m_BonesPerVertex.AsNativeArray<byte>(), m_BoneWeights.AsNativeArray<BoneWeight1>());
         }
