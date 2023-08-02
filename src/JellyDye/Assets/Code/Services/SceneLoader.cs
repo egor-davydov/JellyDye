@@ -18,24 +18,8 @@ namespace Code.Services
       _loadingCurtain = loadingCurtain;
     }
 
-    public void StartLoad(string sceneName, Action onComplete = null) => 
-      _coroutineRunner.StartCoroutine(SceneLoading(sceneName, onComplete));
-
     public void StartLoad(int index, Action onComplete = null) => 
       _coroutineRunner.StartCoroutine(SceneLoading(index, onComplete));
-
-    private IEnumerator SceneLoading(string sceneName, Action onComplete = null)
-    {
-      AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(sceneName);
-
-      while (!loadSceneAsync.isDone)
-      {
-        _loadingCurtain.FillLoadingProgress(loadSceneAsync.progress);
-        yield return null;
-      }
-
-      onComplete?.Invoke();
-    }
 
     private IEnumerator SceneLoading(int index, Action onComplete = null)
     {
@@ -43,7 +27,7 @@ namespace Code.Services
 
       while (!loadSceneAsync.isDone)
       {
-        _loadingCurtain.FillLoadingProgress(loadSceneAsync.progress);
+        //_loadingCurtain.FillLoadingProgress(loadSceneAsync.progress);
         yield return null;
       }
 

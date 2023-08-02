@@ -1,9 +1,6 @@
-﻿using Fluxy;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Code.Gameplay
+namespace Code.Helpers
 {
   [ExecuteInEditMode]
   public class JellyAutoConstruct : MonoBehaviour
