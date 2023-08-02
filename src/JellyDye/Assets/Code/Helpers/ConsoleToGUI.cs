@@ -5,24 +5,29 @@ namespace Code.Helpers
   public class ConsoleToGUI : MonoBehaviour
   {
     private string _myLog;
-    private bool _doShow = false;
+    private bool _doShow
+#if !UNITY_EDITOR
+      = true;
+#else
+      = false;
+#endif
 
-    void Awake()
+    private void Awake()
     {
       DontDestroyOnLoad(gameObject);
       Application.logMessageReceivedThreaded += Log;
     }
 
-    void Update()
+    private void Update()
     {
-      if (Input.GetKeyDown(KeyCode.Space)) 
+      if (Input.GetKeyDown(KeyCode.Space))
         _doShow = !_doShow;
     }
 
-    public void Log(string logString, string stackTrace, LogType type) => 
+    private void Log(string logString, string stackTrace, LogType type) =>
       _myLog = $"{_myLog}\n{logString}: {stackTrace}";
 
-    void OnGUI()
+    private void OnGUI()
     {
       if (!_doShow)
         return;

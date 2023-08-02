@@ -323,8 +323,8 @@ MonoBehaviour:
     velocityEdgeWidth: 0
     velocityFalloffRate: 0
   boundaries:
-    horizontalBoundary: 2
-    verticalBoundary: 2
+    horizontalBoundary: 1
+    verticalBoundary: 1
   velocityScale: 1
   accelerationScale: 1
   positionOffset: {x: 0, y: 0}
