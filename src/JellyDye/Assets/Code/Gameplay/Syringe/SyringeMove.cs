@@ -7,8 +7,8 @@ namespace Code.Gameplay.Syringe
   {
     //[SerializeField, Range(0, 0.05f)] private float _moveSpeed = 0.05f;
 
-    private bool isDragging;
-    private Vector3 offset;
+    private bool _isDragging;
+    private Vector3 _offset;
     private Camera _camera;
     private Vector3 _delta;
 
@@ -20,21 +20,18 @@ namespace Code.Gameplay.Syringe
       if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
       {
         _delta = transform.position - GetMouseWorldPosition();
-        isDragging = true;
-        Debug.Log("StartDrag");
+        _isDragging = true;
       }
 
-      if (isDragging)
+      if (_isDragging)
       {
         Vector3 newPosition = GetMouseWorldPosition() + _delta;
-        transform.position = new Vector3(newPosition.x + offset.x, transform.position.y, newPosition.z + offset.z);
-        Debug.Log("Dragged");
+        transform.position = new Vector3(newPosition.x + _offset.x, transform.position.y, newPosition.z + _offset.z);
       }
 
       if (Input.GetMouseButtonUp(0))
       {
-        Debug.Log("StopDrag");
-        isDragging = false;
+        _isDragging = false;
       }
     }
 
