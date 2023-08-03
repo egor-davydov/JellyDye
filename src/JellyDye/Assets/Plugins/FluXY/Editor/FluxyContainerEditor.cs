@@ -12,10 +12,13 @@ namespace Fluxy
         static void CreateFluxyContainer(MenuCommand menuCommand)
         {
             GameObject go = new GameObject("Container", typeof(FluxyContainer), typeof(FluxyTargetDetector), typeof(SkinnedMeshRenderer));
-            go.GetComponent<SkinnedMeshRenderer>().material = Resources.Load<Material>("Materials/Container");
+            SkinnedMeshRenderer meshRenderer = go.GetComponent<SkinnedMeshRenderer>();
+            meshRenderer.material = Resources.Load<Material>("Materials/Container");
 
             FluxyEditorUtils.CreateObject(go, menuCommand.context as GameObject);
-            go.GetComponent<FluxyContainer>().solver = FluxyEditorUtils.GetOrCreateSolverObject();
+            FluxyContainer fluxyContainer = go.GetComponent<FluxyContainer>();
+            fluxyContainer.skinnedMeshRenderer = meshRenderer;
+            fluxyContainer.solver = FluxyEditorUtils.GetOrCreateSolverObject();
 
             Selection.activeObject = go;
         }

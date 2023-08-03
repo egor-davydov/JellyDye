@@ -62,13 +62,14 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"t:Mesh"
 	"S"
 	"t:Sprite"
 ]
 searchItemFavorites = [
 ]
 savedSearchesSortOrder = 0
-showSavedSearchPanel = false
+showSavedSearchPanel = true
 expandedQueries = [
 ]
 queryBuilder = false

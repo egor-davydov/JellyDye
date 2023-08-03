@@ -29,6 +29,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<SyringeFactory>().AsSingle();
       Container.Bind<UIFactory>().AsSingle();
       Container.Bind<LevelButtonFactory>().AsSingle();
+      Container.Bind<JelliesFactory>().AsSingle();
     }
 
     private void BindLoadingCurtain()

@@ -4,9 +4,9 @@ using UnityEngine;
 namespace Code.StaticData
 {
   
-  [CreateAssetMenu(menuName = "Create SkinsStaticData", fileName = "SkinsStaticData", order = 0)]
+  [CreateAssetMenu(menuName = "StaticData/Skins", fileName = "Skins", order = 0)]
   public class SkinsStaticData : ScriptableObject
   {
-    public List<SkinConfig> SkinConfigs;
+    public SkinConfig[] SkinConfigs;
   }
 }

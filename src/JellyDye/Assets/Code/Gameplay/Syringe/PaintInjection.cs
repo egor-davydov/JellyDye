@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Code.Gameplay.Hud;
 using Fluxy;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ namespace Code.Gameplay.Syringe
 {
   public class PaintInjection : MonoBehaviour
   {
+    [SerializeField] private SyringeMove _syringeMove;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _audioClipReset;
     [SerializeField] private FluxyTarget _fluxyTarget;
     [SerializeField] private float _paintIncreaseOverTime;
     [SerializeField] private float _paintRotationOverTime;
@@ -32,6 +36,15 @@ namespace Code.Gameplay.Syringe
     private float _liquidResetScale;
     private Vector3 _movingCloserDirection;
     private Vector2 _startTargetScale;
+    private InjectionButton _injectionButton;
+    private FluxyContainer _currentContainer;
+
+    public void Initialize(InjectionButton injectionButton)
+    {
+      _injectionButton = injectionButton;
+      _injectionButton.OnStartInjection += OnStartInjection;
+      _injectionButton.OnStopInjection += OnStopInjection;
+    }
 
     private void Awake()
     {
@@ -44,24 +57,36 @@ namespace Code.Gameplay.Syringe
 
     private void Update()
     {
-      if (_isMovingBack)
+      if (!_injectionButton || _isMovingBack)
         return;
 
       if (Input.GetKeyDown(InjectionKeyCode))
       {
-        _injectionStartPosition = transform.position;
-        _injectionCoroutine = StartCoroutine(Injection());
+        OnStartInjection();
       }
 
       if (Input.GetKeyUp(InjectionKeyCode))
       {
-        StopCoroutine(_injectionCoroutine);
-        StopPaint();
-        StartCoroutine(MoveBack());
+        OnStopInjection();
       }
     }
-    
-    public void SyringeReset() => 
+
+    private void OnStartInjection()
+    {
+      _syringeMove.enabled = false;
+      _injectionStartPosition = transform.position;
+      _injectionCoroutine = StartCoroutine(Injection());
+    }
+
+    private void OnStopInjection()
+    {
+      _syringeMove.enabled = true;
+      StopCoroutine(_injectionCoroutine);
+      StopPaint();
+      StartCoroutine(MoveBack());
+    }
+
+    public void SyringeReset() =>
       StartCoroutine(Reset());
 
     private IEnumerator Injection()
@@ -80,7 +105,7 @@ namespace Code.Gameplay.Syringe
 
       if (_liquidTransform.localScale.y > _minLiquidScale)
         StartPaint();
-      while (Input.GetKey(InjectionKeyCode))
+      while (Input.GetKey(InjectionKeyCode) || _injectionButton.IsInjecting)
       {
         if (_liquidTransform.localScale.y == _minLiquidScale)
         {
@@ -99,11 +124,26 @@ namespace Code.Gameplay.Syringe
 
     private void StartPaint()
     {
+      var ray = new Ray(transform.position - (_movingCloserDirection *0.5f), _movingCloserDirection);
+      //Debug.DrawRay(ray.origin, ray.direction, Color.red, 20);
+      if (!Physics.Raycast(ray, out RaycastHit hit))
+        return;
+      if (hit.collider.transform.parent == null)
+        return;
+      _currentContainer = hit.collider.transform.parent.GetComponentInChildren<FluxyContainer>();
+      if (_currentContainer == null)
+        return;
+      //Debug.Log("Successful");
+      _currentContainer.targets.Add(_fluxyTarget);
       _fluxyTarget.enabled = true;
     }
 
     private void StopPaint()
     {
+      if (_currentContainer == null)
+        return;
+      _currentContainer.targets.Remove(_fluxyTarget);
+      _currentContainer = null;
       _fluxyTarget.scale = _startTargetScale;
       _fluxyTarget.enabled = false;
     }
@@ -119,6 +159,7 @@ namespace Code.Gameplay.Syringe
 
     private IEnumerator Reset()
     {
+      _audioSource.PlayOneShot(_audioClipReset);
       _pistonTransform.localPosition = _minPistonPosition;
       _liquidTransform.localScale = new Vector3(1, _minLiquidScale, 1);
 

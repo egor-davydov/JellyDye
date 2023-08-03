@@ -16,7 +16,7 @@ namespace Code.Infrastructure.States
     public void Enter()
     {
       _progressService.CreateProgress();
-      _gameStateMachine.Enter<LoadLevelState, int>(1);
+      _gameStateMachine.Enter<LoadLevelState, int>(0);
     }
 
     public void Exit()

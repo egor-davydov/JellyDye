@@ -1,22 +1,45 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Code.Gameplay.Syringe
 {
   public class SyringeMove : MonoBehaviour
   {
-    [SerializeField, Range(0, 0.05f)] private float _moveSpeed = 0.05f;
-    
-    private Vector3 _previousMousePosition;
+    //[SerializeField, Range(0, 0.05f)] private float _moveSpeed = 0.05f;
+
+    private bool _isDragging;
+    private Vector3 _offset;
+    private Camera _camera;
+    private Vector3 _delta;
+
+    private void Start() =>
+      _camera = Camera.main;
 
     private void Update()
     {
-      if (Input.GetMouseButton(0))
+      if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
       {
-        Vector3 moveDelta = Input.mousePosition - _previousMousePosition;
-        // Debug.Log(moveDelta);
-        transform.position += new Vector3(moveDelta.x, 0, moveDelta.y) * (_moveSpeed * Time.deltaTime);
+        _delta = transform.position - GetMouseWorldPosition();
+        _isDragging = true;
       }
-      _previousMousePosition = Input.mousePosition;
+
+      if (_isDragging)
+      {
+        Vector3 newPosition = GetMouseWorldPosition() + _delta;
+        transform.position = new Vector3(newPosition.x + _offset.x, transform.position.y, newPosition.z + _offset.z);
+      }
+
+      if (Input.GetMouseButtonUp(0))
+      {
+        _isDragging = false;
+      }
+    }
+
+    private Vector3 GetMouseWorldPosition()
+    {
+      Vector3 mousePosition = Input.mousePosition;
+      mousePosition.z = _camera.transform.position.y;
+      return _camera.ScreenToWorldPoint(mousePosition);
     }
   }
 }

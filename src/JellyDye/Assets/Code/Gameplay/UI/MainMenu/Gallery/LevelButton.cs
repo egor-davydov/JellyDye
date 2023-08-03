@@ -22,7 +22,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     public void Initialize(int levelIndex)
     {
       _levelIndex = levelIndex;
-      _levelNumber.text = _levelIndex.ToString();
+      _levelNumber.text = (_levelIndex + 1).ToString();
     }
 
     private void Awake() => 
