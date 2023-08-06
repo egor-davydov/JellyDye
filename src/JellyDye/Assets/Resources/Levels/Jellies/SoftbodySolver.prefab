@@ -61,10 +61,10 @@ MonoBehaviour:
     shockPropagation: 0
     surfaceCollisionIterations: 8
     surfaceCollisionTolerance: 0.005
-  gravity: {x: 0, y: -9.81, z: 0}
+  gravity: {x: 0, y: 0, z: 0}
   gravitySpace: 0
-  worldLinearInertiaScale: 0
-  worldAngularInertiaScale: 0
+  worldLinearInertiaScale: 0.5
+  worldAngularInertiaScale: 0.5
   distanceConstraintParameters:
     evaluationOrder: 0
     iterations: 1
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 6469565776728573655}
   - component: {fileID: 6469565776728573654}
   - component: {fileID: 6469565776728573653}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6469565776732938267}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0.016, y: 0.1, z: -0.221}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -333,10 +333,10 @@ MonoBehaviour:
   lightSource: {fileID: 0}
   targets: []
   pressure: 1
-  viscosity: 0.9
-  turbulence: 10
-  adhesion: 0.75
-  surfaceTension: 1
+  viscosity: 0.8
+  turbulence: 100
+  adhesion: 0.62
+  surfaceTension: 0.66
   buoyancy: 0
   dissipation: {x: 0, y: 0, z: 0, w: 0}
   m_Solver: {fileID: 0}
@@ -394,11 +394,11 @@ MonoBehaviour:
   centerBatch: -1
   centerShape: -1
   _shapeMatchingConstraintsEnabled: 1
-  _deformationResistance: 1
+  _deformationResistance: 0.1
   _maxDeformation: 0
-  _plasticYield: 10.01
+  _plasticYield: 0
   _plasticCreep: 0
-  _plasticRecovery: 2.14
+  _plasticRecovery: 200
 --- !u!114 &4340199737979976235
 MonoBehaviour:
   m_ObjectHideFlags: 0

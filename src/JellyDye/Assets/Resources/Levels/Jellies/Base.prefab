@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storage: {fileID: 11400000, guid: 554ccaf57177e4e3483d0bec03c75e34, type: 2}
-  desiredResolution: 128
+  desiredResolution: 256
   densitySupersampling: 2
   disposeWhenCulled: 0
   readable: 0
@@ -112,8 +112,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0391502, y: 0.0720502, z: 1.1264619}
-  m_Center: {x: -0.019575119, y: 0.01438292, z: -0.06323093}
+  m_Size: {x: 1.0391502, y: 0.026282348, z: 1.1264619}
+  m_Center: {x: -0.019575119, y: 0.010127142, z: -0.06323093}
 --- !u!1 &1322723377533583568
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1322723377533583568}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.009, y: 0.027, z: 0.485}
+  m_LocalPosition: {x: -0.009, y: 0, z: 0.485}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

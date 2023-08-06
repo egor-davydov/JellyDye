@@ -12,5 +12,6 @@
     Vintage,
     Pimp,
     IceCream,
+    Disco,
   }
 }

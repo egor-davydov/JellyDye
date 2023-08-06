@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2580148062094076564}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ButterflyMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 2580148062297476574}
   - component: {fileID: 2580148062297476568}
   - component: {fileID: 2580148062297476575}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Liquid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 2580148062716766362}
   - component: {fileID: 2580148062716766356}
   - component: {fileID: 2580148062716766363}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Syringe_butterfly_base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 2580148062833271074}
   - component: {fileID: 2580148062833271260}
   - component: {fileID: 2580148062833271075}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 2580148062893272298}
   - component: {fileID: 2580148062893272292}
   - component: {fileID: 2580148062893272299}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: dimond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2580148063493899281}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Piston
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 2580148063663477759}
   - component: {fileID: 2580148063663477753}
   - component: {fileID: 2580148063663477752}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +495,7 @@ GameObject:
   - component: {fileID: 2580148063828349897}
   - component: {fileID: 2580148063828349899}
   - component: {fileID: 2580148063828349898}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Syringe_v2_base_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2580148063998514631}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}

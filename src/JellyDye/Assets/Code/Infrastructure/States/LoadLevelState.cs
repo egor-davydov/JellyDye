@@ -35,7 +35,7 @@ namespace Code.Infrastructure.States
       _progressService = progressService;
       _staticDataService = staticDataService;
     }
-    
+
     public void Enter(int levelIndex)
     {
       _levelIndex = levelIndex;
@@ -66,7 +66,7 @@ namespace Code.Infrastructure.States
     private GameObject InitSyringe()
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      GameObject syringeObject = _syringeFactory.CreateSyringe(equippedSkin, Vector3.up*0.18f);
+      GameObject syringeObject = _syringeFactory.CreateSyringe(equippedSkin, Vector3.up * 0.14f);
       syringeObject.GetComponent<PaintInjection>().SyringeReset();
       return syringeObject;
     }

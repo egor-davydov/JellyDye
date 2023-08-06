@@ -33,3 +33,5 @@ MonoBehaviour:
     SkinPrefab: {fileID: 5064854323492255455, guid: fa4620e69a8d099419c586d845811cb0, type: 3}
   - SkinType: 9
     SkinPrefab: {fileID: 76066926947759347, guid: 0ae26b1b139b14f47ba7ab7f3ed7473b, type: 3}
+  - SkinType: 10
+    SkinPrefab: {fileID: 6481444003663915727, guid: bc54823b681cca148aceabef4414d3b0, type: 3}
