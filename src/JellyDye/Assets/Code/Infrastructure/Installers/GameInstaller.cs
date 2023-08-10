@@ -30,6 +30,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<UIFactory>().AsSingle();
       Container.Bind<LevelButtonFactory>().AsSingle();
       Container.Bind<JelliesFactory>().AsSingle();
+      Container.Bind<FinishButtonFactory>().AsSingle();
     }
 
     private void BindLoadingCurtain()
@@ -56,7 +57,9 @@ namespace Code.Infrastructure.Installers
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
+      Container.Bind<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<LevelFinishService>().AsSingle();
     }
 
     private void BindStates()

@@ -11,15 +11,51 @@ namespace Code.Services
     private FluxySolver _fluxySolver;
     private StaticDataService _staticDataService;
     private FluxyContainer[] _fluxyContainers;
+    
+    private Color ClearColor => new(0, 0, 0, 0);
 
     [Inject]
-    public void Construct(StaticDataService staticDataService) => 
+    public void Construct(StaticDataService staticDataService) =>
       _staticDataService = staticDataService;
 
     public void Initialize(FluxySolver fluxySolver, FluxyContainer[] fluxyContainers)
     {
       _fluxySolver = fluxySolver;
       _fluxyContainers = fluxyContainers;
+    }
+
+    public bool HasPaintOnAllMeshes()
+    {
+      Texture2D fluxyTexture = ConvertToTexture2D(_fluxySolver.framebuffer.stateA);
+      foreach (FluxyContainer fluxyContainer in _fluxyContainers)
+      {
+        JellyConfig jellyConfig = _staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
+        if (!HasPaintOnMesh(fluxyTexture, jellyConfig, _fluxySolver.GetContainerUVRect(fluxyContainer)))
+          return false;
+      }
+
+      return true;
+    }
+
+    private bool HasPaintOnMesh(Texture2D fluxyTexture, JellyConfig jellyConfig, Vector4 containerUVRect)
+    {
+      Texture2D maskTexture = jellyConfig.MaskTexture;
+
+      foreach (Vector2 uvCoordinates in jellyConfig.Mesh.uv)
+      {
+        float uvCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
+        float uvCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
+        int x = (int)(uvCoordinatesX * fluxyTexture.width);
+        int y = (int)(uvCoordinatesY * fluxyTexture.height);
+        if (maskTexture.GetPixel((int)(uvCoordinates.x * maskTexture.width), (int)(uvCoordinates.y * maskTexture.height)).r != 0)
+          continue;
+
+        Color pixelColor = fluxyTexture.GetPixel(x, y);
+        if (pixelColor != ClearColor)
+          return true;
+      }
+
+      return false;
     }
 
     private float CalculatePaintPercentage()

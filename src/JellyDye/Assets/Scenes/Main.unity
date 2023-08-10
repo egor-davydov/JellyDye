@@ -261,8 +261,9 @@ GameObject:
   - component: {fileID: 330474152}
   - component: {fileID: 330474151}
   - component: {fileID: 330474150}
+  - component: {fileID: 330474153}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: LevelCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -334,6 +335,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 67.9, y: 0, z: 0}
+--- !u!114 &330474153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330474149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1053685777ae4aa8865602a0eefb47f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 330474151}
+  _finishPosition: {x: 0, y: 2.04, z: 0.1}
+  _finishRotation: {x: 84, y: 0, z: 0}
+  _movingTime: 1
+  _targetSize: 1.1
 --- !u!1 &503041965
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +565,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1499811520 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 301788484798314399, guid: a8c9f7825ea15ed4694fc914cc1b8c4c, type: 3}
+  m_PrefabInstance: {fileID: 1601454911}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1499811521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499811520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c10c5399e0e44e8c903246f34b5df4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelCamera: {fileID: 330474153}
 --- !u!1 &1559713335
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,6 +736,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7393652729259592888, guid: a8c9f7825ea15ed4694fc914cc1b8c4c, type: 3}
+      propertyPath: _monoInstallers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393652729259592888, guid: a8c9f7825ea15ed4694fc914cc1b8c4c, type: 3}
+      propertyPath: _monoInstallers.Array.data[0]
+      value: 
+      objectReference: {fileID: 1499811521}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8c9f7825ea15ed4694fc914cc1b8c4c, type: 3}
 --- !u!1 &2068568063
