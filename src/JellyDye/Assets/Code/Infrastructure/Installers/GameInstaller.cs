@@ -55,6 +55,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
+      Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
     }
 

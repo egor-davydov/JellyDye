@@ -7,6 +7,7 @@ using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
 using Code.StaticData;
+using Fluxy;
 using UnityEngine;
 
 namespace Code.Infrastructure.States
@@ -21,10 +22,11 @@ namespace Code.Infrastructure.States
     private readonly JelliesFactory _jelliesFactory;
     private readonly ProgressService _progressService;
     private readonly StaticDataService _staticDataService;
+    private readonly PaintCountCalculationService _paintCountCalculationService;
     private int _levelIndex;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
-      HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService, StaticDataService staticDataService)
+      HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService, StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
@@ -34,6 +36,7 @@ namespace Code.Infrastructure.States
       _jelliesFactory = jelliesFactory;
       _progressService = progressService;
       _staticDataService = staticDataService;
+      _paintCountCalculationService = paintCountCalculationService;
     }
 
     public void Enter(int levelIndex)
@@ -51,16 +54,21 @@ namespace Code.Infrastructure.States
     {
       _progressService.Progress.CurrentLevel = _levelIndex;
       LevelConfig levelConfig = _staticDataService.ForLevels().LevelConfigs[_levelIndex];
-      InitJellies(levelConfig);
+      
+      GameObject jelliesObject = InitJellies(levelConfig);
+      _paintCountCalculationService.Initialize(jelliesObject.GetComponentInChildren<FluxySolver>(), jelliesObject.GetComponentsInChildren<FluxyContainer>());
+      
       GameObject syringeObject = InitSyringe();
+      
       GameObject hudObject = InitHud(syringeObject, levelConfig);
       syringeObject.GetComponent<PaintInjection>().Initialize(hudObject.GetComponentInChildren<InjectionButton>());
       _gameStateMachine.Enter<GameLoopState>();
     }
 
-    private void InitJellies(LevelConfig levelConfig)
+    private GameObject InitJellies(LevelConfig levelConfig)
     {
-      _jelliesFactory.CreateJelly(levelConfig.JelliesPrefab);
+      GameObject jelliesObject = _jelliesFactory.CreateJelly(levelConfig.JelliesPrefab);
+      return jelliesObject;
     }
 
     private GameObject InitSyringe()

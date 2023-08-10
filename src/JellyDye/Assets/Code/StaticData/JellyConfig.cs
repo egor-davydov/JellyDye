@@ -9,5 +9,6 @@ namespace Code.StaticData
     public Mesh Mesh;
     public Texture2D MaskTexture;
     public int CountPixelsShouldPaint;
+    public Color TargetColor;
   }
 }
