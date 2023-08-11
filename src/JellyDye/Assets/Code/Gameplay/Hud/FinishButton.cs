@@ -1,5 +1,8 @@
-﻿using Code.Services;
+﻿using System;
+using Code.Services;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -13,6 +16,7 @@ namespace Code.Gameplay.Hud
     private CameraService _cameraService;
     private GameObject _hudObject;
     private GameObject _syringeObject;
+    private Tween _tween;
 
     [Inject]
     public void Construct(CameraService cameraService)
@@ -28,8 +32,13 @@ namespace Code.Gameplay.Hud
     
     private void Awake()
     {
-      ((RectTransform)transform).DOAnchorPos(Vector2.zero, _moveTime);
+      _tween = ((RectTransform)transform).DOAnchorPos(Vector2.zero, _moveTime);
       _finishButton.onClick.AddListener(FinishLevel);
+    }
+
+    private void OnDestroy()
+    {
+      _tween.Kill();
     }
 
     private void FinishLevel()

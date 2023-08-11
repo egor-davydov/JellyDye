@@ -57,9 +57,9 @@ namespace Code.Infrastructure.Installers
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
-      Container.Bind<CameraService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
-      Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
+      Container.Bind<FinishLevelService>().AsSingle();
     }
 
     private void BindStates()

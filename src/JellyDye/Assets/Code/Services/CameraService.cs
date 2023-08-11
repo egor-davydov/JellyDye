@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Code.Gameplay.Logic;
 using Code.Infrastructure;
 using DG.Tweening;
@@ -6,10 +7,12 @@ using UnityEngine;
 
 namespace Code.Services
 {
-  public class CameraService
+  public class CameraService : IDisposable
   {
     private LevelCamera _levelCamera;
     private readonly ICoroutineRunner _coroutineRunner;
+    private Tween _moveTween;
+    private Tween _rotateTween;
 
     public CameraService(ICoroutineRunner coroutineRunner)
     {
@@ -21,10 +24,16 @@ namespace Code.Services
       _levelCamera = levelCamera;
     }
 
+    public void Dispose()
+    {
+      _moveTween.Kill();
+      _rotateTween.Kill();
+    }
+
     public void MoveToFinish()
     {
-      _levelCamera.transform.DOMove(_levelCamera.FinishPosition, _levelCamera.MovingTime);
-      _levelCamera.transform.DORotate(_levelCamera.FinishRotation, _levelCamera.MovingTime);
+      _moveTween = _levelCamera.transform.DOMove(_levelCamera.FinishPosition, _levelCamera.MovingTime);
+      _rotateTween = _levelCamera.transform.DORotate(_levelCamera.FinishRotation, _levelCamera.MovingTime);
       _coroutineRunner.StartCoroutine(ResizeCamera());
     }
 

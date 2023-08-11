@@ -74,6 +74,7 @@ namespace Code.Gameplay.Syringe
     {
       _injectionButton.OnStartInjection -= OnStartInjection;
       _injectionButton.OnStopInjection -= OnStopInjection;
+      _moveTween.Kill();
     }
 
     public void SyringeReset() =>

@@ -23,6 +23,7 @@ namespace Code.Services
     {
       _syringeObject = syringeObject;
       _hudObject = hudObject;
+      CanFinish = false;
     }
 
     public void CheckPaint()

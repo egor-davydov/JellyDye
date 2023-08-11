@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Code.Gameplay.Syringe;
 using Code.Services.Factories;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using Zenject;
 
@@ -15,6 +17,8 @@ namespace Code.Gameplay.Hud.PaintChange
     private SyringePaint _syringePaint;
     private ColorChanger _currentSelectedColor;
     private readonly List<ColorChanger> _colorChangers = new();
+    private Tween _unscaleTween;
+    private Tween _scaleTween;
 
     [Inject]
     public void Construct(ColorChangerFactory colorChangerFactory)
@@ -39,7 +43,9 @@ namespace Code.Gameplay.Hud.PaintChange
 
     private void OnDestroy()
     {
-      foreach (ColorChanger colorChanger in _colorChangers) 
+      _unscaleTween.Kill();
+      _scaleTween.Kill();
+      foreach (ColorChanger colorChanger in _colorChangers)
         colorChanger.OnColorChange -= OnColorChange;
     }
 
@@ -54,9 +60,10 @@ namespace Code.Gameplay.Hud.PaintChange
       if (_currentSelectedColor == colorChanger)
         return;
       if (_currentSelectedColor != null)
-        _currentSelectedColor.transform.DOScale(_currentSelectedColor.StartScale, _currentSelectedColor.ScalingTime);
-      colorChanger.transform.DOScale(colorChanger.SelectedScale, colorChanger.ScalingTime);
-      
+        _unscaleTween = _currentSelectedColor.transform.DOScale(_currentSelectedColor.StartScale, _currentSelectedColor.ScalingTime);
+
+      _scaleTween = colorChanger.transform.DOScale(colorChanger.SelectedScale, colorChanger.ScalingTime);
+
       _currentSelectedColor = colorChanger;
     }
   }
