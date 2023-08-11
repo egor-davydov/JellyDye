@@ -23,12 +23,12 @@ namespace Code.Infrastructure.States
     private readonly ProgressService _progressService;
     private readonly StaticDataService _staticDataService;
     private readonly PaintCountCalculationService _paintCountCalculationService;
-    private readonly LevelFinishService _levelFinishService;
+    private readonly FinishLevelService _finishLevelService;
     private int _levelIndex;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService,
-      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService, LevelFinishService levelFinishService)
+      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
@@ -39,7 +39,7 @@ namespace Code.Infrastructure.States
       _progressService = progressService;
       _staticDataService = staticDataService;
       _paintCountCalculationService = paintCountCalculationService;
-      _levelFinishService = levelFinishService;
+      _finishLevelService = finishLevelService;
     }
 
     public void Enter(int levelIndex)
@@ -66,7 +66,7 @@ namespace Code.Infrastructure.States
       GameObject hudObject = InitHud(syringeObject, levelConfig);
       PaintInjection paintInjection = syringeObject.GetComponent<PaintInjection>();
       paintInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
-      _levelFinishService.Initialize(paintInjection, hudObject, syringeObject);
+      _finishLevelService.Initialize(hudObject, syringeObject);
       
       _gameStateMachine.Enter<GameLoopState>();
     }

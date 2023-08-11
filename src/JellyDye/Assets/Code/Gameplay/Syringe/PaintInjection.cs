@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Code.Gameplay.Hud;
+using Code.Services;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Fluxy;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Gameplay.Syringe
 {
@@ -44,9 +45,14 @@ namespace Code.Gameplay.Syringe
     private FluxyContainer _currentContainer;
     private Tween _moveTween;
     private int _injectableLayer;
+    private FinishLevelService _finishLevelService;
 
-    public event Action OnFirstPaint;
-
+    [Inject]
+    public void Construct(FinishLevelService finishLevelService)
+    {
+      _finishLevelService = finishLevelService;
+    }
+    
     public void Initialize(InjectionButton injectionButton)
     {
       _injectionButton = injectionButton;
@@ -158,13 +164,14 @@ namespace Code.Gameplay.Syringe
       //Debug.Log("StartPainting");
       _currentContainer.targets.Add(_fluxyTarget);
       _fluxyTarget.enabled = true;
-      StartCoroutine(WaitForFirstPaint());
+      if(!_finishLevelService.CanFinish)
+        StartCoroutine(WaitForFirstPaint());
     }
 
     private IEnumerator WaitForFirstPaint()
     {
-      yield return new WaitForSecondsRealtime(0.01f);
-      OnFirstPaint?.Invoke();
+      yield return null;
+      _finishLevelService.CheckPaint();
     }
 
     private void StopPainting()

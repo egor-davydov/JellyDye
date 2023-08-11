@@ -59,7 +59,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
-      Container.BindInterfacesAndSelfTo<LevelFinishService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
     }
 
     private void BindStates()

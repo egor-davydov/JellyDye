@@ -348,8 +348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 330474151}
-  _finishPosition: {x: 0, y: 2.04, z: 0.1}
-  _finishRotation: {x: 84, y: 0, z: 0}
+  _finishPosition: {x: 0, y: 1.96, z: -0.21}
+  _finishRotation: {x: 75.2, y: 0, z: 0}
   _movingTime: 1
   _targetSize: 1.1
 --- !u!1 &503041965
@@ -756,7 +756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2068568064}
   m_Layer: 0
-  m_Name: Base
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
