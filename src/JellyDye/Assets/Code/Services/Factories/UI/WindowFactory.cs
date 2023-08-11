@@ -1,16 +1,15 @@
-﻿using Code.Gameplay.UI.MainMenu.Gallery;
-using Code.Services.AssetManagement;
+﻿using Code.Services.AssetManagement;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Services.Factories
+namespace Code.Services.Factories.UI
 {
-  public class UIFactory
+  public class WindowFactory
   {
     private readonly IInstantiator _instantiator;
     private readonly IAssetProvider _assetProvider;
 
-    public UIFactory(IInstantiator instantiator, IAssetProvider assetProvider)
+    public WindowFactory(IInstantiator instantiator, IAssetProvider assetProvider)
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
@@ -23,11 +22,11 @@ namespace Code.Services.Factories
       return menuObject;
     }
 
-    public GameObject CreateSettingsWindow()
+    public GameObject CreateFinishWindow()
     {
-      GameObject settingsPrefab = _assetProvider.Load(AssetPath.Settings);
-      GameObject settingsObject = _instantiator.InstantiatePrefab(settingsPrefab, new GameObject("SettingsParent").transform);
-      return settingsObject;
+      GameObject finishWindowPrefab = _assetProvider.Load(AssetPath.FinishWindow);
+      GameObject finishWindowObject = _instantiator.InstantiatePrefab(finishWindowPrefab, new GameObject("FinishWindowParent").transform);
+      return finishWindowObject;
     }
   }
 }

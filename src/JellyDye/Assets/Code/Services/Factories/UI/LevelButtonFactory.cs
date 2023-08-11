@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Code.Services.Factories
+namespace Code.Services.Factories.UI
 {
   public class LevelButtonFactory
   {

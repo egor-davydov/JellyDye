@@ -3,6 +3,7 @@ using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
+using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using UnityEngine;
 using Zenject;
@@ -27,10 +28,10 @@ namespace Code.Infrastructure.Installers
       Container.Bind<HudFactory>().AsSingle();
       Container.Bind<ColorChangerFactory>().AsSingle();
       Container.Bind<SyringeFactory>().AsSingle();
-      Container.Bind<UIFactory>().AsSingle();
+      Container.Bind<WindowFactory>().AsSingle();
       Container.Bind<LevelButtonFactory>().AsSingle();
       Container.Bind<JelliesFactory>().AsSingle();
-      Container.Bind<FinishButtonFactory>().AsSingle();
+      Container.Bind<GreenButtonFactory>().AsSingle();
     }
 
     private void BindLoadingCurtain()
@@ -59,7 +60,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
-      Container.Bind<FinishLevelService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
     }
 
     private void BindStates()

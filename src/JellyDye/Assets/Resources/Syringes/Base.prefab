@@ -218,7 +218,7 @@ MonoBehaviour:
   _movingLittleBackTime: 0.01
   _movingBackTime: 0.2
   _resetTime: 0.3
-  _movingCloserDistance: 0.07
+  _movingCloserDistance: 0.03
   _movingLittleBackDistance: 0.01
   _pistonMovingDistance: 0.37
   _minLiquidScaleY: 0.01

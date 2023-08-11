@@ -8,14 +8,14 @@ namespace Code.Gameplay.Syringe
     [SerializeField] private FluxyTarget _fluxyTarget;
     [SerializeField] private MeshRenderer _liquidRenderer;
     [SerializeField] private Shader _shader;
-    
+
     private static readonly int LiquidColorId = Shader.PropertyToID("_Color");
 
     private void Awake()
     {
       _liquidRenderer.sharedMaterial = new Material(_shader);
     }
-    
+
     public void ChangeLiquidColor(Color newColor)
     {
       _fluxyTarget.color = newColor;

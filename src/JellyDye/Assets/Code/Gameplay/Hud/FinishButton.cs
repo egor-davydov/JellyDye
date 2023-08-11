@@ -1,8 +1,6 @@
-﻿using System;
-using Code.Services;
+﻿using Code.Services;
+using Code.Services.Factories.UI;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -12,15 +10,17 @@ namespace Code.Gameplay.Hud
   public class FinishButton : MonoBehaviour
   {
     [SerializeField] private Button _finishButton;
-    [SerializeField] private float _moveTime;
+    
     private CameraService _cameraService;
     private GameObject _hudObject;
     private GameObject _syringeObject;
     private Tween _tween;
+    private WindowFactory _windowFactory;
 
     [Inject]
-    public void Construct(CameraService cameraService)
+    public void Construct(CameraService cameraService, WindowFactory windowFactory)
     {
+      _windowFactory = windowFactory;
       _cameraService = cameraService;
     }
 
@@ -32,7 +32,6 @@ namespace Code.Gameplay.Hud
     
     private void Awake()
     {
-      _tween = ((RectTransform)transform).DOAnchorPos(Vector2.zero, _moveTime);
       _finishButton.onClick.AddListener(FinishLevel);
     }
 
@@ -40,12 +39,14 @@ namespace Code.Gameplay.Hud
     {
       _tween.Kill();
     }
-
+    
     private void FinishLevel()
     {
       Destroy(_hudObject);
       Destroy(_syringeObject);
-      _cameraService.MoveToFinish();
+      Tween moveTween = _cameraService.MoveToFinish();
+      moveTween.OnComplete(() => _windowFactory.CreateFinishWindow());
     }
+
   }
 }

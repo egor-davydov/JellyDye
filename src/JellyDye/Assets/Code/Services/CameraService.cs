@@ -30,11 +30,12 @@ namespace Code.Services
       _rotateTween.Kill();
     }
 
-    public void MoveToFinish()
+    public Tween MoveToFinish()
     {
       _moveTween = _levelCamera.transform.DOMove(_levelCamera.FinishPosition, _levelCamera.MovingTime);
       _rotateTween = _levelCamera.transform.DORotate(_levelCamera.FinishRotation, _levelCamera.MovingTime);
       _coroutineRunner.StartCoroutine(ResizeCamera());
+      return _moveTween;
     }
 
     private IEnumerator ResizeCamera()

@@ -1,5 +1,4 @@
-﻿using Code.Gameplay.Hud;
-using Code.Services.Factories;
+﻿using Code.Services.Factories.UI;
 using UnityEngine;
 
 namespace Code.Services
@@ -7,21 +6,20 @@ namespace Code.Services
   public class FinishLevelService
   {
     private readonly PaintCountCalculationService _paintCountCalculationService;
-    private readonly FinishButtonFactory _finishButtonFactory;
+    private readonly GreenButtonFactory _greenButtonFactory;
     private GameObject _hudObject;
     private GameObject _syringeObject;
 
     public bool CanFinish { get; private set; }
 
-    public FinishLevelService(PaintCountCalculationService paintCountCalculationService, FinishButtonFactory finishButtonFactory)
+    public FinishLevelService(PaintCountCalculationService paintCountCalculationService, GreenButtonFactory greenButtonFactory)
     {
       _paintCountCalculationService = paintCountCalculationService;
-      _finishButtonFactory = finishButtonFactory;
+      _greenButtonFactory = greenButtonFactory;
     }
 
-    public void Initialize(GameObject hudObject, GameObject syringeObject)
+    public void Initialize(GameObject hudObject)
     {
-      _syringeObject = syringeObject;
       _hudObject = hudObject;
       CanFinish = false;
     }
@@ -32,8 +30,7 @@ namespace Code.Services
         return;
 
       CanFinish = true;
-      GameObject finishButton = _finishButtonFactory.CreateFinishButton(_hudObject.transform);
-      finishButton.GetComponent<FinishButton>().Initialize(_hudObject, _syringeObject);
+      _greenButtonFactory.CreateFinishButton(_hudObject.transform);
     }
   }
 }

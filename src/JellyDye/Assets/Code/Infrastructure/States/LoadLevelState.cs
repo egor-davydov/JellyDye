@@ -5,6 +5,7 @@ using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
 using Code.Services.Factories;
+using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.StaticData;
 using Fluxy;
@@ -23,12 +24,14 @@ namespace Code.Infrastructure.States
     private readonly ProgressService _progressService;
     private readonly StaticDataService _staticDataService;
     private readonly PaintCountCalculationService _paintCountCalculationService;
+    private readonly GreenButtonFactory _greenButtonFactory;
     private readonly FinishLevelService _finishLevelService;
     private int _levelIndex;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService,
-      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService)
+      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService, GreenButtonFactory greenButtonFactory,
+      FinishLevelService finishLevelService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
@@ -39,6 +42,7 @@ namespace Code.Infrastructure.States
       _progressService = progressService;
       _staticDataService = staticDataService;
       _paintCountCalculationService = paintCountCalculationService;
+      _greenButtonFactory = greenButtonFactory;
       _finishLevelService = finishLevelService;
     }
 
@@ -66,7 +70,8 @@ namespace Code.Infrastructure.States
       GameObject hudObject = InitHud(syringeObject, levelConfig);
       PaintInjection paintInjection = syringeObject.GetComponent<PaintInjection>();
       paintInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
-      _finishLevelService.Initialize(hudObject, syringeObject);
+      _finishLevelService.Initialize(hudObject);
+      _greenButtonFactory.Initialize(syringeObject, hudObject);
       
       _gameStateMachine.Enter<GameLoopState>();
     }

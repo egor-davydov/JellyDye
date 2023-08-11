@@ -11,8 +11,8 @@ namespace Code.Services
     private FluxySolver _fluxySolver;
     private StaticDataService _staticDataService;
     private FluxyContainer[] _fluxyContainers;
-    
-    private Color ClearColor => new(0, 0, 0, 0);
+
+    private static readonly Color ClearColor = new(0, 0, 0, 0);
 
     [Inject]
     public void Construct(StaticDataService staticDataService) =>
@@ -58,7 +58,7 @@ namespace Code.Services
       return false;
     }
 
-    private float CalculatePaintPercentage()
+    public float CalculatePaintPercentage()
     {
       Texture2D fluxyTexture = ConvertToTexture2D(_fluxySolver.framebuffer.stateA);
       int paintedPixelsCount = 0;
@@ -92,11 +92,29 @@ namespace Code.Services
         }
 
         Color pixelColor = fluxyTexture.GetPixel(x, y);
-        if (pixelColor == jellyConfig.TargetColor)
-          paintedPixelsCount++;
+        if (pixelColor != ClearColor && pixelColor.a > 0.8f)
+        {
+          // if (jellyConfig.Mesh.name == "topM")
+          //   Debug.Log($"pixelColor= {pixelColor}");
+          if (VectorsAlmostSame(Abs(pixelColor - jellyConfig.TargetColor), Vector4.one * 0.27f))
+            paintedPixelsCount++;
+        }
       }
 
+      Debug.Log($"name={jellyConfig.Mesh.name}; percentage= {(float)paintedPixelsCount/shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
+
       return new Vector2Int(paintedPixelsCount, shouldPaintedPixelsCount);
+    }
+
+    private bool VectorsAlmostSame(Vector4 target, Vector4 epsilon)
+    {
+      return target.x < epsilon.x && target.y < epsilon.y && target.z < epsilon.z && target.w < epsilon.w;
+    }
+
+    private Vector4 Abs(Color delta)
+    {
+      var absColor = new Vector4(Mathf.Abs(delta.r), Mathf.Abs(delta.g), Mathf.Abs(delta.b), Mathf.Abs(delta.a));
+      return absColor;
     }
 
     private Texture2D ConvertToTexture2D(RenderTexture rTex)
