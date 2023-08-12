@@ -5,12 +5,14 @@ using Code.Services.Factories.UI;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Code.Gameplay.UI
 {
   public class FinishWindow : MonoBehaviour
   {
+    [SerializeField] private RawImage _yourResultImage;
     [SerializeField] private TextMeshProUGUI _percentageText;
     [SerializeField] private Transform _textTransform;
     [SerializeField] private float _percentageIncreaseTime;
@@ -21,16 +23,19 @@ namespace Code.Gameplay.UI
     private PaintCountCalculationService _paintCountCalculationService;
     private GreenButtonFactory _greenButtonFactory;
     private Tween _scaleTween;
+    private ScreenshotService _screenshotService;
 
     [Inject]
-    public void Construct(PaintCountCalculationService paintCountCalculationService, GreenButtonFactory greenButtonFactory)
+    public void Construct(PaintCountCalculationService paintCountCalculationService, GreenButtonFactory greenButtonFactory, ScreenshotService screenshotService)
     {
+      _screenshotService = screenshotService;
       _greenButtonFactory = greenButtonFactory;
       _paintCountCalculationService = paintCountCalculationService;
     }
 
     private void Awake()
     {
+      _yourResultImage.texture = _screenshotService.ScreenshotTexture;
       StartCoroutine(PercentageIncrease());
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
     }

@@ -10,12 +10,10 @@ namespace Code.Services
   public class SceneLoader
   {
     private readonly ICoroutineRunner _coroutineRunner;
-    private readonly LoadingCurtain _loadingCurtain;
 
-    public SceneLoader(ICoroutineRunner coroutineRunner, LoadingCurtain loadingCurtain)
+    public SceneLoader(ICoroutineRunner coroutineRunner)
     {
       _coroutineRunner = coroutineRunner;
-      _loadingCurtain = loadingCurtain;
     }
 
     public void StartLoad(int index, Action onComplete = null) => 

@@ -1,11 +1,9 @@
-﻿using Code.Gameplay.Logic;
-using Code.Infrastructure.States;
+﻿using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
-using UnityEngine;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
@@ -19,7 +17,6 @@ namespace Code.Infrastructure.Installers
       BindServices();
       BindStates();
       BindFactories();
-      BindLoadingCurtain();
     }
 
     private void BindFactories()
@@ -33,17 +30,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<JelliesFactory>().AsSingle();
       Container.Bind<GreenButtonFactory>().AsSingle();
     }
-
-    private void BindLoadingCurtain()
-    {
-      LoadingCurtain loadingCurtain = Container.InstantiatePrefabForComponent<LoadingCurtain>(Resources.Load<GameObject>("LoadingCurtain/LoadingCurtain"));
-      Container
-        .Bind<LoadingCurtain>()
-        .FromInstance(loadingCurtain)
-        .AsSingle();
-      loadingCurtain.Hide();
-    }
-
+    
     public void Initialize()
     {
       //Debug.Log($"Initialize GameInstaller");
@@ -58,6 +45,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
       Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
       Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();

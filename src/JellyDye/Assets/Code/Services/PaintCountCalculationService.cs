@@ -117,13 +117,16 @@ namespace Code.Services
       return absColor;
     }
 
-    private Texture2D ConvertToTexture2D(RenderTexture rTex)
+    private Texture2D ConvertToTexture2D(RenderTexture renderTexture)
     {
-      Texture2D tex = new Texture2D(512, 512, TextureFormat.RGBA32, false);
-      RenderTexture.active = rTex;
-      tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
-      tex.Apply();
-      return tex;
+      RenderTexture oldTexture = RenderTexture.active;
+      Texture2D texture2D = new Texture2D(512, 512, TextureFormat.RGBA32, false);
+      RenderTexture.active = renderTexture;
+      texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+      texture2D.Apply();
+      RenderTexture.active = oldTexture;
+
+      return texture2D;
     }
   }
 }

@@ -9,8 +9,6 @@ namespace Code.Services.Factories.UI
   {
     private readonly IInstantiator _instantiator;
     private readonly IAssetProvider _assetProvider;
-    private GameObject _syringeObject;
-    private GameObject _hudObject;
 
     public GreenButtonFactory(IInstantiator instantiator, IAssetProvider assetProvider)
     {
@@ -18,17 +16,10 @@ namespace Code.Services.Factories.UI
       _assetProvider = assetProvider;
     }
     
-    public void Initialize(GameObject hudObject, GameObject syringeObject)
-    {
-      _syringeObject = syringeObject;
-      _hudObject = hudObject;
-    }
-
     public GameObject CreateFinishButton(Transform parent)
     {
       GameObject finishButtonPrefab = _assetProvider.Load(AssetPath.FinishButton);
       GameObject finishButtonObject = _instantiator.InstantiatePrefab(finishButtonPrefab, parent);
-      finishButtonObject.GetComponent<FinishButton>().Initialize(_hudObject, _syringeObject);
 
       return finishButtonObject;
     }

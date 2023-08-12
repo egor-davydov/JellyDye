@@ -1,6 +1,5 @@
 using Code.Gameplay.Hud;
 using Code.Gameplay.Hud.PaintChange;
-using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
@@ -17,32 +16,29 @@ namespace Code.Infrastructure.States
   {
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
-    private readonly LoadingCurtain _loadingCurtain;
     private readonly HudFactory _hudFactory;
     private readonly SyringeFactory _syringeFactory;
     private readonly JelliesFactory _jelliesFactory;
     private readonly ProgressService _progressService;
     private readonly StaticDataService _staticDataService;
     private readonly PaintCountCalculationService _paintCountCalculationService;
-    private readonly GreenButtonFactory _greenButtonFactory;
     private readonly FinishLevelService _finishLevelService;
+    
     private int _levelIndex;
 
-    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
+    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService,
-      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService, GreenButtonFactory greenButtonFactory,
+      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService,
       FinishLevelService finishLevelService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
-      _loadingCurtain = loadingCurtain;
       _hudFactory = hudFactory;
       _syringeFactory = syringeFactory;
       _jelliesFactory = jelliesFactory;
       _progressService = progressService;
       _staticDataService = staticDataService;
       _paintCountCalculationService = paintCountCalculationService;
-      _greenButtonFactory = greenButtonFactory;
       _finishLevelService = finishLevelService;
     }
 
@@ -70,8 +66,7 @@ namespace Code.Infrastructure.States
       GameObject hudObject = InitHud(syringeObject, levelConfig);
       PaintInjection paintInjection = syringeObject.GetComponent<PaintInjection>();
       paintInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
-      _finishLevelService.Initialize(hudObject);
-      _greenButtonFactory.Initialize(syringeObject, hudObject);
+      _finishLevelService.Initialize(hudObject, syringeObject);
       
       _gameStateMachine.Enter<GameLoopState>();
     }

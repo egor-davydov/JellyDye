@@ -301,11 +301,11 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 3
+  far clip plane: 5
   field of view: 60
   orthographic: 1
-  orthographic size: 1.3
-  m_Depth: -0.66
+  orthographic size: 1.5
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 2147483647
@@ -348,10 +348,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 330474151}
-  _finishPosition: {x: 0, y: 1.96, z: -0.21}
-  _finishRotation: {x: 75.2, y: 0, z: 0}
+  _finishPosition: {x: 0, y: 2.7, z: -0.3}
+  _finishRotation: {x: 75, y: 0, z: 0}
   _movingTime: 1
-  _targetSize: 1.1
+  _targetSize: 0.9
 --- !u!1 &503041965
 GameObject:
   m_ObjectHideFlags: 0
