@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Gameplay.UI.MainMenu.Skins;
 
 namespace Code.Data
 {
@@ -8,9 +9,9 @@ namespace Code.Data
     public int CurrentLevel;
     public SkinData SkinData;
 
-    public PlayerProgress()
+    public PlayerProgress(SkinType startSkinType)
     {
-      SkinData = new SkinData();
+      SkinData = new SkinData(startSkinType);
     }
   }
 }

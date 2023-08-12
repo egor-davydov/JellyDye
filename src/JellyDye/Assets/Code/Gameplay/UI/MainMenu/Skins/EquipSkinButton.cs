@@ -1,6 +1,7 @@
 ﻿using System;
 using Code.Data;
 using Code.Services.Progress;
+using Code.Services.Progress.SaveLoad;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -18,10 +19,12 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 
     private ProgressService _progressService;
     private SkinData _progressSkinData;
+    private ISaveLoadService _saveLoadService;
 
     [Inject]
-    public void Construct(ProgressService progressService)
+    public void Construct(ProgressService progressService, ISaveLoadService saveLoadService)
     {
+      _saveLoadService = saveLoadService;
       _progressService = progressService;
       _progressSkinData = _progressService.Progress.SkinData;
     }
@@ -38,13 +41,6 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     private void OnDestroy() => 
       _progressSkinData.Changed -= CheckEquipped;
 
-    private void CheckEquipped()
-    {
-      _skinButtonImage.sprite = _skinType == _progressSkinData.EquippedSkin
-        ? _skinEquippedSprite
-        : _skinUnequippedSprite;
-    }
-  
     private void EquipSkin()
     {
       if (_progressSkinData.EquippedSkin == _skinType)
@@ -52,6 +48,14 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 
       _progressSkinData.EquipSkin(_skinType);
       _skinButtonImage.sprite = _skinEquippedSprite;
+      _saveLoadService.SaveProgress();
+    }
+
+    private void CheckEquipped()
+    {
+      _skinButtonImage.sprite = _skinType == _progressSkinData.EquippedSkin
+        ? _skinEquippedSprite
+        : _skinUnequippedSprite;
     }
   }
 }

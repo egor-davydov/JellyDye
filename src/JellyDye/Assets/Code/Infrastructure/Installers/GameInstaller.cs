@@ -4,6 +4,7 @@ using Code.Services.AssetManagement;
 using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
+using Code.Services.Progress.SaveLoad;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
@@ -15,6 +16,7 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
 
       BindServices();
+      BindProgressServices();
       BindStates();
       BindFactories();
     }
@@ -30,7 +32,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<JelliesFactory>().AsSingle();
       Container.Bind<GreenButtonFactory>().AsSingle();
     }
-    
+
     public void Initialize()
     {
       //Debug.Log($"Initialize GameInstaller");
@@ -43,12 +45,17 @@ namespace Code.Infrastructure.Installers
     {
       Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
-      Container.Bind<ProgressService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
       Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
       Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
+    }
+
+    private void BindProgressServices()
+    {
+      Container.Bind<ProgressService>().AsSingle();
+      Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
     }
 
     private void BindStates()

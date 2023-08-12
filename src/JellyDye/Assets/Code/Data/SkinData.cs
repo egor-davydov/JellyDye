@@ -6,8 +6,13 @@ namespace Code.Data
   [Serializable]
   public class SkinData
   {
+    public SkinType EquippedSkin;
     public event Action Changed;
-    public SkinType EquippedSkin { get; private set; } = SkinType.Default;
+
+    public SkinData(SkinType startSkinType)
+    {
+      EquippedSkin = startSkinType;
+    }
 
     public void EquipSkin(SkinType skinType)
     {
