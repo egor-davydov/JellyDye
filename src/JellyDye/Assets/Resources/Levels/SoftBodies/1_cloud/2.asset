@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fccc267b58171450ea23d051b1b2d2c6, type: 3}
-  m_Name: lightning
+  m_Name: 2
   m_EditorClassIdentifier: 
   m_Empty: 0
   m_ActiveParticleCount: 89

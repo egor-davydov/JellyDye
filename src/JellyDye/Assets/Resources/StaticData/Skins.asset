@@ -12,6 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f775c1bc1453486c93433fa577686278, type: 3}
   m_Name: Skins
   m_EditorClassIdentifier: 
+  UnlockableSkins:
+  - <SkinType>k__BackingField: 1
+    <Icon>k__BackingField: {fileID: 21300000, guid: 4c3b220e235c4681828f1b08d4a2e73a, type: 3}
+  - <SkinType>k__BackingField: 2
+    <Icon>k__BackingField: {fileID: 21300000, guid: d4ec77acd4894a83a51ebaa67ee3a574, type: 3}
+  - <SkinType>k__BackingField: 3
+    <Icon>k__BackingField: {fileID: 21300000, guid: f7e2e9b836944ca18cea4549e84421ff, type: 3}
+  - <SkinType>k__BackingField: 6
+    <Icon>k__BackingField: {fileID: 21300000, guid: be5bd645fb574537bc58862a9f5de5c2, type: 3}
+  - <SkinType>k__BackingField: 4
+    <Icon>k__BackingField: {fileID: 21300000, guid: f9c51663738f42429ac1033a459ae134, type: 3}
+  - <SkinType>k__BackingField: 5
+    <Icon>k__BackingField: {fileID: 21300000, guid: 4f97912b480947ddb7a9a57d635d94ab, type: 3}
   SkinConfigs:
   - SkinType: 0
     SkinPrefab: {fileID: 3806195165603101477, guid: b44716ad6535d2942885b08f59ff789c, type: 3}

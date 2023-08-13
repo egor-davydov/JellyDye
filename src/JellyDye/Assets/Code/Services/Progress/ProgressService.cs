@@ -1,4 +1,5 @@
-﻿using Code.Data;
+﻿using System.Collections.Generic;
+using Code.Data;
 using Code.Gameplay.UI.MainMenu.Skins;
 
 namespace Code.Services.Progress
@@ -15,7 +16,11 @@ namespace Code.Services.Progress
     public void CreateProgress()
     {
       SkinType startSkinType = SkinType.Default;
-      Progress = new PlayerProgress(startSkinType);
+      List<SkinType> openedSkins = new(11)
+      {
+        SkinType.Default
+      };
+      Progress = new PlayerProgress(startSkinType, openedSkins);
     }
   }
 }

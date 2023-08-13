@@ -6,9 +6,17 @@ namespace Code.StaticData
   [Serializable]
   public class JellyConfig
   {
-    public Mesh Mesh;
-    public Texture2D MaskTexture;
-    public int CountPixelsShouldPaint;
-    public Color TargetColor;
+    [field: SerializeField] public Mesh Mesh { get; private set; }
+    [field: SerializeField] public Texture2D MaskTexture { get; private set; }
+    [field: SerializeField] public Color TargetColor { get; private set; }
+
+    public JellyConfig(Mesh mesh, Color targetColor)
+    {
+      Mesh = mesh;
+      TargetColor = targetColor;
+    }
+
+    public void SetMask(Texture2D maskTexture) => 
+      MaskTexture = maskTexture;
   }
 }

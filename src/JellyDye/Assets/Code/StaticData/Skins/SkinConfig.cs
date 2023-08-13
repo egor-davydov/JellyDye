@@ -2,7 +2,7 @@
 using Code.Gameplay.UI.MainMenu.Skins;
 using UnityEngine;
 
-namespace Code.StaticData
+namespace Code.StaticData.Skins
 {
   [Serializable]
   public class SkinConfig

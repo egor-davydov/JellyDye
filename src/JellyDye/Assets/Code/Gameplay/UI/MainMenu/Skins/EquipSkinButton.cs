@@ -1,5 +1,4 @@
-﻿using System;
-using Code.Data;
+﻿using Code.Data;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using UnityEngine;
@@ -10,7 +9,8 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 {
   public class EquipSkinButton : MonoBehaviour
   {
-    [SerializeField] private SkinType _skinType;
+    [field: SerializeField] public SkinType SkinType { get; private set; }
+    [SerializeField] private LockSkin _lockSkin;
     [SerializeField] private Image _skinButtonImage;
     [SerializeField] private Sprite _skinEquippedSprite;
     [SerializeField] private Button _equipSkinButton;
@@ -20,6 +20,7 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     private ProgressService _progressService;
     private SkinData _progressSkinData;
     private ISaveLoadService _saveLoadService;
+    
 
     [Inject]
     public void Construct(ProgressService progressService, ISaveLoadService saveLoadService)
@@ -43,17 +44,17 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 
     private void EquipSkin()
     {
-      if (_progressSkinData.EquippedSkin == _skinType)
+      if (_lockSkin.SkinLocked || _progressSkinData.EquippedSkin == SkinType)
         return;
 
-      _progressSkinData.EquipSkin(_skinType);
+      _progressSkinData.EquipSkin(SkinType);
       _skinButtonImage.sprite = _skinEquippedSprite;
       _saveLoadService.SaveProgress();
     }
 
     private void CheckEquipped()
     {
-      _skinButtonImage.sprite = _skinType == _progressSkinData.EquippedSkin
+      _skinButtonImage.sprite = SkinType == _progressSkinData.EquippedSkin
         ? _skinEquippedSprite
         : _skinUnequippedSprite;
     }

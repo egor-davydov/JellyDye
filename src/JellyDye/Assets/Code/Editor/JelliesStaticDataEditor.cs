@@ -1,4 +1,6 @@
-﻿using Code.StaticData;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Code.StaticData;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,10 +13,23 @@ namespace Code.Editor
     {
       base.OnInspectorGUI();
       JelliesStaticData jelliesStaticData = (JelliesStaticData)target;
-      
+      List<JellyConfig> jellyConfigs = jelliesStaticData.JellyConfigs;
+
+      if (GUILayout.Button("Load meshes and add configs"))
+      {
+        Mesh[] meshes = Resources.LoadAll<Mesh>("Levels/SoftBodies");
+        foreach (Mesh mesh in meshes)
+        {
+          bool dontHaveConfigWithMesh = jellyConfigs.FirstOrDefault(config => config.Mesh == mesh) == default;
+          if (dontHaveConfigWithMesh)
+          {
+            jelliesStaticData.JellyConfigs.Add(new JellyConfig(mesh, Random.ColorHSV()));
+          }
+        }
+      }
       if (GUILayout.Button("Setup jellies"))
       {
-        foreach (JellyConfig jellyConfig in jelliesStaticData.JellyConfigs)
+        foreach (JellyConfig jellyConfig in jellyConfigs)
         {
           if (jellyConfig.Mesh == null)
             continue;
@@ -23,23 +38,17 @@ namespace Code.Editor
             Texture2D texture2D = Resources.Load<Texture2D>("bordertex/" + jellyConfig.Mesh.name);
             if (texture2D == null)
             {
-              Debug.LogError("No texture for mesh " + jellyConfig.Mesh.name);
-              continue;
+              texture2D = Resources.Load<Texture2D>(jellyConfig.Mesh.name);
+
+              if (texture2D == null)
+              {
+                Debug.LogError("No texture for mesh " + jellyConfig.Mesh.name);
+                continue;
+              }
             }
 
-            jellyConfig.MaskTexture = texture2D;
+            jellyConfig.SetMask(texture2D);
           }
-
-          int countPixelsShouldPaint = 0;
-          Texture2D maskTexture = jellyConfig.MaskTexture;
-          for (int x = 0; x < maskTexture.width; x++)
-          for (int y = 0; y < maskTexture.height; y++)
-          {
-            if (maskTexture.GetPixel(x, y).r == 0)
-              countPixelsShouldPaint++;
-          }
-
-          jellyConfig.CountPixelsShouldPaint = countPixelsShouldPaint;
         }
       }
       EditorUtility.SetDirty(target);
