@@ -12,7 +12,7 @@ namespace Code.Gameplay.Syringe
 {
   public class PaintInjection : MonoBehaviour
   {
-    //[SerializeField, Layer] private int _injectableLayer;
+    [SerializeField] private SyringeMove _syringeMove;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _audioClipReset;
     [SerializeField] private FluxyTarget _fluxyTarget;
@@ -84,6 +84,7 @@ namespace Code.Gameplay.Syringe
     {
       if (_isMovingBack)
         return;
+      _syringeMove.enabled = false;
       Vector3 currentSyringePosition = transform.position;
       _injectionStartPosition = currentSyringePosition;
       TweenerCore<Vector3, Vector3, VectorOptions> moveCloserTween = transform.DOMove(currentSyringePosition + _movingCloserDirection * _movingCloserDistance, _movingCloserTime);
@@ -95,6 +96,7 @@ namespace Code.Gameplay.Syringe
 
     private void OnStopInjection()
     {
+      _syringeMove.enabled = true;
       _moveTween.Kill();
       if (_paintCoroutine != null)
       {

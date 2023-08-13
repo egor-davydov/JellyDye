@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Code.Infrastructure;
+using UnityEngine;
 
 namespace Code.Gameplay.Logic
 {
-  public class LevelCamera : MonoBehaviour
+  public class LevelCamera : MonoBehaviour, ICoroutineRunner
   {
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector3 _finishPosition;

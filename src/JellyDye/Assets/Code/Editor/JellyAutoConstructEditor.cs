@@ -1,6 +1,8 @@
-﻿using Code.Gameplay;
+﻿using System.Linq;
+using Code.Gameplay;
 using Code.Gameplay.Logic;
 using Code.Helpers;
+using Code.Services;
 using Fluxy;
 using Obi;
 using UnityEditor;
@@ -38,6 +40,22 @@ namespace Code.Editor
         parentGameObject.GetComponentInChildren<FixObiParticles>()._obiActors.Add(obiActor);
         fluxyContainer.solver = parentGameObject.GetComponentInChildren<FluxySolver>();
         EditorGUIUtility.ExitGUI();
+      }
+
+      StaticDataService staticDataService = new StaticDataService();
+      staticDataService.Initialize();
+      if (GUILayout.Button("Set clear color and texture"))
+      {
+        foreach (FluxyContainer fluxyContainer in jellyAutoConstruct.GetComponentsInChildren<FluxyContainer>())
+        {
+          fluxyContainer.clearColor = staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh).TargetColor;
+          fluxyContainer.clearTexture = Resources.Load<Texture2D>("Textures/square");
+        }
+      }
+      if (GUILayout.Button("Delete clear texture"))
+      {
+        foreach (FluxyContainer fluxyContainer in jellyAutoConstruct.GetComponentsInChildren<FluxyContainer>())
+          fluxyContainer.clearTexture = null;
       }
       DrawPropertiesExcluding(serializedObject, "m_Script");
 

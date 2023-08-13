@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db679376c3b346e68b68bef605ee4ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _syringeMove: {fileID: 4188462006210841643}
   _audioSource: {fileID: 8827950845319522821}
   _audioClipReset: {fileID: 8300000, guid: 2abad513665d8c2499ba9a98887d8b6f, type: 3}
   _fluxyTarget: {fileID: 1312922224575281827}

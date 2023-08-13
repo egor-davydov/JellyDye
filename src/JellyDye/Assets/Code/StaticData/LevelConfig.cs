@@ -8,5 +8,6 @@ namespace Code.StaticData
   {
     public GameObject JelliesPrefab;
     public Color[] Colors;
+    public Texture2D TargetTexture;
   }
 }
