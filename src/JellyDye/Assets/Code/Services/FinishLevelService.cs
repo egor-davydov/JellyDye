@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Code.Infrastructure;
 using Code.Services.Factories.UI;
 using DG.Tweening;
 using UnityEngine;
@@ -13,21 +12,19 @@ namespace Code.Services
     private readonly CameraService _cameraService;
     private readonly ScreenshotService _screenshotService;
     private readonly WindowFactory _windowFactory;
-    private readonly ICoroutineRunner _coroutineRunner;
     private GameObject _hudObject;
     private GameObject _syringeObject;
 
     public bool CanFinish { get; private set; }
 
     public FinishLevelService(PaintCountCalculationService paintCountCalculationService, GreenButtonFactory greenButtonFactory,
-      CameraService cameraService, ScreenshotService screenshotService, WindowFactory windowFactory, ICoroutineRunner coroutineRunner)
+      CameraService cameraService, ScreenshotService screenshotService, WindowFactory windowFactory)
     {
       _paintCountCalculationService = paintCountCalculationService;
       _greenButtonFactory = greenButtonFactory;
       _cameraService = cameraService;
       _screenshotService = screenshotService;
       _windowFactory = windowFactory;
-      _coroutineRunner = coroutineRunner;
     }
 
     public void Initialize(GameObject hudObject, GameObject syringeObject)
@@ -55,14 +52,11 @@ namespace Code.Services
 
     private void OnMoveDone()
     {
-      _screenshotService.TakeScreenshot();
-      _coroutineRunner.StartCoroutine(WaitForScreenshot());
+      _screenshotService.TakeScreenshot(OnMake);
     }
 
-    private IEnumerator WaitForScreenshot()
+    private void OnMake()
     {
-      while (_screenshotService.IsScreenshotCaptured == false)
-        yield return null;
       _windowFactory.CreateFinishWindow();
     }
   }

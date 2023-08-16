@@ -1,44 +1,71 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Code.Infrastructure;
 using UnityEngine;
-using Zenject;
 
 namespace Code.Services
 {
-  public class ScreenshotService : IInitializable
+  public class ScreenshotService
   {
     private readonly ICoroutineRunner _coroutineRunner;
-    
+    private int _heightUpFrommCenter;
+    private Bounds _platformBounds;
+    private Camera _camera;
+    private int _deltaY;
+    private int ScreenCenter => Screen.height/2;
+
     public Texture2D ScreenshotTexture { get; private set; }
-    public bool IsScreenshotCaptured { get; private set; }
 
     public ScreenshotService(ICoroutineRunner coroutineRunner)
     {
       _coroutineRunner = coroutineRunner;
     }
-    public void Initialize()
+    public void Initialize(Mesh mesh, Camera camera)
     {
+      _deltaY = 30;
+      _camera = camera;
+      _platformBounds = mesh.bounds;
+      _heightUpFrommCenter = Screen.width - 350;
+      //_heightDownFromCenter = Screen.width - 350;
       ScreenshotTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
     }
 
-    public void TakeScreenshot()
+    public void TakeScreenshot(Action onMake)
     {
-      IsScreenshotCaptured = false;
-      _coroutineRunner.StartCoroutine(Coroutine());
+      _coroutineRunner.StartCoroutine(Coroutine(onMake));
     }
 
-    private IEnumerator Coroutine()
+    private IEnumerator Coroutine(Action onMake)
     {
       yield return new WaitForEndOfFrame();
       SetPixelsFromRegion();
-      IsScreenshotCaptured = true;
+      onMake.Invoke();
     }
 
     private void SetPixelsFromRegion()
     {
-      Rect pixelsRegion = new(0, 0, Screen.width, Screen.height);
+      Rect pixelsRegion = CalculatePixelsRegion();
       ScreenshotTexture.ReadPixels(pixelsRegion, 0, 0, false);
       ScreenshotTexture.Apply();
+    }
+
+    private Rect CalculatePixelsRegion()
+    {
+      Vector3 platformMax = _camera.WorldToScreenPoint(_platformBounds.max);
+      Vector3 platformMin = _camera.WorldToScreenPoint(_platformBounds.min);
+      platformMax.y -= _deltaY;
+      Debug.Log($"platformMax= {platformMax}");
+      Debug.Log($"platformMin= {platformMin}");
+      int minX = Mathf.Clamp((int)platformMin.x, 0, Screen.width);
+      int maxX = Mathf.Clamp((int)platformMax.x, 0, Screen.width);
+      int minY = Mathf.Clamp((int)platformMin.y, 0, Screen.height);
+      int maxY = Mathf.Clamp((int)platformMax.y, 0, Screen.height);
+      maxX -= minX;
+      Debug.Log($"Screen.width={Screen.width}; Screen.height={Screen.height};");
+      Debug.Log($"minX={minX}; maxX={maxX}; minY={minY}; maxY={maxY}; ");
+      ScreenshotTexture = new Texture2D(maxX, maxY+minY, TextureFormat.RGB24, false);
+      Rect pixelsRegion = new(minX, minY, maxX, maxY+minY);
+      return pixelsRegion;
     }
   }
 }

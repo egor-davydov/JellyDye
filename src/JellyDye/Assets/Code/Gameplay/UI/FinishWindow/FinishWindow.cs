@@ -15,6 +15,7 @@ namespace Code.Gameplay.UI.FinishWindow
   {
     [SerializeField] private NextSkinProgressBar _nextSkinProgressBar;
     [SerializeField] private RawImage _yourResultImage;
+    [SerializeField] private RawImage _shouldBeImage;
     [SerializeField] private TextMeshProUGUI _percentageText;
     [SerializeField] private Transform _textTransform;
     [SerializeField] private float _percentageIncreaseTime;
@@ -28,11 +29,14 @@ namespace Code.Gameplay.UI.FinishWindow
     private Tween _scaleTween;
     private ScreenshotService _screenshotService;
     private ProgressService _progressService;
+    private StaticDataService _staticDataService;
 
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
-      GreenButtonFactory greenButtonFactory, ScreenshotService screenshotService, ProgressService progressService)
+      GreenButtonFactory greenButtonFactory, ScreenshotService screenshotService, ProgressService progressService,
+      StaticDataService staticDataService)
     {
+      _staticDataService = staticDataService;
       _progressService = progressService;
       _screenshotService = screenshotService;
       _greenButtonFactory = greenButtonFactory;
@@ -42,6 +46,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private void Awake()
     {
       _yourResultImage.texture = _screenshotService.ScreenshotTexture;
+      _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressService.Progress.CurrentLevel].TargetTextureWithGround;
       StartCoroutine(PercentageIncrease());
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
     }

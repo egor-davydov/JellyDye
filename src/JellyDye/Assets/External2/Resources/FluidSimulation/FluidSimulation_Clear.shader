@@ -57,7 +57,7 @@ Shader "FluidSimulation/Clear"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float2 texcoord : TEXCOORD0;
@@ -110,7 +110,7 @@ Shader "FluidSimulation/Clear"
       
       float4 u_xlat10_0;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat10_0 = texture2D(_uTexture, in_f.texcoord.xy);

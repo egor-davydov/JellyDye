@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Code.StaticData;
 using Fluxy;
 using UnityEngine;
@@ -12,6 +13,9 @@ namespace Code.Services
     private StaticDataService _staticDataService;
     private FluxyContainer[] _fluxyContainers;
 
+#if UNITY_EDITOR
+    private Dictionary<Color, int> colors = new();
+#endif
     private static readonly Color ClearColor = new(0, 0, 0, 0);
 
     [Inject]
@@ -92,8 +96,14 @@ namespace Code.Services
         }
 
         Color pixelColor = fluxyTexture.GetPixel(x, y);
-        if (pixelColor != ClearColor && pixelColor.a > 0.8f)
+        if (pixelColor != ClearColor)
         {
+#if UNITY_EDITOR
+          if (!colors.ContainsKey(pixelColor))
+            colors.Add(pixelColor, 1);
+          else
+            colors[pixelColor]++;
+#endif
           // if (jellyConfig.Mesh.name == "topM")
           //   Debug.Log($"pixelColor= {pixelColor}");
           if (VectorsAlmostSame(Abs(pixelColor - jellyConfig.TargetColor), Vector4.one * 0.27f))
@@ -101,7 +111,23 @@ namespace Code.Services
         }
       }
 
-      Debug.Log($"name={jellyConfig.Mesh.name}; percentage= {(float)paintedPixelsCount/shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
+#if UNITY_EDITOR
+      int maxColorsCount = 0;
+      Color maxColorsCountColor = ClearColor;
+      foreach (KeyValuePair<Color, int> keyValuePair in colors)
+      {
+        if (keyValuePair.Value > 100)
+          Debug.Log($"color={keyValuePair.Key};count={keyValuePair.Value};");
+        if (keyValuePair.Value > maxColorsCount)
+        {
+          maxColorsCount = keyValuePair.Value;
+          maxColorsCountColor = keyValuePair.Key;
+        }
+      }
+
+      Debug.Log($"name={jellyConfig.Mesh.name}; percentage= {(float)paintedPixelsCount / shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
+      Debug.Log($"maxColorsCountColor={maxColorsCountColor};TargetColor={jellyConfig.TargetColor}; maxColorsCount= {maxColorsCount};");
+#endif
 
       return new Vector2Int(paintedPixelsCount, shouldPaintedPixelsCount);
     }
@@ -120,7 +146,7 @@ namespace Code.Services
     private Texture2D ConvertToTexture2D(RenderTexture renderTexture)
     {
       RenderTexture oldTexture = RenderTexture.active;
-      Texture2D texture2D = new Texture2D(512, 512, TextureFormat.RGBA32, false);
+      Texture2D texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
       RenderTexture.active = renderTexture;
       texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
       texture2D.Apply();

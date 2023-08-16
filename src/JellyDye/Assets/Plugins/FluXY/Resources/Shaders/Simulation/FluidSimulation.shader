@@ -453,7 +453,7 @@
 
             HLSLPROGRAM
            
-            struct appdata
+            struct MeshData
             {
                 float4 vertex : POSITION;
                 float4 normal : NORMAL;
@@ -461,16 +461,16 @@
                 float2 uv : TEXCOORD0;
             };
 
-            struct v2f
+            struct Interpolators
             {
                 float2 uv : TEXCOORD0;
                 half3x3 worldToTangent : TEXCOORD1; 
                 float4 vertex : SV_POSITION;
             }; 
             
-            v2f vert (appdata v)
+            Interpolators vert (MeshData v)
             {
-                v2f o;
+                Interpolators o;
                 o.uv = v.uv;
                 o.vertex = mul(UNITY_MATRIX_P, float4(v.uv.xy,0,1));
                 o.vertex.xy = VertexToTile(o.vertex.xy,_TileIndex);
@@ -505,7 +505,7 @@
 
             float _DeltaTime;
            
-            float4 frag (v2f i) : SV_Target
+            float4 frag (Interpolators i) : SV_Target
             {
                 float2 uv = TileToUV(i.uv,_TileIndex);
                 float2 offset = _MainTex_TexelSize.xy;

@@ -219,7 +219,7 @@ namespace Fluxy
                     }
                 case FluidTexturePrecision.Fixed:
                 default:
-                    return 4;
+                    return 16;
             }
         }
 

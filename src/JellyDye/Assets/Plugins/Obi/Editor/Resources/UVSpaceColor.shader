@@ -13,23 +13,23 @@
 			
 			#include "UnityCG.cginc"
 
-			struct appdata
+			struct MeshData
 			{
 				float4 vertex : POSITION;
                 fixed4 color    : COLOR;
 				float2 uv : TEXCOORD0;
 			};
 
-			struct v2f
+			struct Interpolators
 			{
 				float2 uv : TEXCOORD0;
                 fixed4 color    : COLOR;
 				float4 vertex : SV_POSITION;
 			};
 			
-			v2f vert (appdata v)
+			Interpolators vert (MeshData v)
 			{
-				v2f o;
+				Interpolators o;
                 o.uv = v.uv;
                 o.vertex = float4(v.uv.xy,0,1);
 				o.vertex = UnityObjectToClipPos(float4(v.uv,0,1));
@@ -37,7 +37,7 @@
 				return o;
 			}
 			
-			fixed4 frag (v2f i) : SV_Target
+			fixed4 frag (Interpolators i) : SV_Target
 			{
 				return i.color;
 			}

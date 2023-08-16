@@ -97,7 +97,7 @@ Shader "Obi/Particles"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float4 color : COLOR0;
@@ -464,7 +464,7 @@ Shader "Obi/Particles"
       
       float u_xlat12_d;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat0_d.x = dot(in_f.texcoord.xy, in_f.texcoord.xy);
@@ -613,7 +613,7 @@ Shader "Obi/Particles"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float4 color : COLOR0;
@@ -890,7 +890,7 @@ Shader "Obi/Particles"
       
       float u_xlat6_d;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           float4 hlslcc_FragCoord = float4(gl_FragCoord.xyz, 1.0/gl_FragCoord.w);

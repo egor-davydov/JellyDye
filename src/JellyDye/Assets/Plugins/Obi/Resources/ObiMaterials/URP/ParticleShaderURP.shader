@@ -45,7 +45,7 @@ Properties {
 			    float4 t2 : TEXCOORD2; // ellipsoid t3 vector
 			};
 			
-			struct v2f
+			struct Interpolators
 			{
 				float4 pos   : SV_POSITION;
 				float4 color    : COLOR;
@@ -62,7 +62,7 @@ Properties {
                 float depth : SV_Depth;
             };
 
-			v2f vert(vin v)
+			Interpolators vert(vin v)
 			{ 
 				float3x3 P, IP;
 				BuildParameterSpaceMatrices(v.t0,v.t1,v.t2,P,IP);
@@ -72,7 +72,7 @@ Properties {
 				float3 eye;
 				float radius = BuildEllipsoidBillboard(v.vertex,v.corner,P,IP,worldPos,view,eye);
 			
-				v2f o;
+				Interpolators o;
 				o.pos = mul(UNITY_MATRIX_VP, float4(worldPos,v.vertex.w));
 				o.mapping = float4(v.corner.xy,1/length(eye),radius); // A[1]
 				o.viewRay = mul((float3x3)UNITY_MATRIX_V,view); 	  // A[0]
@@ -85,7 +85,7 @@ Properties {
 				return o;
 			}
 
-			fout frag(v2f i) 
+			fout frag(Interpolators i) 
 			{
 				fout fo;
 
@@ -160,7 +160,7 @@ Properties {
 			    float4 t2 : TEXCOORD2; // ellipsoid t3 vector
 			};
 			
-			struct v2f {
+			struct Interpolators {
 				float4 color    : COLOR;
 				float4 mapping  : TEXCOORD0;
 				float3 viewRay : TEXCOORD1;
@@ -175,7 +175,7 @@ Properties {
                 float depth : SV_Depth;
             };
 
-			v2f ellipsoidShadowVS( vin v , out float4 outpos : SV_POSITION )// clip space position output
+			Interpolators ellipsoidShadowVS( vin v , out float4 outpos : SV_POSITION )// clip space position output
 			{
 				float3x3 P, IP;
 				BuildParameterSpaceMatrices(v.t0,v.t1,v.t2,P,IP);
@@ -185,7 +185,7 @@ Properties {
 				float3 eye;
 				float radius = BuildEllipsoidBillboard(v.vertex,v.corner,P,IP,worldPos,view,eye);
 			
-				v2f o;
+				Interpolators o;
 				outpos = mul(UNITY_MATRIX_VP, float4(worldPos,v.vertex.w));
 				o.mapping = float4(v.corner.xy,1/length(eye),radius); // A[1]
 				o.viewRay = mul((float3x3)UNITY_MATRIX_V,view); 	  // A[0]
@@ -197,7 +197,7 @@ Properties {
 				return o;
 			}
          			 
-			fout frag( v2f i ) 
+			fout frag( Interpolators i ) 
 			{
 				fout fo;
 

@@ -8,8 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Platform
-  m_Shader: {fileID: 4800000, guid: ccfc7d68845db8341944b3091b59be55, type: 3}
-  m_ValidKeywords: []
+  m_Shader: {fileID: 4800000, guid: a6da473b89caeb1409bac856668af764, type: 3}
+  m_ValidKeywords:
+  - TCP2_SPEC_TOON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -75,14 +76,17 @@ Material:
     - _Parallax: 0.02
     - _RampSmooth: 0.1
     - _RampThreshold: 0.5
+    - _Shininess: 0.06
     - _SmoothnessTextureChannel: 0
+    - _SpecSmooth: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.9056604, g: 0.69254464, b: 0.5416874, a: 1}
+    - _Color: {r: 0.30723697, g: 0.26844075, b: 0.31132078, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HColor: {r: 0.7735849, g: 0.65152633, b: 0.44809538, a: 1}
-    - _SColor: {r: 0.4245283, g: 0.39208794, b: 0.33802065, a: 1}
+    - _HColor: {r: 0.9150943, g: 0.790634, b: 0.58186185, a: 1}
+    - _SColor: {r: 0.42452824, g: 0.39208788, b: 0.3380206, a: 0.2901961}
+    - _SpecColor: {r: 0.81960785, g: 0.6071573, b: 0.4745098, a: 1}
   m_BuildTextureStacks: []

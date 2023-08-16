@@ -18,13 +18,13 @@
 			
 			#include "UnityCG.cginc"
 
-			struct appdata
+			struct MeshData
 			{
 				float4 vertex : POSITION;
 				float4 color : COLOR;
 			};
 
-			struct v2f
+			struct Interpolators
 			{
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
@@ -33,16 +33,16 @@
 
 			float4 _Color;
 			
-			v2f vert (appdata v)
+			Interpolators vert (MeshData v)
 			{
-				v2f o;
+				Interpolators o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = v.color;
 				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
 			}
 			
-			fixed4 frag (v2f i) : SV_Target
+			fixed4 frag (Interpolators i) : SV_Target
 			{
 				float4 col = i.color * _Color;
 				UNITY_APPLY_FOG_COLOR(i.fogCoord, col, float4(col.rgb, 0));

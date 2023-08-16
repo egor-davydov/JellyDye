@@ -59,7 +59,7 @@ Shader "FluidSimulation/GradientSubstract"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float2 texcoord : TEXCOORD0;
@@ -118,7 +118,7 @@ Shader "FluidSimulation/GradientSubstract"
       
       float2 u_xlat2;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat0_d.xw = _texelSize.xy;

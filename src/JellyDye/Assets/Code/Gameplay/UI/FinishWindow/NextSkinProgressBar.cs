@@ -61,6 +61,9 @@ namespace Code.Gameplay.UI.FinishWindow
 
     public void IncreaseProgress(float quantity)
     {
+      if (AllSkinsUnlocked())
+        return;
+      
       if (_progressImage.fillAmount + quantity < 1)
       {
         _finalFillAmount = _progressImage.fillAmount + quantity;

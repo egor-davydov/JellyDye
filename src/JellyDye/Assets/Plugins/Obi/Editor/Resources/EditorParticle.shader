@@ -15,7 +15,7 @@
          
             #include "UnityCG.cginc"
  
-            struct appdata
+            struct MeshData
             {
                 float4 vertex : POSITION;
                 float3 corner   : NORMAL;
@@ -23,16 +23,16 @@
                 float4 t0 : TEXCOORD0; // ellipsoid t1 vector
             };
  
-            struct v2f
+            struct Interpolators
             {
                 float4 pos : SV_POSITION;
                 fixed4 color    : COLOR;
                 float2 texcoord : TEXCOORD0;
             };
          
-            v2f vert (appdata v)
+            Interpolators vert (MeshData v)
             {
-                v2f o;
+                Interpolators o;
                 
                 // particle positions are passed in world space, no need to use modelview matrix, just view.
                 float radius = v.t0.w * distance(mul(unity_ObjectToWorld, v.vertex), _WorldSpaceCameraPos);
@@ -45,7 +45,7 @@
                 return o;
             }
  
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag (Interpolators i) : SV_Target
             {
                 // antialiased circle:
                 float dist = length(i.texcoord);

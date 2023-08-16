@@ -82,7 +82,7 @@ Shader "Obi/Simple Particles"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float4 color : COLOR0;
@@ -197,7 +197,7 @@ Shader "Obi/Simple Particles"
       
       int u_xlatb3;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat0_d.xy = in_f.texcoord.xy * float2(2.0, 2.0) + float2(-1.0, -1.0);
@@ -302,7 +302,7 @@ Shader "Obi/Simple Particles"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float3 texcoord : TEXCOORD0;
@@ -371,7 +371,7 @@ Shader "Obi/Simple Particles"
       
       int u_xlatb0;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat0_d.xy = in_f.texcoord.xy * float2(2.0, 2.0) + float2(-1.0, -1.0);

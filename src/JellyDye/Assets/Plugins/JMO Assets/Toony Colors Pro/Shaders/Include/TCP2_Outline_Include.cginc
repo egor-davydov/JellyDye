@@ -23,7 +23,7 @@
 #endif
     }; 
 	
-	struct v2f
+	struct Interpolators
 	{
 		float4 pos : SV_POSITION;
 	#if TCP2_OUTLINE_TEXTURED
@@ -43,9 +43,9 @@
 
 #endif
 
-v2f TCP2_Outline_Vert(a2v v)
+Interpolators TCP2_Outline_Vert(a2v v)
 {
-	v2f o;
+	Interpolators o;
 	
 #if UNITY_VERSION >= 550
 	//GPU instancing support
@@ -130,7 +130,7 @@ v2f TCP2_Outline_Vert(a2v v)
 	return o;
 }
 
-float4 TCP2_Outline_Frag (v2f IN) : COLOR
+float4 TCP2_Outline_Frag (Interpolators IN) : COLOR
 {
 #if TCP2_OUTLINE_TEXTURED
 	return float4(IN.texlod, 1) * _OutlineColor;

@@ -10,7 +10,7 @@ Shader "Toony Colors Pro 2/Mobile"
 		//TOONY COLORS
 		_Color ("Color", Color) = (1,1,1,1)
 		_HColor ("Highlight Color", Color) = (0.785,0.785,0.785,1.0)
-		_SColor ("Shadow Color", Color) = (0.195,0.195,0.195,1.0)
+		_SColor ("Shadow Color", Color) = (0.195,0.195,0.195,0.3)
 		
 		//DIFFUSE
 		_MainTex ("Main Texture (RGB) Spec/MatCap Mask (A) ", 2D) = "white" {}

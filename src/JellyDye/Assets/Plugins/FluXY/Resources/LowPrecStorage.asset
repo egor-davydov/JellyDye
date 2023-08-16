@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07febf57df48148a3a4551707674e816, type: 3}
   m_Name: LowPrecStorage
   m_EditorClassIdentifier: 
-  memoryBudget: 32
+  memoryBudget: 512
   densityPrecision: 2
-  velocityPrecision: 1
+  velocityPrecision: 0

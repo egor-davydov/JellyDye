@@ -11,12 +11,17 @@ namespace Code.Gameplay.Syringe
     private Vector3 _offset;
     private Camera _camera;
     private Vector3 _delta;
+    private Vector3 _worldToScreenPoint;
 
     private void Start() =>
       _camera = Camera.main;
 
     private void Update()
     {
+      // Vector3 prev = _worldToScreenPoint;
+      // _worldToScreenPoint = _camera.WorldToScreenPoint(GetMouseWorldPosition());
+      // if(_worldToScreenPoint != prev)
+      // Debug.Log(_worldToScreenPoint);
       if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
       {
         _delta = transform.position - GetMouseWorldPosition();

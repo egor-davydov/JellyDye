@@ -26,7 +26,7 @@
 				float2 texcoord  : TEXCOORD0;
 			};
 
-            struct v2f {
+            struct Interpolators {
                 float4 pos: POSITION;
                 fixed4 color    : COLOR;
 			   float2 texcoord  : TEXCOORD0;
@@ -37,15 +37,15 @@
             fixed4 _InsideColor;
             fixed4 _OutsideColor;
 
-            v2f vert(vin v) {
-                v2f o;
+            Interpolators vert(vin v) {
+                Interpolators o;
                 o.pos = UnityObjectToClipPos (v.vertex);
                 o.texcoord = v.texcoord;
 			   o.color = v.color;
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target {
+            fixed4 frag(Interpolators i) : SV_Target {
                 
                 float2 centered = i.texcoord * 2 - 1;
                 float square = max(abs(centered.x), abs(centered.y)) - 0.05f/(2.0*1.4142);
