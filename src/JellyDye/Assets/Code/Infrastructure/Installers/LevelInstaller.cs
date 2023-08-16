@@ -9,9 +9,14 @@ namespace Code.Infrastructure.Installers
   {
     [SerializeField] private LevelCamera _levelCamera;
     [SerializeField] private MeshFilter _meshFilter;
+    [Header("Parents")]
+    [SerializeField] private Transform _otherParent;
+    [SerializeField] private Transform _gameplayParent;
+    [SerializeField] private Transform _uiParent;
     
     private CameraService _cameraService;
     private ScreenshotService _screenshotService;
+    private ParentsProvider _parentsProvider;
 
     public override void InstallBindings()
     {
@@ -19,8 +24,9 @@ namespace Code.Infrastructure.Installers
     }
 
     [Inject]
-    public void Construct(CameraService cameraService, ScreenshotService screenshotService)
+    public void Construct(CameraService cameraService, ScreenshotService screenshotService, ParentsProvider parentsProvider)
     {
+      _parentsProvider = parentsProvider;
       _screenshotService = screenshotService;
       _cameraService = cameraService;
     }
@@ -29,6 +35,7 @@ namespace Code.Infrastructure.Installers
     {
       _screenshotService.Initialize(_meshFilter.sharedMesh, _levelCamera.Camera);
       _cameraService.Initialize(_levelCamera);
+      _parentsProvider.Initialize(_otherParent, _gameplayParent, _uiParent);
     }
   }
 }

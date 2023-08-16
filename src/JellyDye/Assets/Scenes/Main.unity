@@ -634,6 +634,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelCamera: {fileID: 330474153}
   _meshFilter: {fileID: 223867959}
+  _otherParent: {fileID: 503041966}
+  _gameplayParent: {fileID: 1193314341}
+  _uiParent: {fileID: 1018715314}
 --- !u!1 &1559713335
 GameObject:
   m_ObjectHideFlags: 0
