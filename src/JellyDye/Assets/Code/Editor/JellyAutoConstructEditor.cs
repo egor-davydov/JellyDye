@@ -46,10 +46,10 @@ namespace Code.Editor
       staticDataService.Initialize();
       FluxyContainer[] fluxyContainers = jellyAutoConstruct.GetComponentsInChildren<FluxyContainer>();
       SkinnedMeshRenderer[] skinnedMeshRenderers = jellyAutoConstruct.GetComponentsInChildren<SkinnedMeshRenderer>();
-      if (GUILayout.Button("Set clear color"))
+      if (GUILayout.Button("Set target color"))
       {
         foreach (FluxyContainer fluxyContainer in fluxyContainers) 
-          fluxyContainer.clearColor = staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh).TargetColor;
+          fluxyContainer.GetComponentInChildren<FluxyTarget>().color = staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh).TargetColor;
       }
       if (GUILayout.Button("Delete clear texture"))
       {

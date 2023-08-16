@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.IO;
 using System.Linq;
 using Code.Gameplay.Hud.PaintChange;
 using Code.Gameplay.Logic;
@@ -109,9 +110,15 @@ namespace Code.Helpers
       if (++_currentJellyCount < _levelsCount)
       {
         Destroy(FindObjectOfType<JellyAutoConstruct>().gameObject);
-        _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
-        TakeScreenshot();
+        GameObject jelly = _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
+        StartCoroutine(WaitColorSet(jelly.GetComponentInChildren<SetTargetColorFromClearColor>()));
       }
+    }
+
+    private IEnumerator WaitColorSet(SetTargetColorFromClearColor setTargetColorFromClearColor)
+    {
+      yield return new WaitForEndOfFrame();
+      TakeScreenshot();
     }
 
     private void WriteScreenshotOnDisk(LevelConfig[] levelConfigs)

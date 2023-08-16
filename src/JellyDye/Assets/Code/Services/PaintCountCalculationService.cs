@@ -16,7 +16,7 @@ namespace Code.Services
 #if UNITY_EDITOR
     private Dictionary<Color, int> colors = new();
 #endif
-    private static readonly Color ClearColor = new(0, 0, 0, 0);
+    private static readonly Color ClearColor = new (0, 0, 0, 0);
 
     [Inject]
     public void Construct(StaticDataService staticDataService) =>
@@ -106,7 +106,7 @@ namespace Code.Services
 #endif
           // if (jellyConfig.Mesh.name == "topM")
           //   Debug.Log($"pixelColor= {pixelColor}");
-          if (VectorsAlmostSame(Abs(pixelColor - jellyConfig.TargetColor), Vector4.one * 0.27f))
+          if (VectorsAlmostSame(Abs(pixelColor - jellyConfig.TargetColor), Vector4.one * 0.4f))
             paintedPixelsCount++;
         }
       }
