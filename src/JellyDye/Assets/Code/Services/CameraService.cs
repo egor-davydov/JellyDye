@@ -38,6 +38,20 @@ namespace Code.Services
       return _moveTween;
     }
 
+    public void ShowPhotoFlash(Action onFlashEnd = null)
+    {
+      _coroutineRunner.StartCoroutine(ShowFlash(onFlashEnd));
+    }
+
+    private IEnumerator ShowFlash(Action onFlashEnd)
+    {
+      GameObject flashObject = _levelCamera.FlashLight.gameObject;
+      flashObject.SetActive(true);
+      yield return new WaitForSeconds(_levelCamera.FlashDuration);
+      flashObject.SetActive(false);
+      onFlashEnd?.Invoke();
+    }
+
     private IEnumerator ResizeCamera()
     {
       float currentTime = 0;
@@ -47,7 +61,7 @@ namespace Code.Services
           _levelCamera.Camera.orthographicSize,
           _levelCamera.TargetSize,
           currentTime / _levelCamera.MovingTime);
-        
+
         currentTime += Time.deltaTime;
         yield return null;
       }

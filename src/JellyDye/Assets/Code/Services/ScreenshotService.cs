@@ -30,16 +30,16 @@ namespace Code.Services
       ScreenshotTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
     }
 
-    public void TakeScreenshot(Action onMake)
+    public void TakeScreenshot(Action onTake)
     {
-      _coroutineRunner.StartCoroutine(Coroutine(onMake));
+      _coroutineRunner.StartCoroutine(WaitRender(onTake));
     }
 
-    private IEnumerator Coroutine(Action onMake)
+    private IEnumerator WaitRender(Action onTake)
     {
       yield return new WaitForEndOfFrame();
       SetPixelsFromRegion();
-      onMake.Invoke();
+      onTake.Invoke();
     }
 
     private void SetPixelsFromRegion()

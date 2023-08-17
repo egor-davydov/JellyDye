@@ -47,17 +47,16 @@ namespace Code.Services
     {
       Object.Destroy(_hudObject);
       Object.Destroy(_syringeObject);
-      _cameraService.MoveToFinish().OnComplete(OnMoveDone);
+      _cameraService.MoveToFinish().OnComplete(ShowPhotoFlash);
     }
 
-    private void OnMoveDone()
-    {
-      _screenshotService.TakeScreenshot(OnMake);
-    }
+    private void ShowPhotoFlash() => 
+      _cameraService.ShowPhotoFlash(onFlashEnd: TakeScreenshot);
 
-    private void OnMake()
-    {
+    private void TakeScreenshot() => 
+      _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
+
+    private void CreateFinishWindow() => 
       _windowFactory.CreateFinishWindow();
-    }
   }
 }

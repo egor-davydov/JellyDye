@@ -1,10 +1,11 @@
-﻿using Code.Infrastructure;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.Gameplay.Logic
 {
-  public class LevelCamera : MonoBehaviour, ICoroutineRunner
+  public class LevelCamera : MonoBehaviour
   {
+    [field: SerializeField] public float FlashDuration { get; private set; }
+    [field: SerializeField] public Light FlashLight { get; private set; }
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector3 _finishPosition;
     [SerializeField] private Vector3 _finishRotation;

@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 8603833194047550631}
   - component: {fileID: 7750115445742751037}
   m_Layer: 5
-  m_Name: Photo
+  m_Name: ScreenshotFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -18,6 +18,7 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private RawImage _shouldBeImage;
     [SerializeField] private TextMeshProUGUI _percentageText;
     [SerializeField] private Transform _textTransform;
+    [SerializeField] private float _appearanceAnimationDuration;
     [SerializeField] private float _percentageIncreaseTime;
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
@@ -45,10 +46,21 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void Awake()
     {
-      _yourResultImage.texture = _screenshotService.ScreenshotTexture;
       _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressService.Progress.CurrentLevel].TargetTextureWithGround;
+      _yourResultImage.texture = _screenshotService.ScreenshotTexture;
+      AppearanceAnimation(StartWindowAnimations);
+    }
+
+    private void StartWindowAnimations()
+    {
       StartCoroutine(PercentageIncrease());
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
+    }
+
+    private void AppearanceAnimation(Action onEnd)
+    {
+      transform.localScale = Vector3.zero;
+      transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
     }
 
     private void OnDestroy()
