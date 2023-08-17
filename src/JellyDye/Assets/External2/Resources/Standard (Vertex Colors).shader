@@ -104,7 +104,7 @@ Shader "Standard (Vertex Colors)"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float2 texcoord : TEXCOORD0;
@@ -217,7 +217,7 @@ Shader "Standard (Vertex Colors)"
       
       float u_xlat16_29;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat0_d.xyz = (-in_f.texcoord2.xyz) + _WorldSpaceCameraPos.xyz;
@@ -422,7 +422,7 @@ Shader "Standard (Vertex Colors)"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float2 texcoord : TEXCOORD0;
@@ -529,7 +529,7 @@ Shader "Standard (Vertex Colors)"
       
       float u_xlat16_18;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat0_d.xyz = (-in_f.texcoord2.xyz) + _WorldSpaceCameraPos.xyz;
@@ -692,7 +692,7 @@ Shader "Standard (Vertex Colors)"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float2 texcoord : TEXCOORD0;
@@ -781,7 +781,7 @@ Shader "Standard (Vertex Colors)"
       
       float3 u_xlat16_2;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat10_0.xyz = texture2D(_MainTex, in_f.texcoord.xy).xyz;

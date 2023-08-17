@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storage: {fileID: 11400000, guid: 554ccaf57177e4e3483d0bec03c75e34, type: 2}
-  desiredResolution: 256
+  desiredResolution: 512
   densitySupersampling: 2
   disposeWhenCulled: 0
   readable: 0
@@ -112,8 +112,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0391502, y: 0.026282348, z: 1.1264619}
-  m_Center: {x: -0.019575119, y: 0.010127142, z: -0.06323093}
+  m_Size: {x: 1.0391502, y: 0.041085538, z: 1.2846867}
+  m_Center: {x: -0.019575119, y: 0.017528737, z: -0.1072498}
 --- !u!1 &1322723377533583568
 GameObject:
   m_ObjectHideFlags: 0

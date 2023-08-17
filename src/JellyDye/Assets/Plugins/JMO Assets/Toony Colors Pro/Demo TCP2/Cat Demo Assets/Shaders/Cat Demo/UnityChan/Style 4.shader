@@ -80,7 +80,7 @@ Shader "Toony Colors Pro 2/Examples/Cat Demo/UnityChan/Style 4"
 	#endif
 		};
 
-		struct v2f
+		struct Interpolators
 		{
 			float4 pos : SV_POSITION;
 	#if TCP2_OUTLINE_TEXTURED
@@ -100,9 +100,9 @@ Shader "Toony Colors Pro 2/Examples/Cat Demo/UnityChan/Style 4"
 
 		#define OUTLINE_WIDTH _Outline
 
-		v2f TCP2_Outline_Vert(a2v v)
+		Interpolators TCP2_Outline_Vert(a2v v)
 		{
-			v2f o;
+			Interpolators o;
 
 	#if UNITY_VERSION >= 550
 			//GPU instancing support
@@ -166,7 +166,7 @@ Shader "Toony Colors Pro 2/Examples/Cat Demo/UnityChan/Style 4"
 
 		#define OUTLINE_COLOR _OutlineColor
 
-		float4 TCP2_Outline_Frag (v2f IN) : SV_Target
+		float4 TCP2_Outline_Frag (Interpolators IN) : SV_Target
 		{
 	#if TCP2_OUTLINE_TEXTURED
 			return float4(IN.texlod, 1) * OUTLINE_COLOR;

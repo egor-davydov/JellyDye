@@ -33,7 +33,7 @@ Shader "Toony Colors Pro 2/Examples/3D Text with Sorting" {
 			#endif
 			};
 
-			struct v2f {
+			struct Interpolators {
 				float4 vertex : SV_POSITION;
 				fixed4 color : COLOR;
 				float2 texcoord : TEXCOORD0;
@@ -46,9 +46,9 @@ Shader "Toony Colors Pro 2/Examples/3D Text with Sorting" {
 			uniform float4 _MainTex_ST;
 			uniform fixed4 _Color;
 
-			v2f vert (appdata_t v)
+			Interpolators vert (appdata_t v)
 			{
-				v2f o;
+				Interpolators o;
 			#if UNITY_VERSION >= 550
 				UNITY_SETUP_INSTANCE_ID(v);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
@@ -59,7 +59,7 @@ Shader "Toony Colors Pro 2/Examples/3D Text with Sorting" {
 				return o;
 			}
 
-			fixed4 frag (v2f i) : SV_Target
+			fixed4 frag (Interpolators i) : SV_Target
 			{
 				fixed4 col = i.color;
 				col.a *= tex2D(_MainTex, i.texcoord).a;

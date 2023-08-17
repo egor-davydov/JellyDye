@@ -25,16 +25,16 @@
             float4 _MainTex_TexelSize;
             float4 _Noise_TexelSize;
 
-            struct v2f
+            struct Interpolators
             {
                 float2 uv : TEXCOORD0;
                 float2 tileuv : TEXCOORD1;
                 float4 vertex : SV_POSITION;
             }; 
 
-            v2f vert (appdata_lean v)
+            Interpolators vert (appdata_lean v)
             {
-                v2f o;
+                Interpolators o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.vertex.xy = VertexToSplat(o.vertex.xy,_TileIndex);
                 o.uv = v.uv;
@@ -60,7 +60,7 @@
 
             float4 _DensityNoiseParams;
 
-            float4 frag (v2f i) : SV_Target
+            float4 frag (Interpolators i) : SV_Target
             {
                 int tile = GetTileID(i.tileuv);
                 if (tile != _TileIndex) discard;
@@ -88,7 +88,7 @@
             float _AngularVelocity;
             float4 _VelocityNoiseParams;
 
-            float4 frag (v2f i) : SV_Target
+            float4 frag (Interpolators i) : SV_Target
             {            
                 int tile = GetTileID(i.tileuv);
                 if (tile != _TileIndex) discard;

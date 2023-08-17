@@ -63,7 +63,7 @@ Shader "FluidSimulation/Advect"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float2 texcoord : TEXCOORD0;
@@ -120,7 +120,7 @@ Shader "FluidSimulation/Advect"
       
       float u_xlat1_d;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat10_0.xy = texture2D(_uVelocity, in_f.texcoord.xy).xy;

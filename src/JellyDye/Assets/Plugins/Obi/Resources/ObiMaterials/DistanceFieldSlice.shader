@@ -19,13 +19,13 @@
 			
 			#include "UnityCG.cginc"
 
-			struct appdata
+			struct MeshData
 			{
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
 			};
 
-			struct v2f
+			struct Interpolators
 			{
 				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
@@ -34,15 +34,15 @@
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			
-			v2f vert (appdata v)
+			Interpolators vert (MeshData v)
 			{
-				v2f o;
+				Interpolators o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				return o;
 			}
 			
-			half4 frag (v2f i) : SV_Target
+			half4 frag (Interpolators i) : SV_Target
 			{
 				half dist = tex2D(_MainTex, i.uv).x-0.5; // signed distance
 				half adist = abs(dist);					 // absolute distance

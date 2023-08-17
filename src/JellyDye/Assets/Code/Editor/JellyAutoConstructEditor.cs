@@ -1,6 +1,8 @@
-﻿using Code.Gameplay;
+﻿using System.Linq;
+using Code.Gameplay;
 using Code.Gameplay.Logic;
 using Code.Helpers;
+using Code.Services;
 using Fluxy;
 using Obi;
 using UnityEditor;
@@ -39,7 +41,33 @@ namespace Code.Editor
         fluxyContainer.solver = parentGameObject.GetComponentInChildren<FluxySolver>();
         EditorGUIUtility.ExitGUI();
       }
+
+      StaticDataService staticDataService = new StaticDataService();
+      staticDataService.Initialize();
+      FluxyContainer[] fluxyContainers = jellyAutoConstruct.GetComponentsInChildren<FluxyContainer>();
+      SkinnedMeshRenderer[] skinnedMeshRenderers = jellyAutoConstruct.GetComponentsInChildren<SkinnedMeshRenderer>();
+      if (GUILayout.Button("Set target color"))
+      {
+        foreach (FluxyContainer fluxyContainer in fluxyContainers) 
+          fluxyContainer.GetComponentInChildren<FluxyTarget>().color = staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh).TargetColor;
+      }
+      if (GUILayout.Button("Delete clear texture"))
+      {
+        foreach (FluxyContainer fluxyContainer in fluxyContainers)
+          PrefabUtility.RevertObjectOverride(fluxyContainer.clearTexture, InteractionMode.AutomatedAction);
+      }
       DrawPropertiesExcluding(serializedObject, "m_Script");
+      if (GUILayout.Button("Center meshes"))
+      {
+        foreach (FluxyContainer fluxyContainer in fluxyContainers)
+        {
+          Mesh customMesh = fluxyContainer.customMesh;
+          Vector3 containerCenter = customMesh.bounds.center;
+          Vector3 transformLocalPosition = fluxyContainer.transform.localPosition;
+          fluxyContainer.transform.localPosition = containerCenter;
+          Debug.Log($"name= {customMesh.name}; wasPosition= {transformLocalPosition}; containerCenter= {containerCenter};");
+        }
+      }
 
       // Apply changes to the serializedProperty
       if (GUI.changed)

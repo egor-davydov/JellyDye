@@ -85,7 +85,7 @@ Shader "Custom/RadialFill"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float4 color : COLOR0;
@@ -174,7 +174,7 @@ Shader "Custom/RadialFill"
       
       int u_xlatb7;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat0_d = (-_Arc1) + _Angle;

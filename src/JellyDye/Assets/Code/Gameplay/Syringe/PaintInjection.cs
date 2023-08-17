@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using Code.Gameplay.Hud;
+using Code.Services;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Fluxy;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Gameplay.Syringe
 {
   public class PaintInjection : MonoBehaviour
   {
-    //[SerializeField, Layer] private int _injectableLayer;
+    [SerializeField] private SyringeMove _syringeMove;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _audioClipReset;
     [SerializeField] private FluxyTarget _fluxyTarget;
@@ -32,7 +34,6 @@ namespace Code.Gameplay.Syringe
     [SerializeField] private float _minLiquidScaleY = 0.01f;
 
     private Vector3 _minPistonPosition;
-
     private Vector3 _injectionStartPosition;
     private Coroutine _paintCoroutine;
     private bool _isMovingBack;
@@ -42,10 +43,16 @@ namespace Code.Gameplay.Syringe
     private Vector2 _startTargetScale;
     private InjectionButton _injectionButton;
     private FluxyContainer _currentContainer;
-    private Tween _tween;
+    private Tween _moveTween;
     private int _injectableLayer;
-    private Vector3 _targetForce;
+    private FinishLevelService _finishLevelService;
 
+    [Inject]
+    public void Construct(FinishLevelService finishLevelService)
+    {
+      _finishLevelService = finishLevelService;
+    }
+    
     public void Initialize(InjectionButton injectionButton)
     {
       _injectionButton = injectionButton;
@@ -63,6 +70,13 @@ namespace Code.Gameplay.Syringe
       _liquidResetScale = _liquidTransform.localScale.y;
     }
 
+    private void OnDestroy()
+    {
+      _injectionButton.OnStartInjection -= OnStartInjection;
+      _injectionButton.OnStopInjection -= OnStopInjection;
+      _moveTween.Kill();
+    }
+
     public void SyringeReset() =>
       StartCoroutine(Reset());
 
@@ -70,18 +84,20 @@ namespace Code.Gameplay.Syringe
     {
       if (_isMovingBack)
         return;
+      _syringeMove.enabled = false;
       Vector3 currentSyringePosition = transform.position;
       _injectionStartPosition = currentSyringePosition;
       TweenerCore<Vector3, Vector3, VectorOptions> moveCloserTween = transform.DOMove(currentSyringePosition + _movingCloserDirection * _movingCloserDistance, _movingCloserTime);
-      _tween = DOTween.Sequence()
+      _moveTween = DOTween.Sequence()
         .Append(moveCloserTween)
         .Append(transform.DOMove(moveCloserTween.endValue - _movingCloserDirection * _movingLittleBackDistance, _movingLittleBackTime))
-        .OnComplete(StartPaint);
+        .OnComplete(TryStartPaint);
     }
 
     private void OnStopInjection()
     {
-      _tween.Kill();
+      _syringeMove.enabled = true;
+      _moveTween.Kill();
       if (_paintCoroutine != null)
       {
         StopCoroutine(_paintCoroutine);
@@ -95,10 +111,13 @@ namespace Code.Gameplay.Syringe
         .OnComplete(() => _isMovingBack = false);
     }
 
-    private void StartPaint()
+    private void TryStartPaint()
     {
-      if (TryStartPainting())
-        _paintCoroutine = StartCoroutine(Painting());
+      if (!CanPainting())
+        return;
+
+      StartPainting();
+      _paintCoroutine = StartCoroutine(Painting());
     }
 
     private IEnumerator Painting()
@@ -124,7 +143,7 @@ namespace Code.Gameplay.Syringe
       }
     }
 
-    private bool TryStartPainting()
+    private bool CanPainting()
     {
       var origin = transform.position + Vector3.up * 0.5f;
       var direction = Vector3.down;
@@ -140,10 +159,22 @@ namespace Code.Gameplay.Syringe
       if (_currentContainer == null)
         return false;
 
-      //Debug.Log("Successful");
+      return true;
+    }
+
+    private void StartPainting()
+    {
+      //Debug.Log("StartPainting");
       _currentContainer.targets.Add(_fluxyTarget);
       _fluxyTarget.enabled = true;
-      return true;
+      if(!_finishLevelService.CanFinish)
+        StartCoroutine(WaitForFirstPaint());
+    }
+
+    private IEnumerator WaitForFirstPaint()
+    {
+      yield return null;
+      _finishLevelService.CheckPaint();
     }
 
     private void StopPainting()

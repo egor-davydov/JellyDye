@@ -63,7 +63,7 @@ Shader "FluidSimulation/SplatVelocity"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float2 texcoord : TEXCOORD0;
@@ -118,7 +118,7 @@ Shader "FluidSimulation/SplatVelocity"
       
       float4 u_xlat10_1;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat0_d.xy = in_f.texcoord.xy + (-_point.xy);

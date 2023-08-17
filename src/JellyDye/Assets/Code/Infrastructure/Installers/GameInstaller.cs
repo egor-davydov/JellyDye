@@ -1,10 +1,10 @@
-﻿using Code.Gameplay.Logic;
-using Code.Infrastructure.States;
+﻿using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
+using Code.Services.Factories.UI;
 using Code.Services.Progress;
-using UnityEngine;
+using Code.Services.Progress.SaveLoad;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
@@ -16,9 +16,9 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
 
       BindServices();
+      BindProgressServices();
       BindStates();
       BindFactories();
-      BindLoadingCurtain();
     }
 
     private void BindFactories()
@@ -27,19 +27,10 @@ namespace Code.Infrastructure.Installers
       Container.Bind<HudFactory>().AsSingle();
       Container.Bind<ColorChangerFactory>().AsSingle();
       Container.Bind<SyringeFactory>().AsSingle();
-      Container.Bind<UIFactory>().AsSingle();
+      Container.Bind<WindowFactory>().AsSingle();
       Container.Bind<LevelButtonFactory>().AsSingle();
       Container.Bind<JelliesFactory>().AsSingle();
-    }
-
-    private void BindLoadingCurtain()
-    {
-      LoadingCurtain loadingCurtain = Container.InstantiatePrefabForComponent<LoadingCurtain>(Resources.Load<GameObject>("LoadingCurtain/LoadingCurtain"));
-      Container
-        .Bind<LoadingCurtain>()
-        .FromInstance(loadingCurtain)
-        .AsSingle();
-      loadingCurtain.Hide();
+      Container.Bind<GreenButtonFactory>().AsSingle();
     }
 
     public void Initialize()
@@ -54,8 +45,18 @@ namespace Code.Infrastructure.Installers
     {
       Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
-      Container.Bind<ProgressService>().AsSingle();
+      Container.Bind<PaintCountCalculationService>().AsSingle();
+      Container.Bind<ParentsProvider>().AsSingle();
+      Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
+    }
+
+    private void BindProgressServices()
+    {
+      Container.Bind<ProgressService>().AsSingle();
+      Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
     }
 
     private void BindStates()

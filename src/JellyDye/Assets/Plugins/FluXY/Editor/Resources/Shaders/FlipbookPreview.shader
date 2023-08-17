@@ -25,13 +25,13 @@
             #include "UnityCG.cginc"
             #include "../../../Resources/Shaders/FluidUtils.hlsl"
 
-            struct appdata
+            struct MeshData
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
             };
 
-            struct v2f
+            struct Interpolators
             {
                 float2 uv : TEXCOORD0;
                 float2 clipUV : TEXCOORD1;
@@ -41,9 +41,9 @@
             float4 _Detail_ST;
             uniform float4x4 unity_GUIClipTextureMatrix;
 
-            v2f vert (appdata v)
+            Interpolators vert (MeshData v)
             {
-                v2f o;
+                Interpolators o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
                 float3 eyePos = UnityObjectToViewPos(v.vertex);
@@ -63,7 +63,7 @@
             int _FrameCount;
             int _Columns;
             
-            float4 frag (v2f i) : SV_Target
+            float4 frag (Interpolators i) : SV_Target
             {
                 float frameDuration = _Duration / _FrameCount;
                 int rows = ceil(_FrameCount / (float)_Columns);

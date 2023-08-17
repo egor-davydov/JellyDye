@@ -62,7 +62,7 @@ Shader "Obi/DistanceFieldSlice"
       };
       
       
-      struct v2f
+      struct Interpolators
       {
           
           float2 texcoord : TEXCOORD0;
@@ -127,7 +127,7 @@ Shader "Obi/DistanceFieldSlice"
       
       float u_xlat16_10;
       
-      OUT_Data_Frag frag(v2f in_f)
+      OUT_Data_Frag frag(Interpolators in_f)
       {
           
           u_xlat10_0 = texture2D(_MainTex, in_f.texcoord.xy).x;

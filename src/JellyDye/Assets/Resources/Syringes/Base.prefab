@@ -56,7 +56,7 @@ MonoBehaviour:
   rotationRandomness: 0
   scaleWithDistance: 1
   scaleWithTransform: 0
-  scale: {x: 0, y: 0}
+  scale: {x: 0.05, y: 0.05}
   scaleRandomness: 0
   velocityWeight: 1
   velocityTexture: {fileID: 0}
@@ -110,7 +110,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6908023878915511053}
-  m_LocalRotation: {x: -0.40744442, y: -0.3752015, z: -0.13381843, w: 0.8217698}
+  m_LocalRotation: {x: -0.51291203, y: -0.3541203, z: -0.18243451, w: 0.7604194}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
@@ -118,7 +118,7 @@ Transform:
   - {fileID: 4541376051040261362}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -50.36, y: -52.719, z: 7.73}
+  m_LocalEulerAnglesHint: {x: -65.404, y: -57.597, z: 11.898}
 --- !u!136 &4398384092333390608
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -203,13 +203,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db679376c3b346e68b68bef605ee4ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _syringeMove: {fileID: 4188462006210841643}
   _audioSource: {fileID: 8827950845319522821}
   _audioClipReset: {fileID: 8300000, guid: 2abad513665d8c2499ba9a98887d8b6f, type: 3}
   _fluxyTarget: {fileID: 1312922224575281827}
-  _paintIncrease: 2
-  _paintIncrease2: 1
+  _paintIncrease: 3
+  _paintIncrease2: 2.5
   _paintRotationOverTime: 90
-  _maxPaintIncrease: 1
+  _maxPaintIncrease: 2
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
   _pistonSpeed: 0.15
@@ -218,7 +219,7 @@ MonoBehaviour:
   _movingLittleBackTime: 0.01
   _movingBackTime: 0.2
   _resetTime: 0.3
-  _movingCloserDistance: 0.07
+  _movingCloserDistance: 0.03
   _movingLittleBackDistance: 0.01
   _pistonMovingDistance: 0.37
   _minLiquidScaleY: 0.01

@@ -8,5 +8,8 @@
         public const string MainMenu = "UI/MainMenu/MainMenuWindow";
         public const string LevelButton = "UI/MainMenu/LevelButton";
         public const string Settings = "UI/Settings/SettingsWindow";
+        public const string FinishButton = "HUD/FinishButton";
+        public const string FinishWindow = "UI/FinishWindow/FinishWindow";
+        public const string MenuButton = "UI/FinishWindow/MenuButton";
     }
 }

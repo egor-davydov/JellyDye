@@ -1,12 +1,14 @@
 using Code.Gameplay.Hud;
 using Code.Gameplay.Hud.PaintChange;
-using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
 using Code.Services.Factories;
+using Code.Services.Factories.UI;
 using Code.Services.Progress;
+using Code.Services.Progress.SaveLoad;
 using Code.StaticData;
+using Fluxy;
 using UnityEngine;
 
 namespace Code.Infrastructure.States
@@ -15,25 +17,32 @@ namespace Code.Infrastructure.States
   {
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
-    private readonly LoadingCurtain _loadingCurtain;
     private readonly HudFactory _hudFactory;
     private readonly SyringeFactory _syringeFactory;
     private readonly JelliesFactory _jelliesFactory;
     private readonly ProgressService _progressService;
     private readonly StaticDataService _staticDataService;
+    private readonly PaintCountCalculationService _paintCountCalculationService;
+    private readonly FinishLevelService _finishLevelService;
+    private readonly ISaveLoadService _saveLoadService;
+
     private int _levelIndex;
 
-    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
-      HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService, StaticDataService staticDataService)
+    public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
+      HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService,
+      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService,
+      FinishLevelService finishLevelService, ISaveLoadService saveLoadService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
-      _loadingCurtain = loadingCurtain;
       _hudFactory = hudFactory;
       _syringeFactory = syringeFactory;
       _jelliesFactory = jelliesFactory;
       _progressService = progressService;
       _staticDataService = staticDataService;
+      _paintCountCalculationService = paintCountCalculationService;
+      _finishLevelService = finishLevelService;
+      _saveLoadService = saveLoadService;
     }
 
     public void Enter(int levelIndex)
@@ -49,18 +58,27 @@ namespace Code.Infrastructure.States
 
     private void OnLoadComplete()
     {
-      _progressService.Progress.CurrentLevel = _levelIndex;
+      _progressService.Progress.LevelData.CurrentLevelIndex = _levelIndex;
+      _saveLoadService.SaveProgress();
       LevelConfig levelConfig = _staticDataService.ForLevels().LevelConfigs[_levelIndex];
-      InitJellies(levelConfig);
+
+      GameObject jelliesObject = InitJellies(levelConfig);
+      _paintCountCalculationService.Initialize(jelliesObject.GetComponentInChildren<FluxySolver>(), jelliesObject.GetComponentsInChildren<FluxyContainer>());
+
       GameObject syringeObject = InitSyringe();
+
       GameObject hudObject = InitHud(syringeObject, levelConfig);
-      syringeObject.GetComponent<PaintInjection>().Initialize(hudObject.GetComponentInChildren<InjectionButton>());
+      PaintInjection paintInjection = syringeObject.GetComponent<PaintInjection>();
+      paintInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
+      _finishLevelService.Initialize(hudObject, syringeObject);
+
       _gameStateMachine.Enter<GameLoopState>();
     }
 
-    private void InitJellies(LevelConfig levelConfig)
+    private GameObject InitJellies(LevelConfig levelConfig)
     {
-      _jelliesFactory.CreateJelly(levelConfig.JelliesPrefab);
+      GameObject jelliesObject = _jelliesFactory.CreateJelly(levelConfig.JelliesPrefab);
+      return jelliesObject;
     }
 
     private GameObject InitSyringe()
@@ -76,6 +94,7 @@ namespace Code.Infrastructure.States
       SyringePaint syringePaint = syringeObject.GetComponent<SyringePaint>();
       GameObject hudObject = _hudFactory.CreateHud();
       hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaint, levelConfig.Colors);
+      hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
       return hudObject;
     }
   }

@@ -42,7 +42,7 @@ Properties {
 				float4 t0 : TEXCOORD0; // ellipsoid t1 vector
 			};
 
-			struct v2f
+			struct Interpolators
 			{
 				float4 pos   : POSITION;
 				float4 color    : COLOR;
@@ -50,9 +50,9 @@ Properties {
 				float3 lightDir : TEXCOORD1;
 			};
 
-			v2f vert(vin v)
+			Interpolators vert(vin v)
 			{ 
-				v2f o;
+				Interpolators o;
 		
 				// particle positions are passed in world space, no need to use modelview matrix, just view.
 				float radius = v.t0.w * _RadiusScale;
@@ -66,7 +66,7 @@ Properties {
 				return o;
 			} 
 
-			float4 frag(v2f i) : SV_Target
+			float4 frag(Interpolators i) : SV_Target
 			{
 				// generate sphere normals:
 				float3 n = BillboardSphereNormals(i.texcoord);
@@ -114,14 +114,14 @@ Properties {
 					float4 t0 : TEXCOORD0; // ellipsoid t1 vector
 				};
 
-				struct v2f {
+				struct Interpolators {
 					float4 pos   : POSITION;
 				    float3 texcoord : TEXCOORD0;
 				};
 				 
-				v2f vert( vin v )
+				Interpolators vert( vin v )
 				{
-				    v2f o;
+				    Interpolators o;
 
 					float radius = v.t0.w * _RadiusScale;
 					float4 viewpos = mul(UNITY_MATRIX_V, v.vertex) + float4(v.corner.x, v.corner.y, 0, 0) * radius;
@@ -130,7 +130,7 @@ Properties {
 				    return o;
 				}
 				 
-				float4 frag( v2f i ) : SV_Target
+				float4 frag( Interpolators i ) : SV_Target
 				{
 					float3 n = BillboardSphereNormals(i.texcoord);
 
