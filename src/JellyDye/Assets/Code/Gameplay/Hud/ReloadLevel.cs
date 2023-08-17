@@ -24,6 +24,6 @@ namespace Code.Gameplay.Hud
       _reloadLevelButton.onClick.AddListener(ReloadLevelClick);
 
     private void ReloadLevelClick() => 
-      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.CurrentLevel);
+      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex);
   }
 }

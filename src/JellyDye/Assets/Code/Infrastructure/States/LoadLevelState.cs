@@ -58,7 +58,7 @@ namespace Code.Infrastructure.States
 
     private void OnLoadComplete()
     {
-      _progressService.Progress.CurrentLevel = _levelIndex;
+      _progressService.Progress.LevelData.CurrentLevelIndex = _levelIndex;
       _saveLoadService.SaveProgress();
       LevelConfig levelConfig = _staticDataService.ForLevels().LevelConfigs[_levelIndex];
 

@@ -91,7 +91,7 @@ namespace Code.Helpers
       MoveCamera();
       FindObjectOfType<ColorChangersContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
       FindObjectOfType<SyringePaint>()?.gameObject.SetActive(false);
-      _currentJellyCount = _progressService.Progress.CurrentLevel;
+      _currentJellyCount = _progressService.Progress.LevelData.CurrentLevelIndex;
     }
 
     private void TakeScreenshot()
@@ -133,7 +133,7 @@ namespace Code.Helpers
 
     public void EnterNextLevel()
     {
-      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.CurrentLevel + 1);
+      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex + 1);
     }
   }
 }

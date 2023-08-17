@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Code.Services.Factories.UI;
+﻿using Code.Services.Factories.UI;
 using DG.Tweening;
 using UnityEngine;
 

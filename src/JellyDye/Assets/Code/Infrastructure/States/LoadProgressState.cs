@@ -23,7 +23,7 @@ namespace Code.Infrastructure.States
       else
         _progressService.CreateProgress();
       
-      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.CurrentLevel);
+      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex);
     }
 
     public void Exit()

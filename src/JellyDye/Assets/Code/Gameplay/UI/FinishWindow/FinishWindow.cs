@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
+using Code.Data;
 using Code.Services;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
+using Code.Services.Progress.SaveLoad;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -31,22 +34,27 @@ namespace Code.Gameplay.UI.FinishWindow
     private ScreenshotService _screenshotService;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
+    private ISaveLoadService _saveLoadService;
+    private LevelData _progressLevelData;
 
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
       GreenButtonFactory greenButtonFactory, ScreenshotService screenshotService, ProgressService progressService,
-      StaticDataService staticDataService)
+      StaticDataService staticDataService, ISaveLoadService saveLoadService)
     {
+      _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
       _screenshotService = screenshotService;
       _greenButtonFactory = greenButtonFactory;
       _paintCountCalculationService = paintCountCalculationService;
+      
+      _progressLevelData = _progressService.Progress.LevelData;
     }
 
     private void Awake()
     {
-      _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressService.Progress.CurrentLevel].TargetTextureWithGround;
+      _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressLevelData.CurrentLevelIndex].TargetTextureWithGround;
       _yourResultImage.texture = _screenshotService.ScreenshotTexture;
       AppearanceAnimation(StartWindowAnimations);
     }
@@ -71,7 +79,8 @@ namespace Code.Gameplay.UI.FinishWindow
     private IEnumerator PercentageIncrease()
     {
       float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
-      float finalPercentage = yourPercentage + _levelFinishPercentageBonus;
+      float finalPercentage = RoundAndClampPercentage(yourPercentage + _levelFinishPercentageBonus);
+      SetToProgress(finalPercentage);
       Debug.Log($"yourPercentage= {yourPercentage}");
       float currentTime = 0;
       while (currentTime < _percentageIncreaseTime)
@@ -88,11 +97,23 @@ namespace Code.Gameplay.UI.FinishWindow
       _greenButtonFactory.CreateMenuButton(transform);
     }
 
+    private void SetToProgress(float finalPercentage)
+    {
+      _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
+      _saveLoadService.SaveProgress();
+    }
+
     private void SetPercentage(float currentPercentage)
+    {
+      currentPercentage = RoundAndClampPercentage(currentPercentage);
+      _percentageText.text = $"{currentPercentage}%";
+    }
+
+    private float RoundAndClampPercentage(float currentPercentage)
     {
       currentPercentage = (float)Math.Round(currentPercentage, 0);
       currentPercentage = Mathf.Clamp(currentPercentage, 0, 100);
-      _percentageText.text = $"{currentPercentage}%";
+      return currentPercentage;
     }
   }
 }
