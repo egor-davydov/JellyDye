@@ -2,8 +2,6 @@
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

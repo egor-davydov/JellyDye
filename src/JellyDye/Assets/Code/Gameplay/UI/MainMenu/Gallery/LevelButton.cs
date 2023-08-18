@@ -50,7 +50,6 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         Color levelPercentageColor = PercentageColor(percentage);
 
         _levelPercentage.color = levelPercentageColor;
-        //_levelPercentage.outlineColor = levelPercentageColor;
       }
       else
         _levelNumber.text = (_levelIndex + 1).ToString();
