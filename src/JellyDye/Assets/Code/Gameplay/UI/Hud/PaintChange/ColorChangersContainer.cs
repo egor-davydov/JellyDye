@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Code.Gameplay.Syringe;
-using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Gameplay.Hud.PaintChange
+namespace Code.Gameplay.UI.Hud.PaintChange
 {
   public class ColorChangersContainer : MonoBehaviour
   {

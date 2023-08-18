@@ -1,6 +1,6 @@
-using Code.Gameplay.Hud;
-using Code.Gameplay.Hud.PaintChange;
 using Code.Gameplay.Syringe;
+using Code.Gameplay.UI.Hud;
+using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
 using Code.Services.Factories;

@@ -1,7 +1,7 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 
-namespace Code.Gameplay.Logic
+namespace Code.Gameplay.UI
 {
   public class GreenButton : MonoBehaviour
   {
@@ -9,14 +9,10 @@ namespace Code.Gameplay.Logic
     
     private Tween _tween;
 
-    private void Awake()
-    {
+    private void Awake() => 
       _tween = ((RectTransform)transform).DOAnchorPos(Vector2.zero, _moveTime);
-    }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() => 
       _tween.Kill();
-    }
   }
 }

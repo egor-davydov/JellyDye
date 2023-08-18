@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Gameplay.Hud
+namespace Code.Gameplay.UI.Hud
 {
   public class ScreenshotTargetColors : MonoBehaviour
   {

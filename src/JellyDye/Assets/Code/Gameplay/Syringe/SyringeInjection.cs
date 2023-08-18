@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Code.Gameplay.Hud;
+using Code.Gameplay.UI.Hud;
 using Code.Services;
 using DG.Tweening;
 using DG.Tweening.Core;

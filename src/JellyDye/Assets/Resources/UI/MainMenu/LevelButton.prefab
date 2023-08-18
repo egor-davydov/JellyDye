@@ -136,11 +136,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3edc3b5922b64b33a5a6f1a7dab9d249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _backgroundImage: {fileID: 1207170039254101400}
   _loadLevelButton: {fileID: 2835204975432558215}
   _levelNumber: {fileID: 183350548332995405}
   _levelPercentage: {fileID: 6785668544665722357}
+  _levelCompletedSprite: {fileID: 21300000, guid: ae8c4797362e52b4592bab5f0b5c7933, type: 3}
   _yellowPercentage: 75
   _redPercentage: 35
+  _greenPercentageColor: {r: 0.23018867, g: 1, b: 0.23924531, a: 1}
+  _yellowPercentageColor: {r: 0.9331187, g: 1, b: 0.2584905, a: 1}
+  _redPercentageColor: {r: 1, g: 0.2584905, b: 0.2584905, a: 1}
 --- !u!1 &3615712404957874553
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +351,7 @@ MonoBehaviour:
 
     %'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 833fde77c98dd4640bf399c07ce9e66f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 29e142379ef9ce44eaef5537d1dab0aa, type: 2}
   m_sharedMaterial: {fileID: 0}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

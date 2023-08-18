@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Code.Gameplay.Hud
+namespace Code.Gameplay.UI.Hud
 {
   public class InjectionButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
   {

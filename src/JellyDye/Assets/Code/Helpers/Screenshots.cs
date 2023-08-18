@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.IO;
 using System.Linq;
-using Code.Gameplay.Hud.PaintChange;
 using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
+using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.Factories;

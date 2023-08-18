@@ -1,13 +1,13 @@
-﻿using Code.Services.Factories;
-using Code.Services.Factories.UI;
+﻿using Code.Services.Factories.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.Gameplay.Hud
+namespace Code.Gameplay.UI.Hud
 {
   public class OpenMainMenu : MonoBehaviour
   {
+    [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private Button _openMenuButton;
     private WindowFactory _windowFactory;
 
@@ -18,7 +18,10 @@ namespace Code.Gameplay.Hud
     private void Awake() => 
       _openMenuButton.onClick.AddListener(OpenMenuClick);
 
-    private void OpenMenuClick() => 
+    private void OpenMenuClick()
+    {
+      _uiAudio.PlayClick();
       _windowFactory.CreateMainMenu();
+    }
   }
 }

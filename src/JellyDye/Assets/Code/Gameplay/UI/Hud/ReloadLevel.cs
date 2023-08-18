@@ -1,11 +1,10 @@
 ﻿using Code.Infrastructure.States;
 using Code.Services.Progress;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.Gameplay.Hud
+namespace Code.Gameplay.UI.Hud
 {
   public class ReloadLevel : MonoBehaviour
   {

@@ -3,10 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.Gameplay.Hud
+namespace Code.Gameplay.UI.Hud
 {
   public class FinishButton : MonoBehaviour
   {
+    [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private Button _finishButton;
     
     private FinishLevelService _finishLevelService;
@@ -24,6 +25,7 @@ namespace Code.Gameplay.Hud
 
     private void FinishLevel()
     {
+      _uiAudio.PlayClick();
       _finishLevelService.FinishLevel();
     }
   }

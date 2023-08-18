@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797a2618ef744ffe8713e5d00e6ef2be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiAudio: {fileID: 5374739606121948877}
   _finishButton: {fileID: 1655641708335489811}
 --- !u!114 &1655641708335489811 stripped
 MonoBehaviour:
@@ -108,5 +109,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5374739606121948877 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1399919537104864709, guid: a17b9ac7c0d1fa1438c533e1b49e22bd, type: 3}
+  m_PrefabInstance: {fileID: 6483893010766291720}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927182334792850322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7037546f87e4e4b9c26d5fda4a45130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

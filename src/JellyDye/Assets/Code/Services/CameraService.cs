@@ -45,6 +45,7 @@ namespace Code.Services
 
     private IEnumerator ShowFlash(Action onFlashEnd)
     {
+      _levelCamera.PhotoAudioSource.Play();
       GameObject flashObject = _levelCamera.FlashLight.gameObject;
       flashObject.SetActive(true);
       yield return new WaitForSeconds(_levelCamera.FlashDuration);

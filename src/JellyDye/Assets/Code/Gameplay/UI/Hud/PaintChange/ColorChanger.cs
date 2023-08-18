@@ -1,10 +1,9 @@
 ﻿using System;
 using Code.Gameplay.Syringe;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Gameplay.Hud.PaintChange
+namespace Code.Gameplay.UI.Hud.PaintChange
 {
   public class ColorChanger : MonoBehaviour
   {
