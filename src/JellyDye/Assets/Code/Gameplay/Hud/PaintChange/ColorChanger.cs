@@ -38,7 +38,7 @@ namespace Code.Gameplay.Hud.PaintChange
 
     private void ChangeColorClick()
     {
-      _syringePaint.GetComponent<PaintInjection>().SyringeReset();
+      _syringePaint.GetComponent<SyringeInjection>().SyringeReset();
       _syringePaint.ChangeLiquidColor(_containerColor);
       OnColorChange?.Invoke(this);
     }

@@ -68,8 +68,8 @@ namespace Code.Infrastructure.States
       GameObject syringeObject = InitSyringe();
 
       GameObject hudObject = InitHud(syringeObject, levelConfig);
-      PaintInjection paintInjection = syringeObject.GetComponent<PaintInjection>();
-      paintInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
+      SyringeInjection syringeInjection = syringeObject.GetComponent<SyringeInjection>();
+      syringeInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
       _finishLevelService.Initialize(hudObject, syringeObject);
 
       _gameStateMachine.Enter<GameLoopState>();
@@ -85,7 +85,7 @@ namespace Code.Infrastructure.States
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
       GameObject syringeObject = _syringeFactory.CreateSyringe(equippedSkin, Vector3.up * 0.14f);
-      syringeObject.GetComponent<PaintInjection>().SyringeReset();
+      syringeObject.GetComponent<SyringeInjection>().SyringeReset();
       return syringeObject;
     }
 

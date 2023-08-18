@@ -10,11 +10,10 @@ using Zenject;
 
 namespace Code.Gameplay.Syringe
 {
-  public class PaintInjection : MonoBehaviour
+  public class SyringeInjection : MonoBehaviour
   {
+    [SerializeField] private SyringeAudio _syringeAudio;
     [SerializeField] private SyringeMove _syringeMove;
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private AudioClip _audioClipReset;
     [SerializeField] private FluxyTarget _fluxyTarget;
     [SerializeField] private float _paintIncrease;
     [SerializeField] private float _paintIncrease2;
@@ -117,7 +116,6 @@ namespace Code.Gameplay.Syringe
         return;
 
       StartPainting();
-      _paintCoroutine = StartCoroutine(Painting());
     }
 
     private IEnumerator Painting()
@@ -164,7 +162,8 @@ namespace Code.Gameplay.Syringe
 
     private void StartPainting()
     {
-      //Debug.Log("StartPainting");
+      _syringeAudio.PlayFill();
+      _paintCoroutine = StartCoroutine(Painting());
       _currentContainer.targets.Add(_fluxyTarget);
       _fluxyTarget.enabled = true;
       if(!_finishLevelService.CanFinish)
@@ -179,6 +178,7 @@ namespace Code.Gameplay.Syringe
 
     private void StopPainting()
     {
+      _syringeAudio.PlayFillEnd();
       _currentContainer.targets.Remove(_fluxyTarget);
       _currentContainer = null;
       _fluxyTarget.scale = _startTargetScale;
@@ -205,7 +205,6 @@ namespace Code.Gameplay.Syringe
 
     private IEnumerator Reset()
     {
-      _audioSource.PlayOneShot(_audioClipReset);
       _pistonTransform.localPosition = _minPistonPosition;
       _liquidTransform.localScale = new Vector3(1, _minLiquidScaleY, 1);
 
