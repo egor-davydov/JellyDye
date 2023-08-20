@@ -14,7 +14,6 @@ namespace Code.Helpers
 
     private void Awake()
     {
-      DontDestroyOnLoad(gameObject);
       Application.logMessageReceivedThreaded += Log;
     }
 

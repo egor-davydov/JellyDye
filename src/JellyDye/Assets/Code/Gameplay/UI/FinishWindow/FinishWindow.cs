@@ -81,7 +81,7 @@ namespace Code.Gameplay.UI.FinishWindow
       float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
       float finalPercentage = RoundAndClampPercentage(yourPercentage + _levelFinishPercentageBonus);
       SetToProgress(finalPercentage);
-      Debug.Log($"yourPercentage= {yourPercentage}");
+      //Debug.Log($"yourPercentage= {yourPercentage}");
       float currentTime = 0;
       while (currentTime < _percentageIncreaseTime)
       {
