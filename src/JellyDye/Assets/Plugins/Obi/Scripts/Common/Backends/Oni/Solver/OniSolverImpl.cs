@@ -1,5 +1,4 @@
-﻿#if (OBI_ONI_SUPPORTED)
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
@@ -214,4 +213,3 @@ namespace Obi
         }
     }
 }
-#endif

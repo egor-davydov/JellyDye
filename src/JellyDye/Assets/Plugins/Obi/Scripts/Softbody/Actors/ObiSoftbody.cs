@@ -277,11 +277,9 @@ namespace Obi
 
                 if (centerShape > -1 && centerShape < batch.activeConstraintCount && centerBatch < offsets.Count)
                 {
-                        return;
                     int offset = offsets[centerBatch] + centerShape;
                     _count++;
                     Vector3 transformPosition = solver.transform.TransformPoint((Vector3)batch.coms[offset] - batch.orientations[offset] * batch.restComs[offset]);
-                    if (float.IsNaN(transformPosition.x))
                     //Debug.Log($"{transformPosition.x}, {transformPosition.y}, {transformPosition.z}");
                     transform.position = transformPosition;
                     transform.rotation = solver.transform.rotation * batch.orientations[offset];

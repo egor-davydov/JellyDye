@@ -91,12 +91,10 @@ namespace Obi
 
         private ISolverImpl m_SolverImpl;
 
-        private IObiBackend m_SimulationBackend =
+        private IObiBackend m_SimulationBackend = new OniBackend();
 #if (OBI_BURST && OBI_MATHEMATICS && OBI_COLLECTIONS)
         new BurstBackend();
-#elif (OBI_ONI_SUPPORTED)
-        new OniBackend();
-#else
+        
         new NullBackend();
 #endif
 
@@ -807,16 +805,10 @@ namespace Obi
 #if (OBI_BURST && OBI_MATHEMATICS && OBI_COLLECTIONS)
                 case BackendType.Burst: m_SimulationBackend = new BurstBackend(); break;
 #endif
-#if (OBI_ONI_SUPPORTED)
                 case BackendType.Oni: m_SimulationBackend = new OniBackend(); break;
-#endif
 
                 default:
-#if (OBI_ONI_SUPPORTED)
                     m_SimulationBackend = new OniBackend();
-#else
-                    m_SimulationBackend = new NullBackend();
-#endif
                     break;
             }
         }
