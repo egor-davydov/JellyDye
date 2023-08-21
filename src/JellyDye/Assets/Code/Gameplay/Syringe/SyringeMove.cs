@@ -22,7 +22,7 @@ namespace Code.Gameplay.Syringe
       // _worldToScreenPoint = _camera.WorldToScreenPoint(GetMouseWorldPosition());
       // if(_worldToScreenPoint != prev)
       // Debug.Log(_worldToScreenPoint);
-      if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+      if (Input.GetMouseButtonDown(0))
       {
         _delta = transform.position - GetMouseWorldPosition();
         _isDragging = true;
