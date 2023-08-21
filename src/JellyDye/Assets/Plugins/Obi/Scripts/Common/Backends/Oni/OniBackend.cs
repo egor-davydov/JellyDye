@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if (OBI_ONI_SUPPORTED)
+using UnityEngine;
 using System;
 using System.Collections;
 
@@ -39,3 +40,4 @@ namespace Obi
 
     }
 }
+#endif

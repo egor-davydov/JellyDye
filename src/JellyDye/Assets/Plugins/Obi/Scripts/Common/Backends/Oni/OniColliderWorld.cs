@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if (OBI_ONI_SUPPORTED)
+using System;
 using UnityEngine;
 
 namespace Obi
@@ -71,3 +72,4 @@ namespace Obi
     }
 
 }
+#endif

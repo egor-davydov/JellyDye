@@ -219,15 +219,16 @@ public static class Oni
             handle.Free();
     }
 
-#if ((UNITY_IOS ) && !UNITY_EDITOR)
+#if (UNITY_IOS && !UNITY_EDITOR)
 		const string LIBNAME = "__Internal";
-#elif ((UNITY_ANDROID || UNITY_STANDALONE_LINUX || UNITY_WEBGL) && !UNITY_EDITOR)
+#elif ((UNITY_ANDROID || UNITY_STANDALONE_LINUX) && !UNITY_EDITOR)
 		const string LIBNAME = "Oni";
 #else
     const string LIBNAME = "libOni";
 #endif
 
 // platform custom define (https://docs.unity3d.com/Manual/PlatformDependentCompilation.html)
+#if (OBI_ONI_SUPPORTED)
 
     [DllImport(LIBNAME)]
     public static extern void UpdateColliderGrid(float dt);
@@ -648,4 +649,5 @@ public static class Oni
     [DllImport(LIBNAME)]
     public static extern void GetProfilingInfo([Out] ProfileInfo[] info, int num);
 
+#endif
 }

@@ -19,7 +19,6 @@ namespace Obi
         [SerializeField] protected float _plasticYield = 0;
         [SerializeField] protected float _plasticCreep = 0;
         [SerializeField] protected float _plasticRecovery = 0;
-        private int _count;
 
         /// <summary>
         /// Whether to use simplices (triangles, edges) for contact generation.
@@ -278,10 +277,8 @@ namespace Obi
                 if (centerShape > -1 && centerShape < batch.activeConstraintCount && centerBatch < offsets.Count)
                 {
                     int offset = offsets[centerBatch] + centerShape;
-                    _count++;
-                    Vector3 transformPosition = solver.transform.TransformPoint((Vector3)batch.coms[offset] - batch.orientations[offset] * batch.restComs[offset]);
-                    //Debug.Log($"{transformPosition.x}, {transformPosition.y}, {transformPosition.z}");
-                    transform.position = transformPosition;
+                    
+                    transform.position = solver.transform.TransformPoint((Vector3)batch.coms[offset] - batch.orientations[offset] * batch.restComs[offset]);
                     transform.rotation = solver.transform.rotation * batch.orientations[offset];
                 }
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if (OBI_ONI_SUPPORTED)
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -17,3 +18,4 @@ namespace Obi
         }
     }
 }
+#endif
