@@ -17,6 +17,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     [SerializeField] private Button _loadLevelButton;
     [SerializeField] private TextMeshProUGUI _levelNumber;
     [SerializeField] private TextMeshProUGUI _levelPercentage;
+    [SerializeField] private TextMeshProUGUI _levelNumberWithPercentage;
     [SerializeField] private Sprite _levelCompletedSprite;
     [SerializeField, Range(0, 100)] private int _yellowPercentage;
     [SerializeField, Range(0, 100)] private int _redPercentage;
@@ -44,15 +45,25 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         _backgroundImage.sprite = _levelCompletedSprite;
         int percentage = progressLevelData.CompletedLevel(_levelIndex).Percentage;
         
-        _levelPercentage.gameObject.SetActive(true);
-        _levelNumber.gameObject.SetActive(false);
+        SwitchButtonViewToComplete(true);
         _levelPercentage.text = $"{percentage}\n%";
+        _levelNumberWithPercentage.text = (_levelIndex + 1).ToString();
         Color levelPercentageColor = PercentageColor(percentage);
 
         _levelPercentage.color = levelPercentageColor;
       }
       else
+      {
+        SwitchButtonViewToComplete(false);
         _levelNumber.text = (_levelIndex + 1).ToString();
+      }
+    }
+
+    private void SwitchButtonViewToComplete(bool value)
+    {
+      _levelPercentage.gameObject.SetActive(value);
+      _levelNumberWithPercentage.gameObject.SetActive(value);
+      _levelNumber.gameObject.SetActive(!value);
     }
 
     private Color PercentageColor(int percentage)

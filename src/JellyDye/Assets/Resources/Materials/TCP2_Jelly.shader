@@ -10,9 +10,8 @@ Shader "Custom/TCP2_Jelly"
         _Color ("Color", Color) = (1,1,1,1)
         _HColor ("Highlight Color", Color) = (0.785,0.785,0.785,1.0)
         _SColor ("Shadow Color", Color) = (0.195,0.195,0.195,1.0)
+        _AddAlpha ("_AddAlpha", Range(0,1)) = 0.3
 
-        _EdgeColor ("Edge Color", Color) = (0.195,0.195,0.195,1.0)
-        _EdgeHeight ("Edge Height", Float) = 0.3
         [Header(Shadow HSV)]
         _Shadow_HSV_H ("Hue", Range(-360,360)) = 0
         _Shadow_HSV_S ("Saturation", Range(-1,1)) = 0
@@ -61,6 +60,7 @@ Shader "Custom/TCP2_Jelly"
         {
             "RenderType"="Opaque"
             "Queue"="Transparent"
+            "RenderQueue"="Transparent"
         }
 
         CGPROGRAM
@@ -75,13 +75,12 @@ Shader "Custom/TCP2_Jelly"
         fixed4 _Color;
         sampler2D _MainTex;
         sampler2D _JellyTex;
+        float _AddAlpha;
         float _Shadow_HSV_H;
         float _Shadow_HSV_S;
         float _Shadow_HSV_V;
         fixed _Smoothness;
-        float4 _EdgeColor;
-        
-        fixed _EdgeHeight;
+
         fixed4 _RimColor;
         fixed _RimMin;
         fixed _RimMax;
@@ -229,11 +228,11 @@ Shader "Custom/TCP2_Jelly"
             float2 uv = TileToUV(IN.UV_MAINTEX, _TileIndex);
             float4 paintcolor = tex2D(_MainTex, uv);
             float4 jelly = tex2D(_JellyTex, IN.UV_MAINTEX) * _Color;
-            float4 mainTex = paintcolor;
-            float x = paintcolor.a == 0 ? jelly.a : paintcolor.a;
-            float4 finalColor = o.Normal.y < _EdgeHeight && paintcolor.a == 0 ? _EdgeColor : float4(paintcolor.rgb , x);
-            o.Alpha = finalColor.a;
-            o.Albedo = finalColor.rgb;
+
+            o.Albedo = paintcolor.rgb;
+            float alpha = paintcolor.r == 0 && paintcolor.g == 0 && paintcolor.b == 0 && paintcolor.a == 0 ? jelly.a : paintcolor.a + _AddAlpha;
+            alpha = clamp(alpha, 0, 1);
+            o.Alpha = alpha;
 
             //Specular
             o.Gloss = _SpecColor.a;

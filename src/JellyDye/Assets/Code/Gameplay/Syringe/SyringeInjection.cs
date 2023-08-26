@@ -51,7 +51,7 @@ namespace Code.Gameplay.Syringe
     {
       _finishLevelService = finishLevelService;
     }
-    
+
     public void Initialize(InjectionButton injectionButton)
     {
       _injectionButton = injectionButton;
@@ -103,11 +103,16 @@ namespace Code.Gameplay.Syringe
         _paintCoroutine = null;
       }
 
-      if (_currentContainer != null)
+      if (DidntAlreadyStopped()) // Check if stopped because no paint in syringe
         StopPainting();
       _isMovingBack = true;
       transform.DOMove(_injectionStartPosition, _movingBackTime)
         .OnComplete(() => _isMovingBack = false);
+    }
+
+    private bool DidntAlreadyStopped()
+    {
+      return _currentContainer != null;
     }
 
     private void TryStartPaint()
@@ -163,16 +168,17 @@ namespace Code.Gameplay.Syringe
     private void StartPainting()
     {
       _syringeAudio.PlayFill();
-      _paintCoroutine = StartCoroutine(Painting());
       _currentContainer.targets.Add(_fluxyTarget);
       _fluxyTarget.enabled = true;
-      if(!_finishLevelService.CanFinish)
+
+      _paintCoroutine = StartCoroutine(Painting());
+      if (!_finishLevelService.CanFinish)
         StartCoroutine(WaitForFirstPaint());
     }
 
     private IEnumerator WaitForFirstPaint()
     {
-      yield return null;
+      yield return new WaitForEndOfFrame();
       _finishLevelService.CheckPaint();
     }
 

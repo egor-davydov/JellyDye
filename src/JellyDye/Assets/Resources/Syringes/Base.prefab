@@ -58,12 +58,12 @@ MonoBehaviour:
   scaleWithTransform: 0
   scale: {x: 0.05, y: 0.05}
   scaleRandomness: 0
-  velocityWeight: 1
+  velocityWeight: 0.4
   velocityTexture: {fileID: 0}
-  maxRelativeVelocity: 21.4
+  maxRelativeVelocity: 1
   velocityScale: {x: 1, y: 1, z: 1}
-  maxRelativeAngularVelocity: 20
-  angularVelocityScale: 20
+  maxRelativeAngularVelocity: 1
+  angularVelocityScale: 100
   force: {x: -1, y: 0, z: 0}
   torque: 0
   densityWeight: 1
@@ -207,10 +207,10 @@ MonoBehaviour:
   _syringeAudio: {fileID: 5440877559713876049}
   _syringeMove: {fileID: 4188462006210841643}
   _fluxyTarget: {fileID: 1312922224575281827}
-  _paintIncrease: 3
-  _paintIncrease2: 2.5
-  _paintRotationOverTime: 90
-  _maxPaintIncrease: 2
+  _paintIncrease: 2.5
+  _paintIncrease2: 2
+  _paintRotationOverTime: 120
+  _maxPaintIncrease: 1.5
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
   _pistonSpeed: 0.15

@@ -1659,9 +1659,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 35643754141812848}
     m_Modifications:
     - target: {fileID: 2583733343035471000, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
+      propertyPath: _screenSize
+      value: 3100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583733343035471000, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
       propertyPath: _gridLayoutGroup
       value: 
       objectReference: {fileID: 8823284360021788596}
+    - target: {fileID: 2583733343035471000, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
+      propertyPath: _offsetScrollMoveToProgress
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583733343035471000, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
+      propertyPath: _scrollMoveToProgressOffset
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 2628965900095645989, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0

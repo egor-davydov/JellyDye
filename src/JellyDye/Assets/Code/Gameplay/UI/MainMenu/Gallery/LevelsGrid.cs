@@ -11,7 +11,9 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
   public class LevelsGrid : MonoBehaviour
   {
     [SerializeField] private GridLayoutGroup _gridLayoutGroup;
-    
+    [SerializeField] private float _offsetScrollMoveToProgress;
+    [SerializeField] private float _screenSize;
+
     private LevelButtonFactory _levelButtonFactory;
     private StaticDataService _staticDataService;
     private ProgressService _progressService;
@@ -33,13 +35,19 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         levelButtonObject.GetComponent<LevelButton>().Initialize(i);
       }
 
-      MoveScrollToCurrentLevel();
+      MoveScrollToCurrentLevel(levelConfigs.Length);
     }
 
-    private void MoveScrollToCurrentLevel()
+    private void MoveScrollToCurrentLevel(int levelsCount)
     {
       int levelRow = _progressService.Progress.LevelData.CurrentLevelIndex / 2;
-      ((RectTransform)transform).anchoredPosition += Vector2.up * levelRow * (_gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y);
+      float sizeOfLevelButtonWithSpacing = _gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y;
+      int rowsCount = Mathf.RoundToInt((float)levelsCount / 2);
+      float scrollHeight = sizeOfLevelButtonWithSpacing * rowsCount;
+      
+      float movingHeight = levelRow * sizeOfLevelButtonWithSpacing - _offsetScrollMoveToProgress;
+      movingHeight = Mathf.Clamp(movingHeight, 0, scrollHeight - Screen.height);
+      ((RectTransform)transform).anchoredPosition = Vector2.up * movingHeight;
     }
   }
 }
