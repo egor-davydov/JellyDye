@@ -16,17 +16,16 @@ namespace Code.Data
       CompletedLevels = new List<CompletedLevel>();
     }
 
-    public void ManageCompletedLevel(int levelIndex, int percentage, string resultImage)
+    public void ManageCompletedLevel(int levelIndex, int percentage)
     {
       if(IsLevelCompleted(levelIndex))
       {
         CompletedLevel previousData = CompletedLevel(levelIndex);
-        previousData.ResultImage = resultImage;
         if (previousData.Percentage < percentage)
           previousData.Percentage = percentage;
       }
       else
-        CompletedLevels.Add(new CompletedLevel(levelIndex, percentage, resultImage));
+        CompletedLevels.Add(new CompletedLevel(levelIndex, percentage));
     }
 
     public CompletedLevel CompletedLevel(int levelIndex) => 

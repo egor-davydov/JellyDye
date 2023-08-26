@@ -36,7 +36,6 @@ namespace Code.Gameplay.UI.FinishWindow
     
     private LevelData _progressLevelData;
     private Tween _scaleTween;
-    private float _finalPercentage;
 
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
@@ -55,36 +54,31 @@ namespace Code.Gameplay.UI.FinishWindow
 
     public void Initialize(Texture2D screenshot, Texture2D screenshotWithoutGround)
     {
-      transform.localScale = Vector3.zero;
-      SetImages(screenshot);
-      CalculatePercentageResult();
-      WriteToProgress(_finalPercentage, screenshotWithoutGround);
-      transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(StartWindowAnimations);
-    }
-
-    private void CalculatePercentageResult()
-    {
-      float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
-      _finalPercentage = RoundAndClampPercentage(yourPercentage);
-    }
-
-    private void SetImages(Texture2D screenshot)
-    {
       _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressLevelData.CurrentLevelIndex].TargetTextureWithGround;
-      _yourResultImage.texture = screenshot;
+      _yourResultImage.texture = screenshotWithoutGround;
+      AppearanceAnimation(StartWindowAnimations);
     }
-
+    
     private void OnDestroy() => 
       _scaleTween.Kill();
 
     private void StartWindowAnimations()
     {
-      StartCoroutine(PercentageIncrease(_finalPercentage));
+      StartCoroutine(PercentageIncrease());
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
     }
 
-    private IEnumerator PercentageIncrease(float finalPercentage)
+    private void AppearanceAnimation(Action onEnd)
     {
+      transform.localScale = Vector3.zero;
+      transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
+    }
+
+    private IEnumerator PercentageIncrease()
+    {
+      float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
+      float finalPercentage = RoundAndClampPercentage(yourPercentage);
+      WriteToProgress(finalPercentage);
       //Debug.Log($"yourPercentage= {yourPercentage}");
       float currentTime = 0;
       while (currentTime < _percentageIncreaseTime)
@@ -101,13 +95,11 @@ namespace Code.Gameplay.UI.FinishWindow
       _greenButtonFactory.CreateMenuButton(transform);
     }
 
-    private void WriteToProgress(float finalPercentage, Texture2D screenshotWithoutGround)
+    private void WriteToProgress(float finalPercentage)
     {
-      string resultImage = Convert.ToBase64String(screenshotWithoutGround.EncodeToPNG());
-      _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage, resultImage);
+      //Convert.ToBase64String()
+      _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
       _saveLoadService.SaveProgress();
-      
-      //Destroy(temporaryTexture);
     }
 
     private void SetPercentage(float currentPercentage)
