@@ -363,6 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1053685777ae4aa8865602a0eefb47f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ScreenshotCamera>k__BackingField: {fileID: 1490009614}
   <FlashDuration>k__BackingField: 0.3
   <FlashLight>k__BackingField: {fileID: 1312344691}
   <PhotoAudioSource>k__BackingField: {fileID: 330474154}
@@ -850,7 +851,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1490009612}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
@@ -870,7 +871,7 @@ Camera:
   far clip plane: 5
   field of view: 60
   orthographic: 1
-  orthographic size: 1.4
+  orthographic size: 1.1
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

@@ -96,31 +96,31 @@ namespace Code.Helpers
       _screenshotService.TakeScreenshot(OnMake);
     }
 
-    private void OnMake()
+    private void OnMake(Texture2D screenshotTexture)
     {
       LevelConfig[] levelConfigs = _staticDataService.ForLevels().LevelConfigs;
       if (!Directory.Exists(_directionPath))
         Directory.CreateDirectory(_directionPath);
 
-      WriteScreenshotOnDisk(levelConfigs);
+      WriteScreenshotOnDisk(levelConfigs, screenshotTexture);
 
       if (++_currentJellyCount < _levelsCount)
       {
         Destroy(FindObjectOfType<JellyAutoConstruct>().gameObject);
         GameObject jelly = _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
-        StartCoroutine(WaitColorSet(jelly.GetComponentInChildren<SetTargetColorFromClearColor>()));
+        StartCoroutine(WaitColorSet());
       }
     }
 
-    private IEnumerator WaitColorSet(SetTargetColorFromClearColor setTargetColorFromClearColor)
+    private IEnumerator WaitColorSet()
     {
       yield return new WaitForEndOfFrame();
       TakeScreenshot();
     }
 
-    private void WriteScreenshotOnDisk(LevelConfig[] levelConfigs)
+    private void WriteScreenshotOnDisk(LevelConfig[] levelConfigs, Texture2D screenshotTexture)
     {
-      byte[] bytes = _screenshotService.ScreenshotTexture.EncodeToPNG();
+      byte[] bytes = screenshotTexture.EncodeToPNG();
       string groundTag = _withGround ? "_ground" : "";
       var screenshotPath = $"{_directionPath}/{levelConfigs[_currentJellyCount].JelliesPrefab.name}{groundTag}.png";
       if (File.Exists(screenshotPath))

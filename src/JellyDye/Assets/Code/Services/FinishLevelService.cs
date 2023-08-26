@@ -15,7 +15,7 @@ namespace Code.Services
     
     private GameObject _hudObject;
     private GameObject _syringeObject;
-    private Texture2D _screenshot;
+    private Texture2D _screenshotWithGround;
 
     public bool CanFinish { get; private set; }
 
@@ -58,17 +58,16 @@ namespace Code.Services
     private void TakeScreenshot() => 
       _screenshotService.TakeScreenshot(onTake: TakeScreenshotWithoutGround);
 
-    private void TakeScreenshotWithoutGround()
+    private void TakeScreenshotWithoutGround(Texture2D screenshotTexture)
     {
-      _screenshot = _screenshotService.ScreenshotTexture;
-      _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
+      _screenshotWithGround = screenshotTexture;
+      _screenshotService.TakeScreenshotWithoutGround(onTake: CreateFinishWindow);
     }
 
-    private void CreateFinishWindow()
+    private void CreateFinishWindow(Texture2D screenshotTexture)
     {
-      Texture2D screenshotWithoutGround = _screenshotService.ScreenshotTexture;
       GameObject finishWindow = _windowFactory.CreateFinishWindow();
-      finishWindow.GetComponent<FinishWindow>().Initialize(_screenshot, screenshotWithoutGround);
+      finishWindow.GetComponent<FinishWindow>().Initialize(_screenshotWithGround, screenshotTexture);
     }
   }
 }

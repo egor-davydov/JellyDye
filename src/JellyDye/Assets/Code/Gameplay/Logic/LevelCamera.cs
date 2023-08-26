@@ -4,6 +4,7 @@ namespace Code.Gameplay.Logic
 {
   public class LevelCamera : MonoBehaviour
   {
+    [field: SerializeField] public Camera ScreenshotCamera { get; private set; }
     [field: SerializeField] public float FlashDuration { get; private set; }
     [field: SerializeField] public Light FlashLight { get; private set; }
     [field: SerializeField] public AudioSource PhotoAudioSource { get; private set; }

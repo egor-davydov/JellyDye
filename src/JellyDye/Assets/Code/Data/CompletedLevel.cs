@@ -7,11 +7,13 @@ namespace Code.Data
   {
     public int Index;
     public int Percentage;
+    public string ResultImage;
 
-    public CompletedLevel(int index, int percentage)
+    public CompletedLevel(int index, int percentage, string resultImage)
     {
       Index = index;
       Percentage = percentage;
+      ResultImage = resultImage;
     }
   }
 }

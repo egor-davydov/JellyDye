@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using Code.Helpers;
 using Code.Services.Progress.SaveLoad;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Code.Editor
 {
@@ -12,6 +14,16 @@ namespace Code.Editor
     public static void ClearProgress()
     {
       File.Delete(FileSaveLoadService.ProgressFilePath);
+    }
+
+    [MenuItem("Tools/Show Path To Progress file")]
+    public static void ShowPathProgress()
+    {
+      string filePath = FileSaveLoadService.ProgressFilePath;
+      if (!File.Exists(filePath))
+        return;
+
+      Debug.Log(filePath);
     }
 
     [MenuItem("Tools/Setup Screenshots")]
