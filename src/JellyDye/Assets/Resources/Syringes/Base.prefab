@@ -58,12 +58,12 @@ MonoBehaviour:
   scaleWithTransform: 0
   scale: {x: 0.05, y: 0.05}
   scaleRandomness: 0
-  velocityWeight: 1
+  velocityWeight: 0.4
   velocityTexture: {fileID: 0}
-  maxRelativeVelocity: 21.4
+  maxRelativeVelocity: 1
   velocityScale: {x: 1, y: 1, z: 1}
-  maxRelativeAngularVelocity: 20
-  angularVelocityScale: 20
+  maxRelativeAngularVelocity: 1
+  angularVelocityScale: 100
   force: {x: -1, y: 0, z: 0}
   torque: 0
   densityWeight: 1
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 4188462006210841643}
   - component: {fileID: 1214512074195584675}
   - component: {fileID: 5631050146303792006}
+  - component: {fileID: 5440877559713876049}
   - component: {fileID: 8827950845319522821}
   m_Layer: 8
   m_Name: Base
@@ -203,14 +204,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db679376c3b346e68b68bef605ee4ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _syringeAudio: {fileID: 5440877559713876049}
   _syringeMove: {fileID: 4188462006210841643}
-  _audioSource: {fileID: 8827950845319522821}
-  _audioClipReset: {fileID: 8300000, guid: 2abad513665d8c2499ba9a98887d8b6f, type: 3}
   _fluxyTarget: {fileID: 1312922224575281827}
-  _paintIncrease: 3
-  _paintIncrease2: 2.5
-  _paintRotationOverTime: 90
-  _maxPaintIncrease: 2
+  _paintIncrease: 2.5
+  _paintIncrease2: 2
+  _paintRotationOverTime: 120
+  _maxPaintIncrease: 1.5
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
   _pistonSpeed: 0.15
@@ -235,9 +235,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2407ce121193496da9e62cc5d6d7d91e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _syringeAudio: {fileID: 5440877559713876049}
   _fluxyTarget: {fileID: 1312922224575281827}
   _liquidRenderer: {fileID: 0}
   _shader: {fileID: 4800000, guid: ccfc7d68845db8341944b3091b59be55, type: 3}
+--- !u!114 &5440877559713876049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6908023878915511053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c553be848f4f6ab918b04cfaba390f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 8827950845319522821}
+  _audioClipReset: {fileID: 8300000, guid: d9d76d4b3cdd2524198d03ee4cf61e2b, type: 3}
+  _audioClipFill: {fileID: 8300000, guid: 50061c22ed5935b4ea2b27c95d025e03, type: 3}
+  _audioClipFillEnd: {fileID: 8300000, guid: f9205588fd5014b4cb3d33d71290f2f1, type: 3}
 --- !u!82 &8827950845319522821
 AudioSource:
   m_ObjectHideFlags: 0
@@ -247,7 +264,7 @@ AudioSource:
   m_GameObject: {fileID: 6908023878915511053}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 2563df1dcf0ff234ea170d3a82fffe3c, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

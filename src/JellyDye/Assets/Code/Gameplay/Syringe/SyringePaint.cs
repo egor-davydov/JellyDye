@@ -5,6 +5,7 @@ namespace Code.Gameplay.Syringe
 {
   public class SyringePaint : MonoBehaviour
   {
+    [SerializeField] private SyringeAudio _syringeAudio;
     [SerializeField] private FluxyTarget _fluxyTarget;
     [SerializeField] private MeshRenderer _liquidRenderer;
     [SerializeField] private Shader _shader;
@@ -19,6 +20,7 @@ namespace Code.Gameplay.Syringe
 
     public void ChangeLiquidColor(Color newColor)
     {
+      _syringeAudio.PlayReset();
       _fluxyTarget.color = newColor;
       _liquidRenderer.sharedMaterial.SetColor(LiquidColorId, newColor);
       _liquidRenderer.sharedMaterial.SetColor(LiquidHColorId, newColor);

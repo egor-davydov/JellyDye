@@ -56,8 +56,7 @@ namespace Code.Editor
         foreach (FluxyContainer fluxyContainer in fluxyContainers)
           PrefabUtility.RevertObjectOverride(fluxyContainer.clearTexture, InteractionMode.AutomatedAction);
       }
-      DrawPropertiesExcluding(serializedObject, "m_Script");
-      if (GUILayout.Button("Center meshes"))
+      if (GUILayout.Button("Center containers"))
       {
         foreach (FluxyContainer fluxyContainer in fluxyContainers)
         {
@@ -68,6 +67,8 @@ namespace Code.Editor
           Debug.Log($"name= {customMesh.name}; wasPosition= {transformLocalPosition}; containerCenter= {containerCenter};");
         }
       }
+      
+      DrawPropertiesExcluding(serializedObject, "m_Script");
 
       // Apply changes to the serializedProperty
       if (GUI.changed)

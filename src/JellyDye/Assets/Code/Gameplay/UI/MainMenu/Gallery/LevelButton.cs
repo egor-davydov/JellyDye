@@ -13,18 +13,21 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
 {
   public class LevelButton : MonoBehaviour
   {
+    [SerializeField] private Image _backgroundImage;
     [SerializeField] private Button _loadLevelButton;
     [SerializeField] private TextMeshProUGUI _levelNumber;
     [SerializeField] private TextMeshProUGUI _levelPercentage;
+    [SerializeField] private TextMeshProUGUI _levelNumberWithPercentage;
+    [SerializeField] private Sprite _levelCompletedSprite;
     [SerializeField, Range(0, 100)] private int _yellowPercentage;
     [SerializeField, Range(0, 100)] private int _redPercentage;
+    [SerializeField] private Color _greenPercentageColor; 
+    [SerializeField] private Color _yellowPercentageColor;
+    [SerializeField] private Color _redPercentageColor;
 
     private GameStateMachine _gameStateMachine;
     private int _levelIndex;
     private ProgressService _progressService;
-    private Color GreenPercentageColor => new(0.5f, 1, 0.5f, 1);
-    private Color YellowPercentageColor => new(1, 1, 0.5f, 1);
-    private Color RedPercentageColor => new(1, 0.5f, 0.5f, 1);
 
     [Inject]
     public void Construct(GameStateMachine gameStateMachine, ProgressService progressService)
@@ -39,28 +42,45 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       LevelData progressLevelData = _progressService.Progress.LevelData;
       if (progressLevelData.IsLevelCompleted(_levelIndex))
       {
+        _backgroundImage.sprite = _levelCompletedSprite;
         int percentage = progressLevelData.CompletedLevel(_levelIndex).Percentage;
         
-        _levelPercentage.gameObject.SetActive(true);
-        _levelNumber.gameObject.SetActive(false);
+        SwitchButtonViewToComplete(true);
         _levelPercentage.text = $"{percentage}\n%";
-        Color levelPercentageColor;
-        if(percentage > _yellowPercentage)
-        {
-          levelPercentageColor = GreenPercentageColor;
-        }
-        else
-        {
-          levelPercentageColor = percentage > _redPercentage
-            ? YellowPercentageColor
-            : RedPercentageColor;
-        }
-        
+        _levelNumberWithPercentage.text = (_levelIndex + 1).ToString();
+        Color levelPercentageColor = PercentageColor(percentage);
+
         _levelPercentage.color = levelPercentageColor;
-        _levelPercentage.outlineColor = levelPercentageColor;
       }
       else
+      {
+        SwitchButtonViewToComplete(false);
         _levelNumber.text = (_levelIndex + 1).ToString();
+      }
+    }
+
+    private void SwitchButtonViewToComplete(bool value)
+    {
+      _levelPercentage.gameObject.SetActive(value);
+      _levelNumberWithPercentage.gameObject.SetActive(value);
+      _levelNumber.gameObject.SetActive(!value);
+    }
+
+    private Color PercentageColor(int percentage)
+    {
+      Color levelPercentageColor;
+      if (percentage > _yellowPercentage)
+      {
+        levelPercentageColor = _greenPercentageColor;
+      }
+      else
+      {
+        levelPercentageColor = percentage > _redPercentage
+          ? _yellowPercentageColor
+          : _redPercentageColor;
+      }
+
+      return levelPercentageColor;
     }
 
     private void Awake() =>

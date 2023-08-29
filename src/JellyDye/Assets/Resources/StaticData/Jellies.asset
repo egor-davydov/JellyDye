@@ -63,7 +63,7 @@ MonoBehaviour:
     <TargetColor>k__BackingField: {r: 1, g: 0.9647059, b: 0, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: c4c12a12633a473d84e6cf6e39a851cd, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: d2367dc008e84404bf7c32fa7ee81578, type: 3}
-    <TargetColor>k__BackingField: {r: 0.7169812, g: 0.4934064, b: 0, a: 1}
+    <TargetColor>k__BackingField: {r: 1, g: 0.68235296, b: 0, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 85c28e44d618418f85ed540635059daa, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 314313dff6634dc6bdd0828cbee44f1c, type: 3}
     <TargetColor>k__BackingField: {r: 0.19514112, g: 0.6792453, b: 0.12431466, a: 1}
@@ -114,13 +114,13 @@ MonoBehaviour:
     <TargetColor>k__BackingField: {r: 0.9843137, g: 1, b: 0, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 185e671f812848918884d2de74498fb1, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3af10db7d4b5481193ca4407c2b044b2, type: 3}
-    <TargetColor>k__BackingField: {r: 0.46660736, g: 0.9622642, b: 0.5501887, a: 1}
+    <TargetColor>k__BackingField: {r: 0.93794715, g: 1, b: 0.36470592, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: cf027bcc9082435b9df107144efab0d4, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: a2caf097c1f34a9e8f3fce73a528b291, type: 3}
-    <TargetColor>k__BackingField: {r: 0, g: 1, b: 0.16862746, a: 1}
+    <TargetColor>k__BackingField: {r: 1, g: 0.8765984, b: 0.42138356, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 2b8a870dcd8a41e598a953d6a87f6d9a, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3594012b129a4899a1157ec71772724f, type: 3}
-    <TargetColor>k__BackingField: {r: 0, g: 0.8113208, b: 0.17711934, a: 1}
+    <TargetColor>k__BackingField: {r: 0.5378146, g: 0.5471698, b: 0.24089234, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: da854bd4e274428e9140f591994a54dd, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 2e56f9af39694612a0a7b68e546fb05b, type: 3}
     <TargetColor>k__BackingField: {r: 1, g: 0.19215687, b: 0.5019608, a: 1}

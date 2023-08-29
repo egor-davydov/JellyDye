@@ -47,6 +47,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
+      Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
       Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();

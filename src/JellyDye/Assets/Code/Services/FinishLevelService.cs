@@ -1,4 +1,5 @@
-﻿using Code.Services.Factories.UI;
+﻿using Code.Gameplay.UI.FinishWindow;
+using Code.Services.Factories.UI;
 using DG.Tweening;
 using UnityEngine;
 
@@ -11,8 +12,10 @@ namespace Code.Services
     private readonly CameraService _cameraService;
     private readonly ScreenshotService _screenshotService;
     private readonly WindowFactory _windowFactory;
+    
     private GameObject _hudObject;
     private GameObject _syringeObject;
+    private Texture2D _screenshot;
 
     public bool CanFinish { get; private set; }
 
@@ -53,9 +56,19 @@ namespace Code.Services
       _cameraService.ShowPhotoFlash(onFlashEnd: TakeScreenshot);
 
     private void TakeScreenshot() => 
-      _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
+      _screenshotService.TakeScreenshot(onTake: TakeScreenshotWithoutGround);
 
-    private void CreateFinishWindow() => 
-      _windowFactory.CreateFinishWindow();
+    private void TakeScreenshotWithoutGround()
+    {
+      _screenshot = _screenshotService.ScreenshotTexture;
+      _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
+    }
+
+    private void CreateFinishWindow()
+    {
+      Texture2D screenshotWithoutGround = _screenshotService.ScreenshotTexture;
+      GameObject finishWindow = _windowFactory.CreateFinishWindow();
+      finishWindow.GetComponent<FinishWindow>().Initialize(_screenshot, screenshotWithoutGround);
+    }
   }
 }

@@ -7,6 +7,7 @@ namespace Code.Gameplay.UI.FinishWindow
 {
   public class MenuButton : MonoBehaviour
   {
+    [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private Button _menuButton;
     
     private WindowFactory _windowFactory;
@@ -23,6 +24,7 @@ namespace Code.Gameplay.UI.FinishWindow
     
     private void OpenMenu()
     {
+      _uiAudio.PlayClick();
       _windowFactory.CreateMainMenu();
     }
   }

@@ -10,11 +10,11 @@ namespace Code.Services
   public class SceneLoader
   {
     private readonly ICoroutineRunner _coroutineRunner;
+    
+    public float LoadProgress { get; private set; }
 
-    public SceneLoader(ICoroutineRunner coroutineRunner)
-    {
+    public SceneLoader(ICoroutineRunner coroutineRunner) => 
       _coroutineRunner = coroutineRunner;
-    }
 
     public void StartLoad(int index, Action onComplete = null) => 
       _coroutineRunner.StartCoroutine(SceneLoading(index, onComplete));
@@ -25,7 +25,7 @@ namespace Code.Services
 
       while (!loadSceneAsync.isDone)
       {
-        //_loadingCurtain.FillLoadingProgress(loadSceneAsync.progress);
+        LoadProgress = loadSceneAsync.progress;
         yield return null;
       }
 

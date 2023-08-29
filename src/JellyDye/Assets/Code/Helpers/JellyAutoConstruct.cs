@@ -7,9 +7,5 @@ namespace Code.Helpers
   {
     public GameObject softbodyBasePrefab;
     public Mesh mesh;
-
-    public void Construct()
-    {
-    }
   }
 }

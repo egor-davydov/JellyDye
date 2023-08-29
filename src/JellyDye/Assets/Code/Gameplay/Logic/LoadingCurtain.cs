@@ -1,19 +1,20 @@
-﻿using UnityEngine;
+﻿using Code.Services;
+using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Code.Gameplay.Logic
 {
   public class LoadingCurtain : MonoBehaviour
   {
     [SerializeField] private Image _loadingFillImage;
+    private SceneLoader _sceneLoader;
 
-    public void FillLoadingProgress(float loadingProgress) => 
-      _loadingFillImage.fillAmount = loadingProgress;
+    [Inject]
+    public void Construct(SceneLoader sceneLoader) => 
+      _sceneLoader = sceneLoader;
 
-    public void Show() =>
-      gameObject.SetActive(true);
-
-    public void Hide() =>
-      gameObject.SetActive(false);
+    public void Update() => 
+      _loadingFillImage.fillAmount = _sceneLoader.LoadProgress;
   }
 }

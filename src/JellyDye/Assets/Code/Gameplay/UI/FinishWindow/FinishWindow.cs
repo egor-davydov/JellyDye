@@ -25,17 +25,17 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private float _percentageIncreaseTime;
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
-    [SerializeField] private int _levelFinishPercentageBonus = 5;
-    [SerializeField, Range(0,1)] private float _skinProgressFor100Percent = 0.6f;
+    [SerializeField, Range(0,1)] private float _skinProgressFor100Percent;
 
     private PaintCountCalculationService _paintCountCalculationService;
     private GreenButtonFactory _greenButtonFactory;
-    private Tween _scaleTween;
     private ScreenshotService _screenshotService;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ISaveLoadService _saveLoadService;
+    
     private LevelData _progressLevelData;
+    private Tween _scaleTween;
 
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
@@ -52,12 +52,15 @@ namespace Code.Gameplay.UI.FinishWindow
       _progressLevelData = _progressService.Progress.LevelData;
     }
 
-    private void Awake()
+    public void Initialize(Texture2D screenshot, Texture2D screenshotWithoutGround)
     {
       _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressLevelData.CurrentLevelIndex].TargetTextureWithGround;
-      _yourResultImage.texture = _screenshotService.ScreenshotTexture;
+      _yourResultImage.texture = screenshotWithoutGround;
       AppearanceAnimation(StartWindowAnimations);
     }
+    
+    private void OnDestroy() => 
+      _scaleTween.Kill();
 
     private void StartWindowAnimations()
     {
@@ -71,17 +74,12 @@ namespace Code.Gameplay.UI.FinishWindow
       transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
     }
 
-    private void OnDestroy()
-    {
-      _scaleTween.Kill();
-    }
-
     private IEnumerator PercentageIncrease()
     {
       float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
-      float finalPercentage = RoundAndClampPercentage(yourPercentage + _levelFinishPercentageBonus);
-      SetToProgress(finalPercentage);
-      Debug.Log($"yourPercentage= {yourPercentage}");
+      float finalPercentage = RoundAndClampPercentage(yourPercentage);
+      WriteToProgress(finalPercentage);
+      //Debug.Log($"yourPercentage= {yourPercentage}");
       float currentTime = 0;
       while (currentTime < _percentageIncreaseTime)
       {
@@ -97,8 +95,9 @@ namespace Code.Gameplay.UI.FinishWindow
       _greenButtonFactory.CreateMenuButton(transform);
     }
 
-    private void SetToProgress(float finalPercentage)
+    private void WriteToProgress(float finalPercentage)
     {
+      //Convert.ToBase64String()
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
       _saveLoadService.SaveProgress();
     }

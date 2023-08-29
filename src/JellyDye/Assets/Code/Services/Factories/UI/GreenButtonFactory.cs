@@ -1,5 +1,4 @@
-﻿using Code.Gameplay.Hud;
-using Code.Services.AssetManagement;
+﻿using Code.Services.AssetManagement;
 using UnityEngine;
 using Zenject;
 

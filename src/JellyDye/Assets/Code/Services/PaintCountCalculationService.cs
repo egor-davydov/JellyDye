@@ -75,7 +75,7 @@ namespace Code.Services
         countPixelsShouldPaint += pixelsCount.y;
       }
 
-      return ((float)paintedPixelsCount / countPixelsShouldPaint * 100);
+      return (float)paintedPixelsCount / countPixelsShouldPaint * 100;
     }
 
     private Vector2Int CalculateJellyPaintedPixelsCount(Texture2D fluxyTexture, JellyConfig jellyConfig, Vector4 containerUVRect)
@@ -85,10 +85,10 @@ namespace Code.Services
       Texture2D maskTexture = jellyConfig.MaskTexture;
       foreach (Vector2 uvCoordinates in jellyConfig.Mesh.uv)
       {
-        float uvCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
-        float uvCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
-        int x = (int)(uvCoordinatesX * fluxyTexture.width);
-        int y = (int)(uvCoordinatesY * fluxyTexture.height);
+        float uvFluxyCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
+        float uvFluxyCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
+        int x = (int)(uvFluxyCoordinatesX * fluxyTexture.width);
+        int y = (int)(uvFluxyCoordinatesY * fluxyTexture.height);
         if (maskTexture.GetPixel((int)(uvCoordinates.x * maskTexture.width), (int)(uvCoordinates.y * maskTexture.height)).r != 0)
         {
           shouldPaintedPixelsCount--;

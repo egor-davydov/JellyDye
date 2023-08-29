@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.IO;
 using System.Linq;
-using Code.Gameplay.Hud.PaintChange;
 using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
-using Code.Infrastructure.States;
+using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
@@ -16,7 +15,6 @@ namespace Code.Helpers
 {
   public class Screenshots : MonoBehaviour
   {
-    private GameStateMachine _gameStateMachine;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ScreenshotService _screenshotService;
@@ -28,14 +26,13 @@ namespace Code.Helpers
     private string _screenshotsFolder;
 
     [Inject]
-    public void Construct(GameStateMachine gameStateMachine, ProgressService progressService,
+    public void Construct( ProgressService progressService,
       StaticDataService staticDataService, ScreenshotService screenshotService, JelliesFactory jelliesFactory)
     {
       _jelliesFactory = jelliesFactory;
       _screenshotService = screenshotService;
       _staticDataService = staticDataService;
       _progressService = progressService;
-      _gameStateMachine = gameStateMachine;
     }
 
     private void Awake()
@@ -129,11 +126,6 @@ namespace Code.Helpers
       if (File.Exists(screenshotPath))
         File.Delete(screenshotPath);
       File.WriteAllBytes(screenshotPath, bytes);
-    }
-
-    public void EnterNextLevel()
-    {
-      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex + 1);
     }
   }
 }

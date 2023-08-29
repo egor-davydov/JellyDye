@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5939996587899968586}
   - component: {fileID: 6061708808355998243}
-  - component: {fileID: 6337878082908557617}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -80,19 +79,6 @@ MonoBehaviour:
   velocityNoise: 0
   velocityNoiseOffset: 0
   velocityNoiseTiling: 1
---- !u!135 &6337878082908557617
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2036334309284552851}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6469565775657713345
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +414,7 @@ MonoBehaviour:
   lightSource: {fileID: 0}
   targets: []
   pressure: 1
-  viscosity: 0.8
+  viscosity: 0.9
   turbulence: 100
   adhesion: 0.62
   surfaceTension: 0.66

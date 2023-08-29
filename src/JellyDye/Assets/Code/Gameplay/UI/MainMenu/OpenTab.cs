@@ -5,6 +5,7 @@ namespace Code.Gameplay.UI.MainMenu
 {
   public class OpenTab : MonoBehaviour
   {
+    [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private Button _openTabButton;
     [SerializeField] private GameObject _tabToOpen;
     [SerializeField] private GameObject _tabToClose;
@@ -14,6 +15,7 @@ namespace Code.Gameplay.UI.MainMenu
 
     private void OpenTabClick()
     {
+      _uiAudio.PlayClick();
       _tabToClose.SetActive(false);
       _tabToOpen.SetActive(true);
     }

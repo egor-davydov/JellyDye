@@ -9,10 +9,11 @@ namespace Code.Services
 {
   public class CameraService : IDisposable
   {
-    private LevelCamera _levelCamera;
     private readonly ICoroutineRunner _coroutineRunner;
     private Tween _moveTween;
     private Tween _rotateTween;
+    
+    public LevelCamera LevelCamera { get; private set; }
 
     public CameraService(ICoroutineRunner coroutineRunner)
     {
@@ -21,7 +22,7 @@ namespace Code.Services
 
     public void Initialize(LevelCamera levelCamera)
     {
-      _levelCamera = levelCamera;
+      LevelCamera = levelCamera;
     }
 
     public void Dispose()
@@ -32,8 +33,8 @@ namespace Code.Services
 
     public Tween MoveToFinish()
     {
-      _moveTween = _levelCamera.transform.DOMove(_levelCamera.FinishPosition, _levelCamera.MovingTime);
-      _rotateTween = _levelCamera.transform.DORotate(_levelCamera.FinishRotation, _levelCamera.MovingTime);
+      _moveTween = LevelCamera.transform.DOMove(LevelCamera.FinishPosition, LevelCamera.MovingTime);
+      _rotateTween = LevelCamera.transform.DORotate(LevelCamera.FinishRotation, LevelCamera.MovingTime);
       _coroutineRunner.StartCoroutine(ResizeCamera());
       return _moveTween;
     }
@@ -45,9 +46,10 @@ namespace Code.Services
 
     private IEnumerator ShowFlash(Action onFlashEnd)
     {
-      GameObject flashObject = _levelCamera.FlashLight.gameObject;
+      LevelCamera.PhotoAudioSource.Play();
+      GameObject flashObject = LevelCamera.FlashLight.gameObject;
       flashObject.SetActive(true);
-      yield return new WaitForSeconds(_levelCamera.FlashDuration);
+      yield return new WaitForSeconds(LevelCamera.FlashDuration);
       flashObject.SetActive(false);
       onFlashEnd?.Invoke();
     }
@@ -55,18 +57,18 @@ namespace Code.Services
     private IEnumerator ResizeCamera()
     {
       float currentTime = 0;
-      while (currentTime < _levelCamera.MovingTime)
+      while (currentTime < LevelCamera.MovingTime)
       {
-        _levelCamera.Camera.orthographicSize = Mathf.Lerp(
-          _levelCamera.Camera.orthographicSize,
-          _levelCamera.TargetSize,
-          currentTime / _levelCamera.MovingTime);
+        LevelCamera.Camera.orthographicSize = Mathf.Lerp(
+          LevelCamera.Camera.orthographicSize,
+          LevelCamera.TargetSize,
+          currentTime / LevelCamera.MovingTime);
 
         currentTime += Time.deltaTime;
         yield return null;
       }
 
-      _levelCamera.Camera.orthographicSize = _levelCamera.TargetSize;
+      LevelCamera.Camera.orthographicSize = LevelCamera.TargetSize;
     }
   }
 }

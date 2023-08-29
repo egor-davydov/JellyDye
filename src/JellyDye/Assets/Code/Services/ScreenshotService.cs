@@ -8,7 +8,6 @@ namespace Code.Services
   public class ScreenshotService
   {
     private readonly ICoroutineRunner _coroutineRunner;
-    private int _heightUpFrommCenter;
     private Bounds _platformBounds;
     private Camera _camera;
     private int _deltaY;
@@ -25,8 +24,6 @@ namespace Code.Services
       _deltaY = 30;
       _camera = camera;
       _platformBounds = mesh.bounds;
-      _heightUpFrommCenter = Screen.width - 350;
-      //_heightDownFromCenter = Screen.width - 350;
       ScreenshotTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Code.Gameplay.Syringe
@@ -22,7 +23,7 @@ namespace Code.Gameplay.Syringe
       // _worldToScreenPoint = _camera.WorldToScreenPoint(GetMouseWorldPosition());
       // if(_worldToScreenPoint != prev)
       // Debug.Log(_worldToScreenPoint);
-      if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+      if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
       {
         _delta = transform.position - GetMouseWorldPosition();
         _isDragging = true;
@@ -39,6 +40,29 @@ namespace Code.Gameplay.Syringe
         _isDragging = false;
       }
     }
+
+    private bool IsPointerOverUIObject()
+    {
+      for (int i = 0; i < Input.touchCount; i++)
+      {
+        var touch = Input.GetTouch(i);
+        if (touch.phase != TouchPhase.Began)
+          continue;
+        if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+          return true;
+      }
+
+      return false;
+    }
+    // private bool IsPointerOverUIObject()
+    // {
+    //   PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+    //   eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+    //   List<RaycastResult> results = new List<RaycastResult>();
+    //   EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+    //
+    //   return results.Count > 0;
+    // }
 
     private Vector3 GetMouseWorldPosition()
     {

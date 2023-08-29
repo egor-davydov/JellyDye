@@ -5,16 +5,10 @@ namespace Code.Helpers
   public class ConsoleToGUI : MonoBehaviour
   {
     private string _myLog;
-    private bool _doShow
-#if !UNITY_EDITOR
-      = true;
-#else
-      = false;
-#endif
+    private bool _doShow;
 
     private void Awake()
     {
-      DontDestroyOnLoad(gameObject);
       Application.logMessageReceivedThreaded += Log;
     }
 
