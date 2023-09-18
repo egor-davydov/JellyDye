@@ -10,22 +10,26 @@ namespace Code.Services
     private const string ParameterName = "MasterVolume";
 
     private AudioMixer _audioMixer;
-    private float _startAudio;
+    private float _startVolume;
+    
+    public bool IsMuted { get; private set; }
 
     public void Initialize()
     {
       _audioMixer = Resources.Load<AudioMixer>(MixerPath);
-      _audioMixer.GetFloat(ParameterName, out _startAudio);
+      _audioMixer.GetFloat(ParameterName, out _startVolume);
     }
 
     public void MuteGame()
     {
+      IsMuted = true;
       _audioMixer.SetFloat(ParameterName, -80);
     }
     
     public void UnMuteGame()
     {
-      _audioMixer.SetFloat(ParameterName, _startAudio);
+      IsMuted = false;
+      _audioMixer.SetFloat(ParameterName, _startVolume);
     }
   }
 }

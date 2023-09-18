@@ -3,14 +3,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.Gameplay.UI.Hud
+namespace Code.Gameplay.UI.Hud.Sound
 {
   public class SoundButton : MonoBehaviour
   {
+    [SerializeField] private SoundContainer _soundContainer;
     [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private bool _turnSoundOn;
-    [SerializeField] private GameObject _soundOnObject;
-    [SerializeField] private GameObject _soundOffObject;
     [SerializeField] private Button _soundButton;
     
     private AudioService _audioService;
@@ -25,13 +24,13 @@ namespace Code.Gameplay.UI.Hud
     private void OnSoundClick()
     {
       _uiAudio.PlayClick();
-      _soundOnObject.SetActive(_turnSoundOn);
-      _soundOffObject.SetActive(!_turnSoundOn);
+      _soundContainer.SetSoundIcon(_turnSoundOn);
 
       if (_turnSoundOn)
         _audioService.UnMuteGame();
       else
         _audioService.MuteGame();
     }
+
   }
 }
