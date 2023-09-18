@@ -45,6 +45,7 @@ namespace Code.Gameplay.Syringe
     private Tween _moveTween;
     private int _injectableLayer;
     private FinishLevelService _finishLevelService;
+    private readonly WaitForEndOfFrame _waitForEndOfFrame = new();
 
     [Inject]
     public void Construct(FinishLevelService finishLevelService)
@@ -178,7 +179,7 @@ namespace Code.Gameplay.Syringe
 
     private IEnumerator WaitForFirstPaint()
     {
-      yield return new WaitForEndOfFrame();
+      yield return _waitForEndOfFrame;
       _finishLevelService.CheckPaint();
     }
 

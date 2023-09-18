@@ -67,6 +67,12 @@ namespace Code.Editor
           Debug.Log($"name= {customMesh.name}; wasPosition= {transformLocalPosition}; containerCenter= {containerCenter};");
         }
       }
+      if (GUILayout.Button("Setup Obi Updater"))
+      {
+        ObiFixedUpdater obiFixedUpdater = jellyAutoConstruct.GetComponentInChildren<ObiFixedUpdater>();
+        foreach (ObiSolver obiSolver in jellyAutoConstruct.GetComponentsInChildren<ObiSolver>()) 
+          obiFixedUpdater.solvers.Add(obiSolver);
+      }
       
       DrawPropertiesExcluding(serializedObject, "m_Script");
 
