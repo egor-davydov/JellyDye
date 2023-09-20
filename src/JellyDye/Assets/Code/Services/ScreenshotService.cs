@@ -51,15 +51,17 @@ namespace Code.Services
       Vector3 platformMax = _camera.WorldToScreenPoint(_platformBounds.max);
       Vector3 platformMin = _camera.WorldToScreenPoint(_platformBounds.min);
       platformMax.y -= _deltaY;
-      Debug.Log($"platformMax= {platformMax}");
-      Debug.Log($"platformMin= {platformMin}");
       int minX = Mathf.Clamp((int)platformMin.x, 0, Screen.width);
       int maxX = Mathf.Clamp((int)platformMax.x, 0, Screen.width);
       int minY = Mathf.Clamp((int)platformMin.y, 0, Screen.height);
       int maxY = Mathf.Clamp((int)platformMax.y, 0, Screen.height);
       maxX -= minX;
-      Debug.Log($"Screen.width={Screen.width}; Screen.height={Screen.height};");
-      Debug.Log($"minX={minX}; maxX={maxX}; minY={minY}; maxY={maxY}; ");
+#if UNITY_EDITOR
+      // Debug.Log($"platformMax= {platformMax}");
+      // Debug.Log($"platformMin= {platformMin}");
+      // Debug.Log($"Screen.width={Screen.width}; Screen.height={Screen.height};");
+      // Debug.Log($"minX={minX}; maxX={maxX}; minY={minY}; maxY={maxY}; ");
+#endif
       ScreenshotTexture = new Texture2D(maxX, maxY+minY, TextureFormat.RGB24, false);
       Rect pixelsRegion = new(minX, minY, maxX, maxY+minY);
       return pixelsRegion;

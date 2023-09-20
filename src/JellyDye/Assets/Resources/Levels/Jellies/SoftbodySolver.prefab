@@ -268,7 +268,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 30
+  m_CookingOptions: 16
   m_Mesh: {fileID: 0}
 --- !u!137 &6469565776728573653
 SkinnedMeshRenderer:
