@@ -124,6 +124,7 @@ namespace Code.Services
           maxColorsCountColor = keyValuePair.Key;
         }
       }
+      colors.Clear();
 
       Debug.Log($"name={jellyConfig.Mesh.name}; percentage= {(float)paintedPixelsCount / shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
       Debug.Log($"maxColorsCountColor={maxColorsCountColor};TargetColor={jellyConfig.TargetColor}; maxColorsCount= {maxColorsCount};");
