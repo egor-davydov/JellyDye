@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Code.Data;
 using Code.Services;
 using Code.Services.Factories.UI;
@@ -37,6 +38,8 @@ namespace Code.Gameplay.UI.FinishWindow
     private LevelData _progressLevelData;
     private Tween _scaleTween;
 
+    [DllImport("__Internal")] private static extern void SetToLeaderboard(int score);
+    
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
       GreenButtonFactory greenButtonFactory, ScreenshotService screenshotService, ProgressService progressService,
@@ -100,6 +103,7 @@ namespace Code.Gameplay.UI.FinishWindow
       //Convert.ToBase64String()
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
       _saveLoadService.SaveProgress();
+      SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
     }
 
     private void SetPercentage(float currentPercentage)
