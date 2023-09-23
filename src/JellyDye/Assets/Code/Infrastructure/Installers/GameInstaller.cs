@@ -57,7 +57,11 @@ namespace Code.Infrastructure.Installers
     private void BindProgressServices()
     {
       Container.Bind<ProgressService>().AsSingle();
+#if UNITY_EDITOR
       Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
+#else
+      Container.Bind<ISaveLoadService>().To<YandexSaveLoadService>().AsSingle();
+#endif
     }
 
     private void BindStates()
