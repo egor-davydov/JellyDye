@@ -1,4 +1,5 @@
-﻿using Code.Infrastructure.States;
+﻿using System.Runtime.InteropServices;
+using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
@@ -11,6 +12,8 @@ namespace Code.Infrastructure.Installers
 {
   public class GameInstaller : MonoInstaller, IInitializable, ICoroutineRunner
   {
+    [DllImport("__Internal")] private static extern bool IsYandexGames();
+    
     public override void InstallBindings()
     {
       Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
@@ -60,7 +63,10 @@ namespace Code.Infrastructure.Installers
 #if UNITY_EDITOR
       Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
 #else
-      Container.Bind<ISaveLoadService>().To<YandexSaveLoadService>().AsSingle();
+      if(IsYandexGames())
+        Container.Bind<ISaveLoadService>().To<YandexSaveLoadService>().AsSingle();
+      else
+        Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
 #endif
     }
 

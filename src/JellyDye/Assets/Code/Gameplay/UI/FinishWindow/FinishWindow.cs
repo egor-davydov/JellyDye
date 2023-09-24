@@ -26,7 +26,7 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private float _percentageIncreaseTime;
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
-    [SerializeField, Range(0,1)] private float _skinProgressFor100Percent;
+    [SerializeField, Range(0, 1)] private float _skinProgressFor100Percent;
 
     private PaintCountCalculationService _paintCountCalculationService;
     private GreenButtonFactory _greenButtonFactory;
@@ -34,12 +34,16 @@ namespace Code.Gameplay.UI.FinishWindow
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ISaveLoadService _saveLoadService;
-    
+
     private LevelData _progressLevelData;
     private Tween _scaleTween;
 
-    [DllImport("__Internal")] private static extern void SetToLeaderboard(int score);
-    
+    [DllImport("__Internal")]
+    private static extern bool IsYandexGames();
+
+    [DllImport("__Internal")]
+    private static extern void SetToLeaderboard(int score);
+
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
       GreenButtonFactory greenButtonFactory, ScreenshotService screenshotService, ProgressService progressService,
@@ -51,7 +55,7 @@ namespace Code.Gameplay.UI.FinishWindow
       _screenshotService = screenshotService;
       _greenButtonFactory = greenButtonFactory;
       _paintCountCalculationService = paintCountCalculationService;
-      
+
       _progressLevelData = _progressService.Progress.LevelData;
     }
 
@@ -61,8 +65,8 @@ namespace Code.Gameplay.UI.FinishWindow
       _yourResultImage.texture = screenshotWithoutGround;
       AppearanceAnimation(StartWindowAnimations);
     }
-    
-    private void OnDestroy() => 
+
+    private void OnDestroy() =>
       _scaleTween.Kill();
 
     private void StartWindowAnimations()
@@ -91,7 +95,7 @@ namespace Code.Gameplay.UI.FinishWindow
         SetPercentage(currentPercentage);
         yield return null;
       }
-      
+
       _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
       _nextSkinProgressBar.IncreaseProgress(_skinProgressFor100Percent / 100 * finalPercentage);
       SetPercentage(finalPercentage);
@@ -100,10 +104,10 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void WriteToProgress(float finalPercentage)
     {
-      //Convert.ToBase64String()
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
       _saveLoadService.SaveProgress();
-      SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
+      if (IsYandexGames())
+        SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
     }
 
     private void SetPercentage(float currentPercentage)

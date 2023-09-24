@@ -19,4 +19,7 @@ mergeInto(LibraryManager.library, {
         lb.setLeaderboardScore('Paint', score)
     });
   },
+  IsYandexGames: function (score) {
+     return isYandexGames;
+  },
 });
