@@ -8,16 +8,14 @@ namespace Code.Data
   public class SkinData
   {
     public float NextSkinProgress;
-    public List<SkinType> OpenedSkins;
-    public SkinType EquippedSkin;
-    public event Action Changed;
-
-    public SkinData(SkinType startSkinType, List<SkinType> openedSkins)
+    public List<SkinType> OpenedSkins = new(11)
     {
-      OpenedSkins = openedSkins;
-      EquippedSkin = startSkinType;
-    }
-
+      SkinType.Default
+    };
+    
+    public SkinType EquippedSkin = SkinType.Default;
+    public event Action Changed;
+    
     public void EquipSkin(SkinType skinType)
     {
       EquippedSkin = skinType;

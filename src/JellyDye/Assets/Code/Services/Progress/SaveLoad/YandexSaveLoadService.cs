@@ -35,17 +35,9 @@ namespace Code.Services.Progress.SaveLoad
     [MonoPInvokeCallback(typeof(Action<string>))]
     private static void SetPlayerProgress(string jsonCloudData)
     {
-      if (PlayerHaveProgress(jsonCloudData) == false)
-      {
-        _progressService.CreateProgress();
-        _onLoaded?.Invoke();
-      }
       PlayerProgress playerProgress = JsonUtility.FromJson<PlayerProgress>(jsonCloudData);
       _progressService.SetProgress(playerProgress);
       _onLoaded?.Invoke();
     }
-
-    private static bool PlayerHaveProgress(string jsonCloudData) => 
-      jsonCloudData != "";
   }
 }

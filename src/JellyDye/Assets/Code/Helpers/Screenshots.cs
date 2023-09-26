@@ -37,10 +37,12 @@ namespace Code.Helpers
 
     private void Awake()
     {
+#if UNITY_EDITOR
       _screenshotsFolder = "Levels/TargetColorScreenshots";
       _directionPath = $"{Application.dataPath}/Resources/{_screenshotsFolder}";
       string[] files = Directory.GetFiles($"{Application.dataPath}/Resources/Levels/Jellies", "*.prefab");
       _levelsCount = files.Length - 2;
+#endif
       //Debug.Log($"_levelsCount= {_levelsCount} firstFile= {files[0]}");
     }
 

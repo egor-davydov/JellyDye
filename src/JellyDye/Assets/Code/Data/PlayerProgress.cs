@@ -10,9 +10,9 @@ namespace Code.Data
     public SkinData SkinData;
     public LevelData LevelData;
 
-    public PlayerProgress(SkinType startSkinType, List<SkinType> openedSkins)
+    public PlayerProgress()
     {
-      SkinData = new SkinData(startSkinType, openedSkins);
+      SkinData = new SkinData();
       LevelData = new LevelData();
     }
   }

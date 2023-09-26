@@ -8,9 +8,11 @@ mergeInto(LibraryManager.library, {
   LoadFromYandex: function (callback) {
     player.getData().then(_data =>{
         const jsonObject = JSON.stringify(_data);
+        console.log('LoadFromYandex jsonObject' + jsonObject);
         var bufferSize = lengthBytesUTF8(jsonObject) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(jsonObject, buffer, bufferSize);
+        console.log('LoadFromYandex buffer' + buffer);
         dynCall('vi', callback, [buffer]);
     });
   },

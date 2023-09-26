@@ -15,12 +15,7 @@ namespace Code.Services.Progress
     
     public void CreateProgress()
     {
-      SkinType startSkinType = SkinType.Default;
-      List<SkinType> openedSkins = new(11)
-      {
-        SkinType.Default
-      };
-      Progress = new PlayerProgress(startSkinType, openedSkins);
+      Progress = new PlayerProgress();
     }
   }
 }
