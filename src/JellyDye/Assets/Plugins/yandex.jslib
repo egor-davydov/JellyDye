@@ -8,11 +8,11 @@ mergeInto(LibraryManager.library, {
   LoadFromYandex: function (callback) {
     player.getData().then(_data =>{
         const jsonObject = JSON.stringify(_data);
-        console.log('LoadFromYandex jsonObject' + jsonObject);
+        console.log('LoadFromYandex jsonObject ' + jsonObject);
         var bufferSize = lengthBytesUTF8(jsonObject) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(jsonObject, buffer, bufferSize);
-        console.log('LoadFromYandex buffer' + buffer);
+        console.log('LoadFromYandex buffer ' + buffer);
         dynCall('vi', callback, [buffer]);
     });
   },
@@ -21,7 +21,31 @@ mergeInto(LibraryManager.library, {
         lb.setLeaderboardScore('Paint', score)
     });
   },
-  IsYandexGames: function (score) {
+  IsYandexGames: function () {
      return isYandexGames;
+  },
+  GameReadyToPLay: function () {
+     ysdk.features.LoadingAPI.ready();
+  },
+  ShowFullscreenAdv: function () {
+     ysdk.adv.showFullscreenAdv({
+        callbacks: {
+            onError: function(error) {
+              console.log('Error while show FullscreenAdv:', error);
+            }
+        }
+    })
+  },
+  ShowRewardedVideo: function (onRewarded) {
+     ysdk.adv.showRewardedVideo({
+        callbacks: {
+          onRewarded: () => {
+            dynCall('v', onRewarded, []);
+          },
+          onError: (e) => {
+            console.log('Error while open video ad:', e);
+          }
+        }
+    })
   },
 });
