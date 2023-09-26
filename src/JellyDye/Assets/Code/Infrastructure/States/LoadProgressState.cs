@@ -18,16 +18,14 @@ namespace Code.Infrastructure.States
 
     public void Enter()
     {
-      if (_saveLoadService.IsPlayerHaveProgress())
-        _progressService.SetProgress(_saveLoadService.LoadProgress());
-      else
-        _progressService.CreateProgress();
-      
-      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex);
+      _saveLoadService.LoadProgressAsync(onLoaded: MoveToNextState);
     }
 
     public void Exit()
     {
     }
+
+    private void MoveToNextState() => 
+      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex);
   }
 }

@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
+using AOT;
 using Code.Data;
 using UnityEngine;
 
@@ -6,10 +8,12 @@ namespace Code.Services.Progress.SaveLoad
 {
   public class YandexSaveLoadService : ISaveLoadService
   {
-    private readonly ProgressService _progressService;
+    private static ProgressService _progressService;
+    
+    private static Action _onLoaded;
 
     [DllImport("__Internal")] private static extern void SaveToYandex(string json);
-    [DllImport("__Internal")] private static extern string LoadFromYandex();
+    [DllImport("__Internal")] private static extern void LoadFromYandex(Action<string> onLoaded);
 
     public YandexSaveLoadService(ProgressService progressService)
     {
@@ -22,19 +26,26 @@ namespace Code.Services.Progress.SaveLoad
       SaveToYandex(json);
     }
 
-    public PlayerProgress LoadProgress()
+    public void LoadProgressAsync(Action onLoaded = null)
     {
-      string json = LoadFromYandex();
-      PlayerProgress playerProgress = JsonUtility.FromJson<PlayerProgress>(json);
-
-      return playerProgress;
+      _onLoaded = onLoaded;
+      LoadFromYandex(onLoaded: SetPlayerProgress);
     }
 
-    public bool IsPlayerHaveProgress()
+    [MonoPInvokeCallback(typeof(Action<string>))]
+    private static void SetPlayerProgress(string jsonCloudData)
     {
-      string json = LoadFromYandex();
-
-      return json != "";
+      if (PlayerHaveProgress(jsonCloudData) == false)
+      {
+        _progressService.CreateProgress();
+        _onLoaded?.Invoke();
+      }
+      PlayerProgress playerProgress = JsonUtility.FromJson<PlayerProgress>(jsonCloudData);
+      _progressService.SetProgress(playerProgress);
+      _onLoaded?.Invoke();
     }
+
+    private static bool PlayerHaveProgress(string jsonCloudData) => 
+      jsonCloudData != "";
   }
 }

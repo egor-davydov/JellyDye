@@ -30,7 +30,6 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private PaintCountCalculationService _paintCountCalculationService;
     private GreenButtonFactory _greenButtonFactory;
-    private ScreenshotService _screenshotService;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ISaveLoadService _saveLoadService;
@@ -38,21 +37,21 @@ namespace Code.Gameplay.UI.FinishWindow
     private LevelData _progressLevelData;
     private Tween _scaleTween;
 
+#if !UNITY_EDITOR && UNITY_WEBGL
     [DllImport("__Internal")]
     private static extern bool IsYandexGames();
 
     [DllImport("__Internal")]
     private static extern void SetToLeaderboard(int score);
-
+#endif
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
-      GreenButtonFactory greenButtonFactory, ScreenshotService screenshotService, ProgressService progressService,
+      GreenButtonFactory greenButtonFactory, ProgressService progressService,
       StaticDataService staticDataService, ISaveLoadService saveLoadService)
     {
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
-      _screenshotService = screenshotService;
       _greenButtonFactory = greenButtonFactory;
       _paintCountCalculationService = paintCountCalculationService;
 
@@ -106,8 +105,10 @@ namespace Code.Gameplay.UI.FinishWindow
     {
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
       _saveLoadService.SaveProgress();
+#if !UNITY_EDITOR && UNITY_WEBGL
       if (IsYandexGames())
         SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
+#endif
     }
 
     private void SetPercentage(float currentPercentage)

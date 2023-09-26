@@ -1,5 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections;
+using System.IO;
+using System.Threading.Tasks;
 using Code.Data;
+using Code.Infrastructure;
 using UnityEngine;
 
 namespace Code.Services.Progress.SaveLoad
@@ -9,10 +13,12 @@ namespace Code.Services.Progress.SaveLoad
     public static readonly string ProgressFilePath = $"{Application.persistentDataPath}/Progress.dat";
     
     private readonly ProgressService _progressService;
+    private readonly ICoroutineRunner _coroutineRunner;
 
-    public FileSaveLoadService(ProgressService progressService)
+    public FileSaveLoadService(ProgressService progressService, ICoroutineRunner coroutineRunner)
     {
       _progressService = progressService;
+      _coroutineRunner = coroutineRunner;
     }
     
     public void SaveProgress()
@@ -22,16 +28,32 @@ namespace Code.Services.Progress.SaveLoad
       streamWriter.WriteLine(JsonUtility.ToJson(_progressService.Progress));
     }
     
-    public PlayerProgress LoadProgress()
+    public void LoadProgressAsync(Action onLoaded = null)
+    {
+      if (PlayerHaveProgress() == false)
+      {
+        _progressService.CreateProgress();
+        onLoaded?.Invoke();
+        return;
+      }
+      _coroutineRunner.StartCoroutine(ReadDataFromFile(onLoaded));
+    }
+
+    private IEnumerator ReadDataFromFile(Action onLoaded = null)
     {
       using FileStream fileStream = File.Open(ProgressFilePath, FileMode.Open);
       using StreamReader streamReader = new StreamReader(fileStream);
-      PlayerProgress playerProgress = JsonUtility.FromJson<PlayerProgress>(streamReader.ReadToEnd());
-
-      return playerProgress;
+      Task<string> readingTask = streamReader.ReadToEndAsync();
+      
+      if (!readingTask.IsCompleted)
+        yield return null;
+      
+      PlayerProgress playerProgress = JsonUtility.FromJson<PlayerProgress>(readingTask.Result);
+      _progressService.SetProgress(playerProgress);
+      onLoaded?.Invoke();
     }
 
-    public bool IsPlayerHaveProgress() => 
+    private bool PlayerHaveProgress() => 
       File.Exists(ProgressFilePath);
   }
 }

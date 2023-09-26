@@ -5,13 +5,13 @@ mergeInto(LibraryManager.library, {
     var jsonObject = JSON.parse(dataString);
     player.setData(jsonObject);
   },
-  LoadFromYandex: function () {
+  LoadFromYandex: function (callback) {
     player.getData().then(_data =>{
         const jsonObject = JSON.stringify(_data);
         var bufferSize = lengthBytesUTF8(jsonObject) + 1;
         var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
+        stringToUTF8(jsonObject, buffer, bufferSize);
+        dynCall('vi', callback, [buffer]);
     });
   },
   SetToLeaderboard: function (score) {
