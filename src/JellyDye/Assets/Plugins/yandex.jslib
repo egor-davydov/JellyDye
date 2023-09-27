@@ -27,9 +27,15 @@ mergeInto(LibraryManager.library, {
   GameReadyToPLay: function () {
      ysdk.features.LoadingAPI.ready();
   },
-  ShowFullscreenAdv: function () {
+  ShowFullscreenAdv: function (onOpen, onClose) {
      ysdk.adv.showFullscreenAdv({
         callbacks: {
+            onOpen: function() {
+              dynCall('v', onOpen, []);
+            },
+            onClose: function(wasShown) {
+              dynCall('v', onClose, []);
+            },
             onError: function(error) {
               console.log('Error while show FullscreenAdv:', error);
             }

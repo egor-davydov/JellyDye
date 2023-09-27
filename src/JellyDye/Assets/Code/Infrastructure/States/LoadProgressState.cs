@@ -1,5 +1,7 @@
 #if !UNITY_EDITOR && UNITY_WEBGL
+using System;
 using System.Runtime.InteropServices;
+using Code.StaticServices;
 #endif
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
@@ -20,7 +22,7 @@ namespace Code.Infrastructure.States
     private static extern void GameReadyToPLay();
 
     [DllImport("__Internal")]
-    private static extern void ShowFullscreenAdv();
+    private static extern void ShowFullscreenAdv(Action onOpen, Action onClose);
 #endif
     public LoadProgressState(GameStateMachine gameStateMachine, ProgressService progressService, ISaveLoadService saveLoadService)
     {
@@ -45,7 +47,7 @@ namespace Code.Infrastructure.States
       if (IsYandexGames())
       {
         GameReadyToPLay();
-        ShowFullscreenAdv();
+        ShowFullscreenAdv(FullscreenAdvStaticService.OnOpen, FullscreenAdvStaticService.OnClose);
       }
 #endif
     }

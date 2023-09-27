@@ -1,6 +1,7 @@
 ﻿#if !UNITY_EDITOR && UNITY_WEBGL
 using System;
 using System.Runtime.InteropServices;
+using Code.StaticServices;
 #endif
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;

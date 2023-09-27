@@ -3,6 +3,7 @@ using System.Collections;
 #if !UNITY_EDITOR && UNITY_WEBGL
 using System.Linq;
 using System.Runtime.InteropServices;
+using Code.StaticServices;
 #endif
 using Code.Data;
 using Code.Services;
@@ -47,7 +48,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private static extern void SetToLeaderboard(int score);
 
     [DllImport("__Internal")]
-    private static extern void ShowFullscreenAdv();
+    private static extern void ShowFullscreenAdv(Action onOpen, Action onClose);
 #endif
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
@@ -114,7 +115,7 @@ namespace Code.Gameplay.UI.FinishWindow
       if (IsYandexGames())
       {
         SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
-        ShowFullscreenAdv();
+        ShowFullscreenAdv(FullscreenAdvStaticService.OnOpen, FullscreenAdvStaticService.OnClose);
       }
 #endif
     }

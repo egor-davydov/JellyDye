@@ -1,14 +1,13 @@
 ﻿#if !UNITY_EDITOR && UNITY_WEBGL
+using Code.Gameplay.UI.MainMenu.Skins;
 using System.Runtime.InteropServices;
 using System;
 using AOT;
-#endif
 
-namespace Code.Gameplay.UI.MainMenu.Skins
+namespace Code.StaticServices
 {
   public class RewardedStaticService
   {
-#if !UNITY_EDITOR && UNITY_WEBGL
     public static Action<SkinType> OnRewarded;
     private static SkinType _skinType;
     [DllImport("__Internal")]
@@ -27,6 +26,6 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     {
       OnRewarded?.Invoke(_skinType);
     }
-#endif
   }
 }
+#endif
