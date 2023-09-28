@@ -15,6 +15,7 @@ namespace Code.StaticServices
 
     [DllImport("__Internal")]
     private static extern void ShowRewardedVideo(Action onRewarded);
+
     public static void ShowRewarded(SkinType skinType)
     {
       _skinType = skinType;

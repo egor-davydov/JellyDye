@@ -1,8 +1,4 @@
-#if !UNITY_EDITOR && UNITY_WEBGL
-using System;
-using System.Runtime.InteropServices;
-using Code.StaticServices;
-#endif
+using Code.Services;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 
@@ -13,22 +9,15 @@ namespace Code.Infrastructure.States
     private readonly GameStateMachine _gameStateMachine;
     private readonly ProgressService _progressService;
     private readonly ISaveLoadService _saveLoadService;
+    private readonly YandexService _yandexService;
 
-#if !UNITY_EDITOR && UNITY_WEBGL
-    [DllImport("__Internal")]
-    private static extern bool IsYandexGames();
-
-    [DllImport("__Internal")]
-    private static extern void GameReadyToPLay();
-
-    [DllImport("__Internal")]
-    private static extern void ShowFullscreenAdv(Action onOpen, Action onClose);
-#endif
-    public LoadProgressState(GameStateMachine gameStateMachine, ProgressService progressService, ISaveLoadService saveLoadService)
+    public LoadProgressState(GameStateMachine gameStateMachine, ProgressService progressService,
+      ISaveLoadService saveLoadService, YandexService yandexService)
     {
       _gameStateMachine = gameStateMachine;
       _progressService = progressService;
       _saveLoadService = saveLoadService;
+      _yandexService = yandexService;
     }
 
     public void Enter()
@@ -42,14 +31,8 @@ namespace Code.Infrastructure.States
 
     private void MoveToNextState()
     {
+      _yandexService.ShowFullscreenAdvAndPauseGame();
       _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex);
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-      {
-        GameReadyToPLay();
-        //ShowFullscreenAdv(FullscreenAdvStaticService.OnOpen, FullscreenAdvStaticService.OnClose);
-      }
-#endif
     }
   }
 }

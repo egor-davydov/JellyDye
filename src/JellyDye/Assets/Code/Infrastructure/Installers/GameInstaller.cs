@@ -48,6 +48,7 @@ namespace Code.Infrastructure.Installers
     {
       Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
+      Container.Bind<YandexService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();

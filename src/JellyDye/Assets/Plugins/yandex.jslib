@@ -16,7 +16,7 @@ mergeInto(LibraryManager.library, {
         dynCall('vi', callback, [buffer]);
     });
   },
-  SetToLeaderboard: function (score) {
+  SetToYandexLeaderboard: function (score) {
     ysdk.getLeaderboards().then(lb =>{
         lb.setLeaderboardScore('Paint', score)
     });
@@ -24,10 +24,10 @@ mergeInto(LibraryManager.library, {
   IsYandexGames: function () {
      return isYandexGames;
   },
-  GameReadyToPLay: function () {
+  GameReadyToPLayYandex: function () {
      ysdk.features.LoadingAPI.ready();
   },
-  ShowFullscreenAdv: function (onOpen, onClose) {
+  ShowYandexFullscreenAdv: function (onOpen, onClose) {
      ysdk.adv.showFullscreenAdv({
         callbacks: {
             onOpen: function() {

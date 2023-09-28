@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
-#if !UNITY_EDITOR && UNITY_WEBGL
 using System.Linq;
-using System.Runtime.InteropServices;
-using Code.StaticServices;
-#endif
 using Code.Data;
 using Code.Services;
 using Code.Services.Factories.UI;
@@ -39,22 +35,15 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private LevelData _progressLevelData;
     private Tween _scaleTween;
+    private YandexService _yandexService;
 
-#if !UNITY_EDITOR && UNITY_WEBGL
-    [DllImport("__Internal")]
-    private static extern bool IsYandexGames();
-
-    [DllImport("__Internal")]
-    private static extern void SetToLeaderboard(int score);
-
-    [DllImport("__Internal")]
-    private static extern void ShowFullscreenAdv(Action onOpen, Action onClose);
-#endif
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
       GreenButtonFactory greenButtonFactory, ProgressService progressService,
-      StaticDataService staticDataService, ISaveLoadService saveLoadService)
+      StaticDataService staticDataService, ISaveLoadService saveLoadService,
+      YandexService yandexService)
     {
+      _yandexService = yandexService;
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
@@ -111,13 +100,8 @@ namespace Code.Gameplay.UI.FinishWindow
     {
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
       _saveLoadService.SaveProgress();
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-      {
-        SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
-        ShowFullscreenAdv(FullscreenAdvStaticService.OnOpen, FullscreenAdvStaticService.OnClose);
-      }
-#endif
+      _yandexService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
+      _yandexService.ShowFullscreenAdvAndPauseGame();
     }
 
     private void SetPercentage(float currentPercentage)
