@@ -398,11 +398,11 @@ MonoBehaviour:
   lightSource: {fileID: 0}
   targets: []
   pressure: 1
-  viscosity: 0.9
-  turbulence: 100
-  adhesion: 0.62
+  viscosity: 0.65
+  turbulence: 20
+  adhesion: 0.45
   surfaceTension: 0.66
-  buoyancy: 0
+  buoyancy: 10
   dissipation: {x: 0, y: 0, z: 0, w: 0}
   m_Solver: {fileID: 0}
 --- !u!114 &1611545351104495703

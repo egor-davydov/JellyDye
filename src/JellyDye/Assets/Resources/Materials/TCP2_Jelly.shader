@@ -231,7 +231,7 @@ Shader "Custom/TCP2_Jelly"
 
             o.Albedo = paintcolor.rgb;
             float alpha = paintcolor.r == 0 && paintcolor.g == 0 && paintcolor.b == 0 && paintcolor.a == 0 ? jelly.a : paintcolor.a + _AddAlpha;
-            alpha = clamp(alpha, 0, 1);
+            alpha = saturate(alpha);
             o.Alpha = alpha;
 
             //Specular
