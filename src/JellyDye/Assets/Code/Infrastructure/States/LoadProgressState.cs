@@ -47,7 +47,7 @@ namespace Code.Infrastructure.States
       if (IsYandexGames())
       {
         GameReadyToPLay();
-        ShowFullscreenAdv(FullscreenAdvStaticService.OnOpen, FullscreenAdvStaticService.OnClose);
+        //ShowFullscreenAdv(FullscreenAdvStaticService.OnOpen, FullscreenAdvStaticService.OnClose);
       }
 #endif
     }

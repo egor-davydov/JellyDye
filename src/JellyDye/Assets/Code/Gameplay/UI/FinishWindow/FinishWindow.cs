@@ -128,7 +128,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private float RoundAndClampPercentage(float currentPercentage)
     {
-      currentPercentage = (float)Math.Round(currentPercentage, 0);
+      currentPercentage = Mathf.RoundToInt(currentPercentage);
       currentPercentage = Mathf.Clamp(currentPercentage, 0, 100);
       return currentPercentage;
     }

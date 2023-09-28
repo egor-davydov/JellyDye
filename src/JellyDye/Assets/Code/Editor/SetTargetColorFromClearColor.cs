@@ -1,7 +1,7 @@
 ﻿using Fluxy;
 using UnityEngine;
 
-namespace Code.Helpers
+namespace Code.Editor
 {
   public class SetTargetColorFromClearColor : MonoBehaviour
   {

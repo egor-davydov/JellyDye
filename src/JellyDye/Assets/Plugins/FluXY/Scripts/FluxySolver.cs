@@ -466,7 +466,7 @@ namespace Fluxy
                 int tile = i + 1;
                 int c = indices[tile];
 
-                containers[c].UpdateTransform();
+                //containers[c].UpdateTransform();
                 containers[c].UpdateMaterial(tile, fb);
             }
         }
@@ -530,14 +530,14 @@ namespace Fluxy
                         containers[c].targets[j].Splat(containers[c], fb, tile, rects[tile]);
 
                 // see if the container has a target provider, then retrieve additional targets.
-                if (containers[c].TryGetComponent(out FluxyTargetProvider provider))
-                {
-                    var targets = provider.GetTargets();
-
-                    for (int j = 0; j < targets.Count; ++j)
-                        if (targets[j] != null)
-                            targets[j].Splat(containers[c], fb, tile, rects[tile]);
-                }
+                // if (containers[c].TryGetComponent(out FluxyTargetProvider provider))
+                // {
+                //     var targets = provider.GetTargets();
+                //
+                //     for (int j = 0; j < targets.Count; ++j)
+                //         if (targets[j] != null)
+                //             targets[j].Splat(containers[c], fb, tile, rects[tile]);
+                // }
             }
         }
 
@@ -575,7 +575,7 @@ namespace Fluxy
         {
             if (storage != null && deltaTime > 0)
             {
-                UpdateLOD();
+                //UpdateLOD();
 
                 UpdateTileData();
 
@@ -600,10 +600,10 @@ namespace Fluxy
                         SimulationStep(fb, timestep);
                     }
 
-                    if ((readable & ReadbackMode.Density) != 0)
-                        DensityReadback(fb);
-                    if ((readable & ReadbackMode.Velocity) != 0)
-                        VelocityReadback(fb);
+                    // if ((readable & ReadbackMode.Density) != 0)
+                    //     DensityReadback(fb);
+                    // if ((readable & ReadbackMode.Velocity) != 0)
+                    //     VelocityReadback(fb);
                 }
             }
         }

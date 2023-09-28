@@ -4,6 +4,7 @@ using System.Linq;
 using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.Hud.PaintChange;
+using Code.Helpers;
 using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
@@ -11,7 +12,7 @@ using Code.StaticData;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Helpers
+namespace Code.Editor
 {
   public class Screenshots : MonoBehaviour
   {
@@ -37,12 +38,10 @@ namespace Code.Helpers
 
     private void Awake()
     {
-#if UNITY_EDITOR
       _screenshotsFolder = "Levels/TargetColorScreenshots";
       _directionPath = $"{Application.dataPath}/Resources/{_screenshotsFolder}";
       string[] files = Directory.GetFiles($"{Application.dataPath}/Resources/Levels/Jellies", "*.prefab");
       _levelsCount = files.Length - 2;
-#endif
       //Debug.Log($"_levelsCount= {_levelsCount} firstFile= {files[0]}");
     }
 

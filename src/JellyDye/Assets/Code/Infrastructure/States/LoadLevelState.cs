@@ -10,7 +10,6 @@ using Code.Services.Progress.SaveLoad;
 using Code.StaticData;
 using Fluxy;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Code.Infrastructure.States
 {
@@ -70,15 +69,7 @@ namespace Code.Infrastructure.States
       GameObject syringeObject = InitSyringe();
 
       GameObject hudObject = InitHud(syringeObject, levelConfig);
-      // //temp
-      // foreach (RawImage rawImage in hudObject.GetComponentsInChildren<RawImage>())
-      // {
-      //   if(rawImage.gameObject.name == "RawImage1")
-      //     rawImage.texture = fluxySolver.framebuffer.velocityA;
-      //   if(rawImage.gameObject.name == "RawImage2")
-      //     rawImage.texture = fluxySolver.framebuffer.stateA;
-      //
-      // }
+      
       SyringeInjection syringeInjection = syringeObject.GetComponent<SyringeInjection>();
       syringeInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
       _finishLevelService.Initialize(hudObject, syringeObject);
