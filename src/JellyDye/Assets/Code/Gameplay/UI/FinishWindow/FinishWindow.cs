@@ -36,13 +36,15 @@ namespace Code.Gameplay.UI.FinishWindow
     private LevelData _progressLevelData;
     private Tween _scaleTween;
     private YandexService _yandexService;
+    private AnalyticsService _analyticsService;
 
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
       GreenButtonFactory greenButtonFactory, ProgressService progressService,
       StaticDataService staticDataService, ISaveLoadService saveLoadService,
-      YandexService yandexService)
+      YandexService yandexService, AnalyticsService analyticsService)
     {
+      _analyticsService = analyticsService;
       _yandexService = yandexService;
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
@@ -53,10 +55,10 @@ namespace Code.Gameplay.UI.FinishWindow
       _progressLevelData = _progressService.Progress.LevelData;
     }
 
-    public void Initialize(Texture2D screenshot, Texture2D screenshotWithoutGround)
+    public void Initialize(Texture2D screenshot)
     {
       _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressLevelData.CurrentLevelIndex].TargetTextureWithGround;
-      _yourResultImage.texture = screenshotWithoutGround;
+      _yourResultImage.texture = screenshot;
       AppearanceAnimation(StartWindowAnimations);
     }
 
@@ -80,6 +82,8 @@ namespace Code.Gameplay.UI.FinishWindow
       float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
       float finalPercentage = RoundAndClampPercentage(yourPercentage);
       WriteToProgress(finalPercentage);
+      _yandexService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
+      OnLevelEnd(finalPercentage);
       //Debug.Log($"yourPercentage= {yourPercentage}");
       float currentTime = 0;
       while (currentTime < _percentageIncreaseTime)
@@ -96,12 +100,16 @@ namespace Code.Gameplay.UI.FinishWindow
       _greenButtonFactory.CreateMenuButton(transform);
     }
 
+    private void OnLevelEnd(float finalPercentage)
+    {
+      _analyticsService.LevelEnd(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
+      _yandexService.ShowFullscreenAdvAndPauseGame();
+    }
+
     private void WriteToProgress(float finalPercentage)
     {
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
       _saveLoadService.SaveProgress();
-      _yandexService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
-      _yandexService.ShowFullscreenAdvAndPauseGame();
     }
 
     private void SetPercentage(float currentPercentage)

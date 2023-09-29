@@ -31,7 +31,7 @@ namespace Code.Infrastructure.States
 
     private void MoveToNextState()
     {
-      _yandexService.ShowFullscreenAdvAndPauseGame();
+      _yandexService.ShowFullscreenAdv();
       _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex);
     }
   }
