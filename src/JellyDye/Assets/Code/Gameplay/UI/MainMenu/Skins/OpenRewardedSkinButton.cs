@@ -1,5 +1,4 @@
 ﻿#if !UNITY_EDITOR && UNITY_WEBGL
-using System;
 using System.Runtime.InteropServices;
 using Code.StaticServices;
 #endif
@@ -23,9 +22,6 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 #if !UNITY_EDITOR && UNITY_WEBGL
     [DllImport("__Internal")]
     private static extern bool IsYandexGames();
-
-    [DllImport("__Internal")]
-    private static extern void ShowRewardedVideo(Action onRewarded);
 #endif
 
     [Inject]
@@ -38,24 +34,13 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     private void Awake()
     {
       _openButton.onClick.AddListener(ShowRewardedVideoClick);
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-        RewardedStaticService.OnRewarded += OpenRewardedSkin;
-#endif
     }
-
-    private void OnDestroy()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      RewardedStaticService.OnRewarded -= OpenRewardedSkin;
-#endif
-    }
-
+    
     private void ShowRewardedVideoClick()
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
       if (IsYandexGames())
-        RewardedStaticService.ShowRewarded(_equipSkinButton.SkinType);
+        RewardedStaticService.ShowRewarded(_equipSkinButton.SkinType, onRewarded: OpenRewardedSkin);
       else
         OpenRewardedSkin(_equipSkinButton.SkinType);
 #else

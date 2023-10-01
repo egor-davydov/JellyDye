@@ -8,24 +8,23 @@ namespace Code.StaticServices
 {
   public class RewardedStaticService
   {
-    public static Action<SkinType> OnRewarded;
     private static SkinType _skinType;
-    [DllImport("__Internal")]
-    private static extern bool IsYandexGames();
+    private static Action<SkinType> _onRewarded;
 
     [DllImport("__Internal")]
     private static extern void ShowRewardedVideo(Action onRewarded);
 
-    public static void ShowRewarded(SkinType skinType)
+    public static void ShowRewarded(SkinType skinType, Action<SkinType> onRewarded)
     {
       _skinType = skinType;
+      _onRewarded = onRewarded;
       ShowRewardedVideo(OnRewardedVideoEnd);
     }
 
     [MonoPInvokeCallback(typeof(Action))]
     private static void OnRewardedVideoEnd()
     {
-      OnRewarded?.Invoke(_skinType);
+      _onRewarded?.Invoke(_skinType);
     }
   }
 }

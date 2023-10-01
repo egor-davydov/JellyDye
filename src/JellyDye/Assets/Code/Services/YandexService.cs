@@ -1,4 +1,5 @@
 ﻿using System;
+using AOT;
 #if !UNITY_EDITOR && UNITY_WEBGL
 using System.Runtime.InteropServices;
 using Code.StaticServices;
@@ -8,6 +9,9 @@ namespace Code.Services
 {
   public class YandexService
   {
+      private static Action<bool> _isCanReviewResponse;
+      private static Action<bool> _onPlayerAction;
+
 #if !UNITY_EDITOR && UNITY_WEBGL
     [DllImport("__Internal")]
     private static extern bool IsYandexGames();
@@ -20,6 +24,12 @@ namespace Code.Services
     
     [DllImport("__Internal")]
     private static extern void SetToYandexLeaderboard(int score);
+    
+    [DllImport("__Internal")]
+    private static extern void RequestYandexIsPlayerCanReview(Action<bool> response);
+
+    [DllImport("__Internal")]
+    private static extern void ShowYandexReviewGameWindow(Action<bool> onPlayerAction);
 #endif
 
     public void SetToLeaderboard(int score)
@@ -53,5 +63,36 @@ namespace Code.Services
         GameReadyToPLayYandex();
 #endif
     }
+
+    public void RequestIsPlayerCanReview(Action<bool> isCanReviewResponse)
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+      if (!IsYandexGames())
+        return; 
+      
+      _isCanReviewResponse = isCanReviewResponse;
+      RequestYandexIsPlayerCanReview(ServerIsCanReviewResponse);
+#endif
+    }
+    public void ShowReviewGameWindow(Action<bool> onPlayerAction)
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+      if (!IsYandexGames())
+        return; 
+      
+      _onPlayerAction = onPlayerAction;
+      ShowYandexReviewGameWindow(ServerReviewWindowActionResponse);
+#endif
+    }
+
+#if !UNITY_EDITOR && UNITY_WEBGL
+    [MonoPInvokeCallback(typeof(Action<bool>))]
+    private static void ServerIsCanReviewResponse(bool value) => 
+        _isCanReviewResponse.Invoke(value);
+    
+    [MonoPInvokeCallback(typeof(Action<bool>))]
+    private static void ServerReviewWindowActionResponse(bool value) => 
+        _onPlayerAction.Invoke(value);
+#endif
   }
 }

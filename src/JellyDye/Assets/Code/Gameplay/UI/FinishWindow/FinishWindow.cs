@@ -103,8 +103,32 @@ namespace Code.Gameplay.UI.FinishWindow
     private void OnLevelEnd(float finalPercentage)
     {
       _analyticsService.LevelEnd(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
-      _yandexService.ShowFullscreenAdvAndPauseGame();
+
+      if(_progressLevelData.CompletedLevels.Count >= 3)
+        _yandexService.RequestIsPlayerCanReview(OnServerResponse);
+      else
+        ShowInterstitial();
     }
+
+    private void OnServerResponse(bool isPlayerCanReview)
+    {
+      if (isPlayerCanReview)
+        ShowReviewWindow();
+      else
+        ShowInterstitial();
+    }
+
+    private void ShowReviewWindow()
+    {
+      Time.timeScale = 0;
+      _yandexService.ShowReviewGameWindow(OnPlayerReviewWindowAction);
+    }
+
+    private void OnPlayerReviewWindowAction(bool value) => 
+      Time.timeScale = 1;
+
+    private void ShowInterstitial() => 
+      _yandexService.ShowFullscreenAdvAndPauseGame();
 
     private void WriteToProgress(float finalPercentage)
     {

@@ -786,8 +786,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 1791169268157735282}
-  _scaleIfLessThen: 1.76
-  _scaleTo: 0.9
+  _scaleIfLessThen: 1.5
+  _scaleTo: 1
 --- !u!114 &1791169269734793614
 MonoBehaviour:
   m_ObjectHideFlags: 0

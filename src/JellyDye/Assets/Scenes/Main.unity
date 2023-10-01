@@ -496,7 +496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 330474151}
-  _scaleIfLessThen: 1.76
+  _scaleIfLessThen: 1.5
   _scaleTo: 1.28
 --- !u!1 &503041965
 GameObject:

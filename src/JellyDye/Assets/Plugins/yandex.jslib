@@ -54,4 +54,19 @@ mergeInto(LibraryManager.library, {
         }
     })
   },
+  RequestYandexIsPlayerCanReview: function (response) {
+     ysdk.feedback.canReview()
+        .then(({ value, reason }) => {
+            dynCall('vi', response, [value]);
+            if (!value) {
+                console.log(reason)
+            }
+        })  
+  },
+  ShowYandexReviewGameWindow: function (onPlayerAction) {
+     ysdk.feedback.requestReview()
+        .then(({ feedbackSent }) => {
+            dynCall('vi', onPlayerAction, [feedbackSent]);
+        })
+  },
 });
