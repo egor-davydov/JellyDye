@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Fluxy
 {
@@ -300,7 +302,7 @@ namespace Fluxy
             else return 1;
         }
 
-        public virtual void Splat(FluxyContainer container, FluxyStorage.Framebuffer fb, in int tileIndex, in Vector4 rect)
+        public virtual void Splat(FluxyContainer container, FluxyStorage.Framebuffer fb, in byte tileIndex, in Vector4 rect)
         {
             if (splatMaterial != null && isActiveAndEnabled)
             {
@@ -341,22 +343,9 @@ namespace Fluxy
                 // calculate texture aspect ratio:
                 float aspectRatio = GetAspectRatio();
 
-                // update rate over distance:
-                int distanceSplats;
-                if (rateOverDistance > 0)
-                {
-                    distanceAccumulator += Vector3.Distance(transform.position, oldPosition) * rateOverDistance;
-                    distanceSplats = Mathf.FloorToInt(distanceAccumulator);
-                    distanceAccumulator -= distanceSplats;
-                }
-                else
-                {
-                    distanceAccumulator = 0;
-                    distanceSplats = 0;
-                }
-
                 // calculate amount of splats:
-                int totalSplats = rateOverSteps + timeSplats + distanceSplats;
+                int totalSplats = rateOverSteps + timeSplats;
+                totalSplats = Mathf.Clamp(totalSplats, 0, Byte.MaxValue - 1);
 
                 // calculate splat color:
                 var splatColor = new Color(color.r, color.g, color.b, color.a * densityWeight);
@@ -364,7 +353,7 @@ namespace Fluxy
                     splatColor = splatColor.linear;
 
                 // splat multiple times, interpolating between last position and current position:
-                for (int i = 1; i <= totalSplats; ++i)
+                for (byte i = 1; i <= totalSplats; ++i)
                 {
                     float interpolationFactor = i / (float)totalSplats;
 

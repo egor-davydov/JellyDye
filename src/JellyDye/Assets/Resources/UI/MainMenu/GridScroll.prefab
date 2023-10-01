@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 200
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 8437930299428567209}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -166,6 +166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55db7d8c25e54ee6b692d3c7c67536ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gridLayoutGroup: {fileID: 0}
+  _offsetScrollMoveToProgress: 0
+  _screenSize: 0
 --- !u!1 &8392496313281384748
 GameObject:
   m_ObjectHideFlags: 0

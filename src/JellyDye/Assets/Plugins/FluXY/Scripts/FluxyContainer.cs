@@ -588,7 +588,7 @@ namespace Fluxy
             Shader.SetGlobalVector("_ContainerSize", size);
         }
 
-        public virtual void UpdateMaterial(int tile, FluxyStorage.Framebuffer fb)
+        public virtual void UpdateMaterial(byte tile, FluxyStorage.Framebuffer fb)
         {
             if (m_Renderer == null || m_Renderer.sharedMaterial == null || fb == null)
                 return;

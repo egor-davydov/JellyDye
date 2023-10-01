@@ -471,7 +471,7 @@ MonoBehaviour:
   centerBatch: -1
   centerShape: -1
   _shapeMatchingConstraintsEnabled: 1
-  _deformationResistance: 0.5
+  _deformationResistance: 0.7
   _maxDeformation: 0
   _plasticYield: 0
   _plasticCreep: 0

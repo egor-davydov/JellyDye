@@ -34,7 +34,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AddAlpha: 0.5
+    - _AddAlpha: 0.379
     - _EdgeAlphaIncrease: 0.12
     - _EdgeAlphaIncreaseHeight: 0.75
     - _EdgeHeight: -0.66
