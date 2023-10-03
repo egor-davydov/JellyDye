@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using Code.Data;
+﻿using Code.Data;
 using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.Progress;
-using ModestTree;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +29,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     [SerializeField] private Sprite _backgroundFullCompleted;
 
     private GameStateMachine _gameStateMachine;
-    private int _levelIndex;
+    private string _levelId;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
 
@@ -45,27 +42,27 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       _gameStateMachine = gameStateMachine;
     }
 
-    public void Initialize(int levelIndex)
+    public void Initialize(string levelId, int levelIndex)
     {
-      _levelIndex = levelIndex;
+      _levelId = levelId;
       LevelData progressLevelData = _progressService.Progress.LevelData;
-      if (!progressLevelData.IsLevelCompleted(_levelIndex))
+      if (!progressLevelData.IsLevelCompleted(_levelId))
       {
         UnCompletedTurnOn(true);
         NotFullCompletedTurnOn(false);
         FullCompletedTurnOn(false);
-        _levelNumber.text = (_levelIndex + 1).ToString();
+        _levelNumber.text = (levelIndex + 1).ToString();
       }
       else
       {
-        int percentage = progressLevelData.CompletedLevel(_levelIndex).Percentage;
+        int percentage = progressLevelData.CompletedLevel(_levelId).Percentage;
         if (percentage == 100)
         {
           SetBackground(_backgroundFullCompleted);
           UnCompletedTurnOn(false);
           NotFullCompletedTurnOn(false);
           FullCompletedTurnOn(true);
-          _levelJellyTexture.texture = _staticDataService.ForLevels().LevelConfigs[_levelIndex].TargetTexture;
+          _levelJellyTexture.texture = _staticDataService.ForLevels().LevelConfigs[levelIndex].TargetTexture;
           return;
         }
 
@@ -74,7 +71,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         NotFullCompletedTurnOn(true);
         FullCompletedTurnOn(false);
         _levelPercentage.text = $"{percentage}\n%";
-        _levelNumberWithPercentage.text = (_levelIndex + 1).ToString();
+        _levelNumberWithPercentage.text = (levelIndex + 1).ToString();
         Color levelPercentageColor = PercentageColor(percentage);
 
         _levelPercentage.color = levelPercentageColor;
@@ -120,6 +117,6 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       observableLevel != default;
 
     private void LoadLevelClick() => 
-      _gameStateMachine.Enter<LoadLevelState, int>(_levelIndex);
+      _gameStateMachine.Enter<LoadLevelState, string>(_levelId);
   }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Code.Gameplay.UI.MainMenu.Skins;
 
 namespace Code.Data
 {

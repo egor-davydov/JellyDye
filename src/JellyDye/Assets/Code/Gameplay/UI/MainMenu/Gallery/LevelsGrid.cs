@@ -32,7 +32,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       for (int i = 0; i < levelConfigs.Length; i++)
       {
         GameObject levelButtonObject = _levelButtonFactory.CreateLevelButton(transform);
-        levelButtonObject.GetComponent<LevelButton>().Initialize(i);
+        levelButtonObject.GetComponent<LevelButton>().Initialize(levelConfigs[i].Id, i);
       }
 
       MoveScrollToCurrentLevel(levelConfigs.Length);
@@ -40,7 +40,8 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
 
     private void MoveScrollToCurrentLevel(int levelsCount)
     {
-      int levelRow = _progressService.Progress.LevelData.CurrentLevelIndex / 2;
+      string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
+      int levelRow = _staticDataService.ForLevels().GetLevelIndex(currentLevelId) / 2;
       float sizeOfLevelButtonWithSpacing = _gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y;
       int rowsCount = Mathf.RoundToInt((float)levelsCount / 2);
       float scrollHeight = sizeOfLevelButtonWithSpacing * rowsCount;

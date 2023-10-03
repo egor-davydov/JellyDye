@@ -5,12 +5,12 @@ namespace Code.Data
   [Serializable]
   public class CompletedLevel
   {
-    public int Index;
+    public string Id;
     public int Percentage;
 
-    public CompletedLevel(int index, int percentage)
+    public CompletedLevel(string id, int percentage)
     {
-      Index = index;
+      Id = id;
       Percentage = percentage;
     }
   }

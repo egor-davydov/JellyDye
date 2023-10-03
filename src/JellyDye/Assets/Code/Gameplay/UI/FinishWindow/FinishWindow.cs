@@ -57,7 +57,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     public void Initialize(Texture2D screenshot)
     {
-      _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressLevelData.CurrentLevelIndex].TargetTextureWithGround;
+      _shouldBeImage.texture = _staticDataService.ForLevels().GetConfigByLevelId(_progressLevelData.CurrentLevelId).TargetTextureWithGround;
       _yourResultImage.texture = screenshot;
       AppearanceAnimation(StartWindowAnimations);
     }
@@ -102,7 +102,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void OnLevelEnd(float finalPercentage)
     {
-      _analyticsService.LevelEnd(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
+      _analyticsService.LevelEnd(_staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId), _progressLevelData.CurrentLevelId, (int)finalPercentage);
 
       if(_progressLevelData.CompletedLevels.Count >= 3)
         _yandexService.RequestIsPlayerCanReview(OnServerResponse);
@@ -132,7 +132,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void WriteToProgress(float finalPercentage)
     {
-      _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
+      _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelId, (int)finalPercentage);
       _saveLoadService.SaveProgress();
     }
 

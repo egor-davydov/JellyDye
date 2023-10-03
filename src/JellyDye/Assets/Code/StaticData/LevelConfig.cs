@@ -6,6 +6,7 @@ namespace Code.StaticData
   [Serializable]
   public class LevelConfig
   {
+    public string Id;
     public GameObject JelliesPrefab;
     public Color[] Colors;
     public Texture2D TargetTexture;

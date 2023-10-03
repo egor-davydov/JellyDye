@@ -1,3 +1,4 @@
+using Code.Data;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.Hud;
 using Code.Gameplay.UI.Hud.PaintChange;
@@ -13,7 +14,7 @@ using UnityEngine;
 
 namespace Code.Infrastructure.States
 {
-  public class LoadLevelState : IPayloadState<int>
+  public class LoadLevelState : IPayloadState<string>
   {
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -25,13 +26,17 @@ namespace Code.Infrastructure.States
     private readonly PaintCountCalculationService _paintCountCalculationService;
     private readonly FinishLevelService _finishLevelService;
     private readonly ISaveLoadService _saveLoadService;
+    private readonly AnalyticsService _analyticsService;
 
+    private string _levelId;
     private int _levelIndex;
+    private LevelData _progressLevelData;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
-      HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService,
-      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService,
-      FinishLevelService finishLevelService, ISaveLoadService saveLoadService)
+      HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
+      ProgressService progressService, StaticDataService staticDataService,
+      PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService,
+      ISaveLoadService saveLoadService, AnalyticsService analyticsService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
@@ -43,24 +48,29 @@ namespace Code.Infrastructure.States
       _paintCountCalculationService = paintCountCalculationService;
       _finishLevelService = finishLevelService;
       _saveLoadService = saveLoadService;
+      _analyticsService = analyticsService;
+      
     }
 
-    public void Enter(int levelIndex)
+    public void Enter(string levelId)
     {
-      _levelIndex = levelIndex;
-      //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelIndex}'");
+      _progressLevelData ??= _progressService.Progress.LevelData;
+      _levelId = levelId;
+      _progressLevelData.CurrentLevelId = _levelId;
+      //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
       _sceneLoader.StartLoad(1, OnLoadComplete);
     }
 
     public void Exit()
     {
+      _analyticsService.LevelStart(_levelIndex, _levelId);
     }
 
     private void OnLoadComplete()
     {
-      _progressService.Progress.LevelData.CurrentLevelIndex = _levelIndex;
+      _levelIndex = _staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId);
       _saveLoadService.SaveProgress();
-      LevelConfig levelConfig = _staticDataService.ForLevels().LevelConfigs[_levelIndex];
+      LevelConfig levelConfig = _staticDataService.ForLevels().GetConfigByLevelId(_levelId);
 
       GameObject jelliesObject = InitJellies(levelConfig);
       FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();

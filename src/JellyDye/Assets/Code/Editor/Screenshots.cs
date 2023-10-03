@@ -89,7 +89,7 @@ namespace Code.Editor
       MoveCamera();
       FindObjectOfType<ColorChangersContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
       FindObjectOfType<SyringePaint>()?.gameObject.SetActive(false);
-      _currentJellyCount = _progressService.Progress.LevelData.CurrentLevelIndex;
+      _currentJellyCount = _staticDataService.ForLevels().GetLevelIndex(_progressService.Progress.LevelData.CurrentLevelId);
     }
 
     private void TakeScreenshot()

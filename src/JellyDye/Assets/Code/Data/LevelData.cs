@@ -7,31 +7,30 @@ namespace Code.Data
   [Serializable]
   public class LevelData
   {
-    public int CurrentLevelIndex;
+    public string CurrentLevelId = "stormy_cloud";
     public List<CompletedLevel> CompletedLevels;
-
-
+    
     public LevelData()
     {
       CompletedLevels = new List<CompletedLevel>();
     }
 
-    public void ManageCompletedLevel(int levelIndex, int percentage)
+    public void ManageCompletedLevel(string levelId, int percentage)
     {
-      if(IsLevelCompleted(levelIndex))
+      if(IsLevelCompleted(levelId))
       {
-        CompletedLevel previousData = CompletedLevel(levelIndex);
+        CompletedLevel previousData = CompletedLevel(levelId);
         if (previousData.Percentage < percentage)
           previousData.Percentage = percentage;
       }
       else
-        CompletedLevels.Add(new CompletedLevel(levelIndex, percentage));
+        CompletedLevels.Add(new CompletedLevel(levelId, percentage));
     }
 
-    public CompletedLevel CompletedLevel(int levelIndex) => 
-      CompletedLevels.First(completedLevel => completedLevel.Index == levelIndex);
+    public CompletedLevel CompletedLevel(string levelId) => 
+      CompletedLevels.First(completedLevel => completedLevel.Id == levelId);
 
-    public bool IsLevelCompleted(int levelIndex) => 
-      CompletedLevels.FirstOrDefault(completedLevel => completedLevel.Index == levelIndex) != default;
+    public bool IsLevelCompleted(string levelId) => 
+      CompletedLevels.FirstOrDefault(completedLevel => completedLevel.Id == levelId) != default;
   }
 }
