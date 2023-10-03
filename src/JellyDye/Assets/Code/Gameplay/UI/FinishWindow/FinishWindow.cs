@@ -16,7 +16,7 @@ namespace Code.Gameplay.UI.FinishWindow
 {
   public class FinishWindow : MonoBehaviour
   {
-    [SerializeField] private NextSkinProgressBar _nextSkinProgressBar;
+    [SerializeField] private SkinProgressBar _skinProgressBar;
     [SerializeField] private RawImage _yourResultImage;
     [SerializeField] private RawImage _shouldBeImage;
     [SerializeField] private TextMeshProUGUI _percentageText;
@@ -95,7 +95,7 @@ namespace Code.Gameplay.UI.FinishWindow
       }
 
       _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
-      _nextSkinProgressBar.IncreaseProgress(_skinProgressFor100Percent / 100 * finalPercentage);
+      _skinProgressBar.IncreaseProgress(_skinProgressFor100Percent / 100 * finalPercentage);
       SetPercentage(finalPercentage);
       _greenButtonFactory.CreateMenuButton(transform);
     }

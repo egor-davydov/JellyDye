@@ -24,7 +24,7 @@ namespace Code.Services.Factories.UI
     }
     public GameObject CreateMenuButton(Transform parent)
     {
-      GameObject buttonPrefab = _assetProvider.Load(AssetPath.MenuButton);
+      GameObject buttonPrefab = _assetProvider.Load(AssetPath.NextLevelButton);
       GameObject buttonObject = _instantiator.InstantiatePrefab(buttonPrefab, parent);
 
       return buttonObject;

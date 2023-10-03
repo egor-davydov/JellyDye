@@ -13,7 +13,7 @@ using Zenject;
 
 namespace Code.Gameplay.UI.FinishWindow
 {
-  public class NextSkinProgressBar : MonoBehaviour
+  public class SkinProgressBar : MonoBehaviour
   {
     private const Ease FillTweenEase = Ease.OutQuad;
 
@@ -49,7 +49,7 @@ namespace Code.Gameplay.UI.FinishWindow
         HideSkinObject();
       else
       {
-        SetupNextSkin();
+        SetNextSkinSprite();
         _progressImage.fillAmount = _progressService.Progress.SkinData.NextSkinProgress;
       }
     }
@@ -59,21 +59,23 @@ namespace Code.Gameplay.UI.FinishWindow
       _fillTween.Kill();
     }
 
-    public void IncreaseProgress(float quantity)
+    public void IncreaseProgress(float increaseAmount)
     {
       if (AllSkinsUnlocked())
         return;
       
-      if (_progressImage.fillAmount + quantity < 1)
+      if (_progressImage.fillAmount + increaseAmount < 1)
       {
-        _finalFillAmount = _progressImage.fillAmount + quantity;
+        _finalFillAmount = _progressImage.fillAmount + increaseAmount;
         _fillTween = _progressImage.DOFillAmount(_finalFillAmount, _progressMoveTime).SetEase(FillTweenEase);
       }
       else
       {
-        _finalFillAmount = _progressImage.fillAmount + quantity - 1;
+        _finalFillAmount = _progressImage.fillAmount + increaseAmount - 1;
+        _progressService.Progress.SkinData.OpenedSkins.Add(_nextSkinConfig.SkinType);
+        float fillTime = _progressMoveTime * _progressImage.fillAmount;
         _fillTween = _progressImage
-          .DOFillAmount(1, _progressMoveTime).SetEase(FillTweenEase)
+          .DOFillAmount(1, fillTime).SetEase(FillTweenEase)
           .OnComplete(OnProgressFilled);
       }
 
@@ -100,15 +102,14 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void OnProgressFilled()
     {
-      _progressService.Progress.SkinData.OpenedSkins.Add(_nextSkinConfig.SkinType);
-      _saveLoadService.SaveProgress();
       if (AllSkinsUnlocked())
         HideSkinObject();
       else
       {
-        SetupNextSkin();
+        SetNextSkinSprite();
         _progressImage.fillAmount = 0;
-        _progressImage.DOFillAmount(_finalFillAmount, _progressMoveTime).SetEase(FillTweenEase);
+        float fillTime = _progressMoveTime * (1 - _progressImage.fillAmount);
+        _progressImage.DOFillAmount(_finalFillAmount, fillTime).SetEase(FillTweenEase);
       }
     }
 
@@ -118,7 +119,7 @@ namespace Code.Gameplay.UI.FinishWindow
         objectToDisableIfPlayerHaveAllSkin.SetActive(false);
     }
 
-    private void SetupNextSkin()
+    private void SetNextSkinSprite()
     {
       _nextSkinConfig = FindOutNextSkin();
       _nextSkinImage.sprite = _nextSkinConfig.Icon;
