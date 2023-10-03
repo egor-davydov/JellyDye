@@ -54,7 +54,7 @@ MonoBehaviour:
     <TargetColor>k__BackingField: {r: 0.15135193, g: 0.5660378, b: 0.0021359494, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 0aa2fde44d9942ceab8d7423227ef0a6, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 49672cdfe5874c8aab90e00a0544cfcb, type: 3}
-    <TargetColor>k__BackingField: {r: 0.98039216, g: 0.9607843, b: 0.46666667, a: 1}
+    <TargetColor>k__BackingField: {r: 1, g: 0.7491141, b: 0.35534585, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 87617278a93a4bdf9f95974d8243b4b0, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 26d45908f0864e7584bffa2a75760667, type: 3}
     <TargetColor>k__BackingField: {r: 0.9607843, g: 0.98039216, b: 0.69803923, a: 1}
@@ -63,10 +63,10 @@ MonoBehaviour:
     <TargetColor>k__BackingField: {r: 1, g: 0.9647059, b: 0, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: c4c12a12633a473d84e6cf6e39a851cd, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: d2367dc008e84404bf7c32fa7ee81578, type: 3}
-    <TargetColor>k__BackingField: {r: 1, g: 0.68235296, b: 0, a: 1}
+    <TargetColor>k__BackingField: {r: 0.7075472, g: 0.55160093, b: 0.2180491, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 85c28e44d618418f85ed540635059daa, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 314313dff6634dc6bdd0828cbee44f1c, type: 3}
-    <TargetColor>k__BackingField: {r: 0.19514112, g: 0.6792453, b: 0.12431466, a: 1}
+    <TargetColor>k__BackingField: {r: 0.27516413, g: 0.5377358, b: 0.23673901, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 3bba00b2db034a3d8108cad6b6ce19ab, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 79be62b2ad7944e0bfdae2d12e4d10eb, type: 3}
     <TargetColor>k__BackingField: {r: 1, g: 0.9019608, b: 0.29803923, a: 1}
@@ -75,10 +75,10 @@ MonoBehaviour:
     <TargetColor>k__BackingField: {r: 0, g: 1, b: 0.9019608, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 1f81b45097d444e3975604efa0338dad, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 6180c28326a742dba1ef439305196d42, type: 3}
-    <TargetColor>k__BackingField: {r: 0.2924528, g: 0.29063514, b: 0.23837663, a: 1}
+    <TargetColor>k__BackingField: {r: 0.27684215, g: 0.059333075, b: 0.3773585, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 89ee455752384fe297636f5912c25b8c, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 848e7c1f41d64918a6b8ea787d060a7e, type: 3}
-    <TargetColor>k__BackingField: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
+    <TargetColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: dcb8ee8f8d1d49fd977f2028fef1944d, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3db9c7e5da4747048a1d785e1f6e276c, type: 3}
     <TargetColor>k__BackingField: {r: 1, g: 0.9137255, b: 0.52156866, a: 1}
@@ -108,19 +108,19 @@ MonoBehaviour:
     <TargetColor>k__BackingField: {r: 0, g: 0.69803923, b: 1, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 9b3ed65ef5b7467c9df962c8ebbe05fe, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: cc8a87bdad41463b9cd3350c4255eecb, type: 3}
-    <TargetColor>k__BackingField: {r: 0.89411765, g: 0.96862745, b: 0.043137256, a: 1}
+    <TargetColor>k__BackingField: {r: 0.60452497, g: 1, b: 0.30817604, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 7e8c263a6afc43f09a25afe3536f9c66, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3c0e74d30e8247d5abf2b32ffb25a377, type: 3}
-    <TargetColor>k__BackingField: {r: 0.9843137, g: 1, b: 0, a: 1}
+    <TargetColor>k__BackingField: {r: 0.8907664, g: 1, b: 0, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 185e671f812848918884d2de74498fb1, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3af10db7d4b5481193ca4407c2b044b2, type: 3}
-    <TargetColor>k__BackingField: {r: 0.93794715, g: 1, b: 0.36470592, a: 1}
+    <TargetColor>k__BackingField: {r: 0.24705882, g: 0.8, b: 0.40392157, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: cf027bcc9082435b9df107144efab0d4, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: a2caf097c1f34a9e8f3fce73a528b291, type: 3}
-    <TargetColor>k__BackingField: {r: 1, g: 0.8765984, b: 0.42138356, a: 1}
+    <TargetColor>k__BackingField: {r: 0.49803922, g: 0.67058825, b: 0.3764706, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: 2b8a870dcd8a41e598a953d6a87f6d9a, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3594012b129a4899a1157ec71772724f, type: 3}
-    <TargetColor>k__BackingField: {r: 0.5378146, g: 0.5471698, b: 0.24089234, a: 1}
+    <TargetColor>k__BackingField: {r: 0.6313726, g: 0.1254902, b: 0.7058824, a: 1}
   - <Mesh>k__BackingField: {fileID: 4300000, guid: da854bd4e274428e9140f591994a54dd, type: 2}
     <MaskTexture>k__BackingField: {fileID: 2800000, guid: 2e56f9af39694612a0a7b68e546fb05b, type: 3}
     <TargetColor>k__BackingField: {r: 1, g: 0.19215687, b: 0.5019608, a: 1}

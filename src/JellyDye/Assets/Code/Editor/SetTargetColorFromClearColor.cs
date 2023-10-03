@@ -1,16 +1,29 @@
-﻿using Fluxy;
+﻿using System.Linq;
+using Code.Services;
+using Code.StaticData;
+using Fluxy;
 using UnityEngine;
+using Zenject;
 
-namespace Code.Editor
+namespace Code.Helpers
 {
   public class SetTargetColorFromClearColor : MonoBehaviour
   {
+#if UNITY_EDITOR
+    private StaticDataService _staticDataService;
+    
+    [Inject]
+    public void Construct(StaticDataService staticDataService)
+    {
+      _staticDataService = staticDataService;
+    }
+    
     private void Awake()
     {
-      Color clearColor = GetComponent<FluxyContainer>().clearColor;
-      Color targetColor = GetComponentInChildren<FluxyTarget>().color;
-      if (targetColor == Color.white)
-        GetComponentInChildren<FluxyTarget>().color = clearColor;
+      FluxyContainer fluxyContainer = GetComponent<FluxyContainer>();
+      JellyConfig jellyConfig = _staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
+      GetComponentInChildren<FluxyTarget>().color = jellyConfig.TargetColor;
     }
+#endif
   }
 }

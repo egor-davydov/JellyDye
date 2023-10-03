@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using Code.Gameplay.UI.Hud;
 using Code.Services;
 using DG.Tweening;
@@ -12,6 +13,8 @@ namespace Code.Gameplay.Syringe
 {
   public class SyringeInjection : MonoBehaviour
   {
+    private const float LiquidSpeed = 2.65f;
+    
     [SerializeField] private SyringeAudio _syringeAudio;
     [SerializeField] private SyringeMove _syringeMove;
     [SerializeField] private FluxyTarget _fluxyTarget;
@@ -22,7 +25,6 @@ namespace Code.Gameplay.Syringe
     [SerializeField] private Transform _pistonTransform;
     [SerializeField] private Transform _liquidTransform;
     [SerializeField] private float _pistonSpeed;
-    [SerializeField] private float _liquidSpeed;
     [SerializeField] private float _movingCloserTime;
     [SerializeField] private float _movingLittleBackTime;
     [SerializeField] private float _movingBackTime;
@@ -135,9 +137,9 @@ namespace Code.Gameplay.Syringe
           yield break;
         }
 
-        if (_fluxyTarget.scale.x < _maxPaintIncrease)
-          _fluxyTarget.scale += Vector2.one * (_paintIncrease * Time.deltaTime);
-        else
+        // if (_fluxyTarget.scale.x < _maxPaintIncrease)
+        //   _fluxyTarget.scale += Vector2.one * (_paintIncrease * Time.deltaTime);
+        // else
           _fluxyTarget.scale += Vector2.one * (_paintIncrease2 * Time.deltaTime);
 
         _fluxyTarget.force = Quaternion.AngleAxis(_paintRotationOverTime * Time.deltaTime, Vector3.forward) * _fluxyTarget.force;
@@ -203,7 +205,7 @@ namespace Code.Gameplay.Syringe
 
     private void MoveLiquid()
     {
-      Vector3 liquidMovingDelta = Vector3.down * (_pistonSpeed * _liquidSpeed * Time.deltaTime);
+      Vector3 liquidMovingDelta = Vector3.down * (_pistonSpeed * LiquidSpeed * Time.deltaTime);
       if ((_liquidTransform.localScale + liquidMovingDelta).y >= _minLiquidScaleY)
         _liquidTransform.localScale += liquidMovingDelta;
       else

@@ -65,7 +65,7 @@ MonoBehaviour:
   maxRelativeAngularVelocity: 1
   angularVelocityScale: 100
   force: {x: -1.5, y: 0, z: 0}
-  torque: 0
+  torque: 20
   densityWeight: 1
   densityTexture: {fileID: 0}
   srcBlend: 5
@@ -207,14 +207,13 @@ MonoBehaviour:
   _syringeAudio: {fileID: 5440877559713876049}
   _syringeMove: {fileID: 4188462006210841643}
   _fluxyTarget: {fileID: 1312922224575281827}
-  _paintIncrease: 0.5
-  _paintIncrease2: 0.3
-  _paintRotationOverTime: 120
-  _maxPaintIncrease: 0.7
+  _paintIncrease: 0
+  _paintIncrease2: 0.5
+  _paintRotationOverTime: 145
+  _maxPaintIncrease: 0
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
-  _pistonSpeed: 0.15
-  _liquidSpeed: 2.65
+  _pistonSpeed: 0.2
   _movingCloserTime: 0.2
   _movingLittleBackTime: 0.01
   _movingBackTime: 0.2

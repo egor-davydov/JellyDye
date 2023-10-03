@@ -553,8 +553,8 @@ namespace Fluxy
                     // int steps = 0;
                     // while (deltaTime > 0 && steps++ < maxSteps)
                     // {
-                        float timestep = Mathf.Min(deltaTime, maxTimestep);
-                    //    deltaTime -= timestep;
+                        float timestep = Mathf.Min(deltaTime, 0.008f);
+                        //deltaTime -= timestep;
 
                         UpdateContainers(fb, timestep);
 

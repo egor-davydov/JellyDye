@@ -390,19 +390,19 @@ MonoBehaviour:
   boundaries:
     horizontalBoundary: 1
     verticalBoundary: 1
-  velocityScale: 1
-  accelerationScale: 1
+  velocityScale: 0.8
+  accelerationScale: 0.8
   positionOffset: {x: 0, y: 0}
   gravity: {x: 0, y: 0, z: 0}
   externalForce: {x: 0, y: 0, z: 0}
   lightSource: {fileID: 0}
   targets: []
   pressure: 1
-  viscosity: 0.65
+  viscosity: 0.75
   turbulence: 20
-  adhesion: 0.45
-  surfaceTension: 0.66
-  buoyancy: 10
+  adhesion: 0.5
+  surfaceTension: 0.9
+  buoyancy: 5
   dissipation: {x: 0, y: 0, z: 0, w: 0}
   m_Solver: {fileID: 0}
 --- !u!114 &1611545351104495703

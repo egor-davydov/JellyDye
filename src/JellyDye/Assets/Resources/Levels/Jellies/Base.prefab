@@ -46,12 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storage: {fileID: 11400000, guid: 554ccaf57177e4e3483d0bec03c75e34, type: 2}
   desiredResolution: 512
-  densitySupersampling: 2
+  densitySupersampling: 4
   disposeWhenCulled: 0
   readable: 0
   simulationMaterial: {fileID: 2100000, guid: 6dfe24573234e413ab0d0b5093141a3c, type: 2}
-  maxTimestep: 0.008
-  maxSteps: 1
+  maxTimestep: 0.5
+  maxSteps: 3
   pressureSolver: 0
   pressureIterations: 3
 --- !u!1 &1322723376850328392

@@ -33,8 +33,8 @@ namespace Obi
 
         [HideInInspector] [SerializeField] private Mesh m_SoftMesh;
         [HideInInspector] [SerializeField] List<Matrix4x4> m_Bindposes = new List<Matrix4x4>();
-        [SerializeField] ObiNativeBoneWeightList m_BoneWeights;
-        [SerializeField] ObiNativeByteList m_BonesPerVertex;
+        [HideInInspector] [SerializeField] ObiNativeBoneWeightList m_BoneWeights;
+        [HideInInspector] [SerializeField] ObiNativeByteList m_BonesPerVertex;
         [HideInInspector] [SerializeField] public float[] m_softbodyInfluences;
         [SerializeField] public SkinnedMeshRenderer m_Target;
 

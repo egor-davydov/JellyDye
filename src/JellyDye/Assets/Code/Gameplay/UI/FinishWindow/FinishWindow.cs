@@ -80,7 +80,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private IEnumerator PercentageIncrease()
     {
       float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
-      float finalPercentage = RoundAndClampPercentage(yourPercentage);
+      float finalPercentage = yourPercentage > 99 ? 100 : RoundAndClampPercentage(yourPercentage);
       WriteToProgress(finalPercentage);
       _yandexService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
       OnLevelEnd(finalPercentage);
