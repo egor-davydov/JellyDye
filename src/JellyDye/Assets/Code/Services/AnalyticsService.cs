@@ -11,9 +11,9 @@ namespace Code.Services
     }
 
     public void LevelStart(int levelIndex, string levelId) => 
-      GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, levelIndex.ToString(), levelId);
+      GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, levelId);
 
     public void LevelEnd(int levelIndex, string levelId, int finalPercentage) => 
-      GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, levelIndex.ToString(), levelId, finalPercentage);
+      GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, levelId, finalPercentage);
   }
 }

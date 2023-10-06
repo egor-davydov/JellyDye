@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splatMaterial: {fileID: 2100000, guid: 644c5fbe7e0624b239c5c09b7d1613ae, type: 2}
-  rateOverSteps: 0
-  rateOverTime: 60
+  rateOverSteps: 1
+  rateOverTime: 0
   rateOverDistance: 0
   overridePosition: 0
   position: {x: 0, y: 0}
@@ -63,9 +63,9 @@ MonoBehaviour:
   maxRelativeVelocity: 1
   velocityScale: {x: 1, y: 1, z: 1}
   maxRelativeAngularVelocity: 1
-  angularVelocityScale: 100
-  force: {x: -1.5, y: 0, z: 0}
-  torque: 20
+  angularVelocityScale: 12
+  force: {x: -2, y: 0, z: 0}
+  torque: 0.5
   densityWeight: 1
   densityTexture: {fileID: 0}
   srcBlend: 5
@@ -131,9 +131,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.01
-  m_Height: 0.30097422
+  m_Height: 0.3
   m_Direction: 1
-  m_Center: {x: 0.0000010592381, y: 0.14951289, z: 0}
+  m_Center: {x: 0.0000010592381, y: 0.15, z: 0}
 --- !u!54 &6238572900141518295
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -192,6 +192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433e12ec7c8c46faba63f2d7e0956998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _positionBoundsX: {x: -1.5, y: 1}
+  _positionBoundsZ: {x: -1.6, y: 2.3}
 --- !u!114 &1214512074195584675
 MonoBehaviour:
   m_ObjectHideFlags: 0

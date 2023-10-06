@@ -74,7 +74,7 @@ namespace Code.Infrastructure.States
 
       GameObject jelliesObject = InitJellies(levelConfig);
       FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
-      _paintCountCalculationService.Initialize(fluxySolver, jelliesObject.GetComponentsInChildren<FluxyContainer>());
+      _paintCountCalculationService.InitializeOnSceneLoad(fluxySolver, jelliesObject.GetComponentsInChildren<FluxyContainer>());
 
       GameObject syringeObject = InitSyringe();
 

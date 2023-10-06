@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
+using AOT;
 using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.AssetManagement;
@@ -12,17 +14,48 @@ namespace Code.Infrastructure.Installers
 {
   public class GameInstaller : MonoInstaller, IInitializable, ICoroutineRunner
   {
-    [DllImport("__Internal")] private static extern bool IsYandexGames();
-    
+    private static Action _onInitialize;
+
+    [DllImport("__Internal")]
+    private static extern bool IsYandexGames();
+
+    [DllImport("__Internal")]
+    private static extern void TryInitializeYandexGames(Action onInitialize);
+
     public override void InstallBindings()
     {
       Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
+
+
+#if !UNITY_EDITOR && UNITY_WEBGL
+      InitializeYandex(onInitialize: OnYandexInitialized);
+#else
+      BindPlatformDependServices();
+#endif
 
       BindServices();
       BindProgressServices();
       BindStates();
       BindFactories();
     }
+
+    public void Initialize()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+#else
+      MoveToNextState();
+#endif 
+    }
+
+    private void InitializeYandex(Action onInitialize)
+    {
+      _onInitialize = onInitialize;
+      TryInitializeYandexGames(Initialized);
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void Initialized() =>
+      _onInitialize.Invoke();
 
     private void BindFactories()
     {
@@ -36,9 +69,15 @@ namespace Code.Infrastructure.Installers
       Container.Bind<GreenButtonFactory>().AsSingle();
     }
 
-    public void Initialize()
+    private void OnYandexInitialized()
     {
       //Debug.Log($"Initialize GameInstaller");
+      BindPlatformDependServices();
+      MoveToNextState();
+    }
+
+    private void MoveToNextState()
+    {
       GameStateMachine gameStateMachine = Container.Resolve<GameStateMachine>();
       gameStateMachine.Setup();
       gameStateMachine.Enter<LoadProgressState>();
@@ -51,6 +90,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<YandexService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
+      Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
       Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
@@ -61,15 +101,22 @@ namespace Code.Infrastructure.Installers
     private void BindProgressServices()
     {
       Container.Bind<ProgressService>().AsSingle();
+    }
+
+    private void BindPlatformDependServices()
+    {
 #if UNITY_EDITOR
-      Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
+      BindFileSaveSystem();
 #else
-      if(IsYandexGames())
+      if (IsYandexGames())
         Container.Bind<ISaveLoadService>().To<YandexSaveLoadService>().AsSingle();
       else
-        Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
+        BindFileSaveSystem();
 #endif
     }
+
+    private void BindFileSaveSystem() =>
+      Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
 
     private void BindStates()
     {

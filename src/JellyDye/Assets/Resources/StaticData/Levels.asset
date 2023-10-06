@@ -49,6 +49,14 @@ MonoBehaviour:
     - {r: 0.83137256, g: 0.49019608, b: 0.99215686, a: 1}
     TargetTexture: {fileID: 2800000, guid: 9f902dc65c57bda4fa6e2f66415e36d9, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: abdb4fcf2b9391744b9c8014e0ba7b1b, type: 3}
+  - Id: devil_heart
+    JelliesPrefab: {fileID: 5694393867848139027, guid: 438c57d8bf5cc6f429b2d4fbdd830b14, type: 3}
+    Colors:
+    - {r: 0.8867924, g: 0, b: 0, a: 1}
+    - {r: 0.14150941, g: 0.013883938, b: 0.013883938, a: 1}
+    - {r: 0.680287, g: 0.05490197, b: 0.7176471, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 29ba9dd034baee644ab4974b2d6e1249, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 9afddfffb4d82674db298e7dde774cfa, type: 3}
   - Id: ice_syrup
     JelliesPrefab: {fileID: 411759819927949764, guid: 17dae9fb39676c44f89851086b35d7be, type: 3}
     Colors:
@@ -59,14 +67,6 @@ MonoBehaviour:
     - {r: 1, g: 0.8073907, b: 0, a: 1}
     TargetTexture: {fileID: 2800000, guid: 93e76d723f560ac41bb17817fb5da55b, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 96b9766c9f2160e41bb3cf70e40875fe, type: 3}
-  - Id: devil_heart
-    JelliesPrefab: {fileID: 5694393867848139027, guid: 438c57d8bf5cc6f429b2d4fbdd830b14, type: 3}
-    Colors:
-    - {r: 0.8867924, g: 0, b: 0, a: 1}
-    - {r: 0.14150941, g: 0.013883938, b: 0.013883938, a: 1}
-    - {r: 0.680287, g: 0.05490197, b: 0.7176471, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 29ba9dd034baee644ab4974b2d6e1249, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 9afddfffb4d82674db298e7dde774cfa, type: 3}
   - Id: clouds
     JelliesPrefab: {fileID: 8249565436013083299, guid: f21829778e0728c498ceb3c2bb6d7665, type: 3}
     Colors:

@@ -387,7 +387,7 @@ MonoBehaviour:
   _percentageIncreaseTime: 2.5
   _textIncreaseScale: 1.3
   _scalingTime: 1
-  _skinProgressFor100Percent: 0.4
+  _skinProgressFor100Percent: 0.3
 --- !u!114 &129504259301887031
 MonoBehaviour:
   m_ObjectHideFlags: 0

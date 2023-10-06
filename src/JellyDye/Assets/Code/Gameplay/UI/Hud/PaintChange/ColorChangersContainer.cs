@@ -26,7 +26,7 @@ namespace Code.Gameplay.UI.Hud.PaintChange
     public void Initialize(SyringePaint syringePaint, Color[] colors)
     {
       _syringePaint = syringePaint;
-      _colors = colors;
+      _colors = Shuffle(colors);
       foreach (Color color in colors)
       {
         ColorChanger colorChanger = _colorChangerFactory.Create(transform).GetComponent<ColorChanger>();
@@ -36,6 +36,17 @@ namespace Code.Gameplay.UI.Hud.PaintChange
       }
 
       InitStartColor();
+    }
+
+    private Color[] Shuffle(Color[] colors)
+    {
+      for (int i = colors.Length - 1; i >= 1; i--)
+      {
+        int j = Random.Range(0, i + 1);
+        (colors[j], colors[i]) = (colors[i], colors[j]);
+      }
+
+      return colors;
     }
 
     private void OnDestroy()

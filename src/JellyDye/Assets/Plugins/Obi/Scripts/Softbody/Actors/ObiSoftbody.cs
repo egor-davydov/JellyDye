@@ -267,23 +267,23 @@ namespace Obi
 
         public override void Interpolate()
         {
-            var sc = solver.GetConstraintsByType(Oni.ConstraintType.ShapeMatching) as ObiConstraints<ObiShapeMatchingConstraintsBatch>;
+            // var sc = solver.GetConstraintsByType(Oni.ConstraintType.ShapeMatching) as ObiConstraints<ObiShapeMatchingConstraintsBatch>;
+            //
+            // if (Application.isPlaying && isActiveAndEnabled && centerBatch > -1 && centerBatch < sc.batches.Count)
+            // {
+            //     var batch = sc.batches[centerBatch] as ObiShapeMatchingConstraintsBatch;
+            //     var offsets = solverBatchOffsets[(int)Oni.ConstraintType.ShapeMatching];
+            //
+            //     if (centerShape > -1 && centerShape < batch.activeConstraintCount && centerBatch < offsets.Count)
+            //     {
+            //         //int offset = offsets[centerBatch] + centerShape;
+            //         
+            //         //transform.position = solver.transform.TransformPoint((Vector3)batch.coms[offset] - batch.orientations[offset] * batch.restComs[offset]);
+            //         //transform.rotation = solver.transform.rotation * batch.orientations[offset];
+            //     }
+            // }
 
-            if (Application.isPlaying && isActiveAndEnabled && centerBatch > -1 && centerBatch < sc.batches.Count)
-            {
-                var batch = sc.batches[centerBatch] as ObiShapeMatchingConstraintsBatch;
-                var offsets = solverBatchOffsets[(int)Oni.ConstraintType.ShapeMatching];
-
-                if (centerShape > -1 && centerShape < batch.activeConstraintCount && centerBatch < offsets.Count)
-                {
-                    int offset = offsets[centerBatch] + centerShape;
-                    
-                    transform.position = solver.transform.TransformPoint((Vector3)batch.coms[offset] - batch.orientations[offset] * batch.restComs[offset]);
-                    transform.rotation = solver.transform.rotation * batch.orientations[offset];
-                }
-            }
-
-            SetSelfCollisions(selfCollisions);
+            //SetSelfCollisions(selfCollisions);
 
             base.Interpolate();
         }

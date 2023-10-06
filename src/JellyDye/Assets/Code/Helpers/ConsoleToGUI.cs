@@ -4,14 +4,12 @@ namespace Code.Helpers
 {
   public class ConsoleToGUI : MonoBehaviour
   {
-    [SerializeField, Range(-1, 120)] private int _targetFpsCount;
     [SerializeField] private bool _doShow;
     
     private string _myLog;
 
     private void Awake()
     {
-      Application.targetFrameRate = _targetFpsCount;
       Application.logMessageReceivedThreaded += Log;
     }
 

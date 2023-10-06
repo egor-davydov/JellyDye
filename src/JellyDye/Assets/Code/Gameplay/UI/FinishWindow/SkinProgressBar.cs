@@ -73,7 +73,7 @@ namespace Code.Gameplay.UI.FinishWindow
       {
         _finalFillAmount = _progressImage.fillAmount + increaseAmount - 1;
         _progressService.Progress.SkinData.OpenedSkins.Add(_nextSkinConfig.SkinType);
-        float fillTime = _progressMoveTime * _progressImage.fillAmount;
+        float fillTime = AllSkinsUnlocked() ? _progressMoveTime : _progressMoveTime * _progressImage.fillAmount;
         _fillTween = _progressImage
           .DOFillAmount(1, fillTime).SetEase(FillTweenEase)
           .OnComplete(OnProgressFilled);
@@ -109,7 +109,7 @@ namespace Code.Gameplay.UI.FinishWindow
         SetNextSkinSprite();
         _progressImage.fillAmount = 0;
         float fillTime = _progressMoveTime * (1 - _progressImage.fillAmount);
-        _progressImage.DOFillAmount(_finalFillAmount, fillTime).SetEase(FillTweenEase);
+        _fillTween = _progressImage.DOFillAmount(_finalFillAmount, fillTime).SetEase(FillTweenEase);
       }
     }
 

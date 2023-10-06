@@ -14,29 +14,33 @@ namespace Code.Services
     private FluxyContainer[] _fluxyContainers;
 
 #if UNITY_EDITOR
-    private Dictionary<Color, int> colors = new();
+    private readonly Dictionary<Color, int> _colors = new();
 #endif
-    private static readonly Color ClearColor = new (0, 0, 0, 0);
+    private Rect _convertToTextureRect;
+    private RenderTexture _fluxyStateA;
 
     [Inject]
     public void Construct(StaticDataService staticDataService) =>
       _staticDataService = staticDataService;
 
-    public void Initialize(FluxySolver fluxySolver, FluxyContainer[] fluxyContainers)
+    public void InitializeOnSceneLoad(FluxySolver fluxySolver, FluxyContainer[] fluxyContainers)
     {
       _fluxySolver = fluxySolver;
       _fluxyContainers = fluxyContainers;
+      _fluxyStateA = _fluxySolver.framebuffer.stateA;
+      _convertToTextureRect = new Rect(0, 0, _fluxyStateA.width, _fluxyStateA.height);
     }
 
     public bool HasPaintOnAllMeshes()
     {
-      Texture2D fluxyTexture = ConvertToTexture2D(_fluxySolver.framebuffer.stateA);
+      Texture2D fluxyTexture = ConvertToTexture2D();
       foreach (FluxyContainer fluxyContainer in _fluxyContainers)
       {
         JellyConfig jellyConfig = _staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
         if (!HasPaintOnMesh(fluxyTexture, jellyConfig, _fluxySolver.GetContainerUVRect(fluxyContainer)))
           return false;
       }
+      Object.Destroy(fluxyTexture);
 
       return true;
     }
@@ -55,16 +59,17 @@ namespace Code.Services
           continue;
 
         Color pixelColor = fluxyTexture.GetPixel(x, y);
-        if (pixelColor != ClearColor)
+        if (pixelColor != Color.clear)
           return true;
       }
+      Object.Destroy(fluxyTexture);
 
       return false;
     }
 
     public float CalculatePaintPercentage()
     {
-      Texture2D fluxyTexture = ConvertToTexture2D(_fluxySolver.framebuffer.stateA);
+      Texture2D fluxyTexture = ConvertToTexture2D();
       int paintedPixelsCount = 0;
       int countPixelsShouldPaint = 0;
       foreach (FluxyContainer fluxyContainer in _fluxyContainers)
@@ -74,6 +79,7 @@ namespace Code.Services
         paintedPixelsCount += pixelsCount.x;
         countPixelsShouldPaint += pixelsCount.y;
       }
+      Object.Destroy(fluxyTexture);
 
       return (float)paintedPixelsCount / countPixelsShouldPaint * 100;
     }
@@ -96,13 +102,13 @@ namespace Code.Services
         }
 
         Color pixelColor = fluxyTexture.GetPixel(x, y);
-        if (pixelColor != ClearColor)
+        if (pixelColor != Color.clear)
         {
 #if UNITY_EDITOR
-          if (!colors.ContainsKey(pixelColor))
-            colors.Add(pixelColor, 1);
+          if (!_colors.ContainsKey(pixelColor))
+            _colors.Add(pixelColor, 1);
           else
-            colors[pixelColor]++;
+            _colors[pixelColor]++;
 #endif
           // if (jellyConfig.Mesh.name == "topM")
           //   Debug.Log($"pixelColor= {pixelColor}");
@@ -110,11 +116,11 @@ namespace Code.Services
             paintedPixelsCount++;
         }
       }
-
+      Object.Destroy(fluxyTexture);
 #if UNITY_EDITOR
       int maxColorsCount = 0;
-      Color maxColorsCountColor = ClearColor;
-      foreach (KeyValuePair<Color, int> keyValuePair in colors)
+      Color maxColorsCountColor = Color.clear;
+      foreach (KeyValuePair<Color, int> keyValuePair in _colors)
       {
         if (keyValuePair.Value > 100)
           Debug.Log($"color={keyValuePair.Key};count={keyValuePair.Value};");
@@ -124,7 +130,7 @@ namespace Code.Services
           maxColorsCountColor = keyValuePair.Key;
         }
       }
-      colors.Clear();
+      _colors.Clear();
 
       Debug.Log($"name={jellyConfig.Mesh.name}; percentage= {(float)paintedPixelsCount / shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
       Debug.Log($"maxColorsCountColor={maxColorsCountColor};TargetColor={jellyConfig.TargetColor}; maxColorsCount= {maxColorsCount};");
@@ -144,12 +150,12 @@ namespace Code.Services
       return absColor;
     }
 
-    private Texture2D ConvertToTexture2D(RenderTexture renderTexture)
+    private Texture2D ConvertToTexture2D()
     {
       RenderTexture oldTexture = RenderTexture.active;
-      Texture2D texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
-      RenderTexture.active = renderTexture;
-      texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+      Texture2D texture2D = new Texture2D(_fluxyStateA.width, _fluxyStateA.height, TextureFormat.RGBA32, false);
+      RenderTexture.active = _fluxyStateA;
+      texture2D.ReadPixels(_convertToTextureRect, 0, 0);
       texture2D.Apply();
       RenderTexture.active = oldTexture;
 

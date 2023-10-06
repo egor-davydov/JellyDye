@@ -786,7 +786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 1791169268157735282}
-  _scaleIfLessThen: 1.5
+  _scaleIfLessThen: 1.4
   _scaleTo: 1
 --- !u!114 &1791169269734793614
 MonoBehaviour:

@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Code.Gameplay.Syringe
 {
   public class SyringeMove : MonoBehaviour
   {
-    //[SerializeField, Range(0, 0.05f)] private float _moveSpeed = 0.05f;
-
+    [SerializeField] private Vector2 _positionBoundsX;
+    [SerializeField] private Vector2 _positionBoundsZ;
+    
     private bool _isDragging;
-    private Vector3 _offset;
     private Camera _camera;
     private Vector3 _delta;
     private Vector3 _worldToScreenPoint;
@@ -31,14 +30,22 @@ namespace Code.Gameplay.Syringe
 
       if (_isDragging)
       {
-        Vector3 newPosition = GetMouseWorldPosition() + _delta;
-        transform.position = new Vector3(newPosition.x + _offset.x, transform.position.y, newPosition.z + _offset.z);
+        Vector3 newPosition = CalculateNewPosition();
+        transform.position = new Vector3(newPosition.x, transform.position.y, newPosition.z);
       }
 
       if (Input.GetMouseButtonUp(0))
       {
         _isDragging = false;
       }
+    }
+
+    private Vector3 CalculateNewPosition()
+    {
+      Vector3 newPosition = GetMouseWorldPosition() + _delta;
+      newPosition.x = Mathf.Clamp(newPosition.x, _positionBoundsX.x, _positionBoundsX.y);
+      newPosition.z = Mathf.Clamp(newPosition.z, _positionBoundsZ.x, _positionBoundsZ.y);
+      return newPosition;
     }
 
     private bool IsPointerOverUIObject()
