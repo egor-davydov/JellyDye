@@ -105,12 +105,12 @@ namespace Code.Gameplay.UI.FinishWindow
       _analyticsService.LevelEnd(_staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId), _progressLevelData.CurrentLevelId, (int)finalPercentage);
 
       if(_progressLevelData.CompletedLevels.Count >= 3)
-        _yandexService.RequestIsPlayerCanReview(OnServerResponse);
+        _yandexService.RequestCanPLayerReviewOrNot(OnServerReviewResponse);
       else
         ShowInterstitial();
     }
 
-    private void OnServerResponse(bool isPlayerCanReview)
+    private void OnServerReviewResponse(bool isPlayerCanReview)
     {
       if (isPlayerCanReview)
         ShowReviewWindow();

@@ -12,7 +12,7 @@ namespace Obi
     [BurstCompile]
     struct UpdatePrincipalAxisJob : IJobParallelFor
     {
-        [ReadOnly] public NativeList<int> activeParticles;
+        [ReadOnly] public NativeArray<int> activeParticles;
         [ReadOnly] public NativeArray<quaternion> renderableOrientations;
         [ReadOnly] public NativeArray<int> phases;
         [ReadOnly] public NativeArray<float4> principalRadii;

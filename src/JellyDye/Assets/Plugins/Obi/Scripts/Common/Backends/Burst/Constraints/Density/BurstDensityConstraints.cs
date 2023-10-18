@@ -51,8 +51,11 @@ namespace Obi
             // evaluate all batches as a chain of dependencies:
             for (int i = 0; i < batches.Count; ++i)
             {
-                inputDeps = batches[i].Evaluate(inputDeps, stepTime, substepTime, substeps);
-                m_Solver.ScheduleBatchedJobsIfNeeded();
+                if (batches[i].enabled)
+                {
+                    inputDeps = batches[i].Evaluate(inputDeps, stepTime, substepTime, substeps);
+                    m_Solver.ScheduleBatchedJobsIfNeeded();
+                }
             }
 
             // calculate per-particle lambdas:
@@ -61,8 +64,11 @@ namespace Obi
             // then apply them:
             for (int i = 0; i < batches.Count; ++i)
             {
-                inputDeps = batches[i].Apply(inputDeps, substepTime);
-                m_Solver.ScheduleBatchedJobsIfNeeded();
+                if (batches[i].enabled)
+                {
+                    inputDeps = batches[i].Apply(inputDeps, substepTime);
+                    m_Solver.ScheduleBatchedJobsIfNeeded();
+                }
             }
 
             return inputDeps;
@@ -74,14 +80,20 @@ namespace Obi
 
             for (int i = 0; i < batches.Count; ++i)
             {
-                inputDeps = batches[i].CalculateViscosityAndNormals(inputDeps, deltaTime);
-                m_Solver.ScheduleBatchedJobsIfNeeded();
+                if (batches[i].enabled)
+                {
+                    inputDeps = batches[i].CalculateViscosityAndNormals(inputDeps, deltaTime);
+                    m_Solver.ScheduleBatchedJobsIfNeeded();
+                }
             }
 
             for (int i = 0; i < batches.Count; ++i)
             {
-                inputDeps = batches[i].CalculateVorticity(inputDeps);
-                m_Solver.ScheduleBatchedJobsIfNeeded();
+                if (batches[i].enabled)
+                {
+                    inputDeps = batches[i].CalculateVorticity(inputDeps);
+                    m_Solver.ScheduleBatchedJobsIfNeeded();
+                }
             }
 
             inputDeps = ApplyVorticityAndAtmosphere(inputDeps, deltaTime);
@@ -101,16 +113,22 @@ namespace Obi
 
             for (int i = 0; i < batches.Count; ++i)
             {
-                inputDeps = batches[i].AccumulateSmoothPositions(inputDeps);
-                m_Solver.ScheduleBatchedJobsIfNeeded();
+                if (batches[i].enabled)
+                {
+                    inputDeps = batches[i].AccumulateSmoothPositions(inputDeps);
+                    m_Solver.ScheduleBatchedJobsIfNeeded();
+                }
             }
 
             inputDeps = AverageSmoothPositions(inputDeps);
 
             for (int i = 0; i < batches.Count; ++i)
             {
-                inputDeps = batches[i].AccumulateAnisotropy(inputDeps);
-                m_Solver.ScheduleBatchedJobsIfNeeded();
+                if (batches[i].enabled)
+                {
+                    inputDeps = batches[i].AccumulateAnisotropy(inputDeps);
+                    m_Solver.ScheduleBatchedJobsIfNeeded();
+                }
             }
              
             return AverageAnisotropy(inputDeps);

@@ -855,52 +855,33 @@ namespace Obi
 
         public static void GetPointCloudAnisotropy(List<Vector3> points, float max_anisotropy, float radius, in Vector3 hint_normal, ref Vector3 centroid, ref Quaternion orientation, ref Vector3 principal_radii)
         {
-            int count = points.Count;
-            if (count < 2 || radius <= 0 || max_anisotropy <= 0)
-            {
-                principal_radii = Vector3.one * radius;
-                orientation = Quaternion.identity;
-                return;
-            }
-
-            centroid = GetPointCloudCentroid(points);
+            int count = points.Count;            if (count < 2 || radius <= 0 || max_anisotropy <= 0)            {                principal_radii = Vector3.one * radius;                orientation = Quaternion.identity;                return;            }            centroid = GetPointCloudCentroid(points);
 
             // three columns of a 3x3 anisotropy matrix: 
             Vector4 c0 = Vector4.zero,
-                    c1 = Vector4.zero,
-                    c2 = Vector4.zero;
+            c1 = Vector4.zero,
+            c2 = Vector4.zero;            Matrix4x4 anisotropy = Matrix4x4.zero;
 
-            Matrix4x4 anisotropy = Matrix4x4.zero;
+            // multiply offset by offset transposed, and add to matrix:
+            for (int i = 0; i < count; i++)            {                Vector4 offset = points[i] - centroid;                c0 += offset * offset[0];                c1 += offset * offset[1];                c2 += offset * offset[2];            }
 
-            // multiply offset by offset transposed, add to matrix, and average.
-            for (int i = 0; i < count; i++)
+            // calculate maximum absolute value:
+            float max0 = Mathf.Max(Mathf.Max(Mathf.Abs(c0.x), Mathf.Abs(c0.y)), Mathf.Abs(c0.z));            float max1 = Mathf.Max(Mathf.Max(Mathf.Abs(c1.x), Mathf.Abs(c1.y)), Mathf.Abs(c1.z));            float max2 = Mathf.Max(Mathf.Max(Mathf.Abs(c2.x), Mathf.Abs(c2.y)), Mathf.Abs(c2.z));            float max = Mathf.Max(Mathf.Max(max0, max1), max2);
+
+            // normalize matrix:
+            if (max > epsilon)
             {
-                Vector4 offset = points[i] - centroid;
+                c0 /= max;
+                c1 /= max;
+                c2 /= max;
+            }            anisotropy.SetColumn(0, c0);
+            anisotropy.SetColumn(1, c1);
+            anisotropy.SetColumn(2, c2);
 
-                // Unity uses an absurdly large epsilon for Mathf.Approximately (used in matrix rotations),
-                // so compensate by scaling the anisotropy matrix values up:
-                c0 += offset * offset[0] * 100;
-                c1 += offset * offset[1] * 100;
-                c2 += offset * offset[2] * 100;
-            }
-
-            anisotropy.SetColumn(0, c0 / count);
-            anisotropy.SetColumn(1, c1 / count);
-            anisotropy.SetColumn(2, c2 / count);
-
-            Matrix4x4 orientMat;
-            EigenSolve(anisotropy, out principal_radii, out orientMat);
+            Matrix4x4 orientMat;            EigenSolve(anisotropy, out principal_radii, out orientMat);
 
             // flip orientation if it is not in the same side as the hint normal:
-            if (Vector3.Dot(orientMat.GetColumn(2),hint_normal) < 0)
-            {
-                orientMat.SetColumn(2,orientMat.GetColumn(2) * -1);
-                orientMat.SetColumn(1,orientMat.GetColumn(1) * -1);
-            }
-
-            float max = principal_radii[0];
-            principal_radii = Vector3.Max(principal_radii,Vector3.one * max/max_anisotropy) / max * radius;
-            orientation = orientMat.rotation;
+            if (Vector3.Dot(orientMat.GetColumn(2), hint_normal) < 0)            {                orientMat.SetColumn(2, orientMat.GetColumn(2) * -1);                orientMat.SetColumn(1, orientMat.GetColumn(1) * -1);            }            max = principal_radii[0];            principal_radii = Vector3.Max(principal_radii, Vector3.one * max / max_anisotropy) / max * radius;            orientation = orientMat.rotation;
         }
     }
 }

@@ -14,8 +14,16 @@ const library = {
     playerAccount: undefined,
     
     billing: undefined,
+  allocateUnmanagedString: function (string) {
+    const stringBufferSize = lengthBytesUTF8(string) + 1;
+    const stringBufferPtr = _malloc(stringBufferSize);
+    stringToUTF8(string, stringBufferPtr, stringBufferSize);
+    return stringBufferPtr;
   },
-
+  appendBackgroundImage: function (lang) {
+    document.head.insertAdjacentHTML("beforeend", `<style>body{background-image: url(Images/`+lang+`_background.png);background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%; }</style>`); 
+  },
+},
   TryInitializeYandexGames: function (onInitialize) {
     const sdkScript = document.createElement('script');
     sdkScript.src = 'https://yandex.ru/games/sdk/v2';
@@ -25,7 +33,7 @@ const library = {
       window['YaGames'].init().then(function (sdk) {
         yandexGames.isYandexGames = true;
         yandexGames.sdk = sdk;
-  
+        yandexGames.appendBackgroundImage(sdk.environment.i18n.lang);
         const playerAccountInitializationPromise = sdk.getPlayer().then(function (playerAccount) {
           if (playerAccount.getMode() !== 'lite') {
             yandexGames.isAuthorized = true;
@@ -46,11 +54,11 @@ const library = {
         Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise, billingInitializationPromise]).then(function () {
           console.log('Yandex SDK initialized');
           dynCall('v', onInitialize, []);
-          yandexGames.sdk.features.LoadingAPI.ready();
         });
       });
     }
   },
+
   SaveToYandex: function (data) {
     var dataString = UTF8ToString(data);
     var jsonObject = JSON.parse(dataString);
@@ -60,19 +68,21 @@ const library = {
     yandexGames.playerAccount.getData().then(_data =>{
         const jsonObject = JSON.stringify(_data);
         console.log('LoadFromYandex jsonObject ' + jsonObject);
-        var bufferSize = lengthBytesUTF8(jsonObject) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(jsonObject, buffer, bufferSize);
+        var buffer = yandexGames.allocateUnmanagedString(jsonObject);
         dynCall('vi', callback, [buffer]);
     }).catch(function (e) { console.log('Error on loading player data. ', e); });
   },
   SetToYandexLeaderboard: function (score) {
     yandexGames.leaderboard.setLeaderboardScore('Paint', score);
   },
+  GetYandexLanguage: function () {
+    return yandexGames.allocateUnmanagedString(yandexGames.sdk.environment.i18n.lang);
+  },
   IsYandexGames: function () {
     return yandexGames.isYandexGames;
   },
   GameReadyToPLayYandex: function () {
+    console.log('Game is ready to play');
     yandexGames.sdk.features.LoadingAPI.ready();
   },
   ShowYandexFullscreenAdv: function (onOpen, onClose) {

@@ -49,17 +49,27 @@ namespace Obi
 
         public ObiBlueprintPropertyBase currentProperty
         {
-            get { return (properties.Count > currentPropertyIndex && currentPropertyIndex >= 0) ? properties[currentPropertyIndex] : null; }
+            get { return GetProperty(currentPropertyIndex); }
         }
 
         public ObiBlueprintEditorTool currentTool
         {
-            get { return (tools.Count > currentToolIndex && currentToolIndex >= 0) ? tools[currentToolIndex] : null; }
+            get { return GetTool(currentToolIndex); }
         }
 
         public override bool UseDefaultMargins()
         {
             return false;
+        }
+
+        public ObiBlueprintPropertyBase GetProperty(int index)
+        {
+            return (properties.Count > index && index >= 0) ? properties[index] : null;
+        }
+
+        public ObiBlueprintEditorTool GetTool(int index)
+        {
+            return (tools.Count > index && index >= 0) ? tools[index] : null;
         }
 
 #if (UNITY_2019_1_OR_NEWER)
@@ -222,7 +232,7 @@ namespace Obi
                     ActiveEditorTracker.sharedTracker.isLocked = true;
 
                     oldSetup = EditorSceneManager.GetSceneManagerSetup();
-                    EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects);
+                    EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);
 
                     // Set properties for all scene views:
                     m_SceneStates = new List<SceneStateCache>();
@@ -369,7 +379,7 @@ namespace Obi
 
         }
 
-        public bool PropertySelector()
+        public int PropertySelector(int propertyIndex, string label = "Property")
         {
             // get all particle properties:
             string[] propertyNames = new string[properties.Count];
@@ -377,15 +387,7 @@ namespace Obi
                 propertyNames[i] = properties[i].name;
 
             // Draw a selection dropdown:
-            EditorGUI.BeginChangeCheck();
-            int newPropertyIndex = EditorGUILayout.Popup("Property", currentPropertyIndex, propertyNames);
-            if (EditorGUI.EndChangeCheck())
-            {
-                currentPropertyIndex = newPropertyIndex;
-                Refresh();
-                return true;
-            }
-            return false;
+            return EditorGUILayout.Popup(label, propertyIndex, propertyNames);
         }
 
         public virtual void RenderModeSelector()

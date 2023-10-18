@@ -108,7 +108,7 @@ namespace Obi
             [ReadOnly] public NativeArray<BurstCollisionMaterial> collisionMaterials;
 
             // simplex arrays:
-            [ReadOnly] public NativeList<int> simplices;
+            [ReadOnly] public NativeArray<int> simplices;
             [ReadOnly] public SimplexCounts simplexCounts;
 
             [NativeDisableContainerSafetyRestriction] [NativeDisableParallelForRestriction] public NativeArray<float4> deltas;

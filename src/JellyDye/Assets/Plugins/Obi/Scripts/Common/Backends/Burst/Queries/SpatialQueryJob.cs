@@ -20,7 +20,7 @@ namespace Obi
         [ReadOnly] public NativeArray<int> filters;
 
         // simplex arrays:
-        [ReadOnly] public NativeList<int> simplices;
+        [ReadOnly] public NativeArray<int> simplices;
         [ReadOnly] public SimplexCounts simplexCounts;
 
         // query arrays:
@@ -134,7 +134,7 @@ namespace Obi
         [ReadOnly] public NativeArray<float4> radii;
 
         // simplex arrays:
-        [ReadOnly] public NativeList<int> simplices;
+        [ReadOnly] public NativeArray<int> simplices;
         [ReadOnly] public SimplexCounts simplexCounts;
 
         public NativeArray<BurstQueryResult> queryResults;

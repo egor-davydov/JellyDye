@@ -8,6 +8,7 @@ using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
@@ -78,6 +79,7 @@ namespace Code.Infrastructure.Installers
 
     private void MoveToNextState()
     {
+      SceneManager.LoadScene(1);
       GameStateMachine gameStateMachine = Container.Resolve<GameStateMachine>();
       gameStateMachine.Setup();
       gameStateMachine.Enter<LoadProgressState>();

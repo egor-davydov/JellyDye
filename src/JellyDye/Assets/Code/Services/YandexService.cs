@@ -1,5 +1,6 @@
 ﻿using System;
 using AOT;
+using Code.Gameplay.Logic;
 #if !UNITY_EDITOR && UNITY_WEBGL
 using System.Runtime.InteropServices;
 using Code.StaticServices;
@@ -15,6 +16,9 @@ namespace Code.Services
 #if !UNITY_EDITOR && UNITY_WEBGL
     [DllImport("__Internal")]
     private static extern bool IsYandexGames();
+
+    [DllImport("__Internal")]
+    private static extern string GetYandexLanguage();
 
     [DllImport("__Internal")]
     private static extern void GameReadyToPLayYandex();
@@ -38,6 +42,23 @@ namespace Code.Services
       if (IsYandexGames())
         SetToYandexLeaderboard(score);
 #endif
+    }
+
+    public LanguageType GetPlayerLanguage()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+      if (IsYandexGames())
+      {
+          string yandexLanguage = GetYandexLanguage();
+          return yandexLanguage switch
+          {
+              "en" => LanguageType.English,
+              "ru" => LanguageType.Russian,
+              _ => throw new ArgumentOutOfRangeException($"Unsupported language '{yandexLanguage}'")
+          };
+      }
+#endif
+        return LanguageType.English;
     }
 
     public void ShowFullscreenAdvAndPauseGame()
@@ -64,7 +85,7 @@ namespace Code.Services
 #endif
     }
 
-    public void RequestIsPlayerCanReview(Action<bool> isCanReviewResponse)
+    public void RequestCanPLayerReviewOrNot(Action<bool> isCanReviewResponse)
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
       if (!IsYandexGames())

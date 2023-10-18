@@ -197,7 +197,7 @@ namespace Obi
             var handle = new ObiColliderHandle(colliderHandles.Count);
             colliderHandles.Add(handle);
 
-            colliderShapes.Add(new ColliderShape());
+            colliderShapes.Add(new ColliderShape() { materialIndex = -1, rigidbodyIndex = -1});
             colliderAabbs.Add(new Aabb());
             colliderTransforms.Add(new AffineTransform());
 

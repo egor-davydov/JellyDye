@@ -7,6 +7,7 @@
         {
             brushModes.Add(new ObiFloatPaintBrushMode(this));
             brushModes.Add(new ObiFloatAddBrushMode(this));
+            brushModes.Add(new ObiFloatCopyBrushMode(this, this));
             brushModes.Add(new ObiFloatSmoothBrushMode(this));
         }
 

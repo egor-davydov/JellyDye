@@ -1,4 +1,4 @@
-﻿Shader "Obi/EditorParticles"
+﻿Shader "Obi/EditorPoint"
 {
     SubShader
     {
@@ -15,7 +15,7 @@
          
             #include "UnityCG.cginc"
  
-            struct MeshData
+            struct appdata
             {
                 float4 vertex : POSITION;
                 float3 corner   : NORMAL;
@@ -23,16 +23,16 @@
                 float4 t0 : TEXCOORD0; // ellipsoid t1 vector
             };
  
-            struct Interpolators
+            struct v2f
             {
                 float4 pos : SV_POSITION;
                 fixed4 color    : COLOR;
                 float2 texcoord : TEXCOORD0;
             };
          
-            Interpolators vert (MeshData v)
+            v2f vert (appdata v)
             {
-                Interpolators o;
+                v2f o;
                 
                 // particle positions are passed in world space, no need to use modelview matrix, just view.
                 float radius = v.t0.w * distance(mul(unity_ObjectToWorld, v.vertex), _WorldSpaceCameraPos);
@@ -45,7 +45,7 @@
                 return o;
             }
  
-            fixed4 frag (Interpolators i) : SV_Target
+            fixed4 frag (v2f i) : SV_Target
             {
                 // antialiased circle:
                 float dist = length(i.texcoord);

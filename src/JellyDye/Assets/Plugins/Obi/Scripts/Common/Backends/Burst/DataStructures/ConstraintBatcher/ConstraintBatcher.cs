@@ -7,6 +7,7 @@ using Unity.Jobs;
 
 namespace Obi
 {
+
     public struct BatchData
     {
         public ushort batchID;             // Batch identifier. All bits will be '0', except for the one at the position of the batch.
@@ -39,10 +40,27 @@ namespace Obi
 
     }
 
-    public struct ConstraintBatcher : IDisposable
+    public unsafe struct WorkItem
     {
-        public const int minWorkItemSize = 64; // minimum amount of constraints per work item.
+        public const int minWorkItemSize = 64;
+        public fixed int constraints[minWorkItemSize];
+        public int constraintCount;
 
+        public bool Add(int constraintIndex)
+        {
+            // add the constraint to this work item.
+            fixed (int* constraintIndices = constraints)
+            {
+                constraintIndices[constraintCount] = constraintIndex;
+            }
+
+            // if we've completed the work item, close it and reuse for the next one.
+            return (++constraintCount == minWorkItemSize);
+        }
+    }
+
+    public struct ConstraintBatcher<T> : IDisposable where T : struct, IConstraintProvider
+    {
         public int maxBatches;
         private BatchLUT batchLUT; // look up table for batch indices.
 
@@ -57,25 +75,6 @@ namespace Obi
             batchLUT.Dispose();
         }
 
-        private unsafe struct WorkItem
-        {
-            public fixed int constraints[minWorkItemSize];
-            public int constraintCount;
-
-            public bool Add(int constraintIndex)
-            {
-                // add the constraint to this work item.
-                fixed (int* constraintIndices = constraints)
-                {
-                    constraintIndices[constraintCount] = constraintIndex;
-                }
-
-                // if we've completed the work item, close it and reuse for the next one.
-                return (++constraintCount == minWorkItemSize);
-            }
-
-        }
-
         /**
          * Linear-time graph coloring using bitmasks and a look-up table. Used to organize contacts into batches for parallel processing.
          * input: array of unsorted constraints.
@@ -85,16 +84,16 @@ namespace Obi
          * - number of active batches.
          */
 
-        public JobHandle BatchConstraints<T>(ref T constraintDesc,
+        public JobHandle BatchConstraints(ref T constraintDesc,
                                              int particleCount,
                                              ref NativeArray<BatchData> batchData,
                                              ref NativeArray<int> activeBatchCount,
-                                             JobHandle inputDeps) where T : struct, IConstraintProvider
+                                             JobHandle inputDeps)
         {
             if (activeBatchCount.Length != 1)
                 return inputDeps;
 
-            var batchJob = new BatchContactsJob<T>()
+            var batchJob = new BatchContactsJob
             {
                 batchMasks = new NativeArray<ushort>(particleCount, Allocator.TempJob, NativeArrayOptions.ClearMemory),
                 batchIndices = new NativeArray<int>(constraintDesc.GetConstraintCount(), Allocator.TempJob, NativeArrayOptions.ClearMemory),
@@ -109,7 +108,7 @@ namespace Obi
         }
 
         [BurstCompile]
-        private struct BatchContactsJob<K> : IJob where K : struct, IConstraintProvider
+        private struct BatchContactsJob : IJob
         {
             [DeallocateOnJobCompletion]
             public NativeArray<ushort> batchMasks;
@@ -118,7 +117,7 @@ namespace Obi
             public NativeArray<int> batchIndices;
 
             [ReadOnly] public BatchLUT lut;
-            public K constraintDesc;
+            public T constraintDesc;
             public NativeArray<BatchData> batchData;
             public NativeArray<int> activeBatchCount;
 
@@ -143,7 +142,7 @@ namespace Obi
                     // OR together the batch masks of all entities involved in the constraint:
                     int batchMask = 0;
                     for (int k = 0; k < constraintDesc.GetParticleCount(i); ++k)
-                        batchMask |= batchMasks[constraintDesc.GetParticle(i,k)];
+                        batchMask |= batchMasks[constraintDesc.GetParticle(i, k)];
 
                     // look up the first free batch index for this constraint:
                     int batchIndex = batchIndices[i] = lut.batchIndex[batchMask];
@@ -166,7 +165,7 @@ namespace Obi
                                 int constraint = workItems[batchIndex].constraints[j];
 
                                 for (int k = 0; k < constraintDesc.GetParticleCount(constraint); ++k)
-                                    batchMasks[constraintDesc.GetParticle(constraint,k)] |= batch.batchID;
+                                    batchMasks[constraintDesc.GetParticle(constraint, k)] |= batch.batchID;
                             }
                         }
 
@@ -188,7 +187,7 @@ namespace Obi
                         break;
 
                     // calculate work item size, count, and index of the first constraint
-                    batch.workItemSize = math.min(minWorkItemSize, batch.constraintCount);
+                    batch.workItemSize = math.min(WorkItem.minWorkItemSize, batch.constraintCount);
                     batch.workItemCount = (batch.constraintCount + batch.workItemSize - 1) / batch.workItemSize;
                     batch.startIndex = numConstraints;
 
@@ -209,7 +208,7 @@ namespace Obi
 
             }
 
-        
+
         }
 
     }

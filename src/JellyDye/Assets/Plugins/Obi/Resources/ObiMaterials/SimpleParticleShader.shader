@@ -9,7 +9,7 @@ Properties {
 		Pass { 
 
 			Name "ParticleFwdBase"
-			Tags {"Queue"="Geometry" "IgnoreProjector"="True" "RenderType"="Opaque"}
+			Tags {"Queue"="Geometry" "IgnoreProjector"="True" "RenderType"="Opaque" "LightMode" = "ForwardBase"}
 			Blend SrcAlpha OneMinusSrcAlpha  
 			
 			CGPROGRAM
@@ -33,7 +33,7 @@ Properties {
 				float4 t0 : TEXCOORD0; // ellipsoid t1 vector
 			};
 
-			struct Interpolators
+			struct v2f
 			{
 				float4 pos   : POSITION;
 				fixed4 color    : COLOR;
@@ -42,9 +42,9 @@ Properties {
 				LIGHTING_COORDS(3,4)
 			};
 
-			Interpolators vert(vin v)
+			v2f vert(vin v)
 			{ 
-				Interpolators o;
+				v2f o;
 		
 				// particle positions are passed in world space, no need to use modelview matrix, just view.
 				float radius = v.t0.w * _RadiusScale;
@@ -60,7 +60,7 @@ Properties {
 				return o;
 			} 
 
-			fixed4 frag(Interpolators i) : SV_Target
+			fixed4 frag(v2f i) : SV_Target
 			{
 				// generate sphere normals:
 				float3 n = BillboardSphereNormals(i.texcoord);
@@ -99,14 +99,14 @@ Properties {
 					float4 t0 : TEXCOORD0; // ellipsoid t1 vector
 				};
 
-				struct Interpolators {
+				struct v2f {
 					float4 pos   : POSITION;
 				    float3 texcoord : TEXCOORD0;
 				};
 				 
-				Interpolators vert( vin v )
+				v2f vert( vin v )
 				{
-				    Interpolators o;
+				    v2f o;
 
 					float radius = v.t0.w * _RadiusScale;
 					float4 viewpos = mul(UNITY_MATRIX_V, v.vertex) + float4(v.corner.x, v.corner.y, 0, 0) * radius;
@@ -115,7 +115,7 @@ Properties {
 				    return o;
 				}
 				 
-				fixed4 frag( Interpolators i ) : SV_Target
+				fixed4 frag( v2f i ) : SV_Target
 				{
 					float3 n = BillboardSphereNormals(i.texcoord);
 

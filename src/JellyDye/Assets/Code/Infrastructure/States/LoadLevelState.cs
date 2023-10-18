@@ -27,16 +27,18 @@ namespace Code.Infrastructure.States
     private readonly FinishLevelService _finishLevelService;
     private readonly ISaveLoadService _saveLoadService;
     private readonly AnalyticsService _analyticsService;
+    private readonly YandexService _yandexService;
 
     private string _levelId;
     private int _levelIndex;
     private LevelData _progressLevelData;
+    private bool _isFirstLoad = true;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
       ProgressService progressService, StaticDataService staticDataService,
       PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService,
-      ISaveLoadService saveLoadService, AnalyticsService analyticsService)
+      ISaveLoadService saveLoadService, AnalyticsService analyticsService, YandexService yandexService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
@@ -49,7 +51,7 @@ namespace Code.Infrastructure.States
       _finishLevelService = finishLevelService;
       _saveLoadService = saveLoadService;
       _analyticsService = analyticsService;
-      
+      _yandexService = yandexService;
     }
 
     public void Enter(string levelId)
@@ -58,11 +60,16 @@ namespace Code.Infrastructure.States
       _levelId = levelId;
       _progressLevelData.CurrentLevelId = _levelId;
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
-      _sceneLoader.StartLoad(1, OnLoadComplete);
+      _sceneLoader.StartLoad(2, OnLoadComplete);
     }
 
     public void Exit()
     {
+      if(_isFirstLoad)
+      {
+        _yandexService.GameReadyToPLay();
+        _isFirstLoad = false;
+      }
       _analyticsService.LevelStart(_levelIndex, _levelId);
     }
 

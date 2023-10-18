@@ -1,6 +1,62 @@
 # Change Log
 All notable changes to “Obi - Advanced softbodies for Unity” will be documented in this file.
 
+## [6.5.4]
+
+### Fixed
+- Workaround for kinematic rigidbody velocities not writable in Unity 2022.1 and above.
+
+## [6.5.3]
+
+### Changed
+- Updated UnsafeList with its generic version for supporting newer versions of the Collections package.
+
+## [6.5.2]
+
+### Changed
+- Slightly improved overall performance by only updating collision material references during OnValidate()
+- Exposed solver.activeParticles and solver.colors as a ObiNativeIntList instead of int[], which allows to use them directly in jobs.
+- Updated for compatibility with newest Collections package.
+
+## [6.5.1]
+
+### Added
+- Support for holes in terrain colliders.
+
+### Fixed
+- Out of bounds access exception when using skeletons for FVBS generation. 
+
+## [6.5]
+
+### Added
+- Improved constraint coloring, which results in much faster blueprint generation.
+- Improved anisotropy robustness when using very small meshes to generate a blueprint.
+
+### Fixed
+- Error message when using "vertex" mode for blueprint surface generation in certain meshes.
+- Memory leak when using collision constraints in the Burst backend.
+- Performance drop when using collision constraints in Burst >1.7
+- Incorrect lighting on particles in the blueprint editor, when opening the editor without having previously opened any scene.
+- Bug that broke skinning when the amount of bone influences affecting a vertex was larger than 255.
+
+## [6.4]
+
+### Added
+- Support for configurable enter play mode (domain and scene reload disabling).
+- Support for in-editor hot reloading.
+- Paint brush mirroring in x,y,z axis for blueprint editor.
+- New "Copy" paint brush mode in the blueprint editor allows you to selectively copy values between particle property channels.
+
+### Changed
+- Introduced a job handle pool to avoid runtime allocation of handles by both Burst and Oni backends.
+- Constraint padding array in Burst solver has been turned into a member variable instead of allocating anew it every frame.
+- Collision and friction batches are pooled instead of allocated every frame.
+
+### Fixed
+- IndexOutOfRangeException when enabling mesh rendering in a softbody blueprint using voxel surface generation.
+- InvalidOperationException when performing certain spatial queries with jobs debugger enabled in the Burst backend.
+- Particle render mode in blueprint editor wasn't updated every frame under specific circumstances.
+
 ## [6.3]
 
 ### Added

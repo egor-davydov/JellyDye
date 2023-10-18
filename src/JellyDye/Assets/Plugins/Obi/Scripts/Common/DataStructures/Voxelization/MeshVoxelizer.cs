@@ -228,7 +228,7 @@ namespace Obi
 
         public IEnumerator Voxelize(Matrix4x4 transform, bool generateTriangleIndices = false)
         {
-            voxelSize = Mathf.Max(0.001f, voxelSize);
+            voxelSize = Mathf.Max(0.0001f, voxelSize);
 
             var xfBounds = input.bounds.Transform(transform);
 

@@ -175,10 +175,11 @@ namespace Obi
 
         // decomposes a quaternion in swing and twist around a given axis:
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SwingTwist(quaternion q, float3 vt, out quaternion swing, out quaternion twist)
+        public static void SwingTwist(quaternion q, float3 twistAxis, out quaternion swing, out quaternion twist)
         {
-            float3 p = vt * math.dot(q.value.xyz, vt);
-            twist = math.normalize(new quaternion(p[0], p[1], p[2], q.value.w));
+            float dot = math.dot(q.value.xyz, twistAxis);
+            float3 p = twistAxis * dot;
+            twist = math.normalizesafe(new quaternion(p[0], p[1], p[2], q.value.w));
             swing = math.mul(q, math.conjugate(twist));
         }
 

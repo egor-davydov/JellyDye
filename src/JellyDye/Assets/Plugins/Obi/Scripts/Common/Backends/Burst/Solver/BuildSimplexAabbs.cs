@@ -19,7 +19,7 @@ namespace Obi
         [ReadOnly] public NativeArray<float4> velocities;
 
         // simplex arrays:
-        [ReadOnly] public NativeList<int> simplices;
+        [ReadOnly] public NativeArray<int> simplices;
         [ReadOnly] public SimplexCounts simplexCounts;
 
         [ReadOnly] public NativeArray<int> particleMaterialIndices;
