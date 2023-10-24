@@ -413,7 +413,7 @@ namespace Obi
 
         public void Refresh()
         {
-            currentProperty.RecalculateMinMax();
+//            currentProperty.RecalculateMinMax();
 
             // refresh render modes:
             for (int i = 0; i < renderModes.Count; ++i)
