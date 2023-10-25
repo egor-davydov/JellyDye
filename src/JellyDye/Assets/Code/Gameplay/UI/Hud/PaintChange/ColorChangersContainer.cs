@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Code.Gameplay.Syringe;
 using Code.Services.Factories.UI;
 using DG.Tweening;
@@ -9,7 +10,6 @@ namespace Code.Gameplay.UI.Hud.PaintChange
 {
   public class ColorChangersContainer : MonoBehaviour
   {
-    private Color[] _colors;
     private ColorChangerFactory _colorChangerFactory;
     private SyringePaintColor _syringePaintColor;
     private ColorChanger _currentSelectedColor;
@@ -23,11 +23,11 @@ namespace Code.Gameplay.UI.Hud.PaintChange
       _colorChangerFactory = colorChangerFactory;
     }
 
-    public void Initialize(SyringePaintColor syringePaintColor, Color[] colors)
+    public void Initialize(SyringePaintColor syringePaintColor, List<Color> allColors)
     {
       _syringePaintColor = syringePaintColor;
-      _colors = Shuffle(colors);
-      foreach (Color color in colors)
+      List<Color> shuffledColors = Shuffle(allColors);
+      foreach (Color color in shuffledColors)
       {
         ColorChanger colorChanger = _colorChangerFactory.Create(transform).GetComponent<ColorChanger>();
         colorChanger.Initialize(_syringePaintColor, color);
@@ -35,12 +35,12 @@ namespace Code.Gameplay.UI.Hud.PaintChange
         _colorChangers.Add(colorChanger);
       }
 
-      InitStartColor();
+      InitStartColor(shuffledColors);
     }
 
-    private Color[] Shuffle(Color[] colors)
+    private List<Color> Shuffle(List<Color> colors)
     {
-      for (int i = colors.Length - 1; i >= 1; i--)
+      for (int i = colors.Count - 1; i >= 1; i--)
       {
         int j = Random.Range(0, i + 1);
         (colors[j], colors[i]) = (colors[i], colors[j]);
@@ -57,9 +57,9 @@ namespace Code.Gameplay.UI.Hud.PaintChange
         colorChanger.OnColorChange -= OnColorChange;
     }
 
-    private void InitStartColor()
+    private void InitStartColor(List<Color> colors)
     {
-      _syringePaintColor.ChangeLiquidColor(_colors[0]);
+      _syringePaintColor.ChangeLiquidColor(colors[0]);
       OnColorChange(_colorChangers[0]);
     }
 

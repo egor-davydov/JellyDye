@@ -8,6 +8,9 @@ using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
 using Code.StaticData;
+using Code.StaticData.Level;
+using Fluxy;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -20,14 +23,13 @@ namespace Code.Helpers
     private ScreenshotService _screenshotService;
     private int _currentJellyCount;
     private JelliesFactory _jelliesFactory;
-    private int _levelsCount;
     private string _directionPath;
     private bool _withGround;
-    private string _screenshotsFolder;
+    [SerializeField] private string _screenshotsPath = "Levels/TargetColorScreenshots";
 
     [Inject]
-    public void Construct( ProgressService progressService,
-      StaticDataService staticDataService, ScreenshotService screenshotService, JelliesFactory jelliesFactory)
+    public void Construct(ProgressService progressService, StaticDataService staticDataService,
+      ScreenshotService screenshotService, JelliesFactory jelliesFactory)
     {
       _jelliesFactory = jelliesFactory;
       _screenshotService = screenshotService;
@@ -37,16 +39,14 @@ namespace Code.Helpers
 
     private void Awake()
     {
-      _screenshotsFolder = "Levels/TargetColorScreenshots";
-      _directionPath = $"{Application.dataPath}/Resources/{_screenshotsFolder}";
-      string[] files = Directory.GetFiles($"{Application.dataPath}/Resources/Levels/Jellies", "*.prefab");
-      _levelsCount = files.Length - 2;
+      _directionPath = $"{Application.dataPath}/Resources/{_screenshotsPath}";
+      //string[] files = Directory.GetFiles($"{Application.dataPath}/Resources/Levels/Jellies", "*.prefab");
       //Debug.Log($"_levelsCount= {_levelsCount} firstFile= {files[0]}");
     }
 
     public void SetupAllScreenshots()
     {
-      Texture2D[] texture2Ds = Resources.LoadAll<Texture2D>(_screenshotsFolder);
+      Texture2D[] texture2Ds = Resources.LoadAll<Texture2D>(_screenshotsPath);
       if(texture2Ds.Length == 0)
       {
         Debug.LogError("Cant find screenshot textures");
@@ -58,6 +58,7 @@ namespace Code.Helpers
         levelConfig.TargetTexture = texture2Ds.First(texture2D => texture2D.name == levelConfig.JelliesPrefab.name);
         levelConfig.TargetTextureWithGround = texture2Ds.First(texture2D => texture2D.name == levelConfig.JelliesPrefab.name + "_ground");
       }
+      EditorUtility.SetDirty(_staticDataService.ForLevels());
     }
 
     public void TakeScreenshots()
@@ -104,9 +105,9 @@ namespace Code.Helpers
 
       WriteScreenshotOnDisk(levelConfigs);
 
-      if (++_currentJellyCount < _levelsCount)
+      if (++_currentJellyCount < _staticDataService.ForLevels().LevelConfigs.Length)
       {
-        Destroy(FindObjectOfType<JellyAutoConstruct>().gameObject);
+        Destroy(FindObjectOfType<FluxySolver>().transform.parent.gameObject);
         GameObject jelly = _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
         StartCoroutine(WaitColorSet());
       }
@@ -122,7 +123,7 @@ namespace Code.Helpers
     {
       byte[] bytes = _screenshotService.ScreenshotTexture.EncodeToPNG();
       string groundTag = _withGround ? "_ground" : "";
-      var screenshotPath = $"{_directionPath}/{levelConfigs[_currentJellyCount].JelliesPrefab.name}{groundTag}.png";
+      var screenshotPath = $"{_directionPath}/{levelConfigs[_currentJellyCount].Id}{groundTag}.png";
       if (File.Exists(screenshotPath))
         File.Delete(screenshotPath);
       File.WriteAllBytes(screenshotPath, bytes);

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Burst;
+using UnityEngine;
 
 namespace Code.Gameplay.Logic
 {
@@ -6,7 +7,10 @@ namespace Code.Gameplay.Logic
   {
     [SerializeField, Range(-1, 120)] private int _targetFpsCount;
     
-    private void Awake() => 
+    private void Awake()
+    {
+      BurstCompiler.Options.EnableBurstSafetyChecks = false;
       Application.targetFrameRate = _targetFpsCount;
+    }
   }
 }

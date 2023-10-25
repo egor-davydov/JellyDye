@@ -5,6 +5,7 @@ using Code.Services;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.StaticData;
+using Code.StaticData.Level;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

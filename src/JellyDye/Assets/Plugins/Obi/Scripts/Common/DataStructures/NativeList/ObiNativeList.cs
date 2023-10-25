@@ -105,11 +105,11 @@ namespace Obi
                 UnsafeUtility.Free(m_AlignedPtr, Allocator.Persistent);
                 m_AlignedPtr = null;
             }
-#if ENABLE_UNITY_COLLECTIONS_CHECKS
-            // dispose of atomic safety handle:
-            AtomicSafetyHandle.CheckDeallocateAndThrow(m_SafetyHandle);
-            AtomicSafetyHandle.Release(m_SafetyHandle);
-#endif
+// #if ENABLE_UNITY_COLLECTIONS_CHECKS
+//             // dispose of atomic safety handle:
+//             AtomicSafetyHandle.CheckDeallocateAndThrow(m_SafetyHandle);
+//             AtomicSafetyHandle.Release(m_SafetyHandle);
+// #endif
         }
 
         public void Dispose()

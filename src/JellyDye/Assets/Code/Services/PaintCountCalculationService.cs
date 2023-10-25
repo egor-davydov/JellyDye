@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Code.Helpers;
+using Code.Services.Progress;
 using Code.StaticData;
 using Fluxy;
 using UnityEngine;
-using Zenject;
 
 namespace Code.Services
 {
   public class PaintCountCalculationService
   {
+    private readonly StaticDataService _staticDataService;
+    private readonly ProgressService _progressService;
+    
     private FluxySolver _fluxySolver;
-    private StaticDataService _staticDataService;
     private FluxyContainer[] _fluxyContainers;
 
 #if UNITY_EDITOR
@@ -18,10 +21,14 @@ namespace Code.Services
 #endif
     private Rect _convertToTextureRect;
     private RenderTexture _fluxyStateA;
+    private List<JellyMeshConfig> _currentLevelJellyMeshConfigs;
+    
 
-    [Inject]
-    public void Construct(StaticDataService staticDataService) =>
+    private PaintCountCalculationService(StaticDataService staticDataService, ProgressService progressService)
+    {
+      _progressService = progressService;
       _staticDataService = staticDataService;
+    }
 
     public void InitializeOnSceneLoad(FluxySolver fluxySolver, FluxyContainer[] fluxyContainers)
     {
@@ -29,6 +36,9 @@ namespace Code.Services
       _fluxyContainers = fluxyContainers;
       _fluxyStateA = _fluxySolver.framebuffer.stateA;
       _convertToTextureRect = new Rect(0, 0, _fluxyStateA.width, _fluxyStateA.height);
+      
+      string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
+      _currentLevelJellyMeshConfigs = _staticDataService.ForLevels().GetConfigByLevelId(currentLevelId).JellyMeshConfigs;
     }
 
     public bool HasPaintOnAllMeshes()
@@ -36,8 +46,8 @@ namespace Code.Services
       Texture2D fluxyTexture = ConvertToTexture2D();
       foreach (FluxyContainer fluxyContainer in _fluxyContainers)
       {
-        JellyConfig jellyConfig = _staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
-        if (!HasPaintOnMesh(fluxyTexture, jellyConfig, _fluxySolver.GetContainerUVRect(fluxyContainer)))
+        JellyMeshConfig jellyMeshConfig = _currentLevelJellyMeshConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
+        if (!HasPaintOnMesh(fluxyTexture, jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer)))
           return false;
       }
       Object.Destroy(fluxyTexture);
@@ -45,11 +55,11 @@ namespace Code.Services
       return true;
     }
 
-    private bool HasPaintOnMesh(Texture2D fluxyTexture, JellyConfig jellyConfig, Vector4 containerUVRect)
+    private bool HasPaintOnMesh(Texture2D fluxyTexture, JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
     {
-      Texture2D maskTexture = jellyConfig.MaskTexture;
+      Texture2D maskTexture = jellyMeshConfig.MaskTexture;
 
-      foreach (Vector2 uvCoordinates in jellyConfig.Mesh.uv)
+      foreach (Vector2 uvCoordinates in jellyMeshConfig.Mesh.uv)
       {
         float uvCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
         float uvCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
@@ -74,8 +84,8 @@ namespace Code.Services
       int countPixelsShouldPaint = 0;
       foreach (FluxyContainer fluxyContainer in _fluxyContainers)
       {
-        JellyConfig jellyConfig = _staticDataService.ForJellies().JellyConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
-        Vector2Int pixelsCount = CalculateJellyPaintedPixelsCount(fluxyTexture, jellyConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
+        JellyMeshConfig jellyMeshConfig = _currentLevelJellyMeshConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
+        Vector2Int pixelsCount = CalculateJellyPaintedPixelsCount(fluxyTexture, jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
         paintedPixelsCount += pixelsCount.x;
         countPixelsShouldPaint += pixelsCount.y;
       }
@@ -84,12 +94,12 @@ namespace Code.Services
       return (float)paintedPixelsCount / countPixelsShouldPaint * 100;
     }
 
-    private Vector2Int CalculateJellyPaintedPixelsCount(Texture2D fluxyTexture, JellyConfig jellyConfig, Vector4 containerUVRect)
+    private Vector2Int CalculateJellyPaintedPixelsCount(Texture2D fluxyTexture, JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
     {
       int paintedPixelsCount = 0;
-      int shouldPaintedPixelsCount = jellyConfig.Mesh.uv.Length;
-      Texture2D maskTexture = jellyConfig.MaskTexture;
-      foreach (Vector2 uvCoordinates in jellyConfig.Mesh.uv)
+      int shouldPaintedPixelsCount = jellyMeshConfig.Mesh.uv.Length;
+      Texture2D maskTexture = jellyMeshConfig.MaskTexture;
+      foreach (Vector2 uvCoordinates in jellyMeshConfig.Mesh.uv)
       {
         float uvFluxyCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
         float uvFluxyCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
@@ -110,9 +120,9 @@ namespace Code.Services
           else
             _colors[pixelColor]++;
 #endif
-          // if (jellyConfig.Mesh.name == "topM")
+          // if (jellyMeshConfig.Mesh.name == "topM")
           //   Debug.Log($"pixelColor= {pixelColor}");
-          if (VectorsAlmostSame(Abs(pixelColor - jellyConfig.TargetColor), Vector4.one * 0.4f))
+          if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticDataService.ForLevels().ColorCompareEpsilon))
             paintedPixelsCount++;
         }
       }
@@ -132,23 +142,13 @@ namespace Code.Services
       }
       _colors.Clear();
 
-      Debug.Log($"name={jellyConfig.Mesh.name}; percentage= {(float)paintedPixelsCount / shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
-      Debug.Log($"maxColorsCountColor={maxColorsCountColor};TargetColor={jellyConfig.TargetColor}; maxColorsCount= {maxColorsCount};");
+      Debug.Log($"name={jellyMeshConfig.Mesh.name}; percentage= {(float)paintedPixelsCount / shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
+      Debug.Log($"maxColorsCountColor={maxColorsCountColor};TargetColor={jellyMeshConfig.TargetColor}; maxColorsCount= {maxColorsCount};");
 #endif
 
       return new Vector2Int(paintedPixelsCount, shouldPaintedPixelsCount);
     }
 
-    private bool VectorsAlmostSame(Vector4 target, Vector4 epsilon)
-    {
-      return target.x < epsilon.x && target.y < epsilon.y && target.z < epsilon.z && target.w < epsilon.w;
-    }
-
-    private Vector4 Abs(Color delta)
-    {
-      var absColor = new Vector4(Mathf.Abs(delta.r), Mathf.Abs(delta.g), Mathf.Abs(delta.b), Mathf.Abs(delta.a));
-      return absColor;
-    }
 
     private Texture2D ConvertToTexture2D()
     {

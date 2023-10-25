@@ -9,6 +9,7 @@ using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.StaticData;
+using Code.StaticData.Level;
 using Fluxy;
 using UnityEngine;
 
@@ -115,7 +116,7 @@ namespace Code.Infrastructure.States
     {
       SyringePaintColor syringePaintColor = syringeObject.GetComponent<SyringePaintColor>();
       GameObject hudObject = _hudFactory.CreateHud();
-      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaintColor, levelConfig.Colors);
+      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaintColor, levelConfig.AllColors);
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
       return hudObject;
     }
