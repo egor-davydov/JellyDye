@@ -25,7 +25,6 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private float _percentageIncreaseTime;
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
-    [SerializeField, Range(0, 1)] private float _skinProgressFor100Percent;
 
     private PaintCountCalculationService _paintCountCalculationService;
     private GreenButtonFactory _greenButtonFactory;
@@ -59,7 +58,7 @@ namespace Code.Gameplay.UI.FinishWindow
     {
       _shouldBeImage.texture = _staticDataService.ForLevels().GetConfigByLevelId(_progressLevelData.CurrentLevelId).TargetTextureWithGround;
       _yourResultImage.texture = screenshot;
-      AppearanceAnimation(StartWindowAnimations);
+      StartAppearanceAnimation(onEnd: StartWindowAnimations);
     }
 
     private void OnDestroy() =>
@@ -71,7 +70,7 @@ namespace Code.Gameplay.UI.FinishWindow
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
     }
 
-    private void AppearanceAnimation(Action onEnd)
+    private void StartAppearanceAnimation(Action onEnd)
     {
       transform.localScale = Vector3.zero;
       transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
@@ -95,7 +94,7 @@ namespace Code.Gameplay.UI.FinishWindow
       }
 
       _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
-      _skinProgressBar.IncreaseProgress(_skinProgressFor100Percent / 100 * finalPercentage);
+      _skinProgressBar.IncreaseProgress(finalPercentage);
       SetPercentage(finalPercentage);
       _greenButtonFactory.CreateMenuButton(transform);
     }

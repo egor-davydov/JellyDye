@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Code.Helpers;
 using UnityEngine;
 
 namespace Code.StaticData.Level
@@ -9,18 +8,40 @@ namespace Code.StaticData.Level
   [CreateAssetMenu(menuName = "StaticData/Levels", fileName = "Levels", order = 0)]
   public class LevelsStaticData : ScriptableObject
   {
+    private const int RangeMinResolution = 6;
+    private const int RangeMaxResolution = 19;
     public float ColorCompareEpsilon = 0.4f;
+    [field: SerializeField] public bool IsShowingNames { get; private set; }
+
+    [field: SerializeField, Range(RangeMinResolution, RangeMaxResolution)]
+    public int MinGeneratedResolution { get; private set; }
+
+    [field: SerializeField, Range(RangeMinResolution + 1, RangeMaxResolution + 1)]
+    public int MaxGeneratedResolution { get; private set; }
+
+    [field: SerializeField] public int VerticesCountToGenerateOneObiParticle { get; private set; }
     public LevelConfig[] LevelConfigs;
 
     #region ValidateLevelsData
 
     public void OnValidate()
     {
-      foreach (LevelConfig levelConfig in LevelConfigs)
+      for (var index = 0; index < LevelConfigs.Length; index++)
       {
-        ValidateLevelId(levelConfig);
+        LevelConfig levelConfig = LevelConfigs[index];
+        ValidateLevelId(levelConfig, index + 1);
+        ValidateMinMax();
         //AddTargetColorIfNeed(levelConfig);
         //RemoveSimilarColorsByEpsilon(levelConfig);
+      }
+    }
+
+    private void ValidateMinMax()
+    {
+      if (MaxGeneratedResolution <= MinGeneratedResolution)
+      {
+        MaxGeneratedResolution
+          = Mathf.Clamp(MinGeneratedResolution + 1, RangeMinResolution + 1, RangeMaxResolution + 1);
       }
     }
 
@@ -44,10 +65,12 @@ namespace Code.StaticData.Level
       }
     }
 
-    private void ValidateLevelId(LevelConfig levelConfig)
+    private void ValidateLevelId(LevelConfig levelConfig, int levelNumber)
     {
-      if (String.IsNullOrEmpty(levelConfig.Id))
-        throw new Exception($"No id for jelly {levelConfig.JelliesPrefab.name}");
+      if (levelConfig.Id.Contains(' '))
+        levelConfig.Id = levelConfig.Id.Replace(' ', '_');
+      if (string.IsNullOrEmpty(levelConfig.Id))
+        throw new Exception($"No id for \"{levelNumber}\" level");
     }
 
     #endregion
@@ -65,12 +88,13 @@ namespace Code.StaticData.Level
 
     public LevelConfig GetConfigByLevelId(string levelId) =>
       LevelConfigs.First(config => config.Id == levelId);
+
     public JellyMeshConfig GetJellyConfigByMesh(Mesh mesh)
     {
       foreach (LevelConfig levelConfig in LevelConfigs)
       {
         JellyMeshConfig jellyMeshConfig = levelConfig.JellyMeshConfigs.FirstOrDefault(x => x.Mesh == mesh);
-        if(jellyMeshConfig != default)
+        if (jellyMeshConfig != default)
           return jellyMeshConfig;
       }
 

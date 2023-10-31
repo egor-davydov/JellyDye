@@ -48,3 +48,4 @@ MonoBehaviour:
     SkinPrefab: {fileID: 3402143449149149435, guid: c610249e1f964ec4d8f8340dd11760ba, type: 3}
   - SkinType: 10
     SkinPrefab: {fileID: 6481444003663915727, guid: bc54823b681cca148aceabef4414d3b0, type: 3}
+  <MinSkinProgress>k__BackingField: 0.2

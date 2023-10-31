@@ -16,6 +16,13 @@ namespace Code.StaticData
       TargetColor = targetColor;
     }
 
+    public void SetTargetColorAlphaToOne()
+    {
+      Color tempColor = TargetColor;
+      tempColor.a = 1;
+      TargetColor = tempColor;
+    }
+
     public void SetMask(Texture2D maskTexture) => 
       MaskTexture = maskTexture;
   }

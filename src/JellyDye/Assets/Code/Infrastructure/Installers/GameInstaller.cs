@@ -12,21 +12,24 @@ using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
 {
   public class GameInstaller : MonoInstaller, IInitializable, ICoroutineRunner
   {
+    private const string LoadSceneName = "Load";
     private static Action _onSdkInitialize;
     private static Action _onPlayerInitialize;
+    private static Action _onInitializeError;
 
     [DllImport("__Internal")]
     private static extern bool IsYandexGames();
     [DllImport("__Internal")]
     private static extern void WebDebugLog(string log);
     [DllImport("__Internal")]
-    private static extern void TryInitializeYandexGames(Action onSdkInitialize, Action onPlayerInitialize);
+    private static extern void TryInitializeYandexGames(Action onSdkInitialize, Action onPlayerInitialize, Action onInitializeError);
 
     public override void InstallBindings()
     {
@@ -36,13 +39,6 @@ namespace Code.Infrastructure.Installers
       BindProgressServices();
       BindStates();
       BindFactories();
-      
-#if !UNITY_EDITOR && UNITY_WEBGL
-      InitializeYandex(onSdkInitialize: OnSdkInitialized, onPlayerInitialize: OnPlayerInitialized);
-#else
-      OnSdkInitialized();
-      BindPlatformDependServices();
-#endif
     }
 
     public void Initialize()
@@ -50,18 +46,18 @@ namespace Code.Infrastructure.Installers
 #if !UNITY_EDITOR && UNITY_WEBGL
       WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
-      if(CrazySDK.IsOnCrazyGames)
-        OnPlayerInitialized();
+      InitializeYandex(onSdkInitialize: OnSdkInitialized, onPlayerInitialize: OnPlayerInitialized, onInitializeError: OnPlayerInitialized);
 #else
-      MoveToNextState();
-#endif 
+      OnPlayerInitialized();
+#endif
     }
-
-    private void InitializeYandex(Action onSdkInitialize, Action onPlayerInitialize)
+    
+    private void InitializeYandex(Action onSdkInitialize, Action onPlayerInitialize, Action onInitializeError)
     {
       _onSdkInitialize = onSdkInitialize;
       _onPlayerInitialize = onPlayerInitialize;
-      TryInitializeYandexGames(SdkInitialized, PlayerInitialized);
+      _onInitializeError = onInitializeError;
+      TryInitializeYandexGames(SdkInitialized, PlayerInitialized, InitializeError);
     }
 
     [MonoPInvokeCallback(typeof(Action))]
@@ -72,8 +68,13 @@ namespace Code.Infrastructure.Installers
     private static void PlayerInitialized() =>
       _onPlayerInitialize.Invoke();
 
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void InitializeError() =>
+      _onInitializeError.Invoke();
+
     private void OnSdkInitialized()
     {
+      SceneManager.LoadScene(LoadSceneName);
       Container.Resolve<PublishService>().InvokeSdkInitEvent();
     }
 

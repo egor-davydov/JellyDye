@@ -11,14 +11,18 @@ namespace Code.Services
 {
   public class PublishService
   {
+    private static AudioService _audioService;
     private static Action<bool> _isCanReviewResponse;
     private static Action<bool> _onPlayerAction;
     private static Action _onRewarded;
+    private readonly bool _isOnCrazyGames = CrazySDK.IsOnCrazyGames;
 
     public event Action OnSdkInitilized;
     public bool SdkInitialized { get; private set; }
 
-
+    public PublishService(AudioService audioService) => 
+      _audioService = audioService;
+    
 #if !UNITY_EDITOR && UNITY_WEBGL
     [DllImport("__Internal")]
     private static extern bool IsYandexGames();
@@ -78,12 +82,11 @@ namespace Code.Services
 
     public void ShowFullscreenAdvAndPauseGame()
     {
-      if(CrazySDK.IsOnCrazyGames)
+      if(_isOnCrazyGames)
         CrazyAds.Instance.beginAdBreak();
 #if !UNITY_EDITOR && UNITY_WEBGL
       if (IsYandexGames())
-          ShowFullscreenAdv(onOpen: StopGame, onClose: ResumeGame);
-
+          ShowFullscreenAdv(onOpen: OnFullscreenAdvOpen, onClose: OnFullscreenAdvClose);
 #endif
     }
 
@@ -128,7 +131,7 @@ namespace Code.Services
     public void ShowRewardedVideo(Action onRewarded)
     {
       _onRewarded = onRewarded;
-      if(CrazySDK.IsOnCrazyGames)
+      if(_isOnCrazyGames)
         CrazyAds.Instance.beginAdBreakRewarded(GiveReward);
 #if !UNITY_EDITOR && UNITY_WEBGL
       if (IsYandexGames())
@@ -157,13 +160,18 @@ namespace Code.Services
       _onPlayerAction.Invoke(value);
 
     [MonoPInvokeCallback(typeof(Action))]
-    public static void StopGame() => 
-      Time.timeScale = 0;
+    public static void OnFullscreenAdvOpen()
+    {
+      _audioService.MuteGame();
+      //Time.timeScale = 0;
+    }
 
     [MonoPInvokeCallback(typeof(Action))]
-    public static void ResumeGame() => 
-      Time.timeScale = 1;
-
+    public static void OnFullscreenAdvClose()
+    {
+      _audioService.UnMuteGame();
+      //Time.timeScale = 1;
+    }
 #endif
   }
 }

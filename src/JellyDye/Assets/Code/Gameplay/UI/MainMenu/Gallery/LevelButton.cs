@@ -2,6 +2,7 @@
 using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.Progress;
+using Code.StaticData.Level;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,12 +47,15 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     {
       _levelId = levelId;
       LevelData progressLevelData = _progressService.Progress.LevelData;
+      LevelsStaticData levelsStaticData = _staticDataService.ForLevels();
       if (!progressLevelData.IsLevelCompleted(_levelId))
       {
         UnCompletedTurnOn(true);
         NotFullCompletedTurnOn(false);
         FullCompletedTurnOn(false);
-        _levelNumber.text = (levelIndex + 1).ToString();
+        _levelNumber.text = levelsStaticData.IsShowingNames
+          ? levelId
+          : (levelIndex + 1).ToString();
       }
       else
       {
@@ -62,7 +66,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
           UnCompletedTurnOn(false);
           NotFullCompletedTurnOn(false);
           FullCompletedTurnOn(true);
-          _levelJellyTexture.texture = _staticDataService.ForLevels().LevelConfigs[levelIndex].TargetTexture;
+          _levelJellyTexture.texture = levelsStaticData.LevelConfigs[levelIndex].TargetTexture;
           return;
         }
 

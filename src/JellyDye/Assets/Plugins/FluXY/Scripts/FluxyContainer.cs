@@ -63,6 +63,7 @@ namespace Fluxy
             Custom
         }
 
+        public bool UseMeshProjection;
         public SkinnedMeshRenderer skinnedMeshRenderer;
         /// <summary>
         /// Shape of the container: can be flat, can be a volume, or can be a custom mesh.
@@ -637,7 +638,7 @@ namespace Fluxy
 
             Ray ray = new Ray(origin, targetPosition - origin);
 
-            if (TryGetComponent(out MeshCollider meshCollider) && meshCollider.enabled)
+            if (UseMeshProjection && skinnedMeshRenderer.TryGetComponent(out MeshCollider meshCollider) && meshCollider.enabled)
             {
                 if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
                 {
@@ -654,7 +655,7 @@ namespace Fluxy
             }
             else
             {
-                Plane p = new Plane(transform.forward, transform.position);
+                Plane p = new Plane(transform.up, transform.position);
 
                 if (p.Raycast(ray, out float dist))
                 {
@@ -686,7 +687,7 @@ namespace Fluxy
             if (projectFrom != null)
                 return projectFrom.position;
             else
-                return targetPosition + transform.forward;
+                return targetPosition + transform.up;
         }
 
         public Vector3 UpdateVelocityAndGetAcceleration()

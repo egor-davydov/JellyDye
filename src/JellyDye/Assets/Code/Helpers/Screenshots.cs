@@ -13,6 +13,7 @@ using Fluxy;
 using UnityEditor;
 using UnityEngine;
 using Zenject;
+using static Code.Constants.FolderPath;
 
 namespace Code.Helpers
 {
@@ -25,7 +26,6 @@ namespace Code.Helpers
     private JelliesFactory _jelliesFactory;
     private string _directionPath;
     private bool _withGround;
-    [SerializeField] private string _screenshotsPath = "Levels/TargetColorScreenshots";
 
     [Inject]
     public void Construct(ProgressService progressService, StaticDataService staticDataService,
@@ -39,26 +39,9 @@ namespace Code.Helpers
 
     private void Awake()
     {
-      _directionPath = $"{Application.dataPath}/Resources/{_screenshotsPath}";
+      _directionPath = $"{Application.dataPath}/Resources/{ResourcesScreenshotsPath}";
       //string[] files = Directory.GetFiles($"{Application.dataPath}/Resources/Levels/Jellies", "*.prefab");
       //Debug.Log($"_levelsCount= {_levelsCount} firstFile= {files[0]}");
-    }
-
-    public void SetupAllScreenshots()
-    {
-      Texture2D[] texture2Ds = Resources.LoadAll<Texture2D>(_screenshotsPath);
-      if(texture2Ds.Length == 0)
-      {
-        Debug.LogError("Cant find screenshot textures");
-        return;
-      }
-      foreach (LevelConfig levelConfig in _staticDataService.ForLevels().LevelConfigs)
-      {
-        Debug.Log("Setup " + levelConfig.JelliesPrefab.name);
-        levelConfig.TargetTexture = texture2Ds.First(texture2D => texture2D.name == levelConfig.JelliesPrefab.name);
-        levelConfig.TargetTextureWithGround = texture2Ds.First(texture2D => texture2D.name == levelConfig.JelliesPrefab.name + "_ground");
-      }
-      EditorUtility.SetDirty(_staticDataService.ForLevels());
     }
 
     public void TakeScreenshots()
@@ -110,6 +93,11 @@ namespace Code.Helpers
         Destroy(FindObjectOfType<FluxySolver>().transform.parent.gameObject);
         GameObject jelly = _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
         StartCoroutine(WaitColorSet());
+      }
+      else
+      {
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
       }
     }
 

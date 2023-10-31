@@ -7,7 +7,7 @@ namespace Code.Data
   [Serializable]
   public class LevelData
   {
-    public string CurrentLevelId = "stormy_cloud";
+    public string CurrentLevelId = "cherries";
     public List<CompletedLevel> CompletedLevels;
     
     public LevelData()

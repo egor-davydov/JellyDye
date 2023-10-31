@@ -54,7 +54,7 @@ MonoBehaviour:
   overrideRotation: 1
   rotation: 0
   rotationRandomness: 0
-  scaleWithDistance: 1
+  scaleWithDistance: 0
   scaleWithTransform: 0
   scale: {x: 0.05, y: 0.05}
   scaleRandomness: 0
@@ -232,10 +232,10 @@ MonoBehaviour:
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
   _paintIncrease: 0
-  _paintIncrease2: 0.6
+  _paintIncrease2: 0.8
   _paintRotationOverTime: 145
   _maxPaintIncrease: 0
-  _pistonSpeed: 0.2
+  _pistonSpeed: 0.25
   _movingCloserTime: 0.2
   _movingLittleBackTime: 0.01
   _movingBackTime: 0.2
@@ -243,8 +243,7 @@ MonoBehaviour:
   _movingCloserDistance: 0.03
   _movingLittleBackDistance: 0.01
   _pistonMovingDistance: 0.37
-  _minLiquidScaleY: 0.01
-  _adhesionWhilePainting: 0.6
+  _minLiquidScaleY: 0.02
 --- !u!114 &5631050146303792006
 MonoBehaviour:
   m_ObjectHideFlags: 0

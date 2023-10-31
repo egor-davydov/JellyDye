@@ -8,7 +8,6 @@ using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
-using Code.StaticData;
 using Code.StaticData.Level;
 using Fluxy;
 using UnityEngine;
@@ -36,6 +35,7 @@ namespace Code.Infrastructure.States
     private int _levelIndex;
     private LevelData _progressLevelData;
     private bool _isFirstLoad = true;
+    private LevelsStaticData _levelsStaticData;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
@@ -61,7 +61,11 @@ namespace Code.Infrastructure.States
     {
       _progressLevelData ??= _progressService.Progress.LevelData;
       _levelId = levelId;
-      _progressLevelData.CurrentLevelId = _levelId;
+      if(_levelId != _progressLevelData.CurrentLevelId)
+      {
+        _progressLevelData.CurrentLevelId = _levelId;
+        _saveLoadService.SaveProgress();
+      }
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
       _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);
     }
@@ -79,9 +83,9 @@ namespace Code.Infrastructure.States
 
     private void OnLoadComplete()
     {
-      _levelIndex = _staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId);
-      _saveLoadService.SaveProgress();
-      LevelConfig levelConfig = _staticDataService.ForLevels().GetConfigByLevelId(_levelId);
+      _levelsStaticData ??= _staticDataService.ForLevels();
+      _levelIndex = _levelsStaticData.GetLevelIndex(_progressLevelData.CurrentLevelId);
+      LevelConfig levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);
 
       GameObject jelliesObject = InitJellies(levelConfig);
       FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();

@@ -28,7 +28,6 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private float _finalFillAmount;
     private Tween _fillTween;
-    private UnlockableSkinConfig[] _unlockableSkinConfigs;
     private List<SkinType> _openedSkinTypes;
     private UnlockableSkinConfig _nextSkinConfig;
 
@@ -39,7 +38,6 @@ namespace Code.Gameplay.UI.FinishWindow
       _progressService = progressService;
       _saveLoadService = saveLoadService;
 
-      _unlockableSkinConfigs = _staticDataService.ForSkins().UnlockableSkins;
       _openedSkinTypes = _progressService.Progress.SkinData.OpenedSkins;
     }
 
@@ -54,16 +52,18 @@ namespace Code.Gameplay.UI.FinishWindow
       }
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() => 
       _fillTween.Kill();
-    }
 
-    public void IncreaseProgress(float increaseAmount)
+    public void IncreaseProgress(float finalPercentage)
     {
       if (AllSkinsUnlocked())
         return;
-      
+
+      // float progressFor100PercentBasedOnLevelCount = (float)_unlockableSkinConfigs.Length / _staticDataService.ForLevels().LevelConfigs.Length;
+      // float skinProgressFor100Percent = Mathf.Clamp(progressFor100PercentBasedOnLevelCount, _staticDataService.ForSkins().MinSkinProgress, 1f);;
+      float increaseAmount = _staticDataService.ForSkins().MinSkinProgress / 100 * finalPercentage;
+
       if (_progressImage.fillAmount + increaseAmount < 1)
       {
         _finalFillAmount = _progressImage.fillAmount + increaseAmount;
@@ -84,11 +84,11 @@ namespace Code.Gameplay.UI.FinishWindow
     }
 
     private bool AllSkinsUnlocked() =>
-      _unlockableSkinConfigs.All(unlockableSkinConfig => !PlayerDontHaveSkin(unlockableSkinConfig.SkinType));
+      _staticDataService.ForSkins().UnlockableSkins.All(unlockableSkinConfig => !PlayerDontHaveSkin(unlockableSkinConfig.SkinType));
 
     private UnlockableSkinConfig FindOutNextSkin()
     {
-      foreach (UnlockableSkinConfig unlockableSkinConfig in _unlockableSkinConfigs)
+      foreach (UnlockableSkinConfig unlockableSkinConfig in _staticDataService.ForSkins().UnlockableSkins)
       {
         if (PlayerDontHaveSkin(unlockableSkinConfig.SkinType))
           return unlockableSkinConfig;
