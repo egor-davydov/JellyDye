@@ -24,7 +24,7 @@ const library = {
     document.head.insertAdjacentHTML("beforeend", `<style>body{background-image: url(Images/`+lang+`_background.png);background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%; }</style>`); 
   },
 },
-  TryInitializeYandexGames: function (onInitialize) {
+  TryInitializeYandexGames: function (onSdkInitialize, onPlayerInitialize) {
     const sdkScript = document.createElement('script');
     sdkScript.src = 'https://yandex.ru/games/sdk/v2';
     document.head.appendChild(sdkScript);
@@ -33,6 +33,7 @@ const library = {
       window['YaGames'].init().then(function (sdk) {
         yandexGames.isYandexGames = true;
         yandexGames.sdk = sdk;
+        dynCall('v', onSdkInitialize, []);
         yandexGames.appendBackgroundImage(sdk.environment.i18n.lang);
         const playerAccountInitializationPromise = sdk.getPlayer().then(function (playerAccount) {
           if (playerAccount.getMode() !== 'lite') {
@@ -53,7 +54,7 @@ const library = {
 
         Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise, billingInitializationPromise]).then(function () {
           console.log('Yandex SDK initialized');
-          dynCall('v', onInitialize, []);
+          dynCall('v', onPlayerInitialize, []);
         });
       });
     }
@@ -70,6 +71,7 @@ const library = {
         console.log('LoadFromYandex jsonObject ' + jsonObject);
         var buffer = yandexGames.allocateUnmanagedString(jsonObject);
         dynCall('vi', callback, [buffer]);
+        _free(buffer);
     }).catch(function (e) { console.log('Error on loading player data. ', e); });
   },
   SetToYandexLeaderboard: function (score) {
@@ -100,7 +102,7 @@ const library = {
         }
     });
   },
-  ShowRewardedVideo: function (onRewarded) {
+  ShowYandexRewardedVideo: function (onRewarded) {
      yandexGames.sdk.adv.showRewardedVideo({
         callbacks: {
           onRewarded: () => {
@@ -117,7 +119,7 @@ const library = {
         .then(({ value, reason }) => {
             dynCall('vi', response, [value]);
             if (!value) {
-                console.log(reason)
+                console.log(reason);
             }
         }); 
   },
@@ -126,6 +128,10 @@ const library = {
         .then(({ feedbackSent }) => {
             dynCall('vi', onPlayerAction, [feedbackSent]);
         });
+  },
+  WebDebugLog: function (log) {
+    var dataString = UTF8ToString(log);
+    console.log(dataString);
   },
 }
 

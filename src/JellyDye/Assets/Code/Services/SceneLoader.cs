@@ -16,12 +16,12 @@ namespace Code.Services
     public SceneLoader(ICoroutineRunner coroutineRunner) => 
       _coroutineRunner = coroutineRunner;
 
-    public void StartLoad(int index, Action onComplete = null) => 
-      _coroutineRunner.StartCoroutine(SceneLoading(index, onComplete));
+    public void StartLoad(string loadId, Action onComplete = null) => 
+      _coroutineRunner.StartCoroutine(SceneLoading(loadId, onComplete));
 
-    private IEnumerator SceneLoading(int index, Action onComplete = null)
+    private IEnumerator SceneLoading(string loadId, Action onComplete = null)
     {
-      AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(index);
+      AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(loadId);
 
       while (!loadSceneAsync.isDone)
       {

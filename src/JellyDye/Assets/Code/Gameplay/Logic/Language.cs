@@ -9,18 +9,23 @@ namespace Code.Gameplay.Logic
     [SerializeField] private GameObject _ruGameName;
     [SerializeField] private GameObject _enGameName;
     
-    private YandexService _yandexService;
+    private PublishService _publishService;
 
     [Inject]
-    public void Construct(YandexService yandexService)
+    public void Construct(PublishService publishService)
     {
-      _yandexService = yandexService;
-      SetupGameName();
+      _publishService = publishService;
+      
+      if (_publishService.SdkInitialized)
+        SetupGameName();
+      else
+        _publishService.OnSdkInitilized += SetupGameName;
     }
+    
 
     private void SetupGameName()
     {
-      LanguageType playerLanguage = _yandexService.GetPlayerLanguage();
+      LanguageType playerLanguage = _publishService.GetPlayerLanguage();
       if (playerLanguage == LanguageType.English)
       {
         _enGameName.SetActive(true);

@@ -4,7 +4,6 @@ using System.Linq;
 using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.Hud.PaintChange;
-using Code.Helpers;
 using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
@@ -12,7 +11,7 @@ using Code.StaticData;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Editor
+namespace Code.Helpers
 {
   public class Screenshots : MonoBehaviour
   {
@@ -88,7 +87,7 @@ namespace Code.Editor
     {
       MoveCamera();
       FindObjectOfType<ColorChangersContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
-      FindObjectOfType<SyringePaint>()?.gameObject.SetActive(false);
+      FindObjectOfType<SyringePaintColor>()?.gameObject.SetActive(false);
       _currentJellyCount = _staticDataService.ForLevels().GetLevelIndex(_progressService.Progress.LevelData.CurrentLevelId);
     }
 
@@ -109,11 +108,11 @@ namespace Code.Editor
       {
         Destroy(FindObjectOfType<JellyAutoConstruct>().gameObject);
         GameObject jelly = _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
-        StartCoroutine(WaitColorSet(jelly.GetComponentInChildren<SetTargetColorFromClearColor>()));
+        StartCoroutine(WaitColorSet());
       }
     }
 
-    private IEnumerator WaitColorSet(SetTargetColorFromClearColor setTargetColorFromClearColor)
+    private IEnumerator WaitColorSet()
     {
       yield return new WaitForEndOfFrame();
       TakeScreenshot();

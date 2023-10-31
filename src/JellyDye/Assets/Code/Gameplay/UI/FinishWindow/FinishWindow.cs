@@ -35,17 +35,17 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private LevelData _progressLevelData;
     private Tween _scaleTween;
-    private YandexService _yandexService;
+    private PublishService _publishService;
     private AnalyticsService _analyticsService;
 
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
       GreenButtonFactory greenButtonFactory, ProgressService progressService,
       StaticDataService staticDataService, ISaveLoadService saveLoadService,
-      YandexService yandexService, AnalyticsService analyticsService)
+      PublishService publishService, AnalyticsService analyticsService)
     {
       _analyticsService = analyticsService;
-      _yandexService = yandexService;
+      _publishService = publishService;
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
@@ -82,7 +82,7 @@ namespace Code.Gameplay.UI.FinishWindow
       float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
       float finalPercentage = yourPercentage > 99 ? 100 : RoundAndClampPercentage(yourPercentage);
       WriteToProgress(finalPercentage);
-      _yandexService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
+      _publishService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
       OnLevelEnd(finalPercentage);
       //Debug.Log($"yourPercentage= {yourPercentage}");
       float currentTime = 0;
@@ -105,31 +105,24 @@ namespace Code.Gameplay.UI.FinishWindow
       _analyticsService.LevelEnd(_staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId), _progressLevelData.CurrentLevelId, (int)finalPercentage);
 
       if(_progressLevelData.CompletedLevels.Count >= 3)
-        _yandexService.RequestCanPLayerReviewOrNot(OnServerReviewResponse);
-      else
-        ShowInterstitial();
+        _publishService.RequestCanPLayerReviewOrNot(OnServerReviewResponse);
     }
 
     private void OnServerReviewResponse(bool isPlayerCanReview)
     {
       if (isPlayerCanReview)
         ShowReviewWindow();
-      else
-        ShowInterstitial();
     }
 
     private void ShowReviewWindow()
     {
       Time.timeScale = 0;
-      _yandexService.ShowReviewGameWindow(OnPlayerReviewWindowAction);
+      _publishService.ShowReviewGameWindow(OnPlayerReviewWindowAction);
     }
 
     private void OnPlayerReviewWindowAction(bool value) => 
       Time.timeScale = 1;
-
-    private void ShowInterstitial() => 
-      _yandexService.ShowFullscreenAdvAndPauseGame();
-
+    
     private void WriteToProgress(float finalPercentage)
     {
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelId, (int)finalPercentage);

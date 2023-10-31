@@ -16,6 +16,8 @@ namespace Code.Infrastructure.States
 {
   public class LoadLevelState : IPayloadState<string>
   {
+    private const string MainSceneName = "Main";
+    
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly HudFactory _hudFactory;
@@ -27,7 +29,7 @@ namespace Code.Infrastructure.States
     private readonly FinishLevelService _finishLevelService;
     private readonly ISaveLoadService _saveLoadService;
     private readonly AnalyticsService _analyticsService;
-    private readonly YandexService _yandexService;
+    private readonly PublishService _publishService;
 
     private string _levelId;
     private int _levelIndex;
@@ -38,7 +40,7 @@ namespace Code.Infrastructure.States
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
       ProgressService progressService, StaticDataService staticDataService,
       PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService,
-      ISaveLoadService saveLoadService, AnalyticsService analyticsService, YandexService yandexService)
+      ISaveLoadService saveLoadService, AnalyticsService analyticsService, PublishService publishService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
@@ -51,7 +53,7 @@ namespace Code.Infrastructure.States
       _finishLevelService = finishLevelService;
       _saveLoadService = saveLoadService;
       _analyticsService = analyticsService;
-      _yandexService = yandexService;
+      _publishService = publishService;
     }
 
     public void Enter(string levelId)
@@ -60,16 +62,17 @@ namespace Code.Infrastructure.States
       _levelId = levelId;
       _progressLevelData.CurrentLevelId = _levelId;
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
-      _sceneLoader.StartLoad(2, OnLoadComplete);
+      _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);
     }
 
     public void Exit()
     {
       if(_isFirstLoad)
       {
-        _yandexService.GameReadyToPLay();
+        _publishService.GameReadyToPLay();
         _isFirstLoad = false;
       }
+      _publishService.ShowFullscreenAdvAndPauseGame();
       _analyticsService.LevelStart(_levelIndex, _levelId);
     }
 
@@ -110,9 +113,9 @@ namespace Code.Infrastructure.States
 
     private GameObject InitHud(GameObject syringeObject, LevelConfig levelConfig)
     {
-      SyringePaint syringePaint = syringeObject.GetComponent<SyringePaint>();
+      SyringePaintColor syringePaintColor = syringeObject.GetComponent<SyringePaintColor>();
       GameObject hudObject = _hudFactory.CreateHud();
-      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaint, levelConfig.Colors);
+      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaintColor, levelConfig.Colors);
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
       return hudObject;
     }

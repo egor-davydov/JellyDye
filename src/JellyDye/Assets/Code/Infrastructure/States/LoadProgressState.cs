@@ -1,7 +1,5 @@
-using Code.Services;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
-using UnityEngine;
 
 namespace Code.Infrastructure.States
 {
@@ -10,15 +8,13 @@ namespace Code.Infrastructure.States
     private readonly GameStateMachine _gameStateMachine;
     private readonly ProgressService _progressService;
     private readonly ISaveLoadService _saveLoadService;
-    private readonly YandexService _yandexService;
 
     public LoadProgressState(GameStateMachine gameStateMachine, ProgressService progressService,
-      ISaveLoadService saveLoadService, YandexService yandexService)
+      ISaveLoadService saveLoadService)
     {
       _gameStateMachine = gameStateMachine;
       _progressService = progressService;
       _saveLoadService = saveLoadService;
-      _yandexService = yandexService;
     }
 
     public void Enter()
@@ -32,7 +28,6 @@ namespace Code.Infrastructure.States
 
     private void MoveToNextState()
     {
-      _yandexService.ShowFullscreenAdv();
       _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.LevelData.CurrentLevelId);
     }
   }

@@ -14,16 +14,19 @@ namespace Code.Gameplay.Syringe
   public class SyringeInjection : MonoBehaviour
   {
     private const float LiquidSpeed = 2.65f;
-    
+    [Header("Components")]
     [SerializeField] private SyringeAudio _syringeAudio;
     [SerializeField] private SyringeMove _syringeMove;
     [SerializeField] private FluxyTarget _fluxyTarget;
+    [Header("Transforms")]
+    [SerializeField] private Transform _pistonTransform;
+    [SerializeField] private Transform _liquidTransform;
+    [Header("Paint")]
     [SerializeField] private float _paintIncrease;
     [SerializeField] private float _paintIncrease2;
     [SerializeField] private float _paintRotationOverTime;
     [SerializeField] private float _maxPaintIncrease;
-    [SerializeField] private Transform _pistonTransform;
-    [SerializeField] private Transform _liquidTransform;
+    [Header("Piston")]
     [SerializeField] private float _pistonSpeed;
     [SerializeField] private float _movingCloserTime;
     [SerializeField] private float _movingLittleBackTime;
@@ -32,6 +35,7 @@ namespace Code.Gameplay.Syringe
     [SerializeField, Range(0, 0.5f)] private float _movingCloserDistance;
     [SerializeField, Range(0, 0.2f)] private float _movingLittleBackDistance;
     [SerializeField] private float _pistonMovingDistance = 0.3f;
+    [Header("Liquid")]
     [SerializeField] private float _minLiquidScaleY = 0.01f;
 
     private Vector3 _minPistonPosition;
@@ -85,7 +89,10 @@ namespace Code.Gameplay.Syringe
     private void OnStartInjection()
     {
       if (_isMovingBack)
-        return;
+      {
+        _moveTween.Kill();
+        transform.position = _injectionStartPosition;
+      }
       _syringeMove.enabled = false;
       Vector3 currentSyringePosition = transform.position;
       _injectionStartPosition = currentSyringePosition;
@@ -109,7 +116,7 @@ namespace Code.Gameplay.Syringe
       if (DidntAlreadyStopped()) // Check if stopped because no paint in syringe
         StopPainting();
       _isMovingBack = true;
-      transform.DOMove(_injectionStartPosition, _movingBackTime)
+      _moveTween = transform.DOMove(_injectionStartPosition, _movingBackTime)
         .OnComplete(() => _isMovingBack = false);
     }
 
@@ -179,12 +186,6 @@ namespace Code.Gameplay.Syringe
         StartCoroutine(WaitForFirstPaint());
     }
 
-    private IEnumerator WaitForFirstPaint()
-    {
-      yield return _waitForEndOfFrame;
-      _finishLevelService.CheckPaint();
-    }
-
     private void StopPainting()
     {
       _syringeAudio.PlayFillEnd();
@@ -192,6 +193,12 @@ namespace Code.Gameplay.Syringe
       _currentContainer = null;
       _fluxyTarget.scale = _startTargetScale;
       _fluxyTarget.enabled = false;
+    }
+
+    private IEnumerator WaitForFirstPaint()
+    {
+      yield return _waitForEndOfFrame;
+      _finishLevelService.CheckPaint();
     }
 
     private void MovePiston()

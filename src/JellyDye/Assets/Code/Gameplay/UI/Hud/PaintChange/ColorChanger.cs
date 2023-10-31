@@ -17,13 +17,13 @@ namespace Code.Gameplay.UI.Hud.PaintChange
     public Vector2 StartScale { get; private set; }
 
     private Color _containerColor;
-    private SyringePaint _syringePaint;
+    private SyringePaintColor _syringePaintColor;
 
     public event Action<ColorChanger> OnColorChange;
 
-    public void Initialize(SyringePaint syringePaint, Color color)
+    public void Initialize(SyringePaintColor syringePaintColor, Color color)
     {
-      _syringePaint = syringePaint;
+      _syringePaintColor = syringePaintColor;
       _containerColor = color;
       _colorContainerContentImage.color = _containerColor;
     }
@@ -37,8 +37,8 @@ namespace Code.Gameplay.UI.Hud.PaintChange
 
     private void ChangeColorClick()
     {
-      _syringePaint.GetComponent<SyringeInjection>().SyringeReset();
-      _syringePaint.ChangeLiquidColor(_containerColor);
+      _syringePaintColor.GetComponent<SyringeInjection>().SyringeReset();
+      _syringePaintColor.ChangeLiquidColor(_containerColor);
       OnColorChange?.Invoke(this);
     }
   }

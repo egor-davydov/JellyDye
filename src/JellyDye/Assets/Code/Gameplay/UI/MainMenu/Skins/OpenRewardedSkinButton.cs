@@ -1,7 +1,4 @@
-﻿#if !UNITY_EDITOR && UNITY_WEBGL
-using System.Runtime.InteropServices;
-using Code.StaticServices;
-#endif
+﻿using Code.Services;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using UnityEngine;
@@ -18,15 +15,12 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 
     private ProgressService _progressService;
     private ISaveLoadService _saveLoadService;
-
-#if !UNITY_EDITOR && UNITY_WEBGL
-    [DllImport("__Internal")]
-    private static extern bool IsYandexGames();
-#endif
-
+    private PublishService _publishService;
+    
     [Inject]
-    public void Construct(ProgressService progressService, ISaveLoadService saveLoadService)
+    public void Construct(ProgressService progressService, ISaveLoadService saveLoadService, PublishService publishService)
     {
+      _publishService = publishService;
       _saveLoadService = saveLoadService;
       _progressService = progressService;
     }
@@ -38,21 +32,11 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     
     private void ShowRewardedVideoClick()
     {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-        RewardedStaticService.ShowRewarded(_equipSkinButton.SkinType, onRewarded: OpenRewardedSkin);
-      else
-        OpenRewardedSkin(_equipSkinButton.SkinType);
-#else
-      OpenRewardedSkin(_equipSkinButton.SkinType);
-#endif
+      _publishService.ShowRewardedVideo(OpenRewardedSkin);
     }
 
-    private void OpenRewardedSkin(SkinType skinType)
+    private void OpenRewardedSkin()
     {
-      if (skinType != _equipSkinButton.SkinType)
-        return;
-      
       _progressService.Progress.SkinData.OpenedSkins.Add(_equipSkinButton.SkinType);
       _saveLoadService.SaveProgress();
       _lockSkin.UnlockSkin();

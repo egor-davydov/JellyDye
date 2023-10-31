@@ -58,7 +58,7 @@ MonoBehaviour:
     maxDepenetration: 10
     continuousCollisionDetection: 1
     shockPropagation: 0
-    surfaceCollisionIterations: 8
+    surfaceCollisionIterations: 3
     surfaceCollisionTolerance: 0.005
   gravity: {x: 0, y: 0, z: 0}
   gravitySpace: 0
@@ -325,9 +325,9 @@ MonoBehaviour:
   lightSource: {fileID: 0}
   targets: []
   pressure: 1
-  viscosity: 0.95
+  viscosity: 0.999
   turbulence: 40
-  adhesion: 0.5
+  adhesion: 0.35
   surfaceTension: 0.9
   buoyancy: 4
   dissipation: {x: 0, y: 0, z: 0, w: 0}
@@ -379,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f34e5650326d42f48ed54336d58073d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  solverIndices: 
   m_CollisionMaterial: {fileID: 0}
   m_SurfaceCollisions: 0
   m_SoftbodyBlueprint: {fileID: 0}

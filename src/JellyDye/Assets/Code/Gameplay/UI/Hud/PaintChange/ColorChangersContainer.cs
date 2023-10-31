@@ -11,7 +11,7 @@ namespace Code.Gameplay.UI.Hud.PaintChange
   {
     private Color[] _colors;
     private ColorChangerFactory _colorChangerFactory;
-    private SyringePaint _syringePaint;
+    private SyringePaintColor _syringePaintColor;
     private ColorChanger _currentSelectedColor;
     private readonly List<ColorChanger> _colorChangers = new();
     private Tween _unscaleTween;
@@ -23,14 +23,14 @@ namespace Code.Gameplay.UI.Hud.PaintChange
       _colorChangerFactory = colorChangerFactory;
     }
 
-    public void Initialize(SyringePaint syringePaint, Color[] colors)
+    public void Initialize(SyringePaintColor syringePaintColor, Color[] colors)
     {
-      _syringePaint = syringePaint;
+      _syringePaintColor = syringePaintColor;
       _colors = Shuffle(colors);
       foreach (Color color in colors)
       {
         ColorChanger colorChanger = _colorChangerFactory.Create(transform).GetComponent<ColorChanger>();
-        colorChanger.Initialize(_syringePaint, color);
+        colorChanger.Initialize(_syringePaintColor, color);
         colorChanger.OnColorChange += OnColorChange;
         _colorChangers.Add(colorChanger);
       }
@@ -59,7 +59,7 @@ namespace Code.Gameplay.UI.Hud.PaintChange
 
     private void InitStartColor()
     {
-      _syringePaint.ChangeLiquidColor(_colors[0]);
+      _syringePaintColor.ChangeLiquidColor(_colors[0]);
       OnColorChange(_colorChangers[0]);
     }
 

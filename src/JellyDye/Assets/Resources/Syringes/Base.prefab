@@ -229,12 +229,12 @@ MonoBehaviour:
   _syringeAudio: {fileID: 5440877559713876049}
   _syringeMove: {fileID: 4188462006210841643}
   _fluxyTarget: {fileID: 1312922224575281827}
-  _paintIncrease: 0
-  _paintIncrease2: 0.5
-  _paintRotationOverTime: 145
-  _maxPaintIncrease: 0
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
+  _paintIncrease: 0
+  _paintIncrease2: 0.6
+  _paintRotationOverTime: 145
+  _maxPaintIncrease: 0
   _pistonSpeed: 0.2
   _movingCloserTime: 0.2
   _movingLittleBackTime: 0.01
@@ -244,6 +244,7 @@ MonoBehaviour:
   _movingLittleBackDistance: 0.01
   _pistonMovingDistance: 0.37
   _minLiquidScaleY: 0.01
+  _adhesionWhilePainting: 0.6
 --- !u!114 &5631050146303792006
 MonoBehaviour:
   m_ObjectHideFlags: 0

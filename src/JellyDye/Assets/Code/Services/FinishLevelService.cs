@@ -56,7 +56,7 @@ namespace Code.Services
       _cameraService.ShowPhotoFlash(onFlashEnd: TakeScreenshot);
 
     private void TakeScreenshot() => 
-      _screenshotService.TakeScreenshot(onTake: TakeScreenshotWithoutGround);
+      _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
 
     private void TakeScreenshotWithoutGround()
     {
@@ -66,9 +66,8 @@ namespace Code.Services
 
     private void CreateFinishWindow()
     {
-      Texture2D screenshotWithoutGround = _screenshotService.ScreenshotTexture;
       GameObject finishWindow = _windowFactory.CreateFinishWindow();
-      finishWindow.GetComponent<FinishWindow>().Initialize(_screenshot, screenshotWithoutGround);
+      finishWindow.GetComponent<FinishWindow>().Initialize(_screenshotService.ScreenshotTexture);
     }
   }
 }

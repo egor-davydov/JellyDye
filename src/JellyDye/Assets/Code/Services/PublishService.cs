@@ -1,17 +1,23 @@
 ﻿using System;
-using AOT;
 using Code.Gameplay.Logic;
+using CrazyGames;
 #if !UNITY_EDITOR && UNITY_WEBGL
+using UnityEngine;
+using AOT;
 using System.Runtime.InteropServices;
-using Code.StaticServices;
 #endif
 
 namespace Code.Services
 {
-  public class YandexService
+  public class PublishService
   {
-      private static Action<bool> _isCanReviewResponse;
-      private static Action<bool> _onPlayerAction;
+    private static Action<bool> _isCanReviewResponse;
+    private static Action<bool> _onPlayerAction;
+    private static Action _onRewarded;
+
+    public event Action OnSdkInitilized;
+    public bool SdkInitialized { get; private set; }
+
 
 #if !UNITY_EDITOR && UNITY_WEBGL
     [DllImport("__Internal")]
@@ -34,7 +40,16 @@ namespace Code.Services
 
     [DllImport("__Internal")]
     private static extern void ShowYandexReviewGameWindow(Action<bool> onPlayerAction);
+
+    [DllImport("__Internal")]
+    private static extern void ShowYandexRewardedVideo(Action onRewarded);
 #endif
+
+    public void InvokeSdkInitEvent()
+    {
+      OnSdkInitilized?.Invoke();
+      SdkInitialized = true;
+    }
 
     public void SetToLeaderboard(int score)
     {
@@ -58,17 +73,20 @@ namespace Code.Services
           };
       }
 #endif
-        return LanguageType.English;
+      return LanguageType.English;
     }
 
     public void ShowFullscreenAdvAndPauseGame()
     {
+      if(CrazySDK.IsOnCrazyGames)
+        CrazyAds.Instance.beginAdBreak();
 #if !UNITY_EDITOR && UNITY_WEBGL
       if (IsYandexGames())
-          ShowFullscreenAdv(FullscreenAdvStaticService.OnOpen, FullscreenAdvStaticService.OnClose);
+          ShowFullscreenAdv(onOpen: StopGame, onClose: ResumeGame);
 
 #endif
     }
+
     public void ShowFullscreenAdv(Action onOpen = null, Action onClose = null)
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
@@ -95,6 +113,7 @@ namespace Code.Services
       RequestYandexIsPlayerCanReview(ServerIsCanReviewResponse);
 #endif
     }
+
     public void ShowReviewGameWindow(Action<bool> onPlayerAction)
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
@@ -106,14 +125,45 @@ namespace Code.Services
 #endif
     }
 
+    public void ShowRewardedVideo(Action onRewarded)
+    {
+      _onRewarded = onRewarded;
+      if(CrazySDK.IsOnCrazyGames)
+        CrazyAds.Instance.beginAdBreakRewarded(GiveReward);
 #if !UNITY_EDITOR && UNITY_WEBGL
+      if (IsYandexGames())
+        ShowYandexRewardedVideo(OnRewardedVideoEnd);
+      else
+        GiveReward();
+#else
+      GiveReward();
+#endif
+    }
+
+    private void GiveReward() =>
+      _onRewarded?.Invoke();
+
+#if !UNITY_EDITOR && UNITY_WEBGL
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void OnRewardedVideoEnd() =>
+      _onRewarded?.Invoke();
+
     [MonoPInvokeCallback(typeof(Action<bool>))]
     private static void ServerIsCanReviewResponse(bool value) => 
-        _isCanReviewResponse.Invoke(value);
+      _isCanReviewResponse.Invoke(value);
     
     [MonoPInvokeCallback(typeof(Action<bool>))]
     private static void ServerReviewWindowActionResponse(bool value) => 
-        _onPlayerAction.Invoke(value);
+      _onPlayerAction.Invoke(value);
+
+    [MonoPInvokeCallback(typeof(Action))]
+    public static void StopGame() => 
+      Time.timeScale = 0;
+
+    [MonoPInvokeCallback(typeof(Action))]
+    public static void ResumeGame() => 
+      Time.timeScale = 1;
+
 #endif
   }
 }

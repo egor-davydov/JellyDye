@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if !UNITY_EDITOR && UNITY_WEBGL
+using CrazyGames;
+using UnityEngine;
+#endif
+using System;
 using System.Runtime.InteropServices;
 using AOT;
 using Code.Infrastructure.States;
@@ -8,55 +12,77 @@ using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
 {
   public class GameInstaller : MonoInstaller, IInitializable, ICoroutineRunner
   {
-    private static Action _onInitialize;
+    private static Action _onSdkInitialize;
+    private static Action _onPlayerInitialize;
 
     [DllImport("__Internal")]
     private static extern bool IsYandexGames();
-
     [DllImport("__Internal")]
-    private static extern void TryInitializeYandexGames(Action onInitialize);
+    private static extern void WebDebugLog(string log);
+    [DllImport("__Internal")]
+    private static extern void TryInitializeYandexGames(Action onSdkInitialize, Action onPlayerInitialize);
 
     public override void InstallBindings()
     {
       Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
-
-
-#if !UNITY_EDITOR && UNITY_WEBGL
-      InitializeYandex(onInitialize: OnYandexInitialized);
-#else
-      BindPlatformDependServices();
-#endif
-
+      
       BindServices();
       BindProgressServices();
       BindStates();
       BindFactories();
+      
+#if !UNITY_EDITOR && UNITY_WEBGL
+      InitializeYandex(onSdkInitialize: OnSdkInitialized, onPlayerInitialize: OnPlayerInitialized);
+#else
+      OnSdkInitialized();
+      BindPlatformDependServices();
+#endif
     }
 
     public void Initialize()
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
+      WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
+      WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
+      if(CrazySDK.IsOnCrazyGames)
+        OnPlayerInitialized();
 #else
       MoveToNextState();
 #endif 
     }
 
-    private void InitializeYandex(Action onInitialize)
+    private void InitializeYandex(Action onSdkInitialize, Action onPlayerInitialize)
     {
-      _onInitialize = onInitialize;
-      TryInitializeYandexGames(Initialized);
+      _onSdkInitialize = onSdkInitialize;
+      _onPlayerInitialize = onPlayerInitialize;
+      TryInitializeYandexGames(SdkInitialized, PlayerInitialized);
     }
 
     [MonoPInvokeCallback(typeof(Action))]
-    private static void Initialized() =>
-      _onInitialize.Invoke();
+    private static void SdkInitialized() =>
+      _onSdkInitialize.Invoke();
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void PlayerInitialized() =>
+      _onPlayerInitialize.Invoke();
+
+    private void OnSdkInitialized()
+    {
+      Container.Resolve<PublishService>().InvokeSdkInitEvent();
+    }
+
+    private void OnPlayerInitialized()
+    {
+      //Debug.Log($"Initialize GameInstaller");
+      BindPlatformDependServices();
+      MoveToNextState();
+    }
 
     private void BindFactories()
     {
@@ -70,16 +96,8 @@ namespace Code.Infrastructure.Installers
       Container.Bind<GreenButtonFactory>().AsSingle();
     }
 
-    private void OnYandexInitialized()
-    {
-      //Debug.Log($"Initialize GameInstaller");
-      BindPlatformDependServices();
-      MoveToNextState();
-    }
-
     private void MoveToNextState()
     {
-      SceneManager.LoadScene(1);
       GameStateMachine gameStateMachine = Container.Resolve<GameStateMachine>();
       gameStateMachine.Setup();
       gameStateMachine.Enter<LoadProgressState>();
@@ -89,7 +107,7 @@ namespace Code.Infrastructure.Installers
     {
       Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
-      Container.Bind<YandexService>().AsSingle();
+      Container.Bind<PublishService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
