@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 16799323723460221}
   - component: {fileID: 16799323723460220}
   m_Layer: 5
-  m_Name: TabsWindow
+  m_Name: TabWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

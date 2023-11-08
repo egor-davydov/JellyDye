@@ -382,7 +382,7 @@ MonoBehaviour:
   _percentageText: {fileID: 645669028295108151}
   _textTransform: {fileID: 4859523683457835306}
   _appearanceAnimationDuration: 0.3
-  _percentageIncreaseTime: 2.5
+  _percentageIncreaseTime: 2
   _textIncreaseScale: 1.3
   _scalingTime: 1
 --- !u!114 &129504259301887031
@@ -401,7 +401,7 @@ MonoBehaviour:
   - {fileID: 9176237901648258519}
   _nextSkinImage: {fileID: 2768066064333836018}
   _progressImage: {fileID: 1413985459183875306}
-  _progressMoveTime: 1.5
+  _progressMoveTime: 1
 --- !u!1 &1907030320903734844
 GameObject:
   m_ObjectHideFlags: 0
