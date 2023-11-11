@@ -43,10 +43,15 @@ namespace Code.Infrastructure.Installers
 
     public void Initialize()
     {
+      Container.Resolve<StaticDataService>().LoadData();
 #if !UNITY_EDITOR && UNITY_WEBGL
-      WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
+      bool isOnCrazyGames = CrazySDK.IsOnCrazyGames;
+      WebDebugLog($"IsOnCrazyGames={isOnCrazyGames}");
       WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
-      InitializeYandex(onSdkInitialize: OnSdkInitialized, onPlayerInitialize: OnPlayerInitialized, onInitializeError: OnPlayerInitialized);
+      if (!isOnCrazyGames) 
+        InitializeYandex(onSdkInitialize: OnSdkInitialized, onPlayerInitialize: OnPlayerInitialized, onInitializeError: OnPlayerInitialized);
+      else
+        OnPlayerInitialized();
 #else
       OnPlayerInitialized();
 #endif
@@ -111,11 +116,11 @@ namespace Code.Infrastructure.Installers
       Container.Bind<PublishService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
+      Container.Bind<StaticDataService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
       Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
-      Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
       Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
     }
 

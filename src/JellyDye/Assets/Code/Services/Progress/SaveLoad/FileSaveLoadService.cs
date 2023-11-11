@@ -32,7 +32,7 @@ namespace Code.Services.Progress.SaveLoad
     {
       if (PlayerHaveProgress() == false)
       {
-        _progressService.CreateProgress();
+        _progressService.CreateAndSetNewProgress();
         onLoaded?.Invoke();
         return;
       }

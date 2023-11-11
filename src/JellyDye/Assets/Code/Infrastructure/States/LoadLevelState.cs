@@ -84,7 +84,7 @@ namespace Code.Infrastructure.States
     private void OnLoadComplete()
     {
       _levelsStaticData ??= _staticDataService.ForLevels();
-      _levelIndex = _levelsStaticData.GetLevelIndex(_progressLevelData.CurrentLevelId);
+      _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
       LevelConfig levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);
 
       GameObject jelliesObject = InitJellies(levelConfig);

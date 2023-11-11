@@ -72,6 +72,10 @@ const library = {
           dynCall('v', onInitializeError, []);
       });
     }
+    sdkScript.onerror = function () {
+      console.log('Error on script load');
+      dynCall('v', onInitializeError, []);
+    }
   },
 
   SaveToYandex: function (data) {

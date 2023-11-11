@@ -324,7 +324,7 @@ namespace Code.Editor
         
         AssetDatabase.RenameAsset(GetAssetPath(jelliesPrefab), newName);
         Resources.UnloadUnusedAssets();
-        string oldFolderAbsolutePath = $"{FolderPath.ResourcesFolderAbsolutePath}/{oldFolder}";
+        string oldFolderAbsolutePath = $"{FolderPath.ResourcesPath}/{oldFolder}";
         if (oldName != newName && Directory.Exists(oldFolderAbsolutePath))
         {
           Directory.Delete(oldFolderAbsolutePath);

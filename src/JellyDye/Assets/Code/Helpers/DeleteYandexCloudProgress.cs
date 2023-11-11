@@ -22,7 +22,7 @@ namespace Code.Helpers
     {
       if (Input.GetKeyDown(KeyCode.C))
       {
-        _progressService.CreateProgress();
+        _progressService.CreateAndSetNewProgress();
         _saveLoadService.SaveProgress();
       }
     }

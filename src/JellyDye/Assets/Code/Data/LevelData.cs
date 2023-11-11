@@ -7,11 +7,12 @@ namespace Code.Data
   [Serializable]
   public class LevelData
   {
-    public string CurrentLevelId = "cherries";
+    public string CurrentLevelId;
     public List<CompletedLevel> CompletedLevels;
     
-    public LevelData()
+    public LevelData(string startLevelId)
     {
+      CurrentLevelId = startLevelId;
       CompletedLevels = new List<CompletedLevel>();
     }
 

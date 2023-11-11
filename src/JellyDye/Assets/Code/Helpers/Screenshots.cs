@@ -19,6 +19,7 @@ namespace Code.Helpers
 {
   public class Screenshots : MonoBehaviour
   {
+#if UNITY_EDITOR
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ScreenshotService _screenshotService;
@@ -116,5 +117,6 @@ namespace Code.Helpers
         File.Delete(screenshotPath);
       File.WriteAllBytes(screenshotPath, bytes);
     }
+#endif
   }
 }
