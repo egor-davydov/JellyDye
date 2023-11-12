@@ -21,16 +21,19 @@ const library = {
     return stringBufferPtr;
   },
   appendBackgroundImage: function (lang) {
-    document.head.insertAdjacentHTML("beforeend", `<style>body{background-image: url(Images/`+lang+`_background.png);background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%; }</style>`); 
+    document.head.insertAdjacentHTML("beforeend", `<style>body{background-image: url(Images/background_`+lang+`.png);background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%; }</style>`); 
   },
 },
   TryInitializeYandexGames: function (onSdkInitialize, onPlayerInitialize, onInitializeError) {
     const sdkScript = document.createElement('script');
     sdkScript.src = 'https://yandex.ru/games/sdk/v2';
     document.head.appendChild(sdkScript);
-  
+    console.log('on sdkScript document.head.append');
+
     sdkScript.onload = function () {
+      console.log('onload sdkScript');
       window['YaGames'].init().then(function (sdk) {
+        console.log('on window[YaGames].init()');
         yandexGames.isYandexGames = true;
         yandexGames.sdk = sdk;
         dynCall('v', onSdkInitialize, []);

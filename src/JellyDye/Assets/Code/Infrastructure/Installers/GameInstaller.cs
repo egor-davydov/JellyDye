@@ -48,7 +48,9 @@ namespace Code.Infrastructure.Installers
       bool isOnCrazyGames = CrazySDK.IsOnCrazyGames;
       WebDebugLog($"IsOnCrazyGames={isOnCrazyGames}");
       WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
-      if (!isOnCrazyGames) 
+      Uri uri = new Uri(Application.absoluteURL);
+
+      if (uri.Host == CrazySDK.Instance.GetSettings().whitelistedDomains[0]) 
         InitializeYandex(onSdkInitialize: OnSdkInitialized, onPlayerInitialize: OnPlayerInitialized, onInitializeError: OnPlayerInitialized);
       else
         OnPlayerInitialized();

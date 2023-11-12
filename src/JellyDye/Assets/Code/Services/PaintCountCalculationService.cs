@@ -48,7 +48,10 @@ namespace Code.Services
       {
         JellyMeshConfig jellyMeshConfig = _currentLevelJellyMeshConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
         if (!HasPaintOnMesh(fluxyTexture, jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer)))
+        {
+          Object.Destroy(fluxyTexture);
           return false;
+        }
       }
       Object.Destroy(fluxyTexture);
 
@@ -70,7 +73,10 @@ namespace Code.Services
 
         Color pixelColor = fluxyTexture.GetPixel(x, y);
         if (pixelColor != Color.clear)
+        {
+          Object.Destroy(fluxyTexture);
           return true;
+        }
       }
       Object.Destroy(fluxyTexture);
 
