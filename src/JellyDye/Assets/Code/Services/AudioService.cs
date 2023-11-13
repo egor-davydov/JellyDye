@@ -12,7 +12,7 @@ namespace Code.Services
     private AudioMixer _audioMixer;
     private float _startVolume;
     
-    public bool IsMuted { get; private set; }
+    public bool IsAudioMuted { get; private set; }
 
     public void Initialize()
     {
@@ -22,13 +22,13 @@ namespace Code.Services
 
     public void MuteGame()
     {
-      IsMuted = true;
+      IsAudioMuted = true;
       _audioMixer.SetFloat(ParameterName, -80);
     }
     
     public void UnMuteGame()
     {
-      IsMuted = false;
+      IsAudioMuted = false;
       _audioMixer.SetFloat(ParameterName, _startVolume);
     }
   }

@@ -16,10 +16,10 @@ namespace Code.Gameplay.Logic
     {
       _publishService = publishService;
       
-      if (_publishService.SdkInitialized)
+      if (PublishService.IsSdkInitialized)
         SetupGameName();
       else
-        _publishService.OnSdkInitilized += SetupGameName;
+        PublishService.OnYandexSdkInitialized += SetupGameName;
     }
     
 

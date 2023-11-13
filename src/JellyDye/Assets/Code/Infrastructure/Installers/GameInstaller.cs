@@ -1,10 +1,4 @@
-﻿#if !UNITY_EDITOR && UNITY_WEBGL
-using CrazyGames;
-using UnityEngine;
-#endif
-using System;
-using System.Runtime.InteropServices;
-using AOT;
+﻿using System.Runtime.InteropServices;
 using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.AssetManagement;
@@ -12,29 +6,23 @@ using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
-using UnityEngine.SceneManagement;
+using CrazyGames;
+using UnityEngine;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
 {
   public class GameInstaller : MonoInstaller, IInitializable, ICoroutineRunner
   {
-    private const string LoadSceneName = "Load";
-    private static Action _onSdkInitialize;
-    private static Action _onPlayerInitialize;
-    private static Action _onInitializeError;
-
-    [DllImport("__Internal")]
-    private static extern bool IsYandexGames();
+    private PublishService _publishService;
+    
     [DllImport("__Internal")]
     private static extern void WebDebugLog(string log);
-    [DllImport("__Internal")]
-    private static extern void TryInitializeYandexGames(Action onSdkInitialize, Action onPlayerInitialize, Action onInitializeError);
 
     public override void InstallBindings()
     {
       Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
-      
+
       BindServices();
       BindProgressServices();
       BindStates();
@@ -44,51 +32,22 @@ namespace Code.Infrastructure.Installers
     public void Initialize()
     {
       Container.Resolve<StaticDataService>().LoadData();
+      _publishService = Container.Resolve<PublishService>();
 #if !UNITY_EDITOR && UNITY_WEBGL
-      bool isOnCrazyGames = CrazySDK.IsOnCrazyGames;
-      WebDebugLog($"IsOnCrazyGames={isOnCrazyGames}");
+      WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
-      Uri uri = new Uri(Application.absoluteURL);
-
-      if (uri.Host == CrazySDK.Instance.GetSettings().whitelistedDomains[0]) 
-        InitializeYandex(onSdkInitialize: OnSdkInitialized, onPlayerInitialize: OnPlayerInitialized, onInitializeError: OnPlayerInitialized);
+#endif
+      BindPlatformDependServices();
+      if (_publishService.IsOnYandexGames())
+        _publishService.InitializeYandex(onPlayerInitialize: OnPlayerInitialized);
       else
         OnPlayerInitialized();
-#else
-      OnPlayerInitialized();
-#endif
-    }
-    
-    private void InitializeYandex(Action onSdkInitialize, Action onPlayerInitialize, Action onInitializeError)
-    {
-      _onSdkInitialize = onSdkInitialize;
-      _onPlayerInitialize = onPlayerInitialize;
-      _onInitializeError = onInitializeError;
-      TryInitializeYandexGames(SdkInitialized, PlayerInitialized, InitializeError);
     }
 
-    [MonoPInvokeCallback(typeof(Action))]
-    private static void SdkInitialized() =>
-      _onSdkInitialize.Invoke();
-
-    [MonoPInvokeCallback(typeof(Action))]
-    private static void PlayerInitialized() =>
-      _onPlayerInitialize.Invoke();
-
-    [MonoPInvokeCallback(typeof(Action))]
-    private static void InitializeError() =>
-      _onInitializeError.Invoke();
-
-    private void OnSdkInitialized()
-    {
-      SceneManager.LoadScene(LoadSceneName);
-      Container.Resolve<PublishService>().InvokeSdkInitEvent();
-    }
 
     private void OnPlayerInitialized()
     {
       //Debug.Log($"Initialize GameInstaller");
-      BindPlatformDependServices();
       MoveToNextState();
     }
 
@@ -133,14 +92,10 @@ namespace Code.Infrastructure.Installers
 
     private void BindPlatformDependServices()
     {
-#if UNITY_EDITOR
-      BindFileSaveSystem();
-#else
-      if (IsYandexGames())
+      if (_publishService.IsOnYandexGames())
         Container.Bind<ISaveLoadService>().To<YandexSaveLoadService>().AsSingle();
       else
         BindFileSaveSystem();
-#endif
     }
 
     private void BindFileSaveSystem() =>

@@ -11,7 +11,7 @@ namespace Code.Gameplay.UI.Hud.Sound
         
         [Inject]
         public void Construct(AudioService audioService) => 
-            SetSoundIcon(!audioService.IsMuted);
+            SetSoundIcon(!audioService.IsAudioMuted);
 
         public void SetSoundIcon(bool condition)
         {

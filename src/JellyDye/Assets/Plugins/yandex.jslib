@@ -24,7 +24,7 @@ const library = {
     document.head.insertAdjacentHTML("beforeend", `<style>body{background-image: url(Images/background_`+lang+`.png);background-repeat: no-repeat;background-attachment: fixed;background-size: 100% 100%; }</style>`); 
   },
 },
-  TryInitializeYandexGames: function (onSdkInitialize, onPlayerInitialize, onInitializeError) {
+  InitializeYandexGames: function (onSdkInitialize, onPlayerInitialize) {
     const sdkScript = document.createElement('script');
     sdkScript.src = 'https://yandex.ru/games/sdk/v2';
     document.head.appendChild(sdkScript);
@@ -72,12 +72,7 @@ const library = {
         });
       }).catch(function (e) {
           console.log('Error on sdk initialization: '+e);
-          dynCall('v', onInitializeError, []);
       });
-    }
-    sdkScript.onerror = function () {
-      console.log('Error on script load');
-      dynCall('v', onInitializeError, []);
     }
   },
 
@@ -101,10 +96,7 @@ const library = {
   GetYandexLanguage: function () {
     return yandexGames.allocateUnmanagedString(yandexGames.sdk.environment.i18n.lang);
   },
-  IsYandexGames: function () {
-    return yandexGames.isYandexGames;
-  },
-  GameReadyToPLayYandex: function () {
+  GameReadyToPlayYandex: function () {
     console.log('Game is ready to play');
     yandexGames.sdk.features.LoadingAPI.ready();
   },
@@ -115,7 +107,7 @@ const library = {
               dynCall('v', onOpen, []);
             },
             onClose: function(wasShown) {
-              dynCall('v', onClose, []);
+              dynCall('vi', onClose, [wasShown]);
             },
             onError: function(error) {
               console.log('Error while show FullscreenAdv:', error);

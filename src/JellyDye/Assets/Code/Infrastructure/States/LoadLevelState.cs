@@ -67,6 +67,7 @@ namespace Code.Infrastructure.States
         _saveLoadService.SaveProgress();
       }
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
+      _publishService.ShowFullscreenAdvAndPauseGame();
       _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);
     }
 
@@ -74,10 +75,9 @@ namespace Code.Infrastructure.States
     {
       if(_isFirstLoad)
       {
-        _publishService.GameReadyToPLay();
+        _publishService.GameReadyToPlay();
         _isFirstLoad = false;
       }
-      _publishService.ShowFullscreenAdvAndPauseGame();
       _analyticsService.LevelStart(_levelIndex, _levelId);
     }
 

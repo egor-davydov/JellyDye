@@ -1,44 +1,51 @@
 ﻿using System;
 using Code.Gameplay.Logic;
 using CrazyGames;
-#if !UNITY_EDITOR && UNITY_WEBGL
 using UnityEngine;
 using AOT;
 using System.Runtime.InteropServices;
-#endif
+using UnityEngine.SceneManagement;
 
 namespace Code.Services
 {
   public class PublishService
   {
+    private const string LoadSceneName = "Load";
+
     private static AudioService _audioService;
     private static Action<bool> _isCanReviewResponse;
-    private static Action<bool> _onPlayerAction;
+    private static Action<bool> _onReviewPlayerAction;
     private static Action _onRewarded;
+    private static Action _onPlayerInitialize;
+    private static bool _gameWasMuted;
+
     private readonly bool _isOnCrazyGames = CrazySDK.IsOnCrazyGames;
-
-    public event Action OnSdkInitilized;
-    public bool SdkInitialized { get; private set; }
-
-    public PublishService(AudioService audioService) => 
-      _audioService = audioService;
-    
 #if !UNITY_EDITOR && UNITY_WEBGL
+    private readonly Uri _uri = new (Application.absoluteURL);
+    private readonly string _yandexDomain = CrazySDK.Instance.GetSettings().whitelistedDomains[0];
+#endif
+
+    public static event Action OnYandexSdkInitialized;
+    public static bool IsSdkInitialized { get; private set; }
+
+    public PublishService(AudioService audioService) =>
+      _audioService = audioService;
+
     [DllImport("__Internal")]
-    private static extern bool IsYandexGames();
+    private static extern void InitializeYandexGames(Action onSdkInitialize, Action onPlayerInitialize);
 
     [DllImport("__Internal")]
     private static extern string GetYandexLanguage();
 
     [DllImport("__Internal")]
-    private static extern void GameReadyToPLayYandex();
+    private static extern void GameReadyToPlayYandex();
 
     [DllImport("__Internal")]
-    private static extern void ShowYandexFullscreenAdv(Action onOpen = null, Action onClose = null);
-    
+    private static extern void ShowYandexFullscreenAdv(Action onOpen = null, Action<bool> onClose = null);
+
     [DllImport("__Internal")]
     private static extern void SetToYandexLeaderboard(int score);
-    
+
     [DllImport("__Internal")]
     private static extern void RequestYandexIsPlayerCanReview(Action<bool> response);
 
@@ -47,131 +54,137 @@ namespace Code.Services
 
     [DllImport("__Internal")]
     private static extern void ShowYandexRewardedVideo(Action onRewarded);
-#endif
 
-    public void InvokeSdkInitEvent()
+    public bool IsOnYandexGames()
     {
-      OnSdkInitilized?.Invoke();
-      SdkInitialized = true;
+#if !UNITY_EDITOR && UNITY_WEBGL
+      return _uri.Host == _yandexDomain;
+#endif
+      return false;
+    }
+
+    public void InitializeYandex(Action onPlayerInitialize)
+    {
+      _onPlayerInitialize = onPlayerInitialize;
+      InitializeYandexGames(OnSdkInitialized, PlayerInitialized);
     }
 
     public void SetToLeaderboard(int score)
     {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-        SetToYandexLeaderboard(score);
-#endif
+      if (!IsOnYandexGames())
+        return;
+
+      SetToYandexLeaderboard(score);
     }
 
     public LanguageType GetPlayerLanguage()
     {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
+      if (!IsOnYandexGames())
+        return LanguageType.English;
+
+      string yandexLanguage = GetYandexLanguage();
+      return yandexLanguage switch
       {
-          string yandexLanguage = GetYandexLanguage();
-          return yandexLanguage switch
-          {
-              "en" => LanguageType.English,
-              "ru" => LanguageType.Russian,
-              _ => throw new ArgumentOutOfRangeException($"Unsupported language '{yandexLanguage}'")
-          };
-      }
-#endif
-      return LanguageType.English;
+        "en" => LanguageType.English,
+        "ru" => LanguageType.Russian,
+        _ => throw new ArgumentOutOfRangeException($"Unsupported language '{yandexLanguage}'")
+      };
     }
 
     public void ShowFullscreenAdvAndPauseGame()
     {
-      if(_isOnCrazyGames)
-        CrazyAds.Instance.beginAdBreak();
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-          ShowFullscreenAdv(onOpen: OnFullscreenAdvOpen, onClose: OnFullscreenAdvClose);
-#endif
+      if (!IsOnYandexGames())
+      {
+        if (_isOnCrazyGames)
+          CrazyAds.Instance.beginAdBreak();
+        return;
+      }
+
+      _gameWasMuted = _audioService.IsAudioMuted;
+      if (!_gameWasMuted)
+        _audioService.MuteGame();
+
+      ShowYandexFullscreenAdv(onOpen: OnFullscreenAdvOpen, onClose: OnFullscreenAdvClose);
     }
 
-    public void ShowFullscreenAdv(Action onOpen = null, Action onClose = null)
+    public void GameReadyToPlay()
     {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-        ShowYandexFullscreenAdv(onOpen, onClose);
-#endif
-    }
-
-    public void GameReadyToPLay()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-        GameReadyToPLayYandex();
-#endif
+      if (IsOnYandexGames())
+        GameReadyToPlayYandex();
     }
 
     public void RequestCanPLayerReviewOrNot(Action<bool> isCanReviewResponse)
     {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (!IsYandexGames())
-        return; 
-      
+      if (!IsOnYandexGames())
+        return;
+
       _isCanReviewResponse = isCanReviewResponse;
       RequestYandexIsPlayerCanReview(ServerIsCanReviewResponse);
-#endif
     }
 
     public void ShowReviewGameWindow(Action<bool> onPlayerAction)
     {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (!IsYandexGames())
-        return; 
-      
-      _onPlayerAction = onPlayerAction;
+      if (!IsOnYandexGames())
+        return;
+
+      _onReviewPlayerAction = onPlayerAction;
       ShowYandexReviewGameWindow(ServerReviewWindowActionResponse);
-#endif
     }
 
     public void ShowRewardedVideo(Action onRewarded)
     {
       _onRewarded = onRewarded;
-      if(_isOnCrazyGames)
-        CrazyAds.Instance.beginAdBreakRewarded(GiveReward);
-#if !UNITY_EDITOR && UNITY_WEBGL
-      if (IsYandexGames())
-        ShowYandexRewardedVideo(OnRewardedVideoEnd);
-      else
-        GiveReward();
-#else
-      GiveReward();
-#endif
+      if (!IsOnYandexGames())
+      {
+        if (_isOnCrazyGames)
+          CrazyAds.Instance.beginAdBreakRewarded(GiveReward);
+        else
+          GiveReward();
+        return;
+      }
+
+      ShowYandexRewardedVideo(OnRewardedVideoEnd);
     }
 
     private void GiveReward() =>
       _onRewarded?.Invoke();
 
-#if !UNITY_EDITOR && UNITY_WEBGL
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void OnSdkInitialized()
+    {
+      SceneManager.LoadScene(LoadSceneName);
+      OnYandexSdkInitialized?.Invoke();
+      IsSdkInitialized = true;
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void PlayerInitialized() =>
+      _onPlayerInitialize.Invoke();
+
     [MonoPInvokeCallback(typeof(Action))]
     private static void OnRewardedVideoEnd() =>
       _onRewarded?.Invoke();
 
     [MonoPInvokeCallback(typeof(Action<bool>))]
-    private static void ServerIsCanReviewResponse(bool value) => 
+    private static void ServerIsCanReviewResponse(bool value) =>
       _isCanReviewResponse.Invoke(value);
-    
+
     [MonoPInvokeCallback(typeof(Action<bool>))]
-    private static void ServerReviewWindowActionResponse(bool value) => 
-      _onPlayerAction.Invoke(value);
+    private static void ServerReviewWindowActionResponse(bool value) =>
+      _onReviewPlayerAction.Invoke(value);
 
     [MonoPInvokeCallback(typeof(Action))]
     public static void OnFullscreenAdvOpen()
     {
-      _audioService.MuteGame();
-      //Time.timeScale = 0;
+      Time.timeScale = 0;
     }
 
-    [MonoPInvokeCallback(typeof(Action))]
-    public static void OnFullscreenAdvClose()
+    [MonoPInvokeCallback(typeof(Action<bool>))]
+    public static void OnFullscreenAdvClose(bool wasShown)
     {
-      _audioService.UnMuteGame();
-      //Time.timeScale = 1;
+      if (!_gameWasMuted)
+        _audioService.UnMuteGame();
+      Time.timeScale = 1;
     }
-#endif
   }
 }
