@@ -12,6 +12,8 @@ namespace Code.Editor
   public static class Tools
   {
     private const string ToolsPath = "Tools/Custom/";
+    private const string Screenshots = "Take screenshots/";
+    private const string Other = "Other/";
 
     [MenuItem(ToolsPath+"Delete Progress file")]
     public static void ClearProgress() => 
@@ -31,15 +33,37 @@ namespace Code.Editor
       AssetDatabase.Refresh();
     }
 
-    [MenuItem(ToolsPath+"Take Screenshots without ground")]
+    [MenuItem(ToolsPath+Screenshots+"All")]
+    public static void TakeScreenshots()
+    {
+      if (NotInPlaymode())
+        return;
+
+      var screenshots = Object.FindObjectOfType<Screenshots>();
+      screenshots.TakeScreenshots(withGround: true, TakeWithoutGround);
+    }
+
+    [MenuItem(ToolsPath+Screenshots+"With ground")]
+    public static void TakeScreenshotsWithGround()
+    {
+      if (NotInPlaymode())
+        return;
+
+      var screenshots = Object.FindObjectOfType<Screenshots>();
+      screenshots.TakeScreenshots(withGround: true, RefreshAssets);
+    }
+
+    [MenuItem(ToolsPath+Screenshots+"Without ground")]
     public static void TakeScreenshotsWithoutGround()
     {
       if (NotInPlaymode())
         return;
 
-      Object.FindObjectOfType<Screenshots>().TakeScreenshotsWithoutGround();
+      var screenshots = Object.FindObjectOfType<Screenshots>();
+      screenshots.TakeScreenshots(withGround: false, RefreshAssets);
     }
-    [MenuItem(ToolsPath+"Setup game for taking screenshots")]
+
+    [MenuItem(ToolsPath+Other+"Setup game for taking screenshots")]
     public static void SetupForScreenshots()
     {
       GameObject helpersPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/SceneAssets/Helpers.prefab");
@@ -61,12 +85,13 @@ namespace Code.Editor
       PrefabUtility.SaveAsPrefabAsset(softbodyPrefabContents, AssetDatabase.GetAssetPath(softbodyPrefab));
       SetDirtyCurrentScene();
     }
-    [MenuItem(ToolsPath+"UnSetup game for taking screenshots")]
+
+    [MenuItem(ToolsPath+Other+"UnSetup game for taking screenshots")]
     public static void UnSetupForScreenshots()
     {
       Screenshots screenshots = Object.FindObjectOfType<Screenshots>();
-      if(screenshots == null)
-        Object.DestroyImmediate(screenshots.gameObject, true);
+      if(screenshots != null)
+        Object.DestroyImmediate(screenshots.gameObject);
       
       GameObject softbodyPrefab = Resources.Load<GameObject>($"{FolderPath.ResourcesPrefabsPath}/{AssetName.SoftbodySolver}");
       GameObject softbodyPrefabContents = PrefabUtility.LoadPrefabContents(AssetDatabase.GetAssetPath(softbodyPrefab));
@@ -81,25 +106,28 @@ namespace Code.Editor
       SetDirtyCurrentScene();
     }
 
-    private static void SetDirtyCurrentScene() => 
-      EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-
-    [MenuItem(ToolsPath+"Take Screenshots")]
-    public static void TakeScreenshots()
-    {
-      if (NotInPlaymode())
-        return;
-
-      Object.FindObjectOfType<Screenshots>().TakeScreenshots();
-    }
-
-    [MenuItem(ToolsPath+"Set camera screenshot position")]
+    [MenuItem(ToolsPath+Other+"Set camera screenshot position")]
     public static void SetCameraPos()
     {
       if (NotInPlaymode())
         return;
 
       Object.FindObjectOfType<Screenshots>().MoveCamera();
+    }
+
+    private static void TakeWithoutGround()
+    {
+      var screenshots = Object.FindObjectOfType<Screenshots>();
+      screenshots.TakeScreenshots(withGround: false, RefreshAssets);
+    }
+
+    private static void SetDirtyCurrentScene() => 
+      EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+
+    private static void RefreshAssets()
+    {
+      AssetDatabase.SaveAssets();
+      AssetDatabase.Refresh();
     }
 
     private static bool NotInPlaymode()

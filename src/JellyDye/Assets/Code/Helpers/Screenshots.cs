@@ -1,16 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
-using System.Linq;
 using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
-using Code.StaticData;
 using Code.StaticData.Level;
 using Fluxy;
-using UnityEditor;
 using UnityEngine;
 using Zenject;
 using static Code.Constants.FolderPath;
@@ -26,7 +24,10 @@ namespace Code.Helpers
     private int _currentJellyCount;
     private JelliesFactory _jelliesFactory;
     private string _directionPath;
-    private bool _withGround;
+    private bool IsGroundActive => _groundObject.activeSelf;
+    private GameObject _groundObject;
+    private bool _groundScreenshotsDone;
+    private Action _onDone;
 
     [Inject]
     public void Construct(ProgressService progressService, StaticDataService staticDataService,
@@ -40,23 +41,18 @@ namespace Code.Helpers
 
     private void Awake()
     {
+      _groundObject = GameObject.FindGameObjectWithTag("Ground");
+      if(_groundObject == null)
+        Debug.LogWarning("Couldn't find ground");
+      
       _directionPath = $"{Application.dataPath}/Resources/{ResourcesScreenshotsPath}";
-      //string[] files = Directory.GetFiles($"{Application.dataPath}/Resources/Levels/Jellies", "*.prefab");
-      //Debug.Log($"_levelsCount= {_levelsCount} firstFile= {files[0]}");
     }
 
-    public void TakeScreenshots()
+    public void TakeScreenshots(bool withGround, Action onDone = null)
     {
-      _withGround = true;
-      Setup();
-      TakeScreenshot();
-    }
-
-    public void TakeScreenshotsWithoutGround()
-    {
-      _withGround = false;
-      GameObject.FindGameObjectWithTag("Ground")?.SetActive(false);
-      Setup();
+      _groundObject.SetActive(withGround);
+      _onDone = onDone;
+      SetupAll();
       TakeScreenshot();
     }
 
@@ -68,7 +64,7 @@ namespace Code.Helpers
       levelCamera.transform.position = levelCamera.FinishPosition;
     }
 
-    private void Setup()
+    private void SetupAll()
     {
       MoveCamera();
       FindObjectOfType<ColorChangersContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
@@ -92,31 +88,31 @@ namespace Code.Helpers
       if (++_currentJellyCount < _staticDataService.ForLevels().LevelConfigs.Length)
       {
         Destroy(FindObjectOfType<FluxySolver>().transform.parent.gameObject);
-        GameObject jelly = _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
+        _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
         StartCoroutine(WaitColorSet());
       }
       else
       {
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        _onDone?.Invoke();
       }
     }
 
     private IEnumerator WaitColorSet()
     {
       yield return new WaitForEndOfFrame();
+      yield return new WaitForEndOfFrame();
       TakeScreenshot();
     }
 
     private void WriteScreenshotOnDisk(LevelConfig[] levelConfigs)
     {
-      byte[] bytes = _screenshotService.ScreenshotTexture.EncodeToPNG();
-      string groundTag = _withGround ? "_ground" : "";
+      string groundTag = IsGroundActive ? "_ground" : "";
       var screenshotPath = $"{_directionPath}/{levelConfigs[_currentJellyCount].Id}{groundTag}.png";
+      byte[] bytes = _screenshotService.ScreenshotTexture.EncodeToPNG();
       if (File.Exists(screenshotPath))
         File.Delete(screenshotPath);
       File.WriteAllBytes(screenshotPath, bytes);
     }
-#endif
   }
+#endif
 }

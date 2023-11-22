@@ -64,9 +64,9 @@ MonoBehaviour:
   velocityScale: {x: 1, y: 1, z: 1}
   maxRelativeAngularVelocity: 1
   angularVelocityScale: 1
-  force: {x: -2.2, y: 0, z: 0}
+  force: {x: -1.8, y: 0, z: 0}
   torque: 0
-  densityWeight: 1
+  densityWeight: 0.8
   densityTexture: {fileID: 0}
   srcBlend: 5
   dstBlend: 10
@@ -232,10 +232,10 @@ MonoBehaviour:
   _pistonTransform: {fileID: 0}
   _liquidTransform: {fileID: 0}
   _paintIncrease: 0
-  _paintIncrease2: 0.8
+  _paintIncrease2: 0.7
   _paintRotationOverTime: 145
   _maxPaintIncrease: 0
-  _pistonSpeed: 0.25
+  _pistonSpeed: 0.2
   _movingCloserTime: 0.2
   _movingLittleBackTime: 0.01
   _movingBackTime: 0.2
@@ -243,7 +243,7 @@ MonoBehaviour:
   _movingCloserDistance: 0.03
   _movingLittleBackDistance: 0.01
   _pistonMovingDistance: 0.37
-  _minLiquidScaleY: 0.02
+  _minLiquidScaleY: 0.03
 --- !u!114 &5631050146303792006
 MonoBehaviour:
   m_ObjectHideFlags: 0
