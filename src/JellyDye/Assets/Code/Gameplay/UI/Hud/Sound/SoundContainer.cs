@@ -1,4 +1,5 @@
-﻿using Code.Services;
+﻿using System;
+using Code.Services;
 using UnityEngine;
 using Zenject;
 
@@ -9,14 +10,25 @@ namespace Code.Gameplay.UI.Hud.Sound
         [SerializeField] private GameObject _soundOnObject;
         [SerializeField] private GameObject _soundOffObject;
         
-        [Inject]
-        public void Construct(AudioService audioService) => 
-            SetSoundIcon(!audioService.IsAudioMuted);
+        private AudioService _audioService;
 
-        public void SetSoundIcon(bool condition)
+        [Inject]
+        public void Construct(AudioService audioService)
         {
-            _soundOnObject.SetActive(condition);
-            _soundOffObject.SetActive(!condition);
+            _audioService = audioService;
+            SetSoundIcon(!_audioService.IsAudioMuted);
+        }
+
+        private void Awake() => 
+            _audioService.OnAudioStateChanged += SetSoundIcon;
+
+        private void OnDestroy() => 
+            _audioService.OnAudioStateChanged -= SetSoundIcon;
+
+        public void SetSoundIcon(bool isOn)
+        {
+            _soundOnObject.SetActive(isOn);
+            _soundOffObject.SetActive(!isOn);
         }
 
     }

@@ -101,8 +101,6 @@ namespace Code.Services
       }
 
       _gameWasMuted = _audioService.IsAudioMuted;
-      if (!_gameWasMuted)
-        _audioService.MuteGame();
 
       ShowYandexFullscreenAdv(onOpen: OnFullscreenAdvOpen, onClose: OnFullscreenAdvClose);
     }
@@ -174,17 +172,17 @@ namespace Code.Services
       _onReviewPlayerAction.Invoke(value);
 
     [MonoPInvokeCallback(typeof(Action))]
-    public static void OnFullscreenAdvOpen()
+    private static void OnFullscreenAdvOpen()
     {
-      Time.timeScale = 0;
+      if (!_gameWasMuted)
+        _audioService.MuteGame();
     }
 
     [MonoPInvokeCallback(typeof(Action<bool>))]
-    public static void OnFullscreenAdvClose(bool wasShown)
+    private static void OnFullscreenAdvClose(bool wasShown)
     {
       if (!_gameWasMuted)
         _audioService.UnMuteGame();
-      Time.timeScale = 1;
     }
   }
 }

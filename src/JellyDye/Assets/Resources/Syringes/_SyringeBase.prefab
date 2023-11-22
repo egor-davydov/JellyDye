@@ -63,9 +63,9 @@ MonoBehaviour:
   maxRelativeVelocity: 1
   velocityScale: {x: 1, y: 1, z: 1}
   maxRelativeAngularVelocity: 1
-  angularVelocityScale: 12
-  force: {x: -2.5, y: 0, z: 0}
-  torque: 0.5
+  angularVelocityScale: 1
+  force: {x: -2.2, y: 0, z: 0}
+  torque: 0
   densityWeight: 1
   densityTexture: {fileID: 0}
   srcBlend: 5

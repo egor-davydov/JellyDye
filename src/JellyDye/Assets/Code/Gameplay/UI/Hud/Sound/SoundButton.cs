@@ -7,7 +7,6 @@ namespace Code.Gameplay.UI.Hud.Sound
 {
   public class SoundButton : MonoBehaviour
   {
-    [SerializeField] private SoundContainer _soundContainer;
     [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private bool _turnSoundOn;
     [SerializeField] private Button _soundButton;
@@ -24,7 +23,6 @@ namespace Code.Gameplay.UI.Hud.Sound
     private void OnSoundClick()
     {
       _uiAudio.PlayClick();
-      _soundContainer.SetSoundIcon(_turnSoundOn);
 
       if (_turnSoundOn)
         _audioService.UnMuteGame();

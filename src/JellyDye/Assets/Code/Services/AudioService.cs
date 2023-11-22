@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Audio;
 using Zenject;
 
@@ -11,7 +12,8 @@ namespace Code.Services
 
     private AudioMixer _audioMixer;
     private float _startVolume;
-    
+
+    public event Action<bool> OnAudioStateChanged;
     public bool IsAudioMuted { get; private set; }
 
     public void Initialize()
@@ -23,12 +25,14 @@ namespace Code.Services
     public void MuteGame()
     {
       IsAudioMuted = true;
+      OnAudioStateChanged?.Invoke(!IsAudioMuted);
       _audioMixer.SetFloat(ParameterName, -80);
     }
     
     public void UnMuteGame()
     {
       IsAudioMuted = false;
+      OnAudioStateChanged?.Invoke(!IsAudioMuted);
       _audioMixer.SetFloat(ParameterName, _startVolume);
     }
   }

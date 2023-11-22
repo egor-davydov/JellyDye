@@ -326,7 +326,7 @@ MonoBehaviour:
   lightSource: {fileID: 0}
   targets: []
   pressure: 1
-  viscosity: 0.999
+  viscosity: 0.9
   turbulence: 40
   adhesion: 0.35
   surfaceTension: 0.9
@@ -389,10 +389,10 @@ MonoBehaviour:
   centerShape: -1
   _shapeMatchingConstraintsEnabled: 1
   _deformationResistance: 0.7
-  _maxDeformation: 0
-  _plasticYield: 0
-  _plasticCreep: 0
-  _plasticRecovery: 200
+  _maxDeformation: 1
+  _plasticYield: 100
+  _plasticCreep: 100
+  _plasticRecovery: 0
 --- !u!114 &4340199737979976235
 MonoBehaviour:
   m_ObjectHideFlags: 0
