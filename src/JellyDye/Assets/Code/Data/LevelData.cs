@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Code.Data
 {
@@ -28,10 +27,26 @@ namespace Code.Data
         CompletedLevels.Add(new CompletedLevel(levelId, percentage));
     }
 
-    public CompletedLevel CompletedLevel(string levelId) => 
-      CompletedLevels.First(completedLevel => completedLevel.Id == levelId);
+    public CompletedLevel CompletedLevel(string levelId)
+    {
+      foreach (CompletedLevel completedLevel in CompletedLevels)
+      {
+        if (completedLevel.Id == levelId)
+          return completedLevel;
+      }
 
-    public bool IsLevelCompleted(string levelId) => 
-      CompletedLevels.FirstOrDefault(completedLevel => completedLevel.Id == levelId) != default;
+      throw new Exception($"Can't find completed level id=\"{levelId}\"");
+    }
+
+    public bool IsLevelCompleted(string levelId)
+    {
+      foreach (CompletedLevel completedLevel in CompletedLevels)
+      {
+        if (completedLevel.Id == levelId)
+          return true;
+      }
+
+      return false;
+    }
   }
 }

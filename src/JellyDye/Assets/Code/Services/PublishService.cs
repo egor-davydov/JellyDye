@@ -63,6 +63,9 @@ namespace Code.Services
       return false;
     }
 
+    public void InvokeOnSdkInitialize() =>
+      OnSdkInitialized();
+
     public void InitializeYandex(Action onPlayerInitialize)
     {
       _onPlayerInitialize = onPlayerInitialize;

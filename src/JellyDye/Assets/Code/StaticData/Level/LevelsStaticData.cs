@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Code.StaticData.Level
@@ -29,6 +28,7 @@ namespace Code.StaticData.Level
       for (var index = 0; index < LevelConfigs.Length; index++)
       {
         LevelConfig levelConfig = LevelConfigs[index];
+        levelConfig.UpdateColors();
         ValidateLevelId(levelConfig, index + 1);
         ValidateMinMax();
         //AddTargetColorIfNeed(levelConfig);
@@ -45,7 +45,6 @@ namespace Code.StaticData.Level
       }
     }
 
-
     private Color? ColorOutsideTargetColors(List<Color> targetColors, Color firstColor, Color secondColor)
     {
       if (!targetColors.Contains(firstColor))
@@ -54,17 +53,7 @@ namespace Code.StaticData.Level
         return secondColor;
       return null;
     }
-
-    private void AddTargetColorIfNeed(LevelConfig levelConfig)
-    {
-      foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs)
-      {
-        List<Color> targetColors = levelConfig.GetTargetColors;
-        if (!targetColors.Contains(jellyMeshConfig.TargetColor))
-          targetColors.Add(jellyMeshConfig.TargetColor);
-      }
-    }
-
+    
     private void ValidateLevelId(LevelConfig levelConfig, int levelNumber)
     {
       if (levelConfig.Id.Contains(' '))
@@ -86,16 +75,26 @@ namespace Code.StaticData.Level
       throw new Exception($"Can't find level index of id \"{id}\"");
     }
 
-    public LevelConfig GetConfigByLevelId(string levelId) =>
-      LevelConfigs.First(config => config.Id == levelId);
-
-    public JellyMeshConfig GetJellyConfigByMesh(Mesh mesh)
+    public LevelConfig GetConfigByLevelId(string levelId)
     {
       foreach (LevelConfig levelConfig in LevelConfigs)
       {
-        JellyMeshConfig jellyMeshConfig = levelConfig.JellyMeshConfigs.FirstOrDefault(x => x.Mesh == mesh);
-        if (jellyMeshConfig != default)
-          return jellyMeshConfig;
+        if (levelConfig.Id == levelId)
+          return levelConfig;
+      }
+
+      throw new Exception($"Can't find config by id= \"{levelId}\"");
+    }
+    
+    public JellyMeshConfig GetJellyConfigByMesh(Mesh mesh) //use only in editor, use LevelConfig
+    {
+      foreach (LevelConfig levelConfig in LevelConfigs)
+      {
+        foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs)
+        {
+          if (jellyMeshConfig.Mesh == mesh)
+            return jellyMeshConfig;
+        }
       }
 
       throw new Exception($"Error in method GetJellyConfigByMesh. Cant find JellyMeshConfig for mesh \"{mesh}\"");

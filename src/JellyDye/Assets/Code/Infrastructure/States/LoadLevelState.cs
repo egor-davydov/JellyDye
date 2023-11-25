@@ -120,7 +120,7 @@ namespace Code.Infrastructure.States
     {
       SyringePaintColor syringePaintColor = syringeObject.GetComponent<SyringePaintColor>();
       GameObject hudObject = _hudFactory.CreateHud();
-      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaintColor, levelConfig.AllColors);
+      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaintColor, levelConfig.AllColorsCached);
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
       return hudObject;
     }

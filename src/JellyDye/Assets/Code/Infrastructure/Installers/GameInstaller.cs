@@ -1,24 +1,16 @@
-﻿using System.Runtime.InteropServices;
-using Code.Infrastructure.States;
+﻿using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
-using CrazyGames;
-using UnityEngine;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
 {
   public class GameInstaller : MonoInstaller, IInitializable, ICoroutineRunner
   {
-    private PublishService _publishService;
-    
-    [DllImport("__Internal")]
-    private static extern void WebDebugLog(string log);
-
     public override void InstallBindings()
     {
       Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
@@ -31,24 +23,8 @@ namespace Code.Infrastructure.Installers
 
     public void Initialize()
     {
-      Container.Resolve<StaticDataService>().LoadData();
-      _publishService = Container.Resolve<PublishService>();
-#if !UNITY_EDITOR && UNITY_WEBGL
-      WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
-      WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
-#endif
       BindPlatformDependServices();
-      if (_publishService.IsOnYandexGames())
-        _publishService.InitializeYandex(onPlayerInitialize: OnPlayerInitialized);
-      else
-        OnPlayerInitialized();
-    }
-
-
-    private void OnPlayerInitialized()
-    {
-      //Debug.Log($"Initialize GameInstaller");
-      MoveToNextState();
+      SetupStatesAndMoveToNextState();
     }
 
     private void BindFactories()
@@ -63,11 +39,11 @@ namespace Code.Infrastructure.Installers
       Container.Bind<GreenButtonFactory>().AsSingle();
     }
 
-    private void MoveToNextState()
+    private void SetupStatesAndMoveToNextState()
     {
       GameStateMachine gameStateMachine = Container.Resolve<GameStateMachine>();
-      gameStateMachine.Setup();
-      gameStateMachine.Enter<LoadProgressState>();
+      gameStateMachine.SetupStates();
+      gameStateMachine.Enter<InitializationState>();
     }
 
     private void BindServices()
@@ -92,18 +68,17 @@ namespace Code.Infrastructure.Installers
 
     private void BindPlatformDependServices()
     {
-      if (_publishService.IsOnYandexGames())
+      PublishService publishService = Container.Resolve<PublishService>();
+      if (publishService.IsOnYandexGames())
         Container.Bind<ISaveLoadService>().To<YandexSaveLoadService>().AsSingle();
       else
-        BindFileSaveSystem();
+        Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
     }
-
-    private void BindFileSaveSystem() =>
-      Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
 
     private void BindStates()
     {
       Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
+      Container.Bind<InitializationState>().AsSingle();
       Container.Bind<LoadProgressState>().AsSingle();
       Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<GameLoopState>().AsSingle();

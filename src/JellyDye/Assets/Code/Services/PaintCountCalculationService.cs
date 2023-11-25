@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Code.Helpers;
 using Code.Services.Progress;
 using Code.StaticData;
+using Code.StaticData.Level;
 using Fluxy;
 using UnityEngine;
 
@@ -21,9 +21,8 @@ namespace Code.Services
 #endif
     private Rect _convertToTextureRect;
     private RenderTexture _fluxyStateA;
-    private List<JellyMeshConfig> _currentLevelJellyMeshConfigs;
+    private LevelConfig _currentLevelConfig;
     
-
     private PaintCountCalculationService(StaticDataService staticDataService, ProgressService progressService)
     {
       _progressService = progressService;
@@ -38,7 +37,7 @@ namespace Code.Services
       _convertToTextureRect = new Rect(0, 0, _fluxyStateA.width, _fluxyStateA.height);
       
       string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
-      _currentLevelJellyMeshConfigs = _staticDataService.ForLevels().GetConfigByLevelId(currentLevelId).JellyMeshConfigs;
+      _currentLevelConfig = _staticDataService.ForLevels().GetConfigByLevelId(currentLevelId);
     }
 
     public bool HasPaintOnAllMeshes()
@@ -46,7 +45,7 @@ namespace Code.Services
       Texture2D fluxyTexture = ConvertToTexture2D();
       foreach (FluxyContainer fluxyContainer in _fluxyContainers)
       {
-        JellyMeshConfig jellyMeshConfig = _currentLevelJellyMeshConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
+        JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
         if (!HasPaintOnMesh(fluxyTexture, jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer)))
         {
           Object.Destroy(fluxyTexture);
@@ -57,7 +56,7 @@ namespace Code.Services
 
       return true;
     }
-
+    
     private bool HasPaintOnMesh(Texture2D fluxyTexture, JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
     {
       Texture2D maskTexture = jellyMeshConfig.MaskTexture;
@@ -90,7 +89,7 @@ namespace Code.Services
       int countPixelsShouldPaint = 0;
       foreach (FluxyContainer fluxyContainer in _fluxyContainers)
       {
-        JellyMeshConfig jellyMeshConfig = _currentLevelJellyMeshConfigs.First(config => config.Mesh == fluxyContainer.customMesh);
+        JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
         Vector2Int pixelsCount = CalculateJellyPaintedPixelsCount(fluxyTexture, jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
         paintedPixelsCount += pixelsCount.x;
         countPixelsShouldPaint += pixelsCount.y;
