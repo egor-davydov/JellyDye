@@ -19,7 +19,7 @@ namespace Code.Infrastructure.States
 
     public void Enter()
     {
-      _saveLoadService.LoadProgressAsync(onLoaded: MoveToNextState);
+      _saveLoadService.LoadProgress(onLoaded: MoveToNextState);
     }
 
     public void Exit()

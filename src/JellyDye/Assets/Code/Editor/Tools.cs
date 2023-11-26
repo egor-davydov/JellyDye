@@ -17,7 +17,7 @@ namespace Code.Editor
 
     [MenuItem(ToolsPath+"Delete Progress file")]
     public static void ClearProgress() => 
-      File.Delete(FileSaveLoadService.ProgressFilePath);
+      File.Delete(FilePath.ProgressPath);
 
     [MenuItem(ToolsPath+"Delete files in \"JelliesToAdd\" folder, that ends with \"d1\"")]
     public static void DeleteFiles()

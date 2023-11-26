@@ -72,7 +72,7 @@ namespace Code.Infrastructure.Installers
       if (publishService.IsOnYandexGames())
         Container.Bind<ISaveLoadService>().To<YandexSaveLoadService>().AsSingle();
       else
-        Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
+        Container.Bind<ISaveLoadService>().To<FileSyncSaveLoadService>().AsSingle();
     }
 
     private void BindStates()

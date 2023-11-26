@@ -57,6 +57,7 @@ namespace Fluxy
         SerializedProperty externalForce;
         SerializedProperty positionOffset;
         SerializedProperty useMeshProjection;
+        SerializedProperty additionalPaintIncreaseSpeed;
 
         BooleanPreference shapeFoldout;
         BooleanPreference projectionFoldout;
@@ -67,6 +68,7 @@ namespace Fluxy
 
         public void OnEnable()
         {
+            additionalPaintIncreaseSpeed = serializedObject.FindProperty("AdditionalPaintIncreaseSpeed");
             useMeshProjection = serializedObject.FindProperty("UseMeshProjection");
             skinnedMeshRenderer = serializedObject.FindProperty("skinnedMeshRenderer");
             m_Solver = serializedObject.FindProperty("m_Solver");
@@ -120,6 +122,7 @@ namespace Fluxy
                 EditorGUILayout.HelpBox("This solver has reached its maximum capacity of 16 containers. Any extra containers will be ignored.", MessageType.Warning);
 
             EditorGUILayout.PropertyField(useMeshProjection);
+            EditorGUILayout.PropertyField(additionalPaintIncreaseSpeed);
             if (Application.isPlaying)
                 GUI.enabled = false;
 

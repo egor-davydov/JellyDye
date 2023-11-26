@@ -90,6 +90,9 @@ const library = {
         _free(buffer);
     }).catch(function (e) { console.log('Error on loading player data. ', e); });
   },
+  IsMobile: function () {
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  },
   SetToYandexLeaderboard: function (score) {
     yandexGames.leaderboard.setLeaderboardScore('Paint', score);
   },

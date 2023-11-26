@@ -63,6 +63,7 @@ namespace Fluxy
             Custom
         }
 
+        public float AdditionalPaintIncreaseSpeed;
         public bool UseMeshProjection;
         public SkinnedMeshRenderer skinnedMeshRenderer;
         /// <summary>

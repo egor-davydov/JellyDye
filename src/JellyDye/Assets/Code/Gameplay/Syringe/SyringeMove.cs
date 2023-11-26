@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Code.Services;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace Code.Gameplay.Syringe
 {
@@ -12,16 +14,20 @@ namespace Code.Gameplay.Syringe
     private Camera _camera;
     private Vector3 _delta;
     private Vector3 _worldToScreenPoint;
+    
+    private PublishService _publishService;
 
+    [Inject]
+    public void Construct(PublishService publishService)
+    {
+      _publishService = publishService;
+    }
+    
     private void Start() =>
       _camera = Camera.main;
 
     private void Update()
     {
-      // Vector3 prev = _worldToScreenPoint;
-      // _worldToScreenPoint = _camera.WorldToScreenPoint(GetMouseWorldPosition());
-      // if(_worldToScreenPoint != prev)
-      // Debug.Log(_worldToScreenPoint);
       if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
       {
         _delta = transform.position - GetMouseWorldPosition();
@@ -50,6 +56,9 @@ namespace Code.Gameplay.Syringe
 
     private bool IsPointerOverUIObject()
     {
+      if (!_publishService.IsPlatformMobile())
+        return EventSystem.current.IsPointerOverGameObject();
+      
       for (int i = 0; i < Input.touchCount; i++)
       {
         var touch = Input.GetTouch(i);
@@ -58,18 +67,8 @@ namespace Code.Gameplay.Syringe
         if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
           return true;
       }
-
       return false;
     }
-    // private bool IsPointerOverUIObject()
-    // {
-    //   PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-    //   eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-    //   List<RaycastResult> results = new List<RaycastResult>();
-    //   EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-    //
-    //   return results.Count > 0;
-    // }
 
     private Vector3 GetMouseWorldPosition()
     {

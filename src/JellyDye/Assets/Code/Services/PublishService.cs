@@ -1,7 +1,9 @@
-﻿using System;
+﻿#if !UNITY_EDITOR && UNITY_WEBGL
+using UnityEngine;
+#endif
+using System;
 using Code.Gameplay.Logic;
 using CrazyGames;
-using UnityEngine;
 using AOT;
 using System.Runtime.InteropServices;
 using UnityEngine.SceneManagement;
@@ -32,6 +34,9 @@ namespace Code.Services
       _audioService = audioService;
 
     [DllImport("__Internal")]
+    private static extern bool IsMobile();
+
+    [DllImport("__Internal")]
     private static extern void InitializeYandexGames(Action onSdkInitialize, Action onPlayerInitialize);
 
     [DllImport("__Internal")]
@@ -55,12 +60,22 @@ namespace Code.Services
     [DllImport("__Internal")]
     private static extern void ShowYandexRewardedVideo(Action onRewarded);
 
+    public bool IsPlatformMobile()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+      return IsMobile();
+#else
+      return false;
+#endif
+    }
+    
     public bool IsOnYandexGames()
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
       return _uri.Host == _yandexDomain;
-#endif
+#else
       return false;
+#endif
     }
 
     public void InvokeOnSdkInitialize() =>

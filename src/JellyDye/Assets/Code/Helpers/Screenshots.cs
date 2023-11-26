@@ -113,6 +113,6 @@ namespace Code.Helpers
         File.Delete(screenshotPath);
       File.WriteAllBytes(screenshotPath, bytes);
     }
-  }
 #endif
+  }
 }

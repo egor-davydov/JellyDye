@@ -28,7 +28,12 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 1, g: 0.9695432, b: 0, a: 1}
     JelliesPrefab: {fileID: 6952310717466544951, guid: c61b6de6b241afc45b4068c6a8a8ae60, type: 3}
     AdditionalColors:
-    - {r: 0.9716981, g: 0.04277907, b: 0.04277907, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
+    AllColorsCached:
+    - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
+    - {r: 1, g: 0.9695432, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
     TargetTexture: {fileID: 2800000, guid: bbdff5b0574b8b445b8b3f3b57db6761, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c9145b5692f54c843a0caf481a8afce0, type: 3}
@@ -44,6 +49,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.29976553, g: 0.23311329, b: 0.09000063, a: 1}
     - {r: 0.8350761, g: 0.9979086, b: 0.80719686, a: 1}
+    AllColorsCached:
+    - {r: 0.21597241, g: 0.8584906, b: 0.21778724, a: 1}
+    - {r: 0.9339623, g: 0, b: 0.25227758, a: 1}
+    - {r: 0.29976553, g: 0.23311329, b: 0.09000063, a: 1}
+    - {r: 0.8350761, g: 0.9979086, b: 0.80719686, a: 1}
     TargetTexture: {fileID: 2800000, guid: a0003f0b5854518468b17763a4840885, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 4e7c8a11a7b71a7458d29db9b6acb344, type: 3}
   - Id: two_bananas
@@ -56,6 +66,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 1, g: 1, b: 0.23270434, a: 1}
     JelliesPrefab: {fileID: 4900221779037786037, guid: e596dda4db01655448fddaa8daa979f8, type: 3}
     AdditionalColors:
+    - {r: 0.8105483, g: 0.21777284, b: 0.043732166, a: 1}
+    - {r: 0.017218232, g: 0.9386599, b: 0.18757963, a: 1}
+    AllColorsCached:
+    - {r: 0.59, g: 1, b: 0.255, a: 1}
+    - {r: 1, g: 1, b: 0.23270434, a: 1}
     - {r: 0.8105483, g: 0.21777284, b: 0.043732166, a: 1}
     - {r: 0.017218232, g: 0.9386599, b: 0.18757963, a: 1}
     TargetTexture: {fileID: 2800000, guid: a846ab7426c5a3f4cbdcb861887b4feb, type: 3}
@@ -75,6 +90,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.33028287, g: 0.872975, b: 0.9716362, a: 1}
     - {r: 0.16201186, g: 0.5455975, b: 0.7360467, a: 1}
+    AllColorsCached:
+    - {r: 0.9529412, g: 0.2941177, b: 0.5339447, a: 1}
+    - {r: 1, g: 0.9596447, b: 0.27987415, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.33028287, g: 0.872975, b: 0.9716362, a: 1}
+    - {r: 0.16201186, g: 0.5455975, b: 0.7360467, a: 1}
     TargetTexture: {fileID: 2800000, guid: d459e817607eea64ba5204e501a3dfac, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 75391f24775ca3b4f831e8b96d4eb715, type: 3}
   - Id: devil_heart
@@ -87,6 +108,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.9716981, g: 0.565296, b: 0.93548405, a: 1}
     JelliesPrefab: {fileID: 5694393867848139027, guid: 438c57d8bf5cc6f429b2d4fbdd830b14, type: 3}
     AdditionalColors:
+    - {r: 0.73596287, g: 0.93574727, b: 0.6156216, a: 1}
+    - {r: 0.48715514, g: 0.9005809, b: 0.35903352, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.25157225, b: 0.25157225, a: 1}
+    - {r: 0.9716981, g: 0.565296, b: 0.93548405, a: 1}
     - {r: 0.73596287, g: 0.93574727, b: 0.6156216, a: 1}
     - {r: 0.48715514, g: 0.9005809, b: 0.35903352, a: 1}
     TargetTexture: {fileID: 2800000, guid: bb7c90a2652fb284daf3e4064897445b, type: 3}
@@ -103,6 +129,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.12198341, g: 0.011216283, b: 0.98027015, a: 1}
     - {r: 0.26614422, g: 0.34851462, b: 0.22594357, a: 1}
+    AllColorsCached:
+    - {r: 0.9050528, g: 0.28930813, b: 1, a: 1}
+    - {r: 0.36480185, g: 0.8679245, b: 0.3411652, a: 1}
+    - {r: 0.12198341, g: 0.011216283, b: 0.98027015, a: 1}
+    - {r: 0.26614422, g: 0.34851462, b: 0.22594357, a: 1}
     TargetTexture: {fileID: 2800000, guid: 846c5153ce8f495448630684b5c07f0b, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: fb8f8eb8b2fa8ce4da637c51d32b5bee, type: 3}
   - Id: clouds
@@ -115,6 +146,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.49803922, g: 1, b: 0.7490196, a: 1}
     JelliesPrefab: {fileID: 8249565436013083299, guid: f21829778e0728c498ceb3c2bb6d7665, type: 3}
     AdditionalColors:
+    - {r: 0.39168948, g: 0.95920444, b: 0.023929477, a: 1}
+    - {r: 0.35312706, g: 0.17411005, b: 0.5687054, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.49685526, b: 0.93654025, a: 1}
+    - {r: 0.49803922, g: 1, b: 0.7490196, a: 1}
     - {r: 0.39168948, g: 0.95920444, b: 0.023929477, a: 1}
     - {r: 0.35312706, g: 0.17411005, b: 0.5687054, a: 1}
     TargetTexture: {fileID: 2800000, guid: c8341e893d50ec848923eba538bda06f, type: 3}
@@ -134,6 +170,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.09587097, g: 0.149, b: 0.7741368, a: 1}
     - {r: 0.74967563, g: 0.23030901, b: 0.36, a: 1}
+    AllColorsCached:
+    - {r: 0.15723264, g: 0.66663873, b: 1, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 1, g: 0.32549024, b: 0.80009776, a: 1}
+    - {r: 0.09587097, g: 0.149, b: 0.7741368, a: 1}
+    - {r: 0.74967563, g: 0.23030901, b: 0.36, a: 1}
     TargetTexture: {fileID: 2800000, guid: 9b65d8ab4a8e13947881be375a7ff4f2, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 618b8f9cd37e5464ea4cae1934ea3636, type: 3}
   - Id: hat
@@ -151,6 +193,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.9089062, g: 0.082458615, b: 0.45789188, a: 1}
     - {r: 0.25177068, g: 0.40596265, b: 0.37850744, a: 1}
+    AllColorsCached:
+    - {r: 0.8207547, g: 0.6097339, b: 0.12904944, a: 1}
+    - {r: 0.9245283, g: 0.6243473, b: 0, a: 1}
+    - {r: 0.8679245, g: 0.54, b: 0.41, a: 1}
+    - {r: 0.9089062, g: 0.082458615, b: 0.45789188, a: 1}
+    - {r: 0.25177068, g: 0.40596265, b: 0.37850744, a: 1}
     TargetTexture: {fileID: 2800000, guid: 03f290d13c3ff8c498d5cdd83677228a, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 0471e43d0bd86b94f833219348febcf2, type: 3}
   - Id: shovel
@@ -163,6 +211,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.3745401, g: 0.9528302, b: 0.91163737, a: 1}
     JelliesPrefab: {fileID: 3678217705150020658, guid: b2c2c8983ba084d45a514ca4230a648d, type: 3}
     AdditionalColors:
+    - {r: 0.30122143, g: 0.3697006, b: 0.34159428, a: 1}
+    - {r: 0.4733848, g: 0.023255348, b: 0.33318383, a: 1}
+    AllColorsCached:
+    - {r: 0.6845217, g: 1, b: 0.30817604, a: 1}
+    - {r: 0.3745401, g: 0.9528302, b: 0.91163737, a: 1}
     - {r: 0.30122143, g: 0.3697006, b: 0.34159428, a: 1}
     - {r: 0.4733848, g: 0.023255348, b: 0.33318383, a: 1}
     TargetTexture: {fileID: 2800000, guid: 1901999bfb0828d4ebe96dcc92ce3315, type: 3}
@@ -182,6 +235,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.05879581, g: 0.8989072, b: 0.61472136, a: 1}
     - {r: 0.03947127, g: 0.5833518, b: 0.94362354, a: 1}
+    AllColorsCached:
+    - {r: 0.8682399, g: 0.01498151, b: 0.9528302, a: 1}
+    - {r: 0.9414254, g: 0.52450454, b: 0.9811321, a: 1}
+    - {r: 0, g: 0.7169812, b: 0, a: 1}
+    - {r: 0.05879581, g: 0.8989072, b: 0.61472136, a: 1}
+    - {r: 0.03947127, g: 0.5833518, b: 0.94362354, a: 1}
     TargetTexture: {fileID: 2800000, guid: 167e17598b73d06448a81e7cc1a8d21b, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c447ce8c23f15bd44bc6b11d0589415b, type: 3}
   - Id: ship
@@ -194,6 +253,12 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
     JelliesPrefab: {fileID: 2078628113740545918, guid: 90349255c73ab204980a2c313e1c4b06, type: 3}
     AdditionalColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
+    - {r: 0.2588256, g: 0.0126104355, b: 0.3575967, a: 1}
+    AllColorsCached:
+    - {r: 0.22327036, g: 0.7196526, b: 1, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
     - {r: 0.2588256, g: 0.0126104355, b: 0.3575967, a: 1}
@@ -214,6 +279,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.06897807, g: 0.9757073, b: 0.15926528, a: 1}
     - {r: 0.45504743, g: 0.52663225, b: 0.49582893, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.76100624, b: 1, a: 1}
+    - {r: 0.46855342, g: 1, b: 0.9797819, a: 1}
+    - {r: 1, g: 0.7909963, b: 0.5157232, a: 1}
+    - {r: 0.06897807, g: 0.9757073, b: 0.15926528, a: 1}
+    - {r: 0.45504743, g: 0.52663225, b: 0.49582893, a: 1}
     TargetTexture: {fileID: 2800000, guid: 063a54d15c8626446a592c41fddf1b79, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: b7cb03a0021e4474a8e64ef08090c28d, type: 3}
   - Id: nut
@@ -226,6 +297,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.6327064, g: 1, b: 0.21383637, a: 1}
     JelliesPrefab: {fileID: 474130305541837277, guid: 41c5063b62236d746b5bbd6b5adf7d10, type: 3}
     AdditionalColors:
+    - {r: 0.6246559, g: 0.2159239, b: 0.82803583, a: 1}
+    - {r: 0.17262483, g: 0.40653223, b: 0.022629976, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.705501, b: 0.17647058, a: 1}
+    - {r: 0.6327064, g: 1, b: 0.21383637, a: 1}
     - {r: 0.6246559, g: 0.2159239, b: 0.82803583, a: 1}
     - {r: 0.17262483, g: 0.40653223, b: 0.022629976, a: 1}
     TargetTexture: {fileID: 2800000, guid: 82ddfa35aa6224347909b62e6b0091bf, type: 3}
@@ -245,6 +321,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.0037008524, g: 0.2360295, b: 0.42708367, a: 1}
     - {r: 0.8581158, g: 0.013079882, b: 0.7687826, a: 1}
+    AllColorsCached:
+    - {r: 0.24919893, g: 0.8811161, b: 1, a: 1}
+    - {r: 0.3374569, g: 0.8584906, b: 0.58, a: 1}
+    - {r: 1, g: 0.49685526, b: 0.49685526, a: 1}
+    - {r: 0.0037008524, g: 0.2360295, b: 0.42708367, a: 1}
+    - {r: 0.8581158, g: 0.013079882, b: 0.7687826, a: 1}
     TargetTexture: {fileID: 2800000, guid: 82e0530c4b9bcce4b91d59ee824d9edf, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 3dde5140634a57646b9dd129a72cdded, type: 3}
   - Id: ring
@@ -257,6 +339,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.23270434, g: 1, b: 0.91220295, a: 1}
     JelliesPrefab: {fileID: 3512537767623533178, guid: 72237731f7582564cb5e80b0416aedc7, type: 3}
     AdditionalColors:
+    - {r: 0.95511544, g: 0.19723773, b: 0.7575828, a: 1}
+    - {r: 0.5521839, g: 0.25253528, b: 0.42032892, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.9889476, b: 0.11949676, a: 1}
+    - {r: 0.23270434, g: 1, b: 0.91220295, a: 1}
     - {r: 0.95511544, g: 0.19723773, b: 0.7575828, a: 1}
     - {r: 0.5521839, g: 0.25253528, b: 0.42032892, a: 1}
     TargetTexture: {fileID: 2800000, guid: 558b8cc279de3054fbbbd2e25abc6ee1, type: 3}
@@ -276,6 +363,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.38460797, g: 0.7842989, b: 0.9827876, a: 1}
     - {r: 0.05653584, g: 0.7083715, b: 0.6182268, a: 1}
+    AllColorsCached:
+    - {r: 0.771, g: 0.899, b: 0.31743202, a: 1}
+    - {r: 0.5594142, g: 0.990566, b: 0.21181904, a: 1}
+    - {r: 0.956085, g: 0.37421376, b: 1, a: 1}
+    - {r: 0.38460797, g: 0.7842989, b: 0.9827876, a: 1}
+    - {r: 0.05653584, g: 0.7083715, b: 0.6182268, a: 1}
     TargetTexture: {fileID: 2800000, guid: 4191cff5338b42548bc23de797048885, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 9b9b9eed4a7a4a747935f3550f23a2a2, type: 3}
   - Id: ice_cream_on_floor
@@ -288,6 +381,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.9528302, g: 0.73720706, b: 0.49139664, a: 1}
     JelliesPrefab: {fileID: 3481128720007782557, guid: f37c0359c3805784e9dbac951f68f1a0, type: 3}
     AdditionalColors:
+    - {r: 0.12217462, g: 0.53209263, b: 0.278773, a: 1}
+    - {r: 0.16679466, g: 0.16503584, b: 0.31122667, a: 1}
+    AllColorsCached:
+    - {r: 0.6155304, g: 1, b: 0.17647058, a: 1}
+    - {r: 0.9528302, g: 0.73720706, b: 0.49139664, a: 1}
     - {r: 0.12217462, g: 0.53209263, b: 0.278773, a: 1}
     - {r: 0.16679466, g: 0.16503584, b: 0.31122667, a: 1}
     TargetTexture: {fileID: 2800000, guid: dc1b875b564304544afb794d99ec49dc, type: 3}
@@ -307,6 +405,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.07103467, g: 0.75729513, b: 0.088000774, a: 1}
     - {r: 0.28865534, g: 0.5834673, b: 0.90118814, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.59, b: 0.325, a: 1}
+    - {r: 1, g: 0.9649853, b: 0.68553454, a: 1}
+    - {r: 1, g: 1, b: 0.05345905, a: 1}
+    - {r: 0.07103467, g: 0.75729513, b: 0.088000774, a: 1}
+    - {r: 0.28865534, g: 0.5834673, b: 0.90118814, a: 1}
     TargetTexture: {fileID: 2800000, guid: 4f77a9ea6f424f346831d5c3e44c154b, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: b43264ce595112a4b80ffc540a150ae6, type: 3}
   - Id: something
@@ -319,6 +423,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 1, g: 0.75444156, b: 0, a: 1}
     JelliesPrefab: {fileID: 5007831174733273039, guid: 98131a04f08be304a8451a96c8344705, type: 3}
     AdditionalColors:
+    - {r: 0.54676086, g: 0.17224121, b: 0.31826705, a: 1}
+    - {r: 0.20589197, g: 0.1800003, b: 0.13583338, a: 1}
+    AllColorsCached:
+    - {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
+    - {r: 1, g: 0.75444156, b: 0, a: 1}
     - {r: 0.54676086, g: 0.17224121, b: 0.31826705, a: 1}
     - {r: 0.20589197, g: 0.1800003, b: 0.13583338, a: 1}
     TargetTexture: {fileID: 2800000, guid: 7f11631c5d991d543bf2afa18c7043f1, type: 3}
@@ -335,6 +444,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.66025794, g: 0.014588237, b: 0.98183405, a: 1}
     - {r: 0.45116955, g: 0.17965376, b: 0.8843092, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.90625226, b: 0.29019606, a: 1}
+    - {r: 1, g: 0.30980396, b: 0.5454475, a: 1}
+    - {r: 0.66025794, g: 0.014588237, b: 0.98183405, a: 1}
+    - {r: 0.45116955, g: 0.17965376, b: 0.8843092, a: 1}
     TargetTexture: {fileID: 2800000, guid: fd006b1aeb014cf4d80ed08b285642ad, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 2fabedbf7dc2c3d44bbaecbb0d7278a4, type: 3}
   - Id: yin_yang
@@ -349,6 +463,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.840297, g: 0.92484915, b: 0.10101843, a: 1}
     - {r: 0.8572241, g: 0.52902573, b: 0.6297171, a: 1}
+    AllColorsCached:
+    - {r: 0, g: 0, b: 0, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.840297, g: 0.92484915, b: 0.10101843, a: 1}
+    - {r: 0.8572241, g: 0.52902573, b: 0.6297171, a: 1}
     TargetTexture: {fileID: 2800000, guid: 9fdb1e3919ea29444bf9ef1a60f6875e, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 2b339f7840f1ef0449123147888f3e40, type: 3}
   - Id: simple_tree
@@ -361,6 +480,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.9245283, g: 0.57521176, b: 0.25875157, a: 1}
     JelliesPrefab: {fileID: 2291381505851471603, guid: 125d5cb6bd1dd724daeb04d462fb58d6, type: 3}
     AdditionalColors:
+    - {r: 0.48940307, g: 0.075396895, b: 0.8527237, a: 1}
+    - {r: 0.4502421, g: 0.23544192, b: 0.27573794, a: 1}
+    AllColorsCached:
+    - {r: 0.24226275, g: 0.9339623, b: 0.15566029, a: 1}
+    - {r: 0.9245283, g: 0.57521176, b: 0.25875157, a: 1}
     - {r: 0.48940307, g: 0.075396895, b: 0.8527237, a: 1}
     - {r: 0.4502421, g: 0.23544192, b: 0.27573794, a: 1}
     TargetTexture: {fileID: 2800000, guid: 75eb5e250b3b2af4cb2c73fa9b68d599, type: 3}
@@ -380,6 +504,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.8631289, g: 0.45991677, b: 0.32901293, a: 1}
     - {r: 0.4387141, g: 0.0408777, b: 0.23894072, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.8862746, b: 0.77647066, a: 1}
+    - {r: 1, g: 0.8862745, b: 0.191, a: 1}
+    - {r: 0.8631289, g: 0.45991677, b: 0.32901293, a: 1}
+    - {r: 0.4387141, g: 0.0408777, b: 0.23894072, a: 1}
     TargetTexture: {fileID: 2800000, guid: 099462fcb01b0164a9c1e33c0cfa9ab1, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 82e9347fb28481742a8be50caba76b8e, type: 3}
   - Id: ballet_shoe
@@ -392,6 +521,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.9150943, g: 0.8345199, b: 0.8345199, a: 1}
     JelliesPrefab: {fileID: 7305046613647038418, guid: d2a1de2be121ed841ac64c32087014ce, type: 3}
     AdditionalColors:
+    - {r: 0.14854622, g: 0.6982336, b: 0.02054596, a: 1}
+    - {r: 0.859663, g: 0.2377789, b: 0.134, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.49685526, b: 0.727906, a: 1}
+    - {r: 0.9150943, g: 0.8345199, b: 0.8345199, a: 1}
     - {r: 0.14854622, g: 0.6982336, b: 0.02054596, a: 1}
     - {r: 0.859663, g: 0.2377789, b: 0.134, a: 1}
     TargetTexture: {fileID: 2800000, guid: 83ddc211c2c1467479873c61765389cd, type: 3}
@@ -408,6 +542,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.99007833, g: 0.7784836, b: 0.9680141, a: 1}
     - {r: 0.3597315, g: 0.010669947, b: 0.21933937, a: 1}
+    AllColorsCached:
+    - {r: 0.754717, g: 0.45131987, b: 0.004746554, a: 1}
+    - {r: 0.68907857, g: 0.743, b: 0.13705935, a: 1}
+    - {r: 0.99007833, g: 0.7784836, b: 0.9680141, a: 1}
+    - {r: 0.3597315, g: 0.010669947, b: 0.21933937, a: 1}
     TargetTexture: {fileID: 2800000, guid: 2cbd91b81cdae4847a7a369aeb38d1b0, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: acdce9a181aed2d4d93588eb73071fed, type: 3}
   - Id: swan
@@ -420,6 +559,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.23137257, g: 0.47450984, b: 1, a: 1}
     JelliesPrefab: {fileID: 1493671447692499507, guid: 1cc70dcb411567b479d2f4543b008dac, type: 3}
     AdditionalColors:
+    - {r: 0.04127443, g: 0.033800602, b: 0.24591148, a: 1}
+    - {r: 0.42374653, g: 0.7632477, b: 0.14572251, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.23137257, g: 0.47450984, b: 1, a: 1}
     - {r: 0.04127443, g: 0.033800602, b: 0.24591148, a: 1}
     - {r: 0.42374653, g: 0.7632477, b: 0.14572251, a: 1}
     TargetTexture: {fileID: 2800000, guid: 1675ba326654cd9409f9cc932fe000e3, type: 3}
@@ -436,6 +580,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.5228773, g: 0.33660358, b: 0.86260605, a: 1}
     - {r: 0.5826505, g: 0.7499908, b: 0.554197, a: 1}
+    AllColorsCached:
+    - {r: 0.9811321, g: 0.3301293, b: 0.3301293, a: 1}
+    - {r: 1, g: 0.8924528, b: 0.21383637, a: 1}
+    - {r: 0.5228773, g: 0.33660358, b: 0.86260605, a: 1}
+    - {r: 0.5826505, g: 0.7499908, b: 0.554197, a: 1}
     TargetTexture: {fileID: 2800000, guid: 8c747fda5b8908e45aaaf061357e3b8d, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: da787fc83dfbebf44bda636f76cd3c62, type: 3}
   - Id: whale
@@ -448,6 +597,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.25157225, g: 0.8390469, b: 1, a: 1}
     JelliesPrefab: {fileID: 3348724441310188100, guid: 6dc5afcadc66db34bbefdcf7d0db3d03, type: 3}
     AdditionalColors:
+    - {r: 0.8715931, g: 0.25779718, b: 0.7770523, a: 1}
+    - {r: 0.47790962, g: 0.6331991, b: 0.16644025, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.25157225, g: 0.8390469, b: 1, a: 1}
     - {r: 0.8715931, g: 0.25779718, b: 0.7770523, a: 1}
     - {r: 0.47790962, g: 0.6331991, b: 0.16644025, a: 1}
     TargetTexture: {fileID: 2800000, guid: 88681351821bf2243a74becb34f05052, type: 3}
@@ -467,6 +621,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.26685947, g: 0.21748269, b: 0.38418633, a: 1}
     - {r: 0.12213004, g: 0.30415612, b: 0.3963762, a: 1}
+    AllColorsCached:
+    - {r: 0.9668526, g: 0.31778798, b: 0.9716981, a: 1}
+    - {r: 1, g: 0.728665, b: 0.10062885, a: 1}
+    - {r: 0.6712679, g: 1, b: 0.19607842, a: 1}
+    - {r: 0.26685947, g: 0.21748269, b: 0.38418633, a: 1}
+    - {r: 0.12213004, g: 0.30415612, b: 0.3963762, a: 1}
     TargetTexture: {fileID: 2800000, guid: 86907c4d299b1ab4c9935e712d42b196, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: cc47df5fd7bdcd046ab5d0a5874c57f5, type: 3}
   - Id: cinnabon
@@ -479,6 +639,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.9529412, g: 0.801, b: 0.49019608, a: 1}
     JelliesPrefab: {fileID: 7963889733530736578, guid: 63c5c2e8f2d542f4287b33d563860fea, type: 3}
     AdditionalColors:
+    - {r: 0.4379211, g: 0.98036325, b: 0.8962232, a: 1}
+    - {r: 0.16771698, g: 0.5407315, b: 0.6407206, a: 1}
+    AllColorsCached:
+    - {r: 0.7411765, g: 0.39726317, b: 0.2627451, a: 1}
+    - {r: 0.9529412, g: 0.801, b: 0.49019608, a: 1}
     - {r: 0.4379211, g: 0.98036325, b: 0.8962232, a: 1}
     - {r: 0.16771698, g: 0.5407315, b: 0.6407206, a: 1}
     TargetTexture: {fileID: 2800000, guid: cb42d04f47426bb4fa394c0416b31d48, type: 3}
@@ -495,6 +660,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.47899455, g: 0.11102116, b: 0.8854867, a: 1}
     - {r: 0.5126384, g: 0.29987472, b: 0.3305661, a: 1}
+    AllColorsCached:
+    - {r: 0.75, g: 1, b: 0.18431371, a: 1}
+    - {r: 0.049928736, g: 0.906, b: 0.16413406, a: 1}
+    - {r: 0.47899455, g: 0.11102116, b: 0.8854867, a: 1}
+    - {r: 0.5126384, g: 0.29987472, b: 0.3305661, a: 1}
     TargetTexture: {fileID: 2800000, guid: d97e3e64489584f498646ec3dff4754b, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c22acf44138ebee45a4ed4dacd754e7e, type: 3}
   - Id: light_bulb
@@ -507,6 +677,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
     JelliesPrefab: {fileID: 4743658480455767793, guid: 9a7525f356f976740893f6dda9e370a9, type: 3}
     AdditionalColors:
+    - {r: 0.00078320503, g: 0.53148025, b: 0.73102105, a: 1}
+    - {r: 0.04582858, g: 0.5595215, b: 0.45708793, a: 1}
+    AllColorsCached:
+    - {r: 0.968479, g: 1, b: 0.6194968, a: 1}
+    - {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
     - {r: 0.00078320503, g: 0.53148025, b: 0.73102105, a: 1}
     - {r: 0.04582858, g: 0.5595215, b: 0.45708793, a: 1}
     TargetTexture: {fileID: 2800000, guid: c0c78664fb06d0946ad4dd22ce47435f, type: 3}
@@ -523,6 +698,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.4186749, g: 0.8953116, b: 0.28287846, a: 1}
     - {r: 0.9998617, g: 0.3355947, b: 0.3663271, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 1, g: 0.9929901, b: 0.18553454, a: 1}
+    - {r: 0.4186749, g: 0.8953116, b: 0.28287846, a: 1}
+    - {r: 0.9998617, g: 0.3355947, b: 0.3663271, a: 1}
     TargetTexture: {fileID: 2800000, guid: fbf169472ef81974f8059806d2d30f99, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 899881fbfd60f8148ae7505afc69e54f, type: 3}
   - Id: sun_cloud
@@ -537,6 +717,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.33421224, g: 0.6117893, b: 0.028443336, a: 1}
     - {r: 0.0044806004, g: 0.068000555, b: 0.9550905, a: 1}
+    AllColorsCached:
+    - {r: 0.6914015, g: 0.09398355, b: 0.9339623, a: 1}
+    - {r: 0.99036974, g: 1, b: 0.12893075, a: 1}
+    - {r: 0.33421224, g: 0.6117893, b: 0.028443336, a: 1}
+    - {r: 0.0044806004, g: 0.068000555, b: 0.9550905, a: 1}
     TargetTexture: {fileID: 2800000, guid: 5f09f7ac4056b1a4ba3011d6e4a87c3b, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 9300ef6d346e9bb46a36acc4d2a72f64, type: 3}
   - Id: purse
@@ -549,6 +734,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 1, g: 0.9137255, b: 0, a: 1}
     JelliesPrefab: {fileID: 5465426630261510012, guid: 77d947cece345994cbcd90e63db9f7d0, type: 3}
     AdditionalColors:
+    - {r: 0.25514525, g: 0.2495985, b: 0.6541294, a: 1}
+    - {r: 0.007427573, g: 0.42056638, b: 0.089910865, a: 1}
+    AllColorsCached:
+    - {r: 0.94509804, g: 0.21960784, b: 0.21960784, a: 1}
+    - {r: 1, g: 0.9137255, b: 0, a: 1}
     - {r: 0.25514525, g: 0.2495985, b: 0.6541294, a: 1}
     - {r: 0.007427573, g: 0.42056638, b: 0.089910865, a: 1}
     TargetTexture: {fileID: 2800000, guid: bd8cb86dc854cd24fb171ed6fbc19245, type: 3}
@@ -566,6 +756,10 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.559, g: 0.75996286, b: 0.8867924, a: 1}
     JelliesPrefab: {fileID: 3726962171264615489, guid: 2bd6fdb51caff9145bfdde8d3166101e, type: 3}
     AdditionalColors: []
+    AllColorsCached:
+    - {r: 0.97040164, g: 1, b: 1, a: 1}
+    - {r: 1, g: 0.5693971, b: 0.25157225, a: 1}
+    - {r: 0.559, g: 0.75996286, b: 0.8867924, a: 1}
     TargetTexture: {fileID: 2800000, guid: 14ad2a3d35f8e774a8e4db10a2cc74cc, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: b144a0b8835f61248a15ed3d99cc041e, type: 3}
   - Id: comb_with_hair_on
@@ -578,6 +772,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.33725494, g: 0.88439494, b: 0.972549, a: 1}
     JelliesPrefab: {fileID: 5965797425860128732, guid: 0a7625b84612ff542a64b45bc80d15dd, type: 3}
     AdditionalColors:
+    - {r: 0.24382079, g: 0.71535265, b: 0.076093554, a: 1}
+    - {r: 0.29001063, g: 0.68296576, b: 0.5674922, a: 1}
+    AllColorsCached:
+    - {r: 0.98287284, g: 1, b: 0.23270434, a: 1}
+    - {r: 0.33725494, g: 0.88439494, b: 0.972549, a: 1}
     - {r: 0.24382079, g: 0.71535265, b: 0.076093554, a: 1}
     - {r: 0.29001063, g: 0.68296576, b: 0.5674922, a: 1}
     TargetTexture: {fileID: 2800000, guid: ee27a7716a0111b458075318038900e6, type: 3}
@@ -600,6 +799,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.7280183, g: 0.37170702, b: 0.94952965, a: 1}
     - {r: 0.47372693, g: 0.46320993, b: 0.5379384, a: 1}
+    AllColorsCached:
+    - {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - {r: 0.4424008, g: 1, b: 0.26100624, a: 1}
+    - {r: 0.7280183, g: 0.37170702, b: 0.94952965, a: 1}
+    - {r: 0.47372693, g: 0.46320993, b: 0.5379384, a: 1}
     TargetTexture: {fileID: 2800000, guid: b0d1a3764d6b5f94aae733d67228a895, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: cc469dc37b0528a4b9c2a1522cb87634, type: 3}
   - Id: onion
@@ -617,6 +821,12 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.91008556, g: 0.40435022, b: 0.980101, a: 1}
     - {r: 0.76745427, g: 0.05382693, b: 0.39675933, a: 1}
+    AllColorsCached:
+    - {r: 0.64705884, g: 0.8588236, b: 0.39607847, a: 1}
+    - {r: 0.9529412, g: 0.99215686, b: 0.8666667, a: 1}
+    - {r: 0.65310425, g: 0.9811321, b: 0.32087332, a: 1}
+    - {r: 0.91008556, g: 0.40435022, b: 0.980101, a: 1}
+    - {r: 0.76745427, g: 0.05382693, b: 0.39675933, a: 1}
     TargetTexture: {fileID: 2800000, guid: 419e4030c77eea648885b394055508d1, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c24f33f72d4dc874192e2e649444ada7, type: 3}
   - Id: bag
@@ -629,6 +839,10 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 0.9, g: 0.8490566, b: 0.8490566, a: 1}
     JelliesPrefab: {fileID: 3538775173006790548, guid: b6a58687afe87b3428ebfb67b1a37d77, type: 3}
     AdditionalColors:
+    - {r: 0.93910587, g: 0.990566, b: 0.17443922, a: 1}
+    AllColorsCached:
+    - {r: 0.495, g: 0.7939537, b: 1, a: 1}
+    - {r: 0.9, g: 0.8490566, b: 0.8490566, a: 1}
     - {r: 0.93910587, g: 0.990566, b: 0.17443922, a: 1}
     TargetTexture: {fileID: 2800000, guid: dc25fd204fecffa4c9c405fe7ff091f3, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: eaa22093bc801b148b22e191fd688bf8, type: 3}
@@ -645,6 +859,12 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 1, g: 0.6761006, b: 0.8744064, a: 1}
     JelliesPrefab: {fileID: 2026568329764225343, guid: 63e86aa7b00d10b42a0cb6a564f158b4, type: 3}
     AdditionalColors:
+    - {r: 0.10522914, g: 0.87801266, b: 0.541856, a: 1}
+    - {r: 0.012935638, g: 0.082648635, b: 0.28895646, a: 1}
+    AllColorsCached:
+    - {r: 0.62299746, g: 0.990566, b: 0.8517639, a: 1}
+    - {r: 0.6738791, g: 0.9150943, b: 0.19568045, a: 1}
+    - {r: 1, g: 0.6761006, b: 0.8744064, a: 1}
     - {r: 0.10522914, g: 0.87801266, b: 0.541856, a: 1}
     - {r: 0.012935638, g: 0.082648635, b: 0.28895646, a: 1}
     TargetTexture: {fileID: 2800000, guid: 466bdb4ffaceb1148800f8200fd12d54, type: 3}
@@ -670,6 +890,14 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.6667135, g: 0.02813387, b: 0.3077243, a: 1}
     - {r: 0.025268555, g: 0.43659574, b: 0.57174605, a: 1}
+    AllColorsCached:
+    - {r: 0.47341868, g: 0.9528302, b: 0.934649, a: 1}
+    - {r: 0.44998214, g: 0.9056604, b: 0.5101965, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.5045754, g: 0.49602464, b: 0.8962264, a: 1}
+    - {r: 0.990566, g: 0.72533286, b: 0.39871833, a: 1}
+    - {r: 0.6667135, g: 0.02813387, b: 0.3077243, a: 1}
+    - {r: 0.025268555, g: 0.43659574, b: 0.57174605, a: 1}
     TargetTexture: {fileID: 2800000, guid: 85663a97f4828104b8b660b21dddff35, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c195a82c81345754786228612444d44a, type: 3}
   - Id: heart_with_wings
@@ -682,6 +910,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 1, g: 0.13836467, b: 0.5031695, a: 1}
     JelliesPrefab: {fileID: 1782669928675736070, guid: d8a254bc64b5d1d4d9901eb11ec408de, type: 3}
     AdditionalColors:
+    - {r: 0.08225441, g: 0.9029064, b: 0.54277426, a: 1}
+    - {r: 0.52148396, g: 0.6264175, b: 0.40602237, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 1, g: 0.13836467, b: 0.5031695, a: 1}
     - {r: 0.08225441, g: 0.9029064, b: 0.54277426, a: 1}
     - {r: 0.52148396, g: 0.6264175, b: 0.40602237, a: 1}
     TargetTexture: {fileID: 2800000, guid: 6cb5e8384deaec246ad7e9b2681d16a5, type: 3}
@@ -707,6 +940,11 @@ MonoBehaviour:
     AdditionalColors:
     - {r: 0.5193346, g: 0.34749097, b: 0.45495933, a: 1}
     - {r: 0.086031795, g: 0.6575966, b: 0.5171488, a: 1}
+    AllColorsCached:
+    - {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - {r: 1, g: 0.572327, b: 0.8842389, a: 1}
+    - {r: 0.5193346, g: 0.34749097, b: 0.45495933, a: 1}
+    - {r: 0.086031795, g: 0.6575966, b: 0.5171488, a: 1}
     TargetTexture: {fileID: 2800000, guid: 50f233b6977a57443aa3fcb764f55e63, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: d405fdf6b5eb9814f9e731c1b6f0f2d7, type: 3}
   - Id: watermelon_slice
@@ -719,6 +957,11 @@ MonoBehaviour:
       <TargetColor>k__BackingField: {r: 1, g: 0.22327036, b: 0.22327036, a: 1}
     JelliesPrefab: {fileID: 6517186892170525914, guid: c86c107f34a85bc4e8f7987f2d4d0ad0, type: 3}
     AdditionalColors:
+    - {r: 0.59793526, g: 0.92747986, b: 0.58565634, a: 1}
+    - {r: 0.64228153, g: 0.018544674, b: 0.72534513, a: 1}
+    AllColorsCached:
+    - {r: 0.13498275, g: 0.8584906, b: 0.21537255, a: 1}
+    - {r: 1, g: 0.22327036, b: 0.22327036, a: 1}
     - {r: 0.59793526, g: 0.92747986, b: 0.58565634, a: 1}
     - {r: 0.64228153, g: 0.018544674, b: 0.72534513, a: 1}
     TargetTexture: {fileID: 2800000, guid: c3e2eac1208b26a458ec2ae9e9298be8, type: 3}

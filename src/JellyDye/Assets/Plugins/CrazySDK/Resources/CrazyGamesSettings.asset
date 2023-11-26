@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whitelistedDomains:
   - app-257958.games.s3.yandex.net
-  - v6p9d9t4.ssl.hwcdn.net
+  - html-classic.itch.zone
   accountAvailableResponse: 0
   linkAccountResponse: 0
   getUserResponse: 0

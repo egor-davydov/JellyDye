@@ -27,7 +27,7 @@ namespace Code.Services.Progress.SaveLoad
       SaveToYandex(json);
     }
 
-    public void LoadProgressAsync(Action onLoaded = null)
+    public void LoadProgress(Action onLoaded = null)
     {
       _onLoaded = onLoaded;
       LoadFromYandex(onLoaded: SetPlayerProgress);
