@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Jelly
   m_Shader: {fileID: 4800000, guid: 575e8a191ed8972489760c8ce95f8485, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - TCP2_DISABLE_WRAPPED_LIGHT
@@ -21,6 +23,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -46,7 +49,7 @@ Material:
     - _RimMin: 0
     - _Shadow_HSV_H: 0
     - _Shadow_HSV_S: 0
-    - _Shadow_HSV_V: 0
+    - _Shadow_HSV_V: 0.13
     - _Smoothness: 0.5
     - __dummy__: 0
     m_Colors:

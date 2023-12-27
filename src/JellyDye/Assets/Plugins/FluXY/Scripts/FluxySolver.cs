@@ -119,7 +119,6 @@ namespace Fluxy
         public int pressureIterations = 3;
 
 
-        private LODGroup lodGroup;
         private int visibleLOD;
         private bool visible = true;
 
@@ -155,8 +154,7 @@ namespace Fluxy
 
         private void OnEnable()
         {
-            lodGroup = GetComponent<LODGroup>();
-            visibleLOD = GetCurrentLOD(Camera.main);
+            visibleLOD = 0;
             UpdateFramebuffer();
         }
 
@@ -275,40 +273,7 @@ namespace Fluxy
             Destroy(velocityReadbackTexture);
             Destroy(densityReadbackTexture);
         }
-
-        private int GetCurrentLOD(Camera cam = null)
-        {
-            visible = true;
-
-            if (lodGroup == null)
-                return 0;
-
-            var distance = (transform.position - cam.transform.position).magnitude;
-            float size = 1;
-            var relativeHeight = FluxyUtils.RelativeScreenHeight(cam, distance / QualitySettings.lodBias, size);
-
-            var lods = lodGroup.GetLODs();
-            for (var i = 0; i < lods.Length; i++)
-            {
-                if (relativeHeight >= lods[i].screenRelativeTransitionHeight)
-                    return i;
-            }
-
-            visible = false;
-            return lodGroup.lodCount;
-        }
-
-        private void UpdateLOD()
-        {
-            int newLOD = GetCurrentLOD(_camera);
-
-            if (visibleLOD != newLOD)
-            {
-                visibleLOD = newLOD;
-                UpdateFramebuffer();
-            }
-        }
-
+        
         protected virtual void SimulationStep(FluxyStorage.Framebuffer fb, float deltaTime)
         {
             if (fb == null)
@@ -480,25 +445,19 @@ namespace Fluxy
 
             for (byte i = 0; i < containers.Count; ++i)
             {
-                int tile = i + 1;
-                int c = indices[tile];
+                byte tile = i;
+                tile += 1;
+                byte c = indices[tile];
 
                 simulationMaterial.SetInt("_TileIndex", tile);
                 Graphics.Blit(null, fb.tileID, simulationMaterial, 8);
 
-                dissipation[tile] = containers[c].dissipation;
                 turbulence[tile] = containers[c].turbulence;
                 adhesion[tile] = containers[c].adhesion;
                 surfaceTension[tile] = containers[c].surfaceTension;
                 pressure[tile] = containers[c].pressure;
                 viscosity[tile] = Mathf.Pow(1 - Mathf.Clamp01(containers[c].viscosity), deltaTime);
                 wrapmode[tile] = containers[c].boundaries;
-                densityFalloff[tile] = containers[c].edgeFalloff;
-
-                var acceleration = containers[c].UpdateVelocityAndGetAcceleration();
-                externalForce[tile] = containers[c].gravity + containers[c].externalForce - acceleration * containers[c].accelerationScale;
-                buoyancy[tile] = containers[c].TransformWorldVectorToUVSpace(Vector3.down, rects[tile]) * containers[c].buoyancy;
-                offsets[tile] = containers[c].TransformWorldVectorToUVSpace(containers[c].velocity * deltaTime, rects[tile]) * (1 - containers[c].velocityScale) + (Vector3)containers[c].positionOffset * deltaTime;
             }
 
             simulationMaterial.SetFloatArray("_Pressure", pressure);
@@ -506,12 +465,7 @@ namespace Fluxy
             simulationMaterial.SetFloatArray("_VortConf", turbulence);
             simulationMaterial.SetFloatArray("_Adhesion", adhesion);
             simulationMaterial.SetFloatArray("_SurfaceTension", surfaceTension);
-            simulationMaterial.SetVectorArray("_Dissipation", dissipation);
-            simulationMaterial.SetVectorArray("_ExternalForce", externalForce);
-            simulationMaterial.SetVectorArray("_Buoyancy", buoyancy);
             simulationMaterial.SetVectorArray("_WrapMode", wrapmode);
-            simulationMaterial.SetVectorArray("_EdgeFalloff", densityFalloff);
-            simulationMaterial.SetVectorArray("_Offsets", offsets);
         }
 
         private void Splat(FluxyStorage.Framebuffer fb)
@@ -540,27 +494,24 @@ namespace Fluxy
             {
                 UpdateTileData();
 
-                var fb = framebuffer;
-
-                UpdateContainerTransforms(fb);
+                UpdateContainerTransforms(framebuffer);
 
                 if (visible && simulationMaterial != null) 
                 {
 
-                    Splat(fb);
+                    Splat(framebuffer);
 
                     // semi-fixed timestep: if the delta is larger than the timestep, chop it up.
-                    // int steps = 0;
-                    // while (deltaTime > 0 && steps++ < maxSteps)
-                    // {
-                        float timestep = Mathf.Min(deltaTime, 0.008f);
-                        //deltaTime -= timestep;
+                    int steps = 0;
+                    while (deltaTime > 0 && steps++ < maxSteps)
+                    {
+                        float timestep = Mathf.Min(deltaTime, maxTimestep);;
+                        deltaTime -= timestep;
 
-                        UpdateContainers(fb, timestep);
+                        UpdateContainers(framebuffer, maxTimestep);
 
-                        SimulationStep(fb, timestep);
-                    // }
-
+                        SimulationStep(framebuffer, maxTimestep);
+                    }
                 }
             }
         }

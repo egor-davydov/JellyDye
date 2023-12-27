@@ -6,6 +6,7 @@ using Code.Gameplay.Logic;
 using CrazyGames;
 using AOT;
 using System.Runtime.InteropServices;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Code.Services
@@ -21,7 +22,7 @@ namespace Code.Services
     private static Action _onPlayerInitialize;
     private static bool _gameWasMuted;
 
-    private readonly bool _isOnCrazyGames = CrazySDK.IsOnCrazyGames;
+    private readonly bool _isOnCrazyGames = CrazySDK.IsOnCrazyGames && Application.platform != RuntimePlatform.WindowsPlayer;
 #if !UNITY_EDITOR && UNITY_WEBGL
     private readonly Uri _uri = new (Application.absoluteURL);
     private readonly string _yandexDomain = CrazySDK.Instance.GetSettings().whitelistedDomains[0];
@@ -114,7 +115,8 @@ namespace Code.Services
       if (!IsOnYandexGames())
       {
         if (_isOnCrazyGames)
-          CrazyAds.Instance.beginAdBreak();
+          if (CrazyAds.Instance != null)
+            CrazyAds.Instance.beginAdBreak();
         return;
       }
 

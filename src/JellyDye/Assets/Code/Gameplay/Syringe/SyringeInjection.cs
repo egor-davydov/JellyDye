@@ -140,6 +140,7 @@ namespace Code.Gameplay.Syringe
 
         private IEnumerator Painting()
         {
+            _currentContainer.HasPaint = true;
             float additionalIncreaseSpeed = _currentContainer.AdditionalPaintIncreaseSpeed;
             float forcePlusAdditional = _targetForcePower + additionalIncreaseSpeed;
             while (_injectionButton.IsInjecting)

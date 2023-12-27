@@ -42,44 +42,13 @@ namespace Code.Services
 
     public bool HasPaintOnAllMeshes()
     {
-      Texture2D fluxyTexture = ConvertToTexture2D();
       foreach (FluxyContainer fluxyContainer in _fluxyContainers)
       {
-        JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
-        if (!HasPaintOnMesh(fluxyTexture, jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer)))
-        {
-          Object.Destroy(fluxyTexture);
+        if (!fluxyContainer.HasPaint)
           return false;
-        }
       }
-      Object.Destroy(fluxyTexture);
 
       return true;
-    }
-    
-    private bool HasPaintOnMesh(Texture2D fluxyTexture, JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
-    {
-      Texture2D maskTexture = jellyMeshConfig.MaskTexture;
-
-      foreach (Vector2 uvCoordinates in jellyMeshConfig.Mesh.uv)
-      {
-        float uvCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
-        float uvCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
-        int x = (int)(uvCoordinatesX * fluxyTexture.width);
-        int y = (int)(uvCoordinatesY * fluxyTexture.height);
-        if (maskTexture.GetPixel((int)(uvCoordinates.x * maskTexture.width), (int)(uvCoordinates.y * maskTexture.height)).r != 0)
-          continue;
-
-        Color pixelColor = fluxyTexture.GetPixel(x, y);
-        if (pixelColor != Color.clear)
-        {
-          Object.Destroy(fluxyTexture);
-          return true;
-        }
-      }
-      Object.Destroy(fluxyTexture);
-
-      return false;
     }
 
     public float CalculatePaintPercentage()
@@ -153,8 +122,7 @@ namespace Code.Services
 
       return new Vector2Int(paintedPixelsCount, shouldPaintedPixelsCount);
     }
-
-
+    
     private Texture2D ConvertToTexture2D()
     {
       RenderTexture oldTexture = RenderTexture.active;

@@ -204,15 +204,7 @@ namespace Code.Editor
       serializedObject.ApplyModifiedProperties();
     }
 
-    private void ChangeTextureImportSettings(Texture2D texture2D)
-    {
-      TextureImporter targetTextureImporter = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(texture2D));
-      targetTextureImporter.maxTextureSize = 1024;
-      targetTextureImporter.crunchedCompression = true;
-      targetTextureImporter.mipmapEnabled = false;
-    }
-
-    public void SetupAllScreenshots()
+    private void SetupAllScreenshots()
     {
       Texture2D[] texture2Ds = Resources.LoadAll<Texture2D>(FolderPath.ResourcesScreenshotsPath);
       if (texture2Ds.Length == 0)
@@ -232,6 +224,20 @@ namespace Code.Editor
         levelConfig.TargetTextureWithGround = texture2Ds.First(texture2D => texture2D.name == levelConfig.JelliesPrefab.name + "_ground");
         ChangeTextureImportSettings(levelConfig.TargetTextureWithGround);
       }
+    }
+
+    private void ChangeTextureImportSettings(Texture2D texture2D)
+    {
+      int maxTextureSize = 512;
+      TextureImporter targetTextureImporter = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(texture2D));
+      targetTextureImporter.maxTextureSize = maxTextureSize;
+      targetTextureImporter.crunchedCompression = true;
+      targetTextureImporter.mipmapEnabled = false;
+      
+      TextureImporterPlatformSettings platformSettings = targetTextureImporter.GetPlatformTextureSettings("WebGL");
+      platformSettings.overridden = true;
+      platformSettings.format = TextureImporterFormat.ASTC_12x12;
+      platformSettings.maxTextureSize = maxTextureSize;
     }
 
     private string ButtonNameRenameAndMove() =>

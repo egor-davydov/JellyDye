@@ -79,7 +79,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private IEnumerator PercentageIncrease()
     {
       float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
-      float finalPercentage = yourPercentage > 99 ? 100 : RoundAndClampPercentage(yourPercentage);
+      float finalPercentage = CeilAndClampPercentage(yourPercentage);
       WriteToProgress(finalPercentage);
       _publishService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
       OnLevelEnd(finalPercentage);
@@ -134,6 +134,12 @@ namespace Code.Gameplay.UI.FinishWindow
       _percentageText.text = $"{currentPercentage}%";
     }
 
+    private float CeilAndClampPercentage(float currentPercentage)
+    {
+      currentPercentage = Mathf.CeilToInt(currentPercentage);
+      currentPercentage = Mathf.Clamp(currentPercentage, 0, 100);
+      return currentPercentage;
+    }
     private float RoundAndClampPercentage(float currentPercentage)
     {
       currentPercentage = Mathf.RoundToInt(currentPercentage);

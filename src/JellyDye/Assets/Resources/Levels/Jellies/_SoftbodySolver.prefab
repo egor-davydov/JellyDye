@@ -296,6 +296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ab69ab277284ee89a7d5c46029d111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HasPaint: 0
+  AdditionalPaintIncreaseSpeed: 0
   UseMeshProjection: 1
   skinnedMeshRenderer: {fileID: 6469565776728573653}
   containerShape: 2

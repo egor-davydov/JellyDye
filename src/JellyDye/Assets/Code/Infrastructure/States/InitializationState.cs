@@ -37,20 +37,20 @@ namespace Code.Infrastructure.States
         OnPlayerInitialized();
     }
 
+    public void Exit()
+    {
+    }
+
     private void InvokeOnInitialize()
     {
       _publishService.InvokeOnSdkInitialize();
       OnPlayerInitialized();
     }
 
-    private void MoveToNextState() =>
-      _gameStateMachine.Enter<LoadProgressState>();
-
     private void OnPlayerInitialized() =>
       MoveToNextState();
 
-    public void Exit()
-    {
-    }
+    private void MoveToNextState() =>
+      _gameStateMachine.Enter<LoadProgressState>();
   }
 }
