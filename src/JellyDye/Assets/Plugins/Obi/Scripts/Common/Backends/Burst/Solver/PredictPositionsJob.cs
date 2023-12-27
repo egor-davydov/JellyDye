@@ -12,7 +12,7 @@ namespace Obi
     [BurstCompile]
     struct PredictPositionsJob : IJobParallelFor
     {
-        [ReadOnly] public NativeList<int> activeParticles;
+        [ReadOnly] public NativeArray<int> activeParticles;
         [ReadOnly] public NativeArray<int> phases;
         [ReadOnly] public NativeArray<float> buoyancies;
 

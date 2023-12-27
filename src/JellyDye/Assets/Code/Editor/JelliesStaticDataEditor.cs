@@ -13,7 +13,7 @@ namespace Code.Editor
     {
       base.OnInspectorGUI();
       JelliesStaticData jelliesStaticData = (JelliesStaticData)target;
-      List<JellyConfig> jellyConfigs = jelliesStaticData.JellyConfigs;
+      List<JellyMeshConfig> jellyConfigs = jelliesStaticData.JellyConfigs;
 
       if (GUILayout.Button("Load meshes and add configs"))
       {
@@ -23,13 +23,13 @@ namespace Code.Editor
           bool dontHaveConfigWithMesh = jellyConfigs.FirstOrDefault(config => config.Mesh == mesh) == default;
           if (dontHaveConfigWithMesh)
           {
-            jelliesStaticData.JellyConfigs.Add(new JellyConfig(mesh, Random.ColorHSV()));
+            jelliesStaticData.JellyConfigs.Add(new JellyMeshConfig(mesh, Random.ColorHSV()));
           }
         }
       }
       if (GUILayout.Button("Setup jellies"))
       {
-        foreach (JellyConfig jellyConfig in jellyConfigs)
+        foreach (JellyMeshConfig jellyConfig in jellyConfigs)
         {
           if (jellyConfig.Mesh == null)
             continue;

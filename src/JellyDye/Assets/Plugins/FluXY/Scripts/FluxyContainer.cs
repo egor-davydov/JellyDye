@@ -63,6 +63,9 @@ namespace Fluxy
             Custom
         }
 
+        public bool HasPaint;
+        public float AdditionalPaintIncreaseSpeed;
+        public bool UseMeshProjection;
         public SkinnedMeshRenderer skinnedMeshRenderer;
         /// <summary>
         /// Shape of the container: can be flat, can be a volume, or can be a custom mesh.
@@ -588,7 +591,7 @@ namespace Fluxy
             Shader.SetGlobalVector("_ContainerSize", size);
         }
 
-        public virtual void UpdateMaterial(int tile, FluxyStorage.Framebuffer fb)
+        public virtual void UpdateMaterial(byte tile, FluxyStorage.Framebuffer fb)
         {
             if (m_Renderer == null || m_Renderer.sharedMaterial == null || fb == null)
                 return;
@@ -637,7 +640,7 @@ namespace Fluxy
 
             Ray ray = new Ray(origin, targetPosition - origin);
 
-            if (TryGetComponent(out MeshCollider meshCollider) && meshCollider.enabled)
+            if (UseMeshProjection && skinnedMeshRenderer.TryGetComponent(out MeshCollider meshCollider) && meshCollider.enabled)
             {
                 if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
                 {
@@ -654,7 +657,7 @@ namespace Fluxy
             }
             else
             {
-                Plane p = new Plane(transform.forward, transform.position);
+                Plane p = new Plane(transform.up, transform.position);
 
                 if (p.Raycast(ray, out float dist))
                 {
@@ -686,7 +689,7 @@ namespace Fluxy
             if (projectFrom != null)
                 return projectFrom.position;
             else
-                return targetPosition + transform.forward;
+                return targetPosition + transform.up;
         }
 
         public Vector3 UpdateVelocityAndGetAcceleration()

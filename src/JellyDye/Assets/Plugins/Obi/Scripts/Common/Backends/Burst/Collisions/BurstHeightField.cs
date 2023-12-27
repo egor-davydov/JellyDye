@@ -26,8 +26,8 @@ namespace Obi
             float4 nearestPoint = BurstMath.NearestPointOnTri(tri, point, out float4 bary);
             float4 normal = math.normalizesafe(point - nearestPoint);
 
-            // flip the contact normal if it points below ground:
-            BurstMath.OneSidedNormal(triNormal, ref normal);
+            // flip the contact normal if it points below ground: (doesn't work with holes)
+            //BurstMath.OneSidedNormal(triNormal, ref normal);
 
             projectedPoint.point = colliderToSolver.TransformPoint(nearestPoint + normal * shape.contactOffset);
             projectedPoint.normal = colliderToSolver.TransformDirection(normal);
@@ -86,6 +86,12 @@ namespace Obi
                             float h2 = heightFieldSamples[header.firstSample + sv * resolutionU + csu1] * shape.size.y;
                             float h3 = heightFieldSamples[header.firstSample + csv1 * resolutionU + su] * shape.size.y;
                             float h4 = heightFieldSamples[header.firstSample + csv1 * resolutionU + csu1] * shape.size.y;
+
+                            if (h1 < 0) continue;
+                            h1 = math.abs(h1);
+                            h2 = math.abs(h2);
+                            h3 = math.abs(h3);
+                            h4 = math.abs(h4);
 
                             float min_x = su * shape.size.x / (resolutionU - 1);
                             float max_x = csu1 * shape.size.x / (resolutionU - 1);

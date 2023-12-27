@@ -70,17 +70,17 @@ namespace Obi
         /// </summary>
         public event ActorCallback OnInterpolate;                       
 
-        [HideInInspector][NonSerialized] protected int m_ActiveParticleCount = 0;
+        [HideInInspector] protected int m_ActiveParticleCount = 0;
 
         /// <summary>
         /// Index of each one of the actor's particles in the solver.
         /// </summary>
-        [HideInInspector][NonSerialized] public int[] solverIndices;
+        [HideInInspector] public int[] solverIndices;
 
         /// <summary>
         /// For each of the actor's constraint types, offset of every batch in the solver.
         /// </summary>
-        [HideInInspector][NonSerialized] public List<int>[] solverBatchOffsets;
+        [HideInInspector] public List<int>[] solverBatchOffsets;
 
         protected ObiSolver m_Solver;
         protected bool m_Loaded = false;
@@ -88,8 +88,8 @@ namespace Obi
         private ObiActorBlueprint state;
         private ObiActorBlueprint m_BlueprintInstance;
         private ObiPinConstraintsData m_PinConstraints;
-        [SerializeField] [HideInInspector] protected ObiCollisionMaterial m_CollisionMaterial;
-        [SerializeField] [HideInInspector] protected bool m_SurfaceCollisions = false;
+        [SerializeField][HideInInspector] protected ObiCollisionMaterial m_CollisionMaterial;
+        [SerializeField][HideInInspector] protected bool m_SurfaceCollisions = false;
 
         /// <summary>
         /// The solver in charge of simulating this actor.
@@ -101,7 +101,8 @@ namespace Obi
         }
 
         /// <summary>
-        /// True if the actor blueprint has been loaded into a solver. Being true, guarantees actor.solver won't be null.
+        /// True if the actor blueprint has been loaded into a solver.
+        /// If true, it guarantees actor.solver, actor.solverIndices and actor.solverBatchOffsets won't be null.
         /// </summary>
         public bool isLoaded
         {
@@ -277,12 +278,6 @@ namespace Obi
 
         protected virtual void Awake()
         {
-            solverBatchOffsets = new List<int>[Oni.ConstraintTypeCount];
-            for (int i = 0; i < solverBatchOffsets.Length; ++i)
-                solverBatchOffsets[i] = new List<int>();
-
-            m_PinConstraints = new ObiPinConstraintsData();
-
 #if UNITY_EDITOR
 
             // Check if this script's GameObject is in a PrefabStage
@@ -315,6 +310,12 @@ namespace Obi
 
         protected virtual void OnEnable()
         {
+            solverBatchOffsets = new List<int>[Oni.ConstraintTypeCount];
+            for (int i = 0; i < solverBatchOffsets.Length; ++i)
+                solverBatchOffsets[i] = new List<int>();
+
+            m_PinConstraints = new ObiPinConstraintsData();
+
             // when an actor is enabled, grabs the first solver up its hierarchy,
             // initializes it (if not initialized) and gets added to it.
             m_Solver = GetComponentInParent<ObiSolver>();
@@ -1170,8 +1171,6 @@ namespace Obi
 
         public virtual void PrepareStep(float stepTime)
         {
-            UpdateCollisionMaterials();
-
             if (OnPrepareStep != null)
                 OnPrepareStep(this, stepTime);
         }

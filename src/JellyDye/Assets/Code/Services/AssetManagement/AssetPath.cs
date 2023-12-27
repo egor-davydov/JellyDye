@@ -10,6 +10,6 @@
         public const string Settings = "UI/Settings/SettingsWindow";
         public const string FinishButton = "UI/HUD/FinishButton";
         public const string FinishWindow = "UI/FinishWindow/FinishWindow";
-        public const string MenuButton = "UI/FinishWindow/MenuButton";
+        public const string NextLevelButton = "UI/FinishWindow/NextLevelButton";
     }
 }

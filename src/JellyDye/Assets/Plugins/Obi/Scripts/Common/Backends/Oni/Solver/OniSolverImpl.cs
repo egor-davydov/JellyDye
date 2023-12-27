@@ -11,7 +11,10 @@ namespace Obi
         private IntPtr m_OniSolver;
 
         // Per-type constraints array:
-        IOniConstraintsImpl[] constraints;
+        private IOniConstraintsImpl[] constraints;
+
+        // Pool job handles to avoid runtime alloc:
+        private JobHandlePool<OniJobHandle> jobHandlePool;
 
         public IntPtr oniSolver
         {
@@ -21,6 +24,8 @@ namespace Obi
         public OniSolverImpl(IntPtr solver)
         {
             m_OniSolver = solver;
+
+            jobHandlePool = new JobHandlePool<OniJobHandle>(4);
 
             constraints = new IOniConstraintsImpl[Oni.ConstraintTypeCount];
             constraints[(int)Oni.ConstraintType.Tether] = new OniTetherConstraintsImpl(this);
@@ -71,9 +76,9 @@ namespace Obi
             return Oni.RemoveDeformableTriangles(m_OniSolver, num, sourceOffset);
         }
 
-        public void SetSimplices(int[] simplices, SimplexCounts counts)
+        public void SetSimplices(ObiNativeIntList simplices, SimplexCounts counts)
         {
-            Oni.SetSimplices(m_OniSolver, simplices, counts.pointCount, counts.edgeCount, counts.triangleCount);
+            Oni.SetSimplices(m_OniSolver, simplices.AsNativeArray<int>().ToArray(), counts.pointCount, counts.edgeCount, counts.triangleCount);
         }
 
         public void ParticleCountChanged(ObiSolver solver)
@@ -125,9 +130,9 @@ namespace Obi
             Oni.SetRigidbodyAngularDeltas(m_OniSolver, solver.rigidbodyAngularDeltas.GetIntPtr());
         }
 
-        public void SetActiveParticles(int[] indices, int num)
+        public void SetActiveParticles(ObiNativeIntList indices)
         {
-            Oni.SetActiveParticles(oniSolver, indices, num);
+            Oni.SetActiveParticles(oniSolver, indices.AsNativeArray<int>().ToArray(), indices.count);
         }
 
         public void ResetForces()
@@ -179,12 +184,12 @@ namespace Obi
         public IObiJobHandle CollisionDetection(float stepTime)
         {
             Oni.RecalculateInertiaTensors(oniSolver);
-            return new OniJobHandle(Oni.CollisionDetection(oniSolver, stepTime));
+            return jobHandlePool.Borrow().SetPointer(Oni.CollisionDetection(oniSolver, stepTime));
         }
 
         public IObiJobHandle Substep(float stepTime, float substepTime, int substeps)
         {
-            return new OniJobHandle(Oni.Step(oniSolver, stepTime, substepTime, substeps));
+            return jobHandlePool.Borrow().SetPointer(Oni.Step(oniSolver, stepTime, substepTime, substeps));
         }
 
         public void ApplyInterpolation(ObiNativeVector4List startPositions, ObiNativeQuaternionList startOrientations, float stepTime, float unsimulatedTime)
@@ -211,6 +216,10 @@ namespace Obi
 
             results.ResizeUninitialized(count);
             Oni.GetQueryResults(oniSolver, results.GetIntPtr(), count);
+        }
+        public void ReleaseJobHandles()
+        {
+            jobHandlePool.ReleaseAll();
         }
     }
 }

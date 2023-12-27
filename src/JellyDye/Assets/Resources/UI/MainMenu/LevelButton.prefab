@@ -35,6 +35,7 @@ RectTransform:
   - {fileID: 1665950108189913360}
   - {fileID: 3293799716091397499}
   - {fileID: 7112995760407905290}
+  - {fileID: 534391838546923718}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -100,7 +101,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -137,17 +138,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3edc3b5922b64b33a5a6f1a7dab9d249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundImage: {fileID: 1207170039254101400}
   _loadLevelButton: {fileID: 2835204975432558215}
+  _backgroundImage: {fileID: 1207170039254101400}
   _levelNumber: {fileID: 183350548332995405}
-  _levelPercentage: {fileID: 6785668544665722357}
   _levelNumberWithPercentage: {fileID: 5888150640962858663}
-  _levelCompletedSprite: {fileID: 21300000, guid: ae8c4797362e52b4592bab5f0b5c7933, type: 3}
+  _levelPercentage: {fileID: 6785668544665722357}
+  _backgroundNotFullCompleted: {fileID: 21300000, guid: ae8c4797362e52b4592bab5f0b5c7933, type: 3}
   _yellowPercentage: 75
   _redPercentage: 35
   _greenPercentageColor: {r: 0.23018867, g: 1, b: 0.23924531, a: 1}
   _yellowPercentageColor: {r: 0.9331187, g: 1, b: 0.2584905, a: 1}
   _redPercentageColor: {r: 1, g: 0.2584905, b: 0.2584905, a: 1}
+  _levelJellyTexture: {fileID: 6882892726873111137}
+  _backgroundFullCompleted: {fileID: 21300000, guid: 2c409ad355e9493e8a8d5ca42177f9ae, type: 3}
 --- !u!1 &2046737501273158632
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7112995760407905290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -435,7 +438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3293799716091397499
 RectTransform:
   m_ObjectHideFlags: 0
@@ -555,3 +558,76 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6307172665440404922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 534391838546923718}
+  - component: {fileID: 5780736102552375219}
+  - component: {fileID: 6882892726873111137}
+  m_Layer: 5
+  m_Name: RawImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &534391838546923718
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6307172665440404922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7815308877559975713}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.134, y: 0.052}
+  m_AnchorMax: {x: 0.86800003, y: 0.95600003}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5780736102552375219
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6307172665440404922}
+  m_CullTransparentMesh: 1
+--- !u!114 &6882892726873111137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6307172665440404922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1

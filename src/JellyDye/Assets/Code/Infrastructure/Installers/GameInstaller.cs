@@ -21,6 +21,12 @@ namespace Code.Infrastructure.Installers
       BindFactories();
     }
 
+    public void Initialize()
+    {
+      BindPlatformDependServices();
+      SetupStatesAndMoveToNextState();
+    }
+
     private void BindFactories()
     {
       Container.Bind<GameStateFactory>().AsSingle();
@@ -33,36 +39,46 @@ namespace Code.Infrastructure.Installers
       Container.Bind<GreenButtonFactory>().AsSingle();
     }
 
-    public void Initialize()
+    private void SetupStatesAndMoveToNextState()
     {
-      //Debug.Log($"Initialize GameInstaller");
       GameStateMachine gameStateMachine = Container.Resolve<GameStateMachine>();
-      gameStateMachine.Setup();
-      gameStateMachine.Enter<LoadProgressState>();
+      gameStateMachine.SetupStates();
+      gameStateMachine.Enter<InitializationState>();
     }
 
     private void BindServices()
     {
       Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
+      Container.Bind<PublishService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
+      Container.Bind<StaticDataService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
       Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
-      Container.BindInterfacesAndSelfTo<StaticDataService>().AsSingle();
       Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
     }
 
     private void BindProgressServices()
     {
       Container.Bind<ProgressService>().AsSingle();
-      Container.Bind<ISaveLoadService>().To<FileSaveLoadService>().AsSingle();
+    }
+
+    private void BindPlatformDependServices()
+    {
+      PublishService publishService = Container.Resolve<PublishService>();
+      if (publishService.IsOnYandexGames())
+        Container.Bind<ISaveLoadService>().To<YandexSaveLoadService>().AsSingle();
+      else
+        Container.Bind<ISaveLoadService>().To<FileSyncSaveLoadService>().AsSingle();
     }
 
     private void BindStates()
     {
       Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
+      Container.Bind<InitializationState>().AsSingle();
       Container.Bind<LoadProgressState>().AsSingle();
       Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<GameLoopState>().AsSingle();

@@ -1,11 +1,10 @@
-﻿using Code.Data;
+﻿using System;
 
 namespace Code.Services.Progress.SaveLoad
 {
   public interface ISaveLoadService
   {
     void SaveProgress();
-    PlayerProgress LoadProgress();
-    bool IsPlayerHaveProgress();
+    void LoadProgress(Action onLoaded = null);
   }
 }

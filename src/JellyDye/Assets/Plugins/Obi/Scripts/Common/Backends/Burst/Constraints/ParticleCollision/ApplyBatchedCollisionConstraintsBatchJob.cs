@@ -15,7 +15,7 @@ namespace Obi
     {
         [ReadOnly] public NativeArray<BurstContact> contacts;
 
-        [ReadOnly] public NativeList<int> simplices;
+        [ReadOnly] public NativeArray<int> simplices;
         [ReadOnly] public SimplexCounts simplexCounts;
 
         [NativeDisableParallelForRestriction] public NativeArray<float4> positions;

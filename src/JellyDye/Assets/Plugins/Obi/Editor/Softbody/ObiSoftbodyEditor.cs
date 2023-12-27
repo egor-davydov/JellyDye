@@ -40,6 +40,7 @@ namespace Obi
 
         SerializedProperty collisionMaterial;
         SerializedProperty selfCollisions;
+        SerializedProperty surfaceCollisions;
 
         SerializedProperty shapeMatchingConstraintsEnabled;
         SerializedProperty deformationResistance;
@@ -54,6 +55,7 @@ namespace Obi
 
             collisionMaterial = serializedObject.FindProperty("m_CollisionMaterial");
             selfCollisions = serializedObject.FindProperty("m_SelfCollisions");
+            surfaceCollisions = serializedObject.FindProperty("m_SurfaceCollisions");
 
             shapeMatchingConstraintsEnabled = serializedObject.FindProperty("_shapeMatchingConstraintsEnabled");
             deformationResistance = serializedObject.FindProperty("_deformationResistance");
@@ -86,6 +88,7 @@ namespace Obi
             EditorGUILayout.LabelField("Collisions", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(collisionMaterial, new GUIContent("Collision material"));
             EditorGUILayout.PropertyField(selfCollisions, new GUIContent("Self collisions"));
+            EditorGUILayout.PropertyField(surfaceCollisions, new GUIContent("Surface collisions"));
 
             EditorGUILayout.Space();
             ObiEditorUtils.DoToggleablePropertyGroup(shapeMatchingConstraintsEnabled, new GUIContent("Shape Matching Constraints", Resources.Load<Texture2D>("Icons/ObiShapeMatchingConstraints Icon")),

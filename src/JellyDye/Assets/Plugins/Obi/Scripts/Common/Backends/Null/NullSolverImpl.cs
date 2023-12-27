@@ -35,7 +35,7 @@ namespace Obi
             return 0;
         }
 
-        public void SetSimplices(int[] simplices, SimplexCounts counts)
+        public void SetSimplices(ObiNativeIntList simplices, SimplexCounts counts)
         {
         }
 
@@ -47,7 +47,7 @@ namespace Obi
         {
         }
 
-        public void SetActiveParticles(int[] indices, int num)
+        public void SetActiveParticles(ObiNativeIntList indices)
         {
         }
 
@@ -118,6 +118,11 @@ namespace Obi
 
         public void SpatialQuery(ObiNativeQueryShapeList shapes, ObiNativeAffineTransformList transforms, ObiNativeQueryResultList results)
         {
+        }
+
+        public void ReleaseJobHandles()
+        {
+
         }
     }
 }

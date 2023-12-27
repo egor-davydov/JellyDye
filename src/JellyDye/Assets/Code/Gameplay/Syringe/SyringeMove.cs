@@ -1,28 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using Code.Services;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace Code.Gameplay.Syringe
 {
   public class SyringeMove : MonoBehaviour
   {
-    //[SerializeField, Range(0, 0.05f)] private float _moveSpeed = 0.05f;
-
+    [SerializeField] private Vector2 _positionBoundsX;
+    [SerializeField] private Vector2 _positionBoundsZ;
+    
     private bool _isDragging;
-    private Vector3 _offset;
     private Camera _camera;
     private Vector3 _delta;
     private Vector3 _worldToScreenPoint;
+    
+    private PublishService _publishService;
 
+    [Inject]
+    public void Construct(PublishService publishService)
+    {
+      _publishService = publishService;
+    }
+    
     private void Start() =>
       _camera = Camera.main;
 
     private void Update()
     {
-      // Vector3 prev = _worldToScreenPoint;
-      // _worldToScreenPoint = _camera.WorldToScreenPoint(GetMouseWorldPosition());
-      // if(_worldToScreenPoint != prev)
-      // Debug.Log(_worldToScreenPoint);
       if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
       {
         _delta = transform.position - GetMouseWorldPosition();
@@ -31,8 +36,8 @@ namespace Code.Gameplay.Syringe
 
       if (_isDragging)
       {
-        Vector3 newPosition = GetMouseWorldPosition() + _delta;
-        transform.position = new Vector3(newPosition.x + _offset.x, transform.position.y, newPosition.z + _offset.z);
+        Vector3 newPosition = CalculateNewPosition();
+        transform.position = new Vector3(newPosition.x, transform.position.y, newPosition.z);
       }
 
       if (Input.GetMouseButtonUp(0))
@@ -41,8 +46,19 @@ namespace Code.Gameplay.Syringe
       }
     }
 
+    private Vector3 CalculateNewPosition()
+    {
+      Vector3 newPosition = GetMouseWorldPosition() + _delta;
+      newPosition.x = Mathf.Clamp(newPosition.x, _positionBoundsX.x, _positionBoundsX.y);
+      newPosition.z = Mathf.Clamp(newPosition.z, _positionBoundsZ.x, _positionBoundsZ.y);
+      return newPosition;
+    }
+
     private bool IsPointerOverUIObject()
     {
+      if (!_publishService.IsPlatformMobile())
+        return EventSystem.current.IsPointerOverGameObject();
+      
       for (int i = 0; i < Input.touchCount; i++)
       {
         var touch = Input.GetTouch(i);
@@ -51,18 +67,8 @@ namespace Code.Gameplay.Syringe
         if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
           return true;
       }
-
       return false;
     }
-    // private bool IsPointerOverUIObject()
-    // {
-    //   PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-    //   eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-    //   List<RaycastResult> results = new List<RaycastResult>();
-    //   EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-    //
-    //   return results.Count > 0;
-    // }
 
     private Vector3 GetMouseWorldPosition()
     {

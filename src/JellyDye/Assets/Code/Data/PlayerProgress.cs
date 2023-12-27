@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Code.Gameplay.UI.MainMenu.Skins;
 
 namespace Code.Data
 {
@@ -10,10 +8,10 @@ namespace Code.Data
     public SkinData SkinData;
     public LevelData LevelData;
 
-    public PlayerProgress(SkinType startSkinType, List<SkinType> openedSkins)
+    public PlayerProgress(string startLevelId)
     {
-      SkinData = new SkinData(startSkinType, openedSkins);
-      LevelData = new LevelData();
+      SkinData = new SkinData();
+      LevelData = new LevelData(startLevelId);
     }
   }
 }

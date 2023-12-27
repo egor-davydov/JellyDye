@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1214512074195584675, guid: d8f53005475ced64d8eb08e3c951a713, type: 3}
@@ -52,6 +53,12 @@ PrefabInstance:
       value: Sailor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6740017196394806454, guid: d8f53005475ced64d8eb08e3c951a713, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5538610997950476068}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8f53005475ced64d8eb08e3c951a713, type: 3}
 --- !u!4 &4908528715334768996 stripped
 Transform:
@@ -63,6 +70,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4908528715334768996}
     m_Modifications:
     - target: {fileID: 2748435695591829867, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
@@ -81,6 +89,34 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2748435695591829868, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 298a3f655e74a6744b2bde090775e22d, type: 2}
+    - target: {fileID: 2748435695591829869, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 298a3f655e74a6744b2bde090775e22d, type: 2}
+    - target: {fileID: 2748435695591829869, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a686b92972be134ebff2e4fe3711eb8, type: 2}
+    - target: {fileID: 2748435695591829871, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a686b92972be134ebff2e4fe3711eb8, type: 2}
+    - target: {fileID: 2748435695591829871, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f19e849b8c115f478b288a404717d32, type: 2}
+    - target: {fileID: 2748435695591829871, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7823b1c688f2b274583d6ef8a1d9de8c, type: 2}
+    - target: {fileID: 2748435695591829871, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 298a3f655e74a6744b2bde090775e22d, type: 2}
     - target: {fileID: 3977870152157297740, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -130,10 +166,18 @@ PrefabInstance:
       value: Sailor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
 --- !u!23 &5538610997950476067 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2748435695591829868, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
+  m_PrefabInstance: {fileID: 7708331804635815503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5538610997950476068 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2748435695591829867, guid: 8265b45fc95b51f44a5c0a39bddabb2b, type: 3}
   m_PrefabInstance: {fileID: 7708331804635815503}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5538610997950476072 stripped

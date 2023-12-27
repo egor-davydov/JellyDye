@@ -16,7 +16,7 @@ namespace Code.Gameplay.UI.FinishWindow
 {
   public class FinishWindow : MonoBehaviour
   {
-    [SerializeField] private NextSkinProgressBar _nextSkinProgressBar;
+    [SerializeField] private SkinProgressBar _skinProgressBar;
     [SerializeField] private RawImage _yourResultImage;
     [SerializeField] private RawImage _shouldBeImage;
     [SerializeField] private TextMeshProUGUI _percentageText;
@@ -25,41 +25,43 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private float _percentageIncreaseTime;
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
-    [SerializeField, Range(0,1)] private float _skinProgressFor100Percent;
 
     private PaintCountCalculationService _paintCountCalculationService;
     private GreenButtonFactory _greenButtonFactory;
-    private ScreenshotService _screenshotService;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ISaveLoadService _saveLoadService;
-    
+
     private LevelData _progressLevelData;
     private Tween _scaleTween;
+    private PublishService _publishService;
+    private AnalyticsService _analyticsService;
 
     [Inject]
     public void Construct(PaintCountCalculationService paintCountCalculationService,
-      GreenButtonFactory greenButtonFactory, ScreenshotService screenshotService, ProgressService progressService,
-      StaticDataService staticDataService, ISaveLoadService saveLoadService)
+      GreenButtonFactory greenButtonFactory, ProgressService progressService,
+      StaticDataService staticDataService, ISaveLoadService saveLoadService,
+      PublishService publishService, AnalyticsService analyticsService)
     {
+      _analyticsService = analyticsService;
+      _publishService = publishService;
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
-      _screenshotService = screenshotService;
       _greenButtonFactory = greenButtonFactory;
       _paintCountCalculationService = paintCountCalculationService;
-      
+
       _progressLevelData = _progressService.Progress.LevelData;
     }
 
-    public void Initialize(Texture2D screenshot, Texture2D screenshotWithoutGround)
+    public void Initialize(Texture2D screenshot)
     {
-      _shouldBeImage.texture = _staticDataService.ForLevels().LevelConfigs[_progressLevelData.CurrentLevelIndex].TargetTextureWithGround;
-      _yourResultImage.texture = screenshotWithoutGround;
-      AppearanceAnimation(StartWindowAnimations);
+      _shouldBeImage.texture = _staticDataService.ForLevels().GetConfigByLevelId(_progressLevelData.CurrentLevelId).TargetTextureWithGround;
+      _yourResultImage.texture = screenshot;
+      StartAppearanceAnimation(onEnd: StartWindowAnimations);
     }
-    
-    private void OnDestroy() => 
+
+    private void OnDestroy() =>
       _scaleTween.Kill();
 
     private void StartWindowAnimations()
@@ -68,7 +70,7 @@ namespace Code.Gameplay.UI.FinishWindow
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
     }
 
-    private void AppearanceAnimation(Action onEnd)
+    private void StartAppearanceAnimation(Action onEnd)
     {
       transform.localScale = Vector3.zero;
       transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
@@ -77,8 +79,10 @@ namespace Code.Gameplay.UI.FinishWindow
     private IEnumerator PercentageIncrease()
     {
       float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
-      float finalPercentage = RoundAndClampPercentage(yourPercentage);
+      float finalPercentage = CeilAndClampPercentage(yourPercentage);
       WriteToProgress(finalPercentage);
+      _publishService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
+      OnLevelEnd(finalPercentage);
       //Debug.Log($"yourPercentage= {yourPercentage}");
       float currentTime = 0;
       while (currentTime < _percentageIncreaseTime)
@@ -88,17 +92,39 @@ namespace Code.Gameplay.UI.FinishWindow
         SetPercentage(currentPercentage);
         yield return null;
       }
-      
+
       _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
-      _nextSkinProgressBar.IncreaseProgress(_skinProgressFor100Percent / 100 * finalPercentage);
+      _skinProgressBar.IncreaseProgress(finalPercentage);
       SetPercentage(finalPercentage);
       _greenButtonFactory.CreateMenuButton(transform);
     }
 
+    private void OnLevelEnd(float finalPercentage)
+    {
+      _analyticsService.LevelEnd(_staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId), _progressLevelData.CurrentLevelId, (int)finalPercentage);
+
+      if(_progressLevelData.CompletedLevels.Count >= 3)
+        _publishService.RequestCanPLayerReviewOrNot(OnServerReviewResponse);
+    }
+
+    private void OnServerReviewResponse(bool isPlayerCanReview)
+    {
+      if (isPlayerCanReview)
+        ShowReviewWindow();
+    }
+
+    private void ShowReviewWindow()
+    {
+      Time.timeScale = 0;
+      _publishService.ShowReviewGameWindow(OnPlayerReviewWindowAction);
+    }
+
+    private void OnPlayerReviewWindowAction(bool value) => 
+      Time.timeScale = 1;
+    
     private void WriteToProgress(float finalPercentage)
     {
-      //Convert.ToBase64String()
-      _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelIndex, (int)finalPercentage);
+      _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelId, (int)finalPercentage);
       _saveLoadService.SaveProgress();
     }
 
@@ -108,9 +134,15 @@ namespace Code.Gameplay.UI.FinishWindow
       _percentageText.text = $"{currentPercentage}%";
     }
 
+    private float CeilAndClampPercentage(float currentPercentage)
+    {
+      currentPercentage = Mathf.CeilToInt(currentPercentage);
+      currentPercentage = Mathf.Clamp(currentPercentage, 0, 100);
+      return currentPercentage;
+    }
     private float RoundAndClampPercentage(float currentPercentage)
     {
-      currentPercentage = (float)Math.Round(currentPercentage, 0);
+      currentPercentage = Mathf.RoundToInt(currentPercentage);
       currentPercentage = Mathf.Clamp(currentPercentage, 0, 100);
       return currentPercentage;
     }

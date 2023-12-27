@@ -28,20 +28,20 @@ SubShader {
 				float4 vertex : POSITION;
 			};
 
-			struct Interpolators {
+			struct v2f {
 				float4 vertex : SV_POSITION;
 			};
 
 			fixed4 _Color;
 			
-			Interpolators vert (appdata_t v)
+			v2f vert (appdata_t v)
 			{
-				Interpolators o;
+				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				return o;
 			}
 			
-			fixed4 frag (Interpolators i) : COLOR
+			fixed4 frag (v2f i) : COLOR
 			{
 				fixed4 col = _Color;
 				UNITY_OPAQUE_ALPHA(col.a);

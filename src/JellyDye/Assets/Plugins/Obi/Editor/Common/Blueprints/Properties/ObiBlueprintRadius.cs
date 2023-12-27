@@ -8,7 +8,8 @@ namespace Obi
         public ObiBlueprintRadius(ObiActorBlueprintEditor editor) : base(editor,0.0000001f) 
         { 
             brushModes.Add(new ObiFloatPaintBrushMode(this)); 
-            brushModes.Add(new ObiFloatAddBrushMode(this)); 
+            brushModes.Add(new ObiFloatAddBrushMode(this));
+            brushModes.Add(new ObiFloatCopyBrushMode(this, this));
             brushModes.Add(new ObiFloatSmoothBrushMode(this)); 
         }
 

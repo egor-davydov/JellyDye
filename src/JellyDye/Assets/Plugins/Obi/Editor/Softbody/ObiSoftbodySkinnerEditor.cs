@@ -104,7 +104,8 @@ namespace Obi
       GUI.enabled = skinner.Source != null && ValidateRendererMesh();
       if (GUILayout.Button("Bind skin"))
       {
-        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        EditorUtility.SetDirty(skinner);
+        //EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         CoroutineJob job = new CoroutineJob();
         routine = job.Start(skinner.BindSkin());
         EditorCoroutine.ShowCoroutineProgressBar("Binding to particles...", ref routine);

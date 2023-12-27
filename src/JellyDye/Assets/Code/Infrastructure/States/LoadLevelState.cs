@@ -1,3 +1,4 @@
+using Code.Data;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.Hud;
 using Code.Gameplay.UI.Hud.PaintChange;
@@ -7,14 +8,16 @@ using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
-using Code.StaticData;
+using Code.StaticData.Level;
 using Fluxy;
 using UnityEngine;
 
 namespace Code.Infrastructure.States
 {
-  public class LoadLevelState : IPayloadState<int>
+  public class LoadLevelState : IPayloadState<string>
   {
+    private const string MainSceneName = "Main";
+    
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly HudFactory _hudFactory;
@@ -25,13 +28,20 @@ namespace Code.Infrastructure.States
     private readonly PaintCountCalculationService _paintCountCalculationService;
     private readonly FinishLevelService _finishLevelService;
     private readonly ISaveLoadService _saveLoadService;
+    private readonly AnalyticsService _analyticsService;
+    private readonly PublishService _publishService;
 
+    private string _levelId;
     private int _levelIndex;
+    private LevelData _progressLevelData;
+    private bool _isFirstLoad = true;
+    private LevelsStaticData _levelsStaticData;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
-      HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory, ProgressService progressService,
-      StaticDataService staticDataService, PaintCountCalculationService paintCountCalculationService,
-      FinishLevelService finishLevelService, ISaveLoadService saveLoadService)
+      HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
+      ProgressService progressService, StaticDataService staticDataService,
+      PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService,
+      ISaveLoadService saveLoadService, AnalyticsService analyticsService, PublishService publishService)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
@@ -43,31 +53,48 @@ namespace Code.Infrastructure.States
       _paintCountCalculationService = paintCountCalculationService;
       _finishLevelService = finishLevelService;
       _saveLoadService = saveLoadService;
+      _analyticsService = analyticsService;
+      _publishService = publishService;
     }
 
-    public void Enter(int levelIndex)
+    public void Enter(string levelId)
     {
-      _levelIndex = levelIndex;
-      //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelIndex}'");
-      _sceneLoader.StartLoad(1, OnLoadComplete);
+      _progressLevelData ??= _progressService.Progress.LevelData;
+      _levelId = levelId;
+      if(_levelId != _progressLevelData.CurrentLevelId)
+      {
+        _progressLevelData.CurrentLevelId = _levelId;
+        _saveLoadService.SaveProgress();
+      }
+      //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
+      _publishService.ShowFullscreenAdvAndPauseGame();
+      _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);
     }
 
     public void Exit()
     {
+      if(_isFirstLoad)
+      {
+        _publishService.GameReadyToPlay();
+        _isFirstLoad = false;
+      }
+      _analyticsService.LevelStart(_levelIndex, _levelId);
     }
 
     private void OnLoadComplete()
     {
-      _progressService.Progress.LevelData.CurrentLevelIndex = _levelIndex;
-      _saveLoadService.SaveProgress();
-      LevelConfig levelConfig = _staticDataService.ForLevels().LevelConfigs[_levelIndex];
+      _levelsStaticData ??= _staticDataService.ForLevels();
+      _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
+      LevelConfig levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);
 
       GameObject jelliesObject = InitJellies(levelConfig);
-      _paintCountCalculationService.Initialize(jelliesObject.GetComponentInChildren<FluxySolver>(), jelliesObject.GetComponentsInChildren<FluxyContainer>());
+      FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
+      _paintCountCalculationService.InitializeOnSceneLoad(fluxySolver, jelliesObject.GetComponentsInChildren<FluxyContainer>());
 
       GameObject syringeObject = InitSyringe();
 
       GameObject hudObject = InitHud(syringeObject, levelConfig);
+      
       SyringeInjection syringeInjection = syringeObject.GetComponent<SyringeInjection>();
       syringeInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
       _finishLevelService.Initialize(hudObject, syringeObject);
@@ -91,9 +118,9 @@ namespace Code.Infrastructure.States
 
     private GameObject InitHud(GameObject syringeObject, LevelConfig levelConfig)
     {
-      SyringePaint syringePaint = syringeObject.GetComponent<SyringePaint>();
+      SyringePaintColor syringePaintColor = syringeObject.GetComponent<SyringePaintColor>();
       GameObject hudObject = _hudFactory.CreateHud();
-      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaint, levelConfig.Colors);
+      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaintColor, levelConfig.AllColorsCached);
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
       return hudObject;
     }

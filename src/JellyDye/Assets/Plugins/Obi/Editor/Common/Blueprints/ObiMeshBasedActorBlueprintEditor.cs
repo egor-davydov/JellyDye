@@ -105,6 +105,9 @@ namespace Obi
                     }
 
                 }
+
+                if ((renderModeFlags & 1) != 0)
+                    Refresh();
             }
 
         }

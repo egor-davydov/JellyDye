@@ -12,167 +12,957 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5add8d4e2aeb48bbabe339637be1c0ea, type: 3}
   m_Name: Levels
   m_EditorClassIdentifier: 
+  ColorCompareEpsilon: 0.4
+  <IsShowingNames>k__BackingField: 0
+  <MinGeneratedResolution>k__BackingField: 9
+  <MaxGeneratedResolution>k__BackingField: 16
+  <VerticesCountToGenerateOneObiParticle>k__BackingField: 200
   LevelConfigs:
-  - JelliesPrefab: {fileID: 6952310717466544951, guid: c61b6de6b241afc45b4068c6a8a8ae60, type: 3}
-    Colors:
-    - {r: 1, g: 0.056886226, b: 0, a: 1}
-    - {r: 0.8771403, g: 1, b: 0, a: 1}
-    - {r: 0, g: 1, b: 0.03481388, a: 1}
-    - {r: 0.8856721, g: 0, b: 1, a: 1}
-    TargetTexture: {fileID: 2800000, guid: ea463d38025a74e4eba366353efcffbb, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: c3fee89afdd566645b0d0cf03e274147, type: 3}
-  - JelliesPrefab: {fileID: 411759819927949764, guid: 17dae9fb39676c44f89851086b35d7be, type: 3}
-    Colors:
-    - {r: 0, g: 0.69700575, b: 1, a: 1}
-    - {r: 0, g: 1, b: 0.34900045, a: 1}
-    - {r: 1, g: 0, b: 0.8867588, a: 1}
+  - Id: stormy_cloud
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 3cfc79b808be4046a959140cff3109bf, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: ad9aac9a256341c0b8e57125b4be7d33, type: 3}
+      <TargetColor>k__BackingField: {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: ca3c8be2576c4af1851ca36e34dfbac0, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 41facacfbea844218fb963a915d018b7, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.9695432, b: 0, a: 1}
+    JelliesPrefab: {fileID: 6952310717466544951, guid: c61b6de6b241afc45b4068c6a8a8ae60, type: 3}
+    AdditionalColors:
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
+    AllColorsCached:
+    - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
+    - {r: 1, g: 0.9695432, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
+    TargetTexture: {fileID: 2800000, guid: bbdff5b0574b8b445b8b3f3b57db6761, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: c9145b5692f54c843a0caf481a8afce0, type: 3}
+  - Id: cherries
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 89a2e74f866b49aabec70d93abc11bca, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3a00be4c27ec471596fd20809426a696, type: 3}
+      <TargetColor>k__BackingField: {r: 0.21597241, g: 0.8584906, b: 0.21778724, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: f7283c49511241c39f1594d781be83a7, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: f99f6db1fbd34c8cb28d22d5feafe96c, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9339623, g: 0, b: 0.25227758, a: 1}
+    JelliesPrefab: {fileID: 6800411033828445150, guid: 5aba680b235f2d04790c7ccd74604fb5, type: 3}
+    AdditionalColors:
+    - {r: 0.29976553, g: 0.23311329, b: 0.09000063, a: 1}
+    - {r: 0.8350761, g: 0.9979086, b: 0.80719686, a: 1}
+    AllColorsCached:
+    - {r: 0.21597241, g: 0.8584906, b: 0.21778724, a: 1}
+    - {r: 0.9339623, g: 0, b: 0.25227758, a: 1}
+    - {r: 0.29976553, g: 0.23311329, b: 0.09000063, a: 1}
+    - {r: 0.8350761, g: 0.9979086, b: 0.80719686, a: 1}
+    TargetTexture: {fileID: 2800000, guid: a0003f0b5854518468b17763a4840885, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 4e7c8a11a7b71a7458d29db9b6acb344, type: 3}
+  - Id: two_bananas
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 9b3ed65ef5b7467c9df962c8ebbe05fe, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: cc8a87bdad41463b9cd3350c4255eecb, type: 3}
+      <TargetColor>k__BackingField: {r: 0.59, g: 1, b: 0.255, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 7e8c263a6afc43f09a25afe3536f9c66, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3c0e74d30e8247d5abf2b32ffb25a377, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 0.23270434, a: 1}
+    JelliesPrefab: {fileID: 4900221779037786037, guid: e596dda4db01655448fddaa8daa979f8, type: 3}
+    AdditionalColors:
+    - {r: 0.8105483, g: 0.21777284, b: 0.043732166, a: 1}
+    - {r: 0.017218232, g: 0.9386599, b: 0.18757963, a: 1}
+    AllColorsCached:
+    - {r: 0.59, g: 1, b: 0.255, a: 1}
+    - {r: 1, g: 1, b: 0.23270434, a: 1}
+    - {r: 0.8105483, g: 0.21777284, b: 0.043732166, a: 1}
+    - {r: 0.017218232, g: 0.9386599, b: 0.18757963, a: 1}
+    TargetTexture: {fileID: 2800000, guid: a846ab7426c5a3f4cbdcb861887b4feb, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 5b7e4add6d243dd428c81083961cb4fa, type: 3}
+  - Id: rainbow_cloud
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: da854bd4e274428e9140f591994a54dd, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 2e56f9af39694612a0a7b68e546fb05b, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9529412, g: 0.2941177, b: 0.5339447, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: fdf9c844e8e848d3ac285e40160f286b, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 39129352722e445484efa2ddf452f8c6, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.9596447, b: 0.27987415, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 90897cc8db21483285944a356a8ae3af, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 9e63164096184df290d6dbd509099ca5, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    JelliesPrefab: {fileID: 7178608641691978953, guid: 5471fe9e02cf4be4e9681618d86fe9d6, type: 3}
+    AdditionalColors:
+    - {r: 0.33028287, g: 0.872975, b: 0.9716362, a: 1}
+    - {r: 0.16201186, g: 0.5455975, b: 0.7360467, a: 1}
+    AllColorsCached:
+    - {r: 0.9529412, g: 0.2941177, b: 0.5339447, a: 1}
+    - {r: 1, g: 0.9596447, b: 0.27987415, a: 1}
     - {r: 1, g: 1, b: 1, a: 1}
-    - {r: 1, g: 0.8073907, b: 0, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 93e76d723f560ac41bb17817fb5da55b, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 96b9766c9f2160e41bb3cf70e40875fe, type: 3}
-  - JelliesPrefab: {fileID: 4900221779037786037, guid: e596dda4db01655448fddaa8daa979f8, type: 3}
-    Colors:
-    - {r: 0.98463845, g: 1, b: 0, a: 1}
-    - {r: 0.9056604, g: 0.7994665, b: 0.13157704, a: 1}
-    - {r: 0.043137256, g: 0.69411767, b: 0.9686275, a: 1}
-    - {r: 0.8928265, g: 0.96862745, b: 0.043137226, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 553efdc100024894796fe8791f02c1eb, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: c4671b8cb240ad8479dd9228415d749e, type: 3}
-  - JelliesPrefab: {fileID: 7178608641691978953, guid: 5471fe9e02cf4be4e9681618d86fe9d6, type: 3}
-    Colors:
-    - {r: 0.9411765, g: 0.972549, b: 0.078431375, a: 1}
-    - {r: 1, g: 0.19245279, b: 0.5028546, a: 1}
+    - {r: 0.33028287, g: 0.872975, b: 0.9716362, a: 1}
+    - {r: 0.16201186, g: 0.5455975, b: 0.7360467, a: 1}
+    TargetTexture: {fileID: 2800000, guid: d459e817607eea64ba5204e501a3dfac, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 75391f24775ca3b4f831e8b96d4eb715, type: 3}
+  - Id: devil_heart
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 6ac25c547ff44c1dabcb250b386e4e0b, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 9eae99e32d0145a7a8f189395168c860, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.25157225, b: 0.25157225, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: b8de7bdc76ff4770b1ce2198401eed4c, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 60aa571d99fd4908ad20b3911780f356, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9716981, g: 0.565296, b: 0.93548405, a: 1}
+    JelliesPrefab: {fileID: 5694393867848139027, guid: 438c57d8bf5cc6f429b2d4fbdd830b14, type: 3}
+    AdditionalColors:
+    - {r: 0.73596287, g: 0.93574727, b: 0.6156216, a: 1}
+    - {r: 0.48715514, g: 0.9005809, b: 0.35903352, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.25157225, b: 0.25157225, a: 1}
+    - {r: 0.9716981, g: 0.565296, b: 0.93548405, a: 1}
+    - {r: 0.73596287, g: 0.93574727, b: 0.6156216, a: 1}
+    - {r: 0.48715514, g: 0.9005809, b: 0.35903352, a: 1}
+    TargetTexture: {fileID: 2800000, guid: bb7c90a2652fb284daf3e4064897445b, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: e9aea55b29260be4999f10bb435418ae, type: 3}
+  - Id: grape
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 22aa56b57a0947aabead91410a43bbe5, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: bab2e79872dd4a48b29978d062258acf, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9050528, g: 0.28930813, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 530afe783bc64e5b919744d6eb934405, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: cae8158fa4174958981f90fe7807233d, type: 3}
+      <TargetColor>k__BackingField: {r: 0.36480185, g: 0.8679245, b: 0.3411652, a: 1}
+    JelliesPrefab: {fileID: 1180121455619364988, guid: 400de113fc6b5914d869cefa2105f38f, type: 3}
+    AdditionalColors:
+    - {r: 0.12198341, g: 0.011216283, b: 0.98027015, a: 1}
+    - {r: 0.26614422, g: 0.34851462, b: 0.22594357, a: 1}
+    AllColorsCached:
+    - {r: 0.9050528, g: 0.28930813, b: 1, a: 1}
+    - {r: 0.36480185, g: 0.8679245, b: 0.3411652, a: 1}
+    - {r: 0.12198341, g: 0.011216283, b: 0.98027015, a: 1}
+    - {r: 0.26614422, g: 0.34851462, b: 0.22594357, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 846c5153ce8f495448630684b5c07f0b, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: fb8f8eb8b2fa8ce4da637c51d32b5bee, type: 3}
+  - Id: clouds
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: c13a0251c4c240a88fb4adfdcc76c0b4, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 41b357a4e0074fe79de656b3a861ce04, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.49685526, b: 0.93654025, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4d35df695fbd445cb82483be729d0e99, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 874ebe2c920e4054a688f2b06684c0e9, type: 3}
+      <TargetColor>k__BackingField: {r: 0.49803922, g: 1, b: 0.7490196, a: 1}
+    JelliesPrefab: {fileID: 8249565436013083299, guid: f21829778e0728c498ceb3c2bb6d7665, type: 3}
+    AdditionalColors:
+    - {r: 0.39168948, g: 0.95920444, b: 0.023929477, a: 1}
+    - {r: 0.35312706, g: 0.17411005, b: 0.5687054, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.49685526, b: 0.93654025, a: 1}
+    - {r: 0.49803922, g: 1, b: 0.7490196, a: 1}
+    - {r: 0.39168948, g: 0.95920444, b: 0.023929477, a: 1}
+    - {r: 0.35312706, g: 0.17411005, b: 0.5687054, a: 1}
+    TargetTexture: {fileID: 2800000, guid: c8341e893d50ec848923eba538bda06f, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: dcb3aeb5ffe37c64da4d3d07b697e744, type: 3}
+  - Id: ice_syrup
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 12caa4c5e76c401e828851ba0463a901, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 0d1f84ee2f704622b0ce92e41d5c88da, type: 3}
+      <TargetColor>k__BackingField: {r: 0, g: 0.69803923, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: cb8b96bc3b7d4a77853b8f310b687cf4, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: a4cc01b0f9f94b0abd5d0c983d7cee9b, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 0d7f6ee0f2dc473bb03d8378b4dc0c3c, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3205a0821e874a869a2422ed6dddf6ba, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0, b: 0.8862745, a: 1}
+    JelliesPrefab: {fileID: 411759819927949764, guid: 17dae9fb39676c44f89851086b35d7be, type: 3}
+    AdditionalColors:
+    - {r: 0.09587097, g: 0.149, b: 0.7741368, a: 1}
+    - {r: 0.74967563, g: 0.23030901, b: 0.36, a: 1}
+    AllColorsCached:
+    - {r: 0, g: 0.69803923, b: 1, a: 1}
     - {r: 1, g: 1, b: 1, a: 1}
-    - {r: 0.83137256, g: 0.49019608, b: 0.99215686, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 9f902dc65c57bda4fa6e2f66415e36d9, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: abdb4fcf2b9391744b9c8014e0ba7b1b, type: 3}
-  - JelliesPrefab: {fileID: 3786283817190865733, guid: 9ccff4005141c694d9b3629e356dfb8d, type: 3}
-    Colors:
-    - {r: 1, g: 0.8784314, b: 0.41960785, a: 1}
-    - {r: 0.9372549, g: 1, b: 0.3647059, a: 1}
-    - {r: 0.5803922, g: 0.9529412, b: 0.6627451, a: 1}
-    - {r: 0.5372549, g: 0.54901963, b: 0.23921569, a: 1}
-    - {r: 0.99215686, g: 0.8156863, b: 0.16470589, a: 1}
-    TargetTexture: {fileID: 2800000, guid: b2b836c9ad88d2145ba418f808ec4ef9, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 081b25d60ea56e549ab0a412988c2ab5, type: 3}
-  - JelliesPrefab: {fileID: 2078628113740545918, guid: 90349255c73ab204980a2c313e1c4b06, type: 3}
-    Colors:
-    - {r: 0, g: 0.69700575, b: 1, a: 1}
-    - {r: 0.98463845, g: 1, b: 0, a: 1}
-    - {r: 1, g: 0, b: 0.8867588, a: 1}
+    - {r: 1, g: 0, b: 0.8862745, a: 1}
+    - {r: 0.09587097, g: 0.149, b: 0.7741368, a: 1}
+    - {r: 0.74967563, g: 0.23030901, b: 0.36, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 9b65d8ab4a8e13947881be375a7ff4f2, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 618b8f9cd37e5464ea4cae1934ea3636, type: 3}
+  - Id: hat
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 7fd68738477f476ca3f86090ac608a93, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: f7d2d3afe67d4dc483ca1c32a3329780, type: 3}
+      <TargetColor>k__BackingField: {r: 0.8207547, g: 0.6097339, b: 0.12904944, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 522785e1a6514a89b34ce765e407cb7d, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 8f10b622e5b148d18d606ee7826a569c, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9245283, g: 0.6243473, b: 0, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: cf07cd27b1b045f99fa12037af2f7724, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 437aebcea9e8475d81148ad55f2ab993, type: 3}
+      <TargetColor>k__BackingField: {r: 0.8679245, g: 0.54, b: 0.41, a: 1}
+    JelliesPrefab: {fileID: 2615600507377785257, guid: f795dac1fed79a6488ca33489559eafa, type: 3}
+    AdditionalColors:
+    - {r: 0.9089062, g: 0.082458615, b: 0.45789188, a: 1}
+    - {r: 0.25177068, g: 0.40596265, b: 0.37850744, a: 1}
+    AllColorsCached:
+    - {r: 0.8207547, g: 0.6097339, b: 0.12904944, a: 1}
+    - {r: 0.9245283, g: 0.6243473, b: 0, a: 1}
+    - {r: 0.8679245, g: 0.54, b: 0.41, a: 1}
+    - {r: 0.9089062, g: 0.082458615, b: 0.45789188, a: 1}
+    - {r: 0.25177068, g: 0.40596265, b: 0.37850744, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 03f290d13c3ff8c498d5cdd83677228a, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 0471e43d0bd86b94f833219348febcf2, type: 3}
+  - Id: shovel
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 08dd3474c00b4b4cbad2ca958d708077, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 62f9194502304b02821ed12ecf4f265d, type: 3}
+      <TargetColor>k__BackingField: {r: 0.6845217, g: 1, b: 0.30817604, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4c5fc38e10ed41f692700f202787edd4, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 2f45935cb2af4633ab1f27664e5ae50e, type: 3}
+      <TargetColor>k__BackingField: {r: 0.3745401, g: 0.9528302, b: 0.91163737, a: 1}
+    JelliesPrefab: {fileID: 3678217705150020658, guid: b2c2c8983ba084d45a514ca4230a648d, type: 3}
+    AdditionalColors:
+    - {r: 0.30122143, g: 0.3697006, b: 0.34159428, a: 1}
+    - {r: 0.4733848, g: 0.023255348, b: 0.33318383, a: 1}
+    AllColorsCached:
+    - {r: 0.6845217, g: 1, b: 0.30817604, a: 1}
+    - {r: 0.3745401, g: 0.9528302, b: 0.91163737, a: 1}
+    - {r: 0.30122143, g: 0.3697006, b: 0.34159428, a: 1}
+    - {r: 0.4733848, g: 0.023255348, b: 0.33318383, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 1901999bfb0828d4ebe96dcc92ce3315, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 3b144a5c5b76ba44ca15a0b3c110dfc3, type: 3}
+  - Id: purple_fruct
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 39d5918733cd4cc8ba2d884d7d8414aa, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: a7c542534fd94a459dae92b6a41756b4, type: 3}
+      <TargetColor>k__BackingField: {r: 0.8682399, g: 0.01498151, b: 0.9528302, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 669dcbeb6f2b4c52bed05e727abdf080, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: dc8658a7b0694d2b92884ce72c7dc22d, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9414254, g: 0.52450454, b: 0.9811321, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 9945fc211acc4080a4a9b148ac103b04, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: ab155e56d5e540dbb94a98aaac9115ce, type: 3}
+      <TargetColor>k__BackingField: {r: 0, g: 0.7169812, b: 0, a: 1}
+    JelliesPrefab: {fileID: 3197684889265281160, guid: c5c08a7fe1a3abd41a73e926e5ccbcab, type: 3}
+    AdditionalColors:
+    - {r: 0.05879581, g: 0.8989072, b: 0.61472136, a: 1}
+    - {r: 0.03947127, g: 0.5833518, b: 0.94362354, a: 1}
+    AllColorsCached:
+    - {r: 0.8682399, g: 0.01498151, b: 0.9528302, a: 1}
+    - {r: 0.9414254, g: 0.52450454, b: 0.9811321, a: 1}
+    - {r: 0, g: 0.7169812, b: 0, a: 1}
+    - {r: 0.05879581, g: 0.8989072, b: 0.61472136, a: 1}
+    - {r: 0.03947127, g: 0.5833518, b: 0.94362354, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 167e17598b73d06448a81e7cc1a8d21b, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: c447ce8c23f15bd44bc6b11d0589415b, type: 3}
+  - Id: ship
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: da678f4bfa26455283a2217f8bf9a8ff, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 59fd429052664bc18cab2e965a6add01, type: 3}
+      <TargetColor>k__BackingField: {r: 0.22327036, g: 0.7196526, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 24232c7e03a34cab90ad2398effc7fc9, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 72a5734daac445739bf48ba6f1bcab27, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    JelliesPrefab: {fileID: 2078628113740545918, guid: 90349255c73ab204980a2c313e1c4b06, type: 3}
+    AdditionalColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
+    - {r: 0.2588256, g: 0.0126104355, b: 0.3575967, a: 1}
+    AllColorsCached:
+    - {r: 0.22327036, g: 0.7196526, b: 1, a: 1}
     - {r: 1, g: 1, b: 1, a: 1}
-    TargetTexture: {fileID: 2800000, guid: e1aaae31f2614b54dac3673ed6db9d24, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: e3c54a8aa2bcfe54eb0d83a9d4e5c0b1, type: 3}
-  - JelliesPrefab: {fileID: 2615600507377785257, guid: f795dac1fed79a6488ca33489559eafa, type: 3}
-    Colors:
-    - {r: 0.6226415, g: 0.34144965, b: 0.019971479, a: 1}
-    - {r: 0.48689365, g: 0, b: 1, a: 1}
-    - {r: 0.8396226, g: 0.4953501, b: 0.082378045, a: 1}
-    - {r: 0.9734893, g: 1, b: 0, a: 1}
-    - {r: 1, g: 0.4, b: 0, a: 1}
-    TargetTexture: {fileID: 2800000, guid: ac6c2c73fe1d103418e21088ac9d0624, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 5d8ef048601f6cf4c94c77f5ec07ddd3, type: 3}
-  - JelliesPrefab: {fileID: 3678217705150020658, guid: b2c2c8983ba084d45a514ca4230a648d, type: 3}
-    Colors:
-    - {r: 0, g: 0.6037736, b: 0.09978888, a: 1}
-    - {r: 1, g: 0, b: 0.19325352, a: 1}
-    - {r: 1, g: 0.7730468, b: 0.032075405, a: 1}
-    - {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
-    TargetTexture: {fileID: 2800000, guid: c2c3a9713a6bf9a43a127066f2fc7edc, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: d7a37027e77a5884a8c8a42479b903e9, type: 3}
-  - JelliesPrefab: {fileID: 2882756590070396347, guid: f0c3a1e99f4c3734681f09828b0ef5f8, type: 3}
-    Colors:
-    - {r: 0.43506587, g: 0.79648584, b: 0.9528302, a: 1}
-    - {r: 0.65222836, g: 0.9622642, b: 0.32135987, a: 1}
-    - {r: 0.9254902, g: 0.9254902, b: 0.9254902, a: 1}
-    - {r: 0.41960785, g: 0.5294118, b: 1, a: 1}
-    TargetTexture: {fileID: 2800000, guid: a98ff40ce71c5c9408a42e166a78eb72, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: f00be1ea050b56a4c91f8d0be636e91e, type: 3}
-  - JelliesPrefab: {fileID: 6532537383621077998, guid: 64c8df646eacbdd419420dfae76e7936, type: 3}
-    Colors:
-    - {r: 1, g: 1, b: 1, a: 1}
-    - {r: 1, g: 0.7668999, b: 0, a: 1}
-    - {r: 0.9137255, g: 0.9137255, b: 0.9137255, a: 1}
-    - {r: 1, g: 0.9764706, b: 0.38039216, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 55f6e1cabe15b7347bb2261400eadb7d, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 81561232ed7248b4bb4909bbb3825190, type: 3}
-  - JelliesPrefab: {fileID: 8249565436013083299, guid: f21829778e0728c498ceb3c2bb6d7665, type: 3}
-    Colors:
-    - {r: 0, g: 0.8200755, b: 1, a: 1}
-    - {r: 0, g: 1, b: 0.58596015, a: 1}
-    - {r: 0.5555415, g: 0.5321823, b: 0.9339623, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 69c111a8044d4284992391357fd9beb0, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 234200451ac696340a76edcc976713ab, type: 3}
-  - JelliesPrefab: {fileID: 336930100776250264, guid: 4f2919ce0cc63cf45bc38bb8ff677069, type: 3}
-    Colors:
-    - {r: 1, g: 0.53443706, b: 0, a: 1}
-    - {r: 0.8, g: 0.6156863, b: 0.38039216, a: 1}
-    - {r: 1, g: 0.5137255, b: 0.8235294, a: 1}
-    - {r: 0.9528302, g: 0.9083771, b: 0.19236381, a: 1}
-    - {r: 0, g: 1, b: 1, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 06248738c7632fa43bf32df2a0a770e6, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 60df52c713087ff498501b1cebc2b63d, type: 3}
-  - JelliesPrefab: {fileID: 5694393867848139027, guid: 438c57d8bf5cc6f429b2d4fbdd830b14, type: 3}
-    Colors:
-    - {r: 0.8867924, g: 0, b: 0, a: 1}
-    - {r: 0.14150941, g: 0.013883938, b: 0.013883938, a: 1}
-    - {r: 0.680287, g: 0.05490197, b: 0.7176471, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 29ba9dd034baee644ab4974b2d6e1249, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 9afddfffb4d82674db298e7dde774cfa, type: 3}
-  - JelliesPrefab: {fileID: 3197684889265281160, guid: c5c08a7fe1a3abd41a73e926e5ccbcab, type: 3}
-    Colors:
-    - {r: 0.8392157, g: 0, b: 1, a: 1}
-    - {r: 0.75172955, g: 1, b: 0.3339622, a: 1}
-    - {r: 0.93333334, g: 0.60784316, b: 1, a: 1}
-    - {r: 0.15294118, g: 0.5647059, b: 0.003921569, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 407119d3d43d91e4793e5994e7518602, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 4069d683c4e2b19498052a300ce6dfd8, type: 3}
-  - JelliesPrefab: {fileID: 2891572670304017433, guid: e288d0a739b24f644b8b0368466353b6, type: 3}
-    Colors:
-    - {r: 1, g: 0.96274924, b: 0, a: 1}
-    - {r: 0.8536194, g: 1, b: 0.09019607, a: 1}
-    - {r: 0.959454, g: 0.9811321, b: 0.69789964, a: 1}
-    - {r: 0.98039216, g: 0.960824, b: 0.4666666, a: 1}
-    TargetTexture: {fileID: 2800000, guid: dcd1be7df2516d041bc9bd45663bb923, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 29d6053f4ef5a784ba6e8e689b3c2588, type: 3}
-  - JelliesPrefab: {fileID: 474130305541837277, guid: 41c5063b62236d746b5bbd6b5adf7d10, type: 3}
-    Colors:
-    - {r: 1, g: 0.6825073, b: 0, a: 1}
-    - {r: 0.19607843, g: 0.6784314, b: 0.1254902, a: 1}
-    - {r: 1, g: 0.6143181, b: 0.30566037, a: 1}
-    - {r: 0.7176471, g: 0.49411765, b: 0, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 65e287271dacf2348855bb5e1bcd30be, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 2d3f17aaca5836d428e359a3850e5c96, type: 3}
-  - JelliesPrefab: {fileID: 3512537767623533178, guid: 72237731f7582564cb5e80b0416aedc7, type: 3}
-    Colors:
-    - {r: 0, g: 1, b: 0.9032862, a: 1}
-    - {r: 1, g: 1, b: 1, a: 1}
-    - {r: 1, g: 0.9034515, b: 0.29622638, a: 1}
-    - {r: 1, g: 0.23137254, b: 0.7724071, a: 1}
-    TargetTexture: {fileID: 2800000, guid: af268903193c98d42a990a9823743199, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 4ae261e5fc1a3cf4ca9c1eb53e6edd91, type: 3}
-  - JelliesPrefab: {fileID: 5007831174733273039, guid: 98131a04f08be304a8451a96c8344705, type: 3}
-    Colors:
-    - {r: 0, g: 0.31142902, b: 1, a: 1}
-    - {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
-    - {r: 0.96101224, g: 1, b: 0, a: 1}
-    - {r: 0.8773585, g: 0.15229617, b: 0.59094197, a: 1}
-    - {r: 0.29411766, g: 0.2901961, b: 0.23921569, a: 1}
-    - {r: 0.20188677, g: 1, b: 0.3333408, a: 1}
-    TargetTexture: {fileID: 2800000, guid: aae994b948d68414abf6694723983db2, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: c2546ed5e5ec12844b5e6c8418ee0929, type: 3}
-  - JelliesPrefab: {fileID: 7459235851604679244, guid: f7306bd0d601fca4993f633c3798c162, type: 3}
-    Colors:
-    - {r: 1, g: 0.066340126, b: 0, a: 1}
-    - {r: 0.8773585, g: 0.47394767, b: 0.028141629, a: 1}
-    - {r: 0.9245283, g: 0.36108932, b: 0.7516599, a: 1}
-    - {r: 1, g: 0.9136166, b: 0.5226415, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 36a05194e22d52e42963a3b66ff3409f, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 4d30e4536cf4df34e92f2de4473c6cdf, type: 3}
-  - JelliesPrefab: {fileID: 5901011499270839291, guid: 67e208902e3c99b418a97ed264e47048, type: 3}
-    Colors:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
+    - {r: 0.2588256, g: 0.0126104355, b: 0.3575967, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 8f6a06ccf69716840890dcfeabff6453, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 55dfd06310cc25744ba804e83a8672ce, type: 3}
+  - Id: ice_cream
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: be188da41be5475f9abc058ab649cd87, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: d6ae4b5f5f2349d798ad6345a256fa3d, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.76100624, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: d560df7542b64064ae540b58cb0d6693, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: d07d0a68dab24e5da3ba57264c073068, type: 3}
+      <TargetColor>k__BackingField: {r: 0.46855342, g: 1, b: 0.9797819, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4381284362e047148e71f855819d1b47, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 0d235db3cf8d47ea8990e9de92ed9622, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.7909963, b: 0.5157232, a: 1}
+    JelliesPrefab: {fileID: 336930100776250264, guid: 4f2919ce0cc63cf45bc38bb8ff677069, type: 3}
+    AdditionalColors:
+    - {r: 0.06897807, g: 0.9757073, b: 0.15926528, a: 1}
+    - {r: 0.45504743, g: 0.52663225, b: 0.49582893, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.76100624, b: 1, a: 1}
+    - {r: 0.46855342, g: 1, b: 0.9797819, a: 1}
+    - {r: 1, g: 0.7909963, b: 0.5157232, a: 1}
+    - {r: 0.06897807, g: 0.9757073, b: 0.15926528, a: 1}
+    - {r: 0.45504743, g: 0.52663225, b: 0.49582893, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 063a54d15c8626446a592c41fddf1b79, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: b7cb03a0021e4474a8e64ef08090c28d, type: 3}
+  - Id: nut
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: c4c12a12633a473d84e6cf6e39a851cd, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: d2367dc008e84404bf7c32fa7ee81578, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.705501, b: 0.17647058, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 85c28e44d618418f85ed540635059daa, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 314313dff6634dc6bdd0828cbee44f1c, type: 3}
+      <TargetColor>k__BackingField: {r: 0.6327064, g: 1, b: 0.21383637, a: 1}
+    JelliesPrefab: {fileID: 474130305541837277, guid: 41c5063b62236d746b5bbd6b5adf7d10, type: 3}
+    AdditionalColors:
+    - {r: 0.6246559, g: 0.2159239, b: 0.82803583, a: 1}
+    - {r: 0.17262483, g: 0.40653223, b: 0.022629976, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.705501, b: 0.17647058, a: 1}
+    - {r: 0.6327064, g: 1, b: 0.21383637, a: 1}
+    - {r: 0.6246559, g: 0.2159239, b: 0.82803583, a: 1}
+    - {r: 0.17262483, g: 0.40653223, b: 0.022629976, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 82ddfa35aa6224347909b62e6b0091bf, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: fa522c03052cae74b815f58f0f3ec6f7, type: 3}
+  - Id: egg
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: b0ba8f4046df4048baff3509a10d4c4b, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: fc778bfac4bb48edbb55221832170d63, type: 3}
+      <TargetColor>k__BackingField: {r: 0.24919893, g: 0.8811161, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4d923effd8c04ac1b6cf5cedc6258b7e, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: d22f713961df4a12aa6aacf6ceeb6b61, type: 3}
+      <TargetColor>k__BackingField: {r: 0.3374569, g: 0.8584906, b: 0.58, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 6f11a4733e9448d2867a6c805875f5a7, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: f90c3cee3e444015b00940053bf18364, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.49685526, b: 0.49685526, a: 1}
+    JelliesPrefab: {fileID: 6532537383621077998, guid: 64c8df646eacbdd419420dfae76e7936, type: 3}
+    AdditionalColors:
+    - {r: 0.0037008524, g: 0.2360295, b: 0.42708367, a: 1}
+    - {r: 0.8581158, g: 0.013079882, b: 0.7687826, a: 1}
+    AllColorsCached:
+    - {r: 0.24919893, g: 0.8811161, b: 1, a: 1}
+    - {r: 0.3374569, g: 0.8584906, b: 0.58, a: 1}
+    - {r: 1, g: 0.49685526, b: 0.49685526, a: 1}
+    - {r: 0.0037008524, g: 0.2360295, b: 0.42708367, a: 1}
+    - {r: 0.8581158, g: 0.013079882, b: 0.7687826, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 82e0530c4b9bcce4b91d59ee824d9edf, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 3dde5140634a57646b9dd129a72cdded, type: 3}
+  - Id: ring
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 3bba00b2db034a3d8108cad6b6ce19ab, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 79be62b2ad7944e0bfdae2d12e4d10eb, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.9889476, b: 0.11949676, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 0f19013b5f084ebf9bee652fa6b646b9, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: b49003e0850741a8a385eecc35ab6d30, type: 3}
+      <TargetColor>k__BackingField: {r: 0.23270434, g: 1, b: 0.91220295, a: 1}
+    JelliesPrefab: {fileID: 3512537767623533178, guid: 72237731f7582564cb5e80b0416aedc7, type: 3}
+    AdditionalColors:
+    - {r: 0.95511544, g: 0.19723773, b: 0.7575828, a: 1}
+    - {r: 0.5521839, g: 0.25253528, b: 0.42032892, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.9889476, b: 0.11949676, a: 1}
+    - {r: 0.23270434, g: 1, b: 0.91220295, a: 1}
+    - {r: 0.95511544, g: 0.19723773, b: 0.7575828, a: 1}
+    - {r: 0.5521839, g: 0.25253528, b: 0.42032892, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 558b8cc279de3054fbbbd2e25abc6ee1, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 19992fe821feff3499a035e3cd139b44, type: 3}
+  - Id: pear
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 185e671f812848918884d2de74498fb1, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3af10db7d4b5481193ca4407c2b044b2, type: 3}
+      <TargetColor>k__BackingField: {r: 0.771, g: 0.899, b: 0.31743202, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: cf027bcc9082435b9df107144efab0d4, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: a2caf097c1f34a9e8f3fce73a528b291, type: 3}
+      <TargetColor>k__BackingField: {r: 0.5594142, g: 0.990566, b: 0.21181904, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 2b8a870dcd8a41e598a953d6a87f6d9a, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3594012b129a4899a1157ec71772724f, type: 3}
+      <TargetColor>k__BackingField: {r: 0.956085, g: 0.37421376, b: 1, a: 1}
+    JelliesPrefab: {fileID: 3786283817190865733, guid: 9ccff4005141c694d9b3629e356dfb8d, type: 3}
+    AdditionalColors:
+    - {r: 0.38460797, g: 0.7842989, b: 0.9827876, a: 1}
+    - {r: 0.05653584, g: 0.7083715, b: 0.6182268, a: 1}
+    AllColorsCached:
+    - {r: 0.771, g: 0.899, b: 0.31743202, a: 1}
+    - {r: 0.5594142, g: 0.990566, b: 0.21181904, a: 1}
+    - {r: 0.956085, g: 0.37421376, b: 1, a: 1}
+    - {r: 0.38460797, g: 0.7842989, b: 0.9827876, a: 1}
+    - {r: 0.05653584, g: 0.7083715, b: 0.6182268, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 4191cff5338b42548bc23de797048885, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 9b9b9eed4a7a4a747935f3550f23a2a2, type: 3}
+  - Id: ice_cream_on_floor
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: da6c0d93c4c242358a4cd7f289a4ca80, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: ca1e68a0d30e44ba8dec203ff3063b83, type: 3}
+      <TargetColor>k__BackingField: {r: 0.6155304, g: 1, b: 0.17647058, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: a35d886be1574086b18899c0dc1567b3, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 64d685fb3f7a496b94f5c959006665fd, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9528302, g: 0.73720706, b: 0.49139664, a: 1}
+    JelliesPrefab: {fileID: 3481128720007782557, guid: f37c0359c3805784e9dbac951f68f1a0, type: 3}
+    AdditionalColors:
+    - {r: 0.12217462, g: 0.53209263, b: 0.278773, a: 1}
+    - {r: 0.16679466, g: 0.16503584, b: 0.31122667, a: 1}
+    AllColorsCached:
+    - {r: 0.6155304, g: 1, b: 0.17647058, a: 1}
+    - {r: 0.9528302, g: 0.73720706, b: 0.49139664, a: 1}
+    - {r: 0.12217462, g: 0.53209263, b: 0.278773, a: 1}
+    - {r: 0.16679466, g: 0.16503584, b: 0.31122667, a: 1}
+    TargetTexture: {fileID: 2800000, guid: dc1b875b564304544afb794d99ec49dc, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: a0d45fdab178df5419a6805f714b7d08, type: 3}
+  - Id: one_banana
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 0aa2fde44d9942ceab8d7423227ef0a6, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 49672cdfe5874c8aab90e00a0544cfcb, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.59, b: 0.325, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 87617278a93a4bdf9f95974d8243b4b0, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 26d45908f0864e7584bffa2a75760667, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.9649853, b: 0.68553454, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: da2cedac1b134d54ace5d985a4b8a15f, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 50988d641c1c4009a47d59a70c665f12, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 0.05345905, a: 1}
+    JelliesPrefab: {fileID: 2891572670304017433, guid: e288d0a739b24f644b8b0368466353b6, type: 3}
+    AdditionalColors:
+    - {r: 0.07103467, g: 0.75729513, b: 0.088000774, a: 1}
+    - {r: 0.28865534, g: 0.5834673, b: 0.90118814, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.59, b: 0.325, a: 1}
+    - {r: 1, g: 0.9649853, b: 0.68553454, a: 1}
+    - {r: 1, g: 1, b: 0.05345905, a: 1}
+    - {r: 0.07103467, g: 0.75729513, b: 0.088000774, a: 1}
+    - {r: 0.28865534, g: 0.5834673, b: 0.90118814, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 4f77a9ea6f424f346831d5c3e44c154b, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: b43264ce595112a4b80ffc540a150ae6, type: 3}
+  - Id: something
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 1f81b45097d444e3975604efa0338dad, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 6180c28326a742dba1ef439305196d42, type: 3}
+      <TargetColor>k__BackingField: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 89ee455752384fe297636f5912c25b8c, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 848e7c1f41d64918a6b8ea787d060a7e, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.75444156, b: 0, a: 1}
+    JelliesPrefab: {fileID: 5007831174733273039, guid: 98131a04f08be304a8451a96c8344705, type: 3}
+    AdditionalColors:
+    - {r: 0.54676086, g: 0.17224121, b: 0.31826705, a: 1}
+    - {r: 0.20589197, g: 0.1800003, b: 0.13583338, a: 1}
+    AllColorsCached:
+    - {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
+    - {r: 1, g: 0.75444156, b: 0, a: 1}
+    - {r: 0.54676086, g: 0.17224121, b: 0.31826705, a: 1}
+    - {r: 0.20589197, g: 0.1800003, b: 0.13583338, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 7f11631c5d991d543bf2afa18c7043f1, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: c75c0c6812ecc844689ea51b4addf378, type: 3}
+  - Id: woman_hair
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: dcb8ee8f8d1d49fd977f2028fef1944d, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3db9c7e5da4747048a1d785e1f6e276c, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.90625226, b: 0.29019606, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 7ece4551b316433f8f6b18118b9b1917, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 013c232f2f4442758b5b256e291d68ef, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.30980396, b: 0.5454475, a: 1}
+    JelliesPrefab: {fileID: 7459235851604679244, guid: f7306bd0d601fca4993f633c3798c162, type: 3}
+    AdditionalColors:
+    - {r: 0.66025794, g: 0.014588237, b: 0.98183405, a: 1}
+    - {r: 0.45116955, g: 0.17965376, b: 0.8843092, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.90625226, b: 0.29019606, a: 1}
+    - {r: 1, g: 0.30980396, b: 0.5454475, a: 1}
+    - {r: 0.66025794, g: 0.014588237, b: 0.98183405, a: 1}
+    - {r: 0.45116955, g: 0.17965376, b: 0.8843092, a: 1}
+    TargetTexture: {fileID: 2800000, guid: fd006b1aeb014cf4d80ed08b285642ad, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 2fabedbf7dc2c3d44bbaecbb0d7278a4, type: 3}
+  - Id: yin_yang
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 510acf08408b4137982c0d9b8ea73965, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 27ea2db7e51940779153bc4f2cddbf15, type: 3}
+      <TargetColor>k__BackingField: {r: 0, g: 0, b: 0, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 04b5adea914e46f3b790d752648742e5, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 26009b11147c4f3eb07aa84112edfbd3, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    JelliesPrefab: {fileID: 5901011499270839291, guid: 67e208902e3c99b418a97ed264e47048, type: 3}
+    AdditionalColors:
+    - {r: 0.840297, g: 0.92484915, b: 0.10101843, a: 1}
+    - {r: 0.8572241, g: 0.52902573, b: 0.6297171, a: 1}
+    AllColorsCached:
     - {r: 0, g: 0, b: 0, a: 1}
-    - {r: 0, g: 1, b: 0.58596015, a: 1}
     - {r: 1, g: 1, b: 1, a: 1}
-    TargetTexture: {fileID: 2800000, guid: 88df88990b8a1dd4a8736a210f88f085, type: 3}
-    TargetTextureWithGround: {fileID: 2800000, guid: 81163b67df523284aab0967c0fe6e921, type: 3}
+    - {r: 0.840297, g: 0.92484915, b: 0.10101843, a: 1}
+    - {r: 0.8572241, g: 0.52902573, b: 0.6297171, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 9fdb1e3919ea29444bf9ef1a60f6875e, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 2b339f7840f1ef0449123147888f3e40, type: 3}
+  - Id: simple_tree
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: fe1aea2d970ec8a40b9d0117d96dbdd7, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: e0bfc0fbf13f40478d117b3bb696c2d7, type: 3}
+      <TargetColor>k__BackingField: {r: 0.24226275, g: 0.9339623, b: 0.15566029, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4d2825710cfbea640b550552ab52355a, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: b8751e3b7cea4362bbf2beb98e039c9b, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9245283, g: 0.57521176, b: 0.25875157, a: 1}
+    JelliesPrefab: {fileID: 2291381505851471603, guid: 125d5cb6bd1dd724daeb04d462fb58d6, type: 3}
+    AdditionalColors:
+    - {r: 0.48940307, g: 0.075396895, b: 0.8527237, a: 1}
+    - {r: 0.4502421, g: 0.23544192, b: 0.27573794, a: 1}
+    AllColorsCached:
+    - {r: 0.24226275, g: 0.9339623, b: 0.15566029, a: 1}
+    - {r: 0.9245283, g: 0.57521176, b: 0.25875157, a: 1}
+    - {r: 0.48940307, g: 0.075396895, b: 0.8527237, a: 1}
+    - {r: 0.4502421, g: 0.23544192, b: 0.27573794, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 75eb5e250b3b2af4cb2c73fa9b68d599, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 5ca0f7e3aebecc440a8be9adabd315b2, type: 3}
+  - Id: broken_egg
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 76f3cfb9ffb87a44eb06610b522d7d01, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: df339a5daed242d0ac409b36a51f6528, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.8862746, b: 0.77647066, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 350ac849aa787d749b0afed096c13021, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 83821312884f4ae1b2f640c4ddf1148d, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.8862745, b: 0.191, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: be33b7f5472ff5749a0dcbddacb625c1, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 8d9be6099aec4c7c8916c1a523921270, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.8862746, b: 0.77647066, a: 1}
+    JelliesPrefab: {fileID: 7919607834425997224, guid: 07c0c1d40af033b4b91ef0ae3444a5e2, type: 3}
+    AdditionalColors:
+    - {r: 0.8631289, g: 0.45991677, b: 0.32901293, a: 1}
+    - {r: 0.4387141, g: 0.0408777, b: 0.23894072, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.8862746, b: 0.77647066, a: 1}
+    - {r: 1, g: 0.8862745, b: 0.191, a: 1}
+    - {r: 0.8631289, g: 0.45991677, b: 0.32901293, a: 1}
+    - {r: 0.4387141, g: 0.0408777, b: 0.23894072, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 099462fcb01b0164a9c1e33c0cfa9ab1, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 82e9347fb28481742a8be50caba76b8e, type: 3}
+  - Id: ballet_shoe
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: fe1f284d548548d7aaaeb1f23dd605bb, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 564f932fb42b48a1aa48f7d41a3bfa11, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.49685526, b: 0.727906, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 052dff41d2f84d4b84ce5e89e3f42967, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: ff955040cf604e02a6600c891ed6f6c0, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9150943, g: 0.8345199, b: 0.8345199, a: 1}
+    JelliesPrefab: {fileID: 7305046613647038418, guid: d2a1de2be121ed841ac64c32087014ce, type: 3}
+    AdditionalColors:
+    - {r: 0.14854622, g: 0.6982336, b: 0.02054596, a: 1}
+    - {r: 0.859663, g: 0.2377789, b: 0.134, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 0.49685526, b: 0.727906, a: 1}
+    - {r: 0.9150943, g: 0.8345199, b: 0.8345199, a: 1}
+    - {r: 0.14854622, g: 0.6982336, b: 0.02054596, a: 1}
+    - {r: 0.859663, g: 0.2377789, b: 0.134, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 83ddc211c2c1467479873c61765389cd, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 86ddae3a2e7a78745b4dacec25813c51, type: 3}
+  - Id: squirrel
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: c9a20e38065d4a4a9b99165d58e07413, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: cc377e651c5840df8641df7f4a462500, type: 3}
+      <TargetColor>k__BackingField: {r: 0.754717, g: 0.45131987, b: 0.004746554, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 731c43e756d4436faa300e5c798336bc, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 832a4eb7553b4cb8899f2e114f39917e, type: 3}
+      <TargetColor>k__BackingField: {r: 0.68907857, g: 0.743, b: 0.13705935, a: 1}
+    JelliesPrefab: {fileID: 6423764121708032426, guid: a138e980c8f14cb4dbdb4083d7b03123, type: 3}
+    AdditionalColors:
+    - {r: 0.99007833, g: 0.7784836, b: 0.9680141, a: 1}
+    - {r: 0.3597315, g: 0.010669947, b: 0.21933937, a: 1}
+    AllColorsCached:
+    - {r: 0.754717, g: 0.45131987, b: 0.004746554, a: 1}
+    - {r: 0.68907857, g: 0.743, b: 0.13705935, a: 1}
+    - {r: 0.99007833, g: 0.7784836, b: 0.9680141, a: 1}
+    - {r: 0.3597315, g: 0.010669947, b: 0.21933937, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 2cbd91b81cdae4847a7a369aeb38d1b0, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: acdce9a181aed2d4d93588eb73071fed, type: 3}
+  - Id: swan
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 3885220ce39345bc919c69cbbfc3df55, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: cf3e05141d664a0b94f98363246e220e, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: c158a714dbca4dccb7b53a976832b25b, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: d1fb342874524191b05c85381b245e6d, type: 3}
+      <TargetColor>k__BackingField: {r: 0.23137257, g: 0.47450984, b: 1, a: 1}
+    JelliesPrefab: {fileID: 1493671447692499507, guid: 1cc70dcb411567b479d2f4543b008dac, type: 3}
+    AdditionalColors:
+    - {r: 0.04127443, g: 0.033800602, b: 0.24591148, a: 1}
+    - {r: 0.42374653, g: 0.7632477, b: 0.14572251, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.23137257, g: 0.47450984, b: 1, a: 1}
+    - {r: 0.04127443, g: 0.033800602, b: 0.24591148, a: 1}
+    - {r: 0.42374653, g: 0.7632477, b: 0.14572251, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 1675ba326654cd9409f9cc932fe000e3, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: e07dc10edd7938649b5c80cacc9c4287, type: 3}
+  - Id: french_fries
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: f3d24dd4846548c386d906f2496a0738, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 3f87f21f0d6947b2b6ab3a533794e07b, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9811321, g: 0.3301293, b: 0.3301293, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 27b495c359474a869fc73e1999ddf2d7, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 77fd20858db44e1a91dac8a1c869e054, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.8924528, b: 0.21383637, a: 1}
+    JelliesPrefab: {fileID: 3382202509649657375, guid: a2d69d65045ddfd4697174ffefb8041f, type: 3}
+    AdditionalColors:
+    - {r: 0.5228773, g: 0.33660358, b: 0.86260605, a: 1}
+    - {r: 0.5826505, g: 0.7499908, b: 0.554197, a: 1}
+    AllColorsCached:
+    - {r: 0.9811321, g: 0.3301293, b: 0.3301293, a: 1}
+    - {r: 1, g: 0.8924528, b: 0.21383637, a: 1}
+    - {r: 0.5228773, g: 0.33660358, b: 0.86260605, a: 1}
+    - {r: 0.5826505, g: 0.7499908, b: 0.554197, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 8c747fda5b8908e45aaaf061357e3b8d, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: da787fc83dfbebf44bda636f76cd3c62, type: 3}
+  - Id: whale
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 7767902a46c3414f926e3d65bb84ec74, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 2d393d51223642f2b040fad763ff605b, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 7c62e51b1c6c40ecbc4df85db63e47fa, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 0ec3d50726734e68bce8513419e336d9, type: 3}
+      <TargetColor>k__BackingField: {r: 0.25157225, g: 0.8390469, b: 1, a: 1}
+    JelliesPrefab: {fileID: 3348724441310188100, guid: 6dc5afcadc66db34bbefdcf7d0db3d03, type: 3}
+    AdditionalColors:
+    - {r: 0.8715931, g: 0.25779718, b: 0.7770523, a: 1}
+    - {r: 0.47790962, g: 0.6331991, b: 0.16644025, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.25157225, g: 0.8390469, b: 1, a: 1}
+    - {r: 0.8715931, g: 0.25779718, b: 0.7770523, a: 1}
+    - {r: 0.47790962, g: 0.6331991, b: 0.16644025, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 88681351821bf2243a74becb34f05052, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 90e9cac50db5e5446a87550d0bc1a56a, type: 3}
+  - Id: gel
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: a53206e5191a4d439de46ea8113511ae, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: dbce1ff253324d1dba642c1c21a63391, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9668526, g: 0.31778798, b: 0.9716981, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: bcd0dbeb15cd4d5f9072dd6fe8de47df, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 2f883bbdfe484198be8b4e3e62a93a13, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.728665, b: 0.10062885, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 609802e9dd064c5cb8fc54cbaf4669d1, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: dac21b201f044c07996c3078ce9edd74, type: 3}
+      <TargetColor>k__BackingField: {r: 0.6712679, g: 1, b: 0.19607842, a: 1}
+    JelliesPrefab: {fileID: 2882756590070396347, guid: f0c3a1e99f4c3734681f09828b0ef5f8, type: 3}
+    AdditionalColors:
+    - {r: 0.26685947, g: 0.21748269, b: 0.38418633, a: 1}
+    - {r: 0.12213004, g: 0.30415612, b: 0.3963762, a: 1}
+    AllColorsCached:
+    - {r: 0.9668526, g: 0.31778798, b: 0.9716981, a: 1}
+    - {r: 1, g: 0.728665, b: 0.10062885, a: 1}
+    - {r: 0.6712679, g: 1, b: 0.19607842, a: 1}
+    - {r: 0.26685947, g: 0.21748269, b: 0.38418633, a: 1}
+    - {r: 0.12213004, g: 0.30415612, b: 0.3963762, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 86907c4d299b1ab4c9935e712d42b196, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: cc47df5fd7bdcd046ab5d0a5874c57f5, type: 3}
+  - Id: cinnabon
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: bb4a6d1df52c485da39a7ff956aa9e6e, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 6215c7b9a7004450ae6071fe7abc2673, type: 3}
+      <TargetColor>k__BackingField: {r: 0.7411765, g: 0.39726317, b: 0.2627451, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: e35ae62a991546b18fbf93edd9470a07, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 670fd799909c4ea98318f7caaa1203bf, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9529412, g: 0.801, b: 0.49019608, a: 1}
+    JelliesPrefab: {fileID: 7963889733530736578, guid: 63c5c2e8f2d542f4287b33d563860fea, type: 3}
+    AdditionalColors:
+    - {r: 0.4379211, g: 0.98036325, b: 0.8962232, a: 1}
+    - {r: 0.16771698, g: 0.5407315, b: 0.6407206, a: 1}
+    AllColorsCached:
+    - {r: 0.7411765, g: 0.39726317, b: 0.2627451, a: 1}
+    - {r: 0.9529412, g: 0.801, b: 0.49019608, a: 1}
+    - {r: 0.4379211, g: 0.98036325, b: 0.8962232, a: 1}
+    - {r: 0.16771698, g: 0.5407315, b: 0.6407206, a: 1}
+    TargetTexture: {fileID: 2800000, guid: cb42d04f47426bb4fa394c0416b31d48, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 48e988ceac1406744aeba0cf7ab273b9, type: 3}
+  - Id: clover
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 96628a1b5aa74ee7a07efb017fa66775, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 5733afcd891d4389bf44d4fafd962bf4, type: 3}
+      <TargetColor>k__BackingField: {r: 0.75, g: 1, b: 0.18431371, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: e4ff313d95f5427896eb6c2ef0c17965, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: b63bc0968f0a4425ae6c70d73f937123, type: 3}
+      <TargetColor>k__BackingField: {r: 0.049928736, g: 0.906, b: 0.16413406, a: 1}
+    JelliesPrefab: {fileID: 3941350587903071640, guid: 5e8d7a81819e8b3468ef4f284ef68eef, type: 3}
+    AdditionalColors:
+    - {r: 0.47899455, g: 0.11102116, b: 0.8854867, a: 1}
+    - {r: 0.5126384, g: 0.29987472, b: 0.3305661, a: 1}
+    AllColorsCached:
+    - {r: 0.75, g: 1, b: 0.18431371, a: 1}
+    - {r: 0.049928736, g: 0.906, b: 0.16413406, a: 1}
+    - {r: 0.47899455, g: 0.11102116, b: 0.8854867, a: 1}
+    - {r: 0.5126384, g: 0.29987472, b: 0.3305661, a: 1}
+    TargetTexture: {fileID: 2800000, guid: d97e3e64489584f498646ec3dff4754b, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: c22acf44138ebee45a4ed4dacd754e7e, type: 3}
+  - Id: light_bulb
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 631a8036841144c4a5ad54a7f7cd4263, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: a442d83e85084621896d2d941e8c1ad4, type: 3}
+      <TargetColor>k__BackingField: {r: 0.968479, g: 1, b: 0.6194968, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 6d4c570728af4ea89d154d3712f2b7b5, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 2437f0dcd94a459aaa476edc72239f13, type: 3}
+      <TargetColor>k__BackingField: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
+    JelliesPrefab: {fileID: 4743658480455767793, guid: 9a7525f356f976740893f6dda9e370a9, type: 3}
+    AdditionalColors:
+    - {r: 0.00078320503, g: 0.53148025, b: 0.73102105, a: 1}
+    - {r: 0.04582858, g: 0.5595215, b: 0.45708793, a: 1}
+    AllColorsCached:
+    - {r: 0.968479, g: 1, b: 0.6194968, a: 1}
+    - {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
+    - {r: 0.00078320503, g: 0.53148025, b: 0.73102105, a: 1}
+    - {r: 0.04582858, g: 0.5595215, b: 0.45708793, a: 1}
+    TargetTexture: {fileID: 2800000, guid: c0c78664fb06d0946ad4dd22ce47435f, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 4cb328436e7b1bd4993759a1ac20b7fb, type: 3}
+  - Id: fried_egg
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 94e4cc97eafb4ebda64ec27de5f9af67, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 827e981007e5405c8050b084d832d578, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: d44ddbb1717749e388ec4127a8e78424, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 48d83d26402545e09dbeeef6c93cbbf1, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.9929901, b: 0.18553454, a: 1}
+    JelliesPrefab: {fileID: 2794768973591509162, guid: aaf9616a3d6a6e847ad024935220851e, type: 3}
+    AdditionalColors:
+    - {r: 0.4186749, g: 0.8953116, b: 0.28287846, a: 1}
+    - {r: 0.9998617, g: 0.3355947, b: 0.3663271, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 1, g: 0.9929901, b: 0.18553454, a: 1}
+    - {r: 0.4186749, g: 0.8953116, b: 0.28287846, a: 1}
+    - {r: 0.9998617, g: 0.3355947, b: 0.3663271, a: 1}
+    TargetTexture: {fileID: 2800000, guid: fbf169472ef81974f8059806d2d30f99, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 899881fbfd60f8148ae7505afc69e54f, type: 3}
+  - Id: sun_cloud
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 00b6c5d3860d4e3b9c688aecd1116e69, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 92d715265352426fbab48c24b2e3b75f, type: 3}
+      <TargetColor>k__BackingField: {r: 0.6914015, g: 0.09398355, b: 0.9339623, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 5f8ac3eed2134b77882c03079fd785dc, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 54f3e1b1157e42ffbdf61762d03cd41a, type: 3}
+      <TargetColor>k__BackingField: {r: 0.99036974, g: 1, b: 0.12893075, a: 1}
+    JelliesPrefab: {fileID: 3639232249491293726, guid: d98b91d8188710b44a5329261abd98d2, type: 3}
+    AdditionalColors:
+    - {r: 0.33421224, g: 0.6117893, b: 0.028443336, a: 1}
+    - {r: 0.0044806004, g: 0.068000555, b: 0.9550905, a: 1}
+    AllColorsCached:
+    - {r: 0.6914015, g: 0.09398355, b: 0.9339623, a: 1}
+    - {r: 0.99036974, g: 1, b: 0.12893075, a: 1}
+    - {r: 0.33421224, g: 0.6117893, b: 0.028443336, a: 1}
+    - {r: 0.0044806004, g: 0.068000555, b: 0.9550905, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 5f09f7ac4056b1a4ba3011d6e4a87c3b, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 9300ef6d346e9bb46a36acc4d2a72f64, type: 3}
+  - Id: purse
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 6ee49bb5122b443dbc001d906a5992fd, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 5d2652eb1eef46868f69fe56a276637b, type: 3}
+      <TargetColor>k__BackingField: {r: 0.94509804, g: 0.21960784, b: 0.21960784, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: bb2626dc29584418bde7eef84be00015, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: e14793d22c9747318ce2e25737821dbe, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.9137255, b: 0, a: 1}
+    JelliesPrefab: {fileID: 5465426630261510012, guid: 77d947cece345994cbcd90e63db9f7d0, type: 3}
+    AdditionalColors:
+    - {r: 0.25514525, g: 0.2495985, b: 0.6541294, a: 1}
+    - {r: 0.007427573, g: 0.42056638, b: 0.089910865, a: 1}
+    AllColorsCached:
+    - {r: 0.94509804, g: 0.21960784, b: 0.21960784, a: 1}
+    - {r: 1, g: 0.9137255, b: 0, a: 1}
+    - {r: 0.25514525, g: 0.2495985, b: 0.6541294, a: 1}
+    - {r: 0.007427573, g: 0.42056638, b: 0.089910865, a: 1}
+    TargetTexture: {fileID: 2800000, guid: bd8cb86dc854cd24fb171ed6fbc19245, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 7e13f392db0c9274db17f077331eb28b, type: 3}
+  - Id: alarm_clock
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: -3785056053693205976, guid: dedca227748572c4eb8c5bfa9835f3fd, type: 3}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 32eded4a5bd04d3ea5ce5845a9f07db0, type: 3}
+      <TargetColor>k__BackingField: {r: 0.97040164, g: 1, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 723fa24bd2dd4e40bf3da216167462ee, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: ac13a641bab845f191be7e616a356627, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.5693971, b: 0.25157225, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 6173abd7a45a4effab107377b4e7bfc2, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 48adbc8e09ed44eeb6d75e4fa607bfa8, type: 3}
+      <TargetColor>k__BackingField: {r: 0.559, g: 0.75996286, b: 0.8867924, a: 1}
+    JelliesPrefab: {fileID: 3726962171264615489, guid: 2bd6fdb51caff9145bfdde8d3166101e, type: 3}
+    AdditionalColors: []
+    AllColorsCached:
+    - {r: 0.97040164, g: 1, b: 1, a: 1}
+    - {r: 1, g: 0.5693971, b: 0.25157225, a: 1}
+    - {r: 0.559, g: 0.75996286, b: 0.8867924, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 14ad2a3d35f8e774a8e4db10a2cc74cc, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: b144a0b8835f61248a15ed3d99cc041e, type: 3}
+  - Id: comb_with_hair_on
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: f46ae286dfdd43e1abd14f0c4ff5e34c, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: e2267bb49db2461185123499e5e0ab27, type: 3}
+      <TargetColor>k__BackingField: {r: 0.98287284, g: 1, b: 0.23270434, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 148ef427482749c2b9b462eaebb0dd20, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 6c394700982549fd81309aee23c73fb5, type: 3}
+      <TargetColor>k__BackingField: {r: 0.33725494, g: 0.88439494, b: 0.972549, a: 1}
+    JelliesPrefab: {fileID: 5965797425860128732, guid: 0a7625b84612ff542a64b45bc80d15dd, type: 3}
+    AdditionalColors:
+    - {r: 0.24382079, g: 0.71535265, b: 0.076093554, a: 1}
+    - {r: 0.29001063, g: 0.68296576, b: 0.5674922, a: 1}
+    AllColorsCached:
+    - {r: 0.98287284, g: 1, b: 0.23270434, a: 1}
+    - {r: 0.33725494, g: 0.88439494, b: 0.972549, a: 1}
+    - {r: 0.24382079, g: 0.71535265, b: 0.076093554, a: 1}
+    - {r: 0.29001063, g: 0.68296576, b: 0.5674922, a: 1}
+    TargetTexture: {fileID: 2800000, guid: ee27a7716a0111b458075318038900e6, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 33a0ea21f04853841bd306d7920ae86f, type: 3}
+  - Id: human_pelvis
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: dd148093202146afb7449012dc39a7e6, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: eb012389e0cf48e1acefad1d6880fb9e, type: 3}
+      <TargetColor>k__BackingField: {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 8a0b8c4e7bf948c2b8c3c9da149da85f, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 657d543f278b419b9bf59462502c743a, type: 3}
+      <TargetColor>k__BackingField: {r: 0.4424008, g: 1, b: 0.26100624, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 04eaf3b6fe6b4c8497f38e3fb72f4303, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 116548aa63294498addb2e88ac4e07fa, type: 3}
+      <TargetColor>k__BackingField: {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 8aea73d1223c4d3d923d65b6c9a2f983, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 4e960ac909c74055835d9ec7725e360e, type: 3}
+      <TargetColor>k__BackingField: {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    JelliesPrefab: {fileID: 1379991393251043144, guid: 86e28d2507ed21c4cb9c0cb344d3feda, type: 3}
+    AdditionalColors:
+    - {r: 0.7280183, g: 0.37170702, b: 0.94952965, a: 1}
+    - {r: 0.47372693, g: 0.46320993, b: 0.5379384, a: 1}
+    AllColorsCached:
+    - {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - {r: 0.4424008, g: 1, b: 0.26100624, a: 1}
+    - {r: 0.7280183, g: 0.37170702, b: 0.94952965, a: 1}
+    - {r: 0.47372693, g: 0.46320993, b: 0.5379384, a: 1}
+    TargetTexture: {fileID: 2800000, guid: b0d1a3764d6b5f94aae733d67228a895, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: cc469dc37b0528a4b9c2a1522cb87634, type: 3}
+  - Id: onion
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: b13e22fbc2a046bf81923f3519dbccb8, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 401c7fa71e9f490095c1d886a55e8ffe, type: 3}
+      <TargetColor>k__BackingField: {r: 0.64705884, g: 0.8588236, b: 0.39607847, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4ac1cf9dc29a44ff9d1f1b1dbdda601b, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: cc20e4f1b9f84f60b2a8bdd6fe5ba1f4, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9529412, g: 0.99215686, b: 0.8666667, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 31204f6aa41647de9aa01a8e1050276b, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: c11a5da74cef45ba9352d986749a9930, type: 3}
+      <TargetColor>k__BackingField: {r: 0.65310425, g: 0.9811321, b: 0.32087332, a: 1}
+    JelliesPrefab: {fileID: 682017295053857145, guid: 9c9272807ae01304caa8241339134f1c, type: 3}
+    AdditionalColors:
+    - {r: 0.91008556, g: 0.40435022, b: 0.980101, a: 1}
+    - {r: 0.76745427, g: 0.05382693, b: 0.39675933, a: 1}
+    AllColorsCached:
+    - {r: 0.64705884, g: 0.8588236, b: 0.39607847, a: 1}
+    - {r: 0.9529412, g: 0.99215686, b: 0.8666667, a: 1}
+    - {r: 0.65310425, g: 0.9811321, b: 0.32087332, a: 1}
+    - {r: 0.91008556, g: 0.40435022, b: 0.980101, a: 1}
+    - {r: 0.76745427, g: 0.05382693, b: 0.39675933, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 419e4030c77eea648885b394055508d1, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: c24f33f72d4dc874192e2e649444ada7, type: 3}
+  - Id: bag
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: fff68939312a424f97621de1063808d9, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 485dbd83b584421da6fccb3a99697ed5, type: 3}
+      <TargetColor>k__BackingField: {r: 0.495, g: 0.7939537, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 1f2c4aae52344a7182db8ad4904ffbfb, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 38dbf933682b416a8e3434bb2c6c8234, type: 3}
+      <TargetColor>k__BackingField: {r: 0.9, g: 0.8490566, b: 0.8490566, a: 1}
+    JelliesPrefab: {fileID: 3538775173006790548, guid: b6a58687afe87b3428ebfb67b1a37d77, type: 3}
+    AdditionalColors:
+    - {r: 0.93910587, g: 0.990566, b: 0.17443922, a: 1}
+    AllColorsCached:
+    - {r: 0.495, g: 0.7939537, b: 1, a: 1}
+    - {r: 0.9, g: 0.8490566, b: 0.8490566, a: 1}
+    - {r: 0.93910587, g: 0.990566, b: 0.17443922, a: 1}
+    TargetTexture: {fileID: 2800000, guid: dc25fd204fecffa4c9c405fe7ff091f3, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: eaa22093bc801b148b22e191fd688bf8, type: 3}
+  - Id: kiss
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: -4243897057239644262, guid: 0db6b19514a31614fa42616e5277b9da, type: 3}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: c64cffeddb5f427b849a804821b7744b, type: 3}
+      <TargetColor>k__BackingField: {r: 0.62299746, g: 0.990566, b: 0.8517639, a: 1}
+    - <Mesh>k__BackingField: {fileID: 7469153624622336207, guid: 0db6b19514a31614fa42616e5277b9da, type: 3}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 9eb5141c577b46b5a7ed37f2a1e87677, type: 3}
+      <TargetColor>k__BackingField: {r: 0.6738791, g: 0.9150943, b: 0.19568045, a: 1}
+    - <Mesh>k__BackingField: {fileID: -5742044816384617581, guid: 0db6b19514a31614fa42616e5277b9da, type: 3}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: b04301c95e2b4320b8cae0fca185aa46, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.6761006, b: 0.8744064, a: 1}
+    JelliesPrefab: {fileID: 2026568329764225343, guid: 63e86aa7b00d10b42a0cb6a564f158b4, type: 3}
+    AdditionalColors:
+    - {r: 0.10522914, g: 0.87801266, b: 0.541856, a: 1}
+    - {r: 0.012935638, g: 0.082648635, b: 0.28895646, a: 1}
+    AllColorsCached:
+    - {r: 0.62299746, g: 0.990566, b: 0.8517639, a: 1}
+    - {r: 0.6738791, g: 0.9150943, b: 0.19568045, a: 1}
+    - {r: 1, g: 0.6761006, b: 0.8744064, a: 1}
+    - {r: 0.10522914, g: 0.87801266, b: 0.541856, a: 1}
+    - {r: 0.012935638, g: 0.082648635, b: 0.28895646, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 466bdb4ffaceb1148800f8200fd12d54, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 330f505c9780e124983608360af7f7a5, type: 3}
+  - Id: kitties
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 931661594b52483998dbcde0590d311e, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 1185726dbeff49bc9febbaabef6f9999, type: 3}
+      <TargetColor>k__BackingField: {r: 0.47341868, g: 0.9528302, b: 0.934649, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4d92d80f0a2742978cf3987597cc269f, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 1c74d08e005b4c7583589b7bf314cf16, type: 3}
+      <TargetColor>k__BackingField: {r: 0.44998214, g: 0.9056604, b: 0.5101965, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 606ea6f8f5c8492893a3b0f2a384730c, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 0405adaa17af42018debd7a0c86fd63b, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: bfe9457d15614f43847ab0acca1f7ab4, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 327989269b16445a82d660634ce5e2ad, type: 3}
+      <TargetColor>k__BackingField: {r: 0.5045754, g: 0.49602464, b: 0.8962264, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4705f7cc3bf14376bc12a3eac9027270, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: ea7b8968122a4daaaf4bc3654d2e8e2e, type: 3}
+      <TargetColor>k__BackingField: {r: 0.990566, g: 0.72533286, b: 0.39871833, a: 1}
+    JelliesPrefab: {fileID: 1856847347814144223, guid: 65ad3a5a9c60fcf4db58b85ff354c2fa, type: 3}
+    AdditionalColors:
+    - {r: 0.6667135, g: 0.02813387, b: 0.3077243, a: 1}
+    - {r: 0.025268555, g: 0.43659574, b: 0.57174605, a: 1}
+    AllColorsCached:
+    - {r: 0.47341868, g: 0.9528302, b: 0.934649, a: 1}
+    - {r: 0.44998214, g: 0.9056604, b: 0.5101965, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.5045754, g: 0.49602464, b: 0.8962264, a: 1}
+    - {r: 0.990566, g: 0.72533286, b: 0.39871833, a: 1}
+    - {r: 0.6667135, g: 0.02813387, b: 0.3077243, a: 1}
+    - {r: 0.025268555, g: 0.43659574, b: 0.57174605, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 85663a97f4828104b8b660b21dddff35, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: c195a82c81345754786228612444d44a, type: 3}
+  - Id: heart_with_wings
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 4bd62221e47a4f9dae49ccb0f760675e, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: a1bc552b4e3a46079967136095ec51aa, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 6057dbbb52c14114a0c4761a6e88b0d4, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: f5df251ef8554e33b9272ac6f8e4733c, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.13836467, b: 0.5031695, a: 1}
+    JelliesPrefab: {fileID: 1782669928675736070, guid: d8a254bc64b5d1d4d9901eb11ec408de, type: 3}
+    AdditionalColors:
+    - {r: 0.08225441, g: 0.9029064, b: 0.54277426, a: 1}
+    - {r: 0.52148396, g: 0.6264175, b: 0.40602237, a: 1}
+    AllColorsCached:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 1, g: 0.13836467, b: 0.5031695, a: 1}
+    - {r: 0.08225441, g: 0.9029064, b: 0.54277426, a: 1}
+    - {r: 0.52148396, g: 0.6264175, b: 0.40602237, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 6cb5e8384deaec246ad7e9b2681d16a5, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 67585b864928d0742a48fd60af208f69, type: 3}
+  - Id: human_body
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: be9341884988408a8fbcad8356e86943, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: dbf639040e1a4d93b8c52d1e23eda53e, type: 3}
+      <TargetColor>k__BackingField: {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 56e6e353581541b2948e739f951def0f, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: dc407ebebcac420c9feb3e404fd653e9, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.572327, b: 0.8842389, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 374ca6b8281e47e68bdac1e5b71f6b1a, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 60f16d5437314771b314ed68529f2ee6, type: 3}
+      <TargetColor>k__BackingField: {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 1bc05ea61a844357842af02084afe556, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: a34adb9abe7846d582f8ae8453a907f9, type: 3}
+      <TargetColor>k__BackingField: {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 51262ac4076848a48efa1630cdedd732, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: ff9d197f35254cf2800326719cb1b330, type: 3}
+      <TargetColor>k__BackingField: {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    JelliesPrefab: {fileID: 4950146706731853538, guid: 9cef947422fc62341803aae4e442f84b, type: 3}
+    AdditionalColors:
+    - {r: 0.5193346, g: 0.34749097, b: 0.45495933, a: 1}
+    - {r: 0.086031795, g: 0.6575966, b: 0.5171488, a: 1}
+    AllColorsCached:
+    - {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
+    - {r: 1, g: 0.572327, b: 0.8842389, a: 1}
+    - {r: 0.5193346, g: 0.34749097, b: 0.45495933, a: 1}
+    - {r: 0.086031795, g: 0.6575966, b: 0.5171488, a: 1}
+    TargetTexture: {fileID: 2800000, guid: 50f233b6977a57443aa3fcb764f55e63, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: d405fdf6b5eb9814f9e731c1b6f0f2d7, type: 3}
+  - Id: watermelon_slice
+    JellyMeshConfigs:
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 46f0ba8042e744d394c4608ae2c02d17, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: d431da52758542dba9b3340ad0bd0e37, type: 3}
+      <TargetColor>k__BackingField: {r: 0.13498275, g: 0.8584906, b: 0.21537255, a: 1}
+    - <Mesh>k__BackingField: {fileID: 4300000, guid: 009461b8fa194424a2f608905a2d11a5, type: 2}
+      <MaskTexture>k__BackingField: {fileID: 2800000, guid: 2aed59da713945a7818617260fb173ca, type: 3}
+      <TargetColor>k__BackingField: {r: 1, g: 0.22327036, b: 0.22327036, a: 1}
+    JelliesPrefab: {fileID: 6517186892170525914, guid: c86c107f34a85bc4e8f7987f2d4d0ad0, type: 3}
+    AdditionalColors:
+    - {r: 0.59793526, g: 0.92747986, b: 0.58565634, a: 1}
+    - {r: 0.64228153, g: 0.018544674, b: 0.72534513, a: 1}
+    AllColorsCached:
+    - {r: 0.13498275, g: 0.8584906, b: 0.21537255, a: 1}
+    - {r: 1, g: 0.22327036, b: 0.22327036, a: 1}
+    - {r: 0.59793526, g: 0.92747986, b: 0.58565634, a: 1}
+    - {r: 0.64228153, g: 0.018544674, b: 0.72534513, a: 1}
+    TargetTexture: {fileID: 2800000, guid: c3e2eac1208b26a458ec2ae9e9298be8, type: 3}
+    TargetTextureWithGround: {fileID: 2800000, guid: 7f470f7d0b7b5344ba8b80963c450912, type: 3}

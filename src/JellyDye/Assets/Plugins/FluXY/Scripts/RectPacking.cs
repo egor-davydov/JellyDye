@@ -19,7 +19,7 @@ namespace Fluxy
         /// Takes a list of rects (expressed as Vector4s, x and y for position, z and w for width and height)
         /// and tightly packs them into a square-ish shape.
         /// </summary>
-        public static Vector2 Pack(Vector4[] rects, int[] indices, int first, int length, int margin)
+        public static Vector2 Pack(Vector4[] rects, byte[] indices, int first, int length, int margin)
         {
             var comparer = new RectComparer();
 

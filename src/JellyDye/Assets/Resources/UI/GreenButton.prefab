@@ -233,6 +233,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveTime: 1
+  _uiAudio: {fileID: 1399919537104864709}
+  _button: {fileID: 5692953499306065947}
 --- !u!114 &1399919537104864709
 MonoBehaviour:
   m_ObjectHideFlags: 0

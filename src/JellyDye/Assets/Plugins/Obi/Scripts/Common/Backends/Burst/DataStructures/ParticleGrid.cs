@@ -85,7 +85,7 @@ namespace Obi
             [ReadOnly] public NativeArray<int> filters;
 
             // simplex arrays:
-            [ReadOnly] public NativeList<int> simplices;
+            [ReadOnly] public NativeArray<int> simplices;
             [ReadOnly] public SimplexCounts simplexCounts;
             [ReadOnly] public NativeArray<BurstAabb> simplexBounds;
 

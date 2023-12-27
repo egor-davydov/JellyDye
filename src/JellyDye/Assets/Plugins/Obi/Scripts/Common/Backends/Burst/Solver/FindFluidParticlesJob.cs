@@ -12,7 +12,7 @@ namespace Obi
     [BurstCompile]
     struct FindFluidParticlesJob : IJob
     {
-        [ReadOnly] public NativeList<int> activeParticles;
+        [ReadOnly] public NativeArray<int> activeParticles;
         [ReadOnly] public NativeArray<int> phases;
 
         public NativeList<int> fluidParticles;

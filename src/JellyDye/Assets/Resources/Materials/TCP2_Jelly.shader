@@ -75,7 +75,7 @@ Shader "Custom/TCP2_Jelly"
         fixed4 _Color;
         sampler2D _MainTex;
         sampler2D _JellyTex;
-        float _AddAlpha;
+        half _AddAlpha;
         float _Shadow_HSV_H;
         float _Shadow_HSV_S;
         float _Shadow_HSV_V;
@@ -225,13 +225,13 @@ Shader "Custom/TCP2_Jelly"
 
         void surf(Input IN, inout SurfaceOutputCustom o)
         {
-            float2 uv = TileToUV(IN.UV_MAINTEX, _TileIndex);
-            float4 paintcolor = tex2D(_MainTex, uv);
-            float4 jelly = tex2D(_JellyTex, IN.UV_MAINTEX) * _Color;
+            half2 uv = TileToUV(IN.UV_MAINTEX, _TileIndex);
+            half4 paintcolor = tex2D(_MainTex, uv);
+            half4 jelly = tex2D(_JellyTex, IN.UV_MAINTEX) * _Color;
 
             o.Albedo = paintcolor.rgb;
-            float alpha = paintcolor.r == 0 && paintcolor.g == 0 && paintcolor.b == 0 && paintcolor.a == 0 ? jelly.a : paintcolor.a + _AddAlpha;
-            alpha = clamp(alpha, 0, 1);
+            half alpha = paintcolor.r == 0 && paintcolor.g == 0 && paintcolor.b == 0 && paintcolor.a == 0 ? jelly.a : paintcolor.a + _AddAlpha;
+            alpha = saturate(alpha);
             o.Alpha = alpha;
 
             //Specular
@@ -239,7 +239,7 @@ Shader "Custom/TCP2_Jelly"
             o.Specular = _Smoothness;
 
             //Rim
-            float3 viewDir = normalize(IN.viewDir);
+            half3 viewDir = normalize(IN.viewDir);
             half rim = 1.0f - saturate(dot(viewDir, o.Normal));
             rim = smoothstep(_RimMin, _RimMax, rim);
             o.Rim = rim;

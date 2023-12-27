@@ -20,21 +20,6 @@ namespace Obi
         [SerializeField] protected float _plasticCreep = 0;
         [SerializeField] protected float _plasticRecovery = 0;
 
-        /// <summary>
-        /// Whether to use simplices (triangles, edges) for contact generation.
-        /// </summary>
-        public override bool surfaceCollisions
-        {
-            get
-            {
-                return false;
-            }
-            set
-            {
-                m_SurfaceCollisions = false;
-            }
-        }
-
         /// <summary>  
         /// Whether this actor's shape matching constraints are enabled.
         /// </summary>
@@ -164,6 +149,8 @@ namespace Obi
         {
             SetConstraintsDirty(Oni.ConstraintType.ShapeMatching);
             SetSelfCollisions(m_SelfCollisions);
+            SetSimplicesDirty();
+            UpdateCollisionMaterials();
         }
 
         public override void LoadBlueprint(ObiSolver solver)
@@ -277,7 +264,7 @@ namespace Obi
                 if (centerShape > -1 && centerShape < batch.activeConstraintCount && centerBatch < offsets.Count)
                 {
                     int offset = offsets[centerBatch] + centerShape;
-                    
+
                     transform.position = solver.transform.TransformPoint((Vector3)batch.coms[offset] - batch.orientations[offset] * batch.restComs[offset]);
                     transform.rotation = solver.transform.rotation * batch.orientations[offset];
                 }

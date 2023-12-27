@@ -20,7 +20,7 @@ namespace Obi
      *  These characteristics make it extremely flexible, memory efficient, and fast. 
      *  Its implementation is also fairly simple and concise. 
      */
-    public unsafe struct NativeMultilevelGrid<T> : IDisposable where T : struct, IEquatable<T>
+    public unsafe struct NativeMultilevelGrid<T> : IDisposable where T : unmanaged, IEquatable<T>
     {
 
         public const float minSize = 0.01f; 
@@ -28,15 +28,15 @@ namespace Obi
         /**
          * A cell in the multilevel grid. Coords are 4-dimensional, the 4th component is the grid level.
          */
-        public struct Cell<K> where K : struct, IEquatable<K>
+        public struct Cell<K> where K : unmanaged, IEquatable<K>
         {
             int4 coords;
-            UnsafeList contents;
+            UnsafeList<K> contents;
 
             public Cell(int4 coords)
             {
                 this.coords = coords;
-                contents = new UnsafeList(Allocator.Persistent);
+                contents = new UnsafeList<K>(4,Allocator.Persistent);
             }
 
             public int4 Coords
@@ -69,16 +69,20 @@ namespace Obi
 
             public bool Remove(K entity)
             {
-                int index = contents.IndexOf<K>(entity);
+                //int index = contents.IndexOf(entity);
+                int index = -1;
+                for (int i = 0; i < contents.Length; ++i)
+                    if (contents[i].Equals(entity)) { index = i; break; }
+
                 if (index >= 0)
                 {
-                    contents.RemoveAtSwapBack<K>(index);
+                    contents.RemoveAtSwapBack(index);
                     return true;
                 }
                 return false;
             }
 
-            public void Destroy()
+            public void Dispose()
             {
                 contents.Dispose();
             }
@@ -102,6 +106,9 @@ namespace Obi
 
         public void Clear()
         {
+            for (int i = 0; i < usedCells.Length; ++i)
+                usedCells[i].Dispose();
+
             grid.Clear();
             usedCells.Clear();
             populatedLevels.Clear();
@@ -109,6 +116,9 @@ namespace Obi
 
         public void Dispose()
         {
+            for (int i = 0; i < usedCells.Length; ++i)
+                usedCells[i].Dispose();
+
             grid.Dispose();
             usedCells.Dispose();
             populatedLevels.Dispose();
@@ -146,6 +156,7 @@ namespace Obi
                 {
                     DecreaseLevelPopulation(usedCells[i].Coords.w);
                     grid.Remove(usedCells[i].Coords);
+                    usedCells[i].Dispose();
                     usedCells.RemoveAtSwapBack(i);
                 }
             }

@@ -12,11 +12,13 @@ namespace Obi
 
         protected ReorderableList particleGroupList;
         protected bool mixedPropertyValue = false;
+        protected float minSelectionValue;
+        protected float maxSelectionValue;
 
         public ObiParticleSelectionEditorTool(ObiActorBlueprintEditor editor) : base(editor)
         {
             m_Icon = Resources.Load<Texture2D>("SelectIcon");
-            m_Name = "Particle selection/editing";
+            m_Name = "Particle selection";
 
             selectionBrush = new ObiScreenSpaceBrush(null, UpdateSelection, null);
             selectMode = new ObiSelectBrushMode(new ObiBlueprintSelected(editor));
@@ -112,7 +114,7 @@ namespace Obi
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("InvertButton"), "Invert selection"), GUILayout.MaxHeight(24), GUILayout.MinWidth(48)))
+            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("InvertButton"), "Invert selection"), GUILayout.MaxHeight(24), GUILayout.MaxWidth(48)))
             {
                 for (int i = 0; i < editor.selectionStatus.Length; i++)
                 {
@@ -123,21 +125,21 @@ namespace Obi
             }
 
             GUI.enabled = editor.selectedCount > 0;
-            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("ClearButton"), "Clear selection"), GUILayout.MaxHeight(24), GUILayout.MinWidth(48)))
+            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("ClearButton"), "Clear selection"), GUILayout.MaxHeight(24), GUILayout.MaxWidth(48)))
             {
                 for (int i = 0; i < editor.selectionStatus.Length; i++)
                     editor.selectionStatus[i] = false;
                 UpdateSelection();
             }
 
-            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("OptimizeButton"), "Optimize selected"), GUILayout.MaxHeight(24), GUILayout.MinWidth(48)))
+            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("OptimizeButton"), "Optimize selected"), GUILayout.MaxHeight(24), GUILayout.MaxWidth(48)))
             {
                 Undo.RecordObject(editor.blueprint, "Optimize particles away");
                 editor.blueprint.RemoveSelectedParticles(ref editor.selectionStatus);
                 editor.Refresh();
             }
 
-            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("RemoveButton"), "Remove selected"), GUILayout.MaxHeight(24), GUILayout.MinWidth(48)))
+            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("RemoveButton"), "Remove selected"), GUILayout.MaxHeight(24), GUILayout.MaxWidth(48)))
             {
                 Undo.RecordObject(editor.blueprint, "Remove particles");
                 editor.blueprint.RemoveSelectedParticles(ref editor.selectionStatus, false);
@@ -145,15 +147,54 @@ namespace Obi
             }
             GUI.enabled = true;
 
-            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("RestoreButton"), "Restore removed particles"), GUILayout.MaxHeight(24), GUILayout.MinWidth(48)))
+            if (GUILayout.Button(new GUIContent(Resources.Load<Texture2D>("RestoreButton"), "Restore removed particles"), GUILayout.MaxHeight(24), GUILayout.MaxWidth(48)))
             {
                 Undo.RecordObject(editor.blueprint, "Restore removed particles");
                 editor.blueprint.RestoreRemovedParticles();
                 editor.Refresh();
             }
+
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Property-based selection", EditorStyles.boldLabel);
+            var property = editor.currentProperty as ObiBlueprintFloatProperty;
+            if (property != null)
+            {
+                if (!Mathf.Approximately(property.minVisualizationValue,property.maxVisualizationValue))
+                {
+                    EditorGUILayout.HelpBox("Drag the slider to select based on " + property.name + ". You can choose a different property in the \"Property\" dropdown below.", MessageType.None);
+                    minSelectionValue = Mathf.Max(minSelectionValue, property.minVisualizationValue);
+                    maxSelectionValue = Mathf.Min(maxSelectionValue, property.maxVisualizationValue);
+                    maxSelectionValue = Mathf.Max(maxSelectionValue, minSelectionValue);
+
+                    EditorGUI.BeginChangeCheck();
+                    EditorGUILayout.MinMaxSlider("Select by " + property.name, ref minSelectionValue, ref maxSelectionValue, property.minVisualizationValue, property.maxVisualizationValue);
+                    minSelectionValue = EditorGUILayout.FloatField("Minimum " + property.name, minSelectionValue);
+                    maxSelectionValue = EditorGUILayout.FloatField("Maximum " + property.name, maxSelectionValue);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        for (int i = 0; i < editor.selectionStatus.Length; i++)
+                        {
+                            if (editor.blueprint.IsParticleActive(i))
+                            {
+                                var value = property.Get(i);
+                                editor.selectionStatus[i] = value >= minSelectionValue && value <= maxSelectionValue;
+                            }
+                        }
+                        UpdateSelection();
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.HelpBox("All particles have the same " + property.name + " value.", MessageType.Info);
+                }
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("Property-based selection only works with scalar properties.",MessageType.Info);
+            }
         }
 
         public override void OnInspectorGUI()
@@ -186,8 +227,15 @@ namespace Obi
             EditorGUILayout.BeginVertical(EditorStyles.inspectorDefaultMargins);
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Properties", EditorStyles.boldLabel);
-            if (editor.PropertySelector())
+            EditorGUILayout.HelpBox("Select a property to view and edit. Currently editing " + editor.currentProperty.name+".", MessageType.None);
+
+            EditorGUI.BeginChangeCheck();
+            editor.currentPropertyIndex = editor.PropertySelector(editor.currentPropertyIndex);
+            if (EditorGUI.EndChangeCheck())
+            {
+                editor.Refresh();
                 UpdateSelection();
+            }
 
             // Property value:
             EditorGUI.showMixedValue = mixedPropertyValue;

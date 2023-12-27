@@ -119,7 +119,6 @@ namespace Fluxy
         public int pressureIterations = 3;
 
 
-        private LODGroup lodGroup;
         private int visibleLOD;
         private bool visible = true;
 
@@ -127,7 +126,7 @@ namespace Fluxy
         private int framebufferID = -1;
         private bool tilesDirty;
 
-        private int[] indices = new int[MAX_TILES];
+        private byte[] indices = new byte[MAX_TILES];
         private Vector4[] rects = new Vector4[MAX_TILES];
         private Vector4[] externalForce = new Vector4[MAX_TILES];
         private Vector4[] buoyancy = new Vector4[MAX_TILES];
@@ -155,8 +154,7 @@ namespace Fluxy
 
         private void OnEnable()
         {
-            lodGroup = GetComponent<LODGroup>();
-            visibleLOD = GetCurrentLOD(Camera.main);
+            visibleLOD = 0;
             UpdateFramebuffer();
         }
 
@@ -229,7 +227,7 @@ namespace Fluxy
             {
                 // create a framebuffer.
                 if (storage != null)
-                framebufferID = storage.RequestFramebuffer(desiredResolution / (visibleLOD + 1), densitySupersampling);
+                    framebufferID = storage.RequestFramebuffer(desiredResolution / (visibleLOD + 1), densitySupersampling);
             }
             // visible and created.
             else
@@ -275,40 +273,7 @@ namespace Fluxy
             Destroy(velocityReadbackTexture);
             Destroy(densityReadbackTexture);
         }
-
-        private int GetCurrentLOD(Camera cam = null)
-        {
-            visible = true;
-
-            if (lodGroup == null)
-                return 0;
-
-            var distance = (transform.position - cam.transform.position).magnitude;
-            float size = 1;
-            var relativeHeight = FluxyUtils.RelativeScreenHeight(cam, distance / QualitySettings.lodBias, size);
-
-            var lods = lodGroup.GetLODs();
-            for (var i = 0; i < lods.Length; i++)
-            {
-                if (relativeHeight >= lods[i].screenRelativeTransitionHeight)
-                    return i;
-            }
-
-            visible = false;
-            return lodGroup.lodCount;
-        }
-
-        private void UpdateLOD()
-        {
-            int newLOD = GetCurrentLOD(_camera);
-
-            if (visibleLOD != newLOD)
-            {
-                visibleLOD = newLOD;
-                UpdateFramebuffer();
-            }
-        }
-
+        
         protected virtual void SimulationStep(FluxyStorage.Framebuffer fb, float deltaTime)
         {
             if (fb == null)
@@ -386,10 +351,11 @@ namespace Fluxy
             simulationMaterial.SetTexture("_MainTex", source);
 
             // for each container, draw directly into the velocity map:
-            for (int i = 0; i < containers.Count; ++i)
+            for (byte i = 0; i < containers.Count; ++i)
             {
-                int tile = i + 1;
-                int c = indices[tile];
+                byte tile = i;
+                tile += 1;
+                byte c = indices[tile];
 
                 simulationMaterial.SetInt("_TileIndex", tile);
                 simulationMaterial.SetFloat("_NormalScale", containers[c].normalScale);
@@ -433,7 +399,7 @@ namespace Fluxy
                 // phantom rect should span the entire UV space from -1 to 2.
                 rects[0] = new Vector4(-1, -1, 3, 3);
 
-                for (int i = 0; i < containers.Count; ++i)
+                for (byte i = 0; i < containers.Count; ++i)
                 {
                     rects[i+1] = new Vector4(0, 0, containers[i].size.x * 1024, containers[i].size.y * 1024);
                     indices[i+1] = i;
@@ -443,7 +409,7 @@ namespace Fluxy
 
                 // normalize rect coordinates:
                 float size = Mathf.Max(boundsSize.x, boundsSize.y);
-                for (int i = 0; i < containers.Count; ++i)
+                for (byte i = 0; i < containers.Count; ++i)
                 {
                     rects[i + 1] /= size;
 
@@ -461,12 +427,13 @@ namespace Fluxy
 
         private void UpdateContainerTransforms(FluxyStorage.Framebuffer fb)
         {
-            for (int i = 0; i < containers.Count; ++i)
+            for (byte i = 0; i < containers.Count; ++i)
             {
-                int tile = i + 1;
-                int c = indices[tile];
+                byte tile = i;
+                tile += 1;
+                byte c = indices[tile];
 
-                containers[c].UpdateTransform();
+                //containers[c].UpdateTransform();
                 containers[c].UpdateMaterial(tile, fb);
             }
         }
@@ -476,27 +443,21 @@ namespace Fluxy
             if (fb == null)
                 return;
 
-            for (int i = 0; i < containers.Count; ++i)
+            for (byte i = 0; i < containers.Count; ++i)
             {
-                int tile = i + 1;
-                int c = indices[tile];
+                byte tile = i;
+                tile += 1;
+                byte c = indices[tile];
 
                 simulationMaterial.SetInt("_TileIndex", tile);
                 Graphics.Blit(null, fb.tileID, simulationMaterial, 8);
 
-                dissipation[tile] = containers[c].dissipation;
                 turbulence[tile] = containers[c].turbulence;
                 adhesion[tile] = containers[c].adhesion;
                 surfaceTension[tile] = containers[c].surfaceTension;
                 pressure[tile] = containers[c].pressure;
                 viscosity[tile] = Mathf.Pow(1 - Mathf.Clamp01(containers[c].viscosity), deltaTime);
                 wrapmode[tile] = containers[c].boundaries;
-                densityFalloff[tile] = containers[c].edgeFalloff;
-
-                var acceleration = containers[c].UpdateVelocityAndGetAcceleration();
-                externalForce[tile] = containers[c].gravity + containers[c].externalForce - acceleration * containers[c].accelerationScale;
-                buoyancy[tile] = containers[c].TransformWorldVectorToUVSpace(Vector3.down, rects[tile]) * containers[c].buoyancy;
-                offsets[tile] = containers[c].TransformWorldVectorToUVSpace(containers[c].velocity * deltaTime, rects[tile]) * (1 - containers[c].velocityScale) + (Vector3)containers[c].positionOffset * deltaTime;
             }
 
             simulationMaterial.SetFloatArray("_Pressure", pressure);
@@ -504,12 +465,7 @@ namespace Fluxy
             simulationMaterial.SetFloatArray("_VortConf", turbulence);
             simulationMaterial.SetFloatArray("_Adhesion", adhesion);
             simulationMaterial.SetFloatArray("_SurfaceTension", surfaceTension);
-            simulationMaterial.SetVectorArray("_Dissipation", dissipation);
-            simulationMaterial.SetVectorArray("_ExternalForce", externalForce);
-            simulationMaterial.SetVectorArray("_Buoyancy", buoyancy);
             simulationMaterial.SetVectorArray("_WrapMode", wrapmode);
-            simulationMaterial.SetVectorArray("_EdgeFalloff", densityFalloff);
-            simulationMaterial.SetVectorArray("_Offsets", offsets);
         }
 
         private void Splat(FluxyStorage.Framebuffer fb)
@@ -519,91 +475,43 @@ namespace Fluxy
 
             Shader.SetGlobalTexture("_TileID", fb.tileID);
 
-            for (int i = 0; i < containers.Count; ++i)
+            for (byte i = 0; i < containers.Count; ++i)
             {
-                int tile = i + 1;
-                int c = indices[tile];
+                byte tile = i;
+                tile += 1;
+                byte c = indices[tile];
 
                 // container's target list:
-                for (int j = 0; j < containers[c].targets.Count; ++j)
+                for (byte j = 0; j < containers[c].targets.Count; ++j)
                     if (containers[c].targets[j] != null)
                         containers[c].targets[j].Splat(containers[c], fb, tile, rects[tile]);
-
-                // see if the container has a target provider, then retrieve additional targets.
-                if (containers[c].TryGetComponent(out FluxyTargetProvider provider))
-                {
-                    var targets = provider.GetTargets();
-
-                    for (int j = 0; j < targets.Count; ++j)
-                        if (targets[j] != null)
-                            targets[j].Splat(containers[c], fb, tile, rects[tile]);
-                }
             }
         }
-
-        private void VelocityReadback(FluxyStorage.Framebuffer fb)
-        {
-            if (velocityReadbackTexture != null)
-                AsyncGPUReadback.Request(fb.velocityA, 0, TextureFormat.RGBAHalf, (AsyncGPUReadbackRequest request) =>
-                {
-                    if (request.hasError)
-                        Debug.LogError("GPU readback error.");
-                    else if (velocityReadbackTexture != null)
-                    {
-                        velocityReadbackTexture.LoadRawTextureData(request.GetData<float>());
-                        velocityReadbackTexture.Apply();
-                    }
-                });
-        }
-
-        private void DensityReadback(FluxyStorage.Framebuffer fb)
-        {
-            if (densityReadbackTexture != null)
-                AsyncGPUReadback.Request(fb.stateA, 0, TextureFormat.RGBAHalf, (AsyncGPUReadbackRequest request) =>
-                {
-                    if (request.hasError)
-                        Debug.LogError("GPU readback error.");
-                    else if (densityReadbackTexture != null)
-                    {
-                        densityReadbackTexture.LoadRawTextureData(request.GetData<float>());
-                        densityReadbackTexture.Apply();
-                    }
-                });
-        }
-
+        
         public void UpdateSolver(float deltaTime)
         {
             if (storage != null && deltaTime > 0)
             {
-                UpdateLOD();
-
                 UpdateTileData();
 
-                var fb = framebuffer;
-
-                UpdateContainerTransforms(fb);
+                UpdateContainerTransforms(framebuffer);
 
                 if (visible && simulationMaterial != null) 
                 {
 
-                    Splat(fb);
+                    Splat(framebuffer);
 
                     // semi-fixed timestep: if the delta is larger than the timestep, chop it up.
                     int steps = 0;
                     while (deltaTime > 0 && steps++ < maxSteps)
                     {
-                        float timestep = Mathf.Min(deltaTime, maxTimestep);
+                        float timestep = Mathf.Min(deltaTime, maxTimestep);;
                         deltaTime -= timestep;
 
-                        UpdateContainers(fb, timestep);
+                        UpdateContainers(framebuffer, maxTimestep);
 
-                        SimulationStep(fb, timestep);
+                        SimulationStep(framebuffer, maxTimestep);
                     }
-
-                    if ((readable & ReadbackMode.Density) != 0)
-                        DensityReadback(fb);
-                    if ((readable & ReadbackMode.Velocity) != 0)
-                        VelocityReadback(fb);
                 }
             }
         }

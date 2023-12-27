@@ -24,7 +24,7 @@ namespace Obi
         {
             if (shader == null)
             {
-                shader = Shader.Find("Obi/Particles");
+                shader = Shader.Find("Obi/EditorParticles");
                 if (shader != null)
                 {
                     if (!shader.isSupported)

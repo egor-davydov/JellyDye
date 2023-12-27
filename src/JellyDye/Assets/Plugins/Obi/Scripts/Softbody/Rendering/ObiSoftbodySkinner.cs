@@ -36,8 +36,8 @@ namespace Obi
         [SerializeField] ObiNativeBoneWeightList m_BoneWeights;
         [SerializeField] ObiNativeByteList m_BonesPerVertex;
         [HideInInspector] [SerializeField] public float[] m_softbodyInfluences;
-        [SerializeField] public SkinnedMeshRenderer m_Target;
 
+        public SkinnedMeshRenderer m_Target;
         private Mesh m_OriginalMesh;
         private Mesh m_BakedMesh;
         private List<Transform> m_SoftBones = new List<Transform>();
@@ -66,9 +66,8 @@ namespace Obi
 
         public void Awake()
         {
-            //Debug.Log($"{gameObject.name}:: m_BoneWeights= {m_BoneWeights.count}; m_BonesPerVertex= {m_BonesPerVertex.count}");
             // autoinitialize "target" with the first skinned mesh renderer we find up our hierarchy.
-            //m_Target = GetComponent<SkinnedMeshRenderer>();
+            //m_Target = GetComponentInChildren<SkinnedMeshRenderer>();
             InitializeInfluences();
 
             // autoinitialize "source" with the first softbody we find up our hierarchy.
@@ -153,20 +152,15 @@ namespace Obi
             }
         }
 
-        private void AttachParticlesToSkeleton()
+        public void AttachParticlesToSkeleton()
         {
             if (m_Source != null)
             {
-                Queue<Transform> queue = new Queue<Transform>();
-                queue.Enqueue(m_Target.rootBone);
-
-                while (queue.Count > 0)
+                foreach (var bone in m_Target.bones)
                 {
-                    var bone = queue.Dequeue();
-
                     if (bone != null)
                     {
-                        foreach (var group in m_Source.blueprint.groups)
+                        foreach (var group in m_Source.softbodyBlueprint.groups)
                         {
                             if (group.name == bone.name)
                             {
@@ -178,9 +172,6 @@ namespace Obi
                                 m_BoneAttachments.Add(attach);
                             }
                         }
-
-                        foreach (Transform child in bone)
-                            queue.Enqueue(child);
                     }
                 }
             }
@@ -221,7 +212,6 @@ namespace Obi
         public IEnumerator BindSkin()
         {
             if (m_Source == null || m_Source.softbodyBlueprint == null || m_Target.sharedMesh == null){
-                Debug.LogError("Cant bind skin, something null");
 				yield break;
 			}
 
@@ -294,7 +284,7 @@ namespace Obi
                 var softInfluence = softbodyInfluence * m_softbodyInfluences[j];
 
                 // calculate and append new weights:
-                byte newBoneCount = 0;
+                int newBoneCount = 0;
                 for (int i = 0; i < clusterCenters.Count; ++i)
                 {
                     float distance = Vector3.Distance(vertexPosition, clusterCenters[i]);
@@ -334,20 +324,20 @@ namespace Obi
                 originalBoneWeightOffset += originalBoneCount;
 
                 // calculate total bone count for this vertex (original bones + new bones):
-                byte totalBoneCount = (byte)(originalBoneCount + newBoneCount);
+                int totalBoneCount = originalBoneCount + newBoneCount;
 
                 // renormalize all weights:
                 NormalizeWeights(newBoneWeightOffset, totalBoneCount);
 
                 // Sort bones by decreasing weight:
                 var slice = m_BoneWeights.AsNativeArray<BoneWeight1>().Slice(newBoneWeightOffset, totalBoneCount);
-                #if OBI_COLLECTIONS
-                    slice.Sort(comparer);
-                #else
+#if OBI_COLLECTIONS
+                slice.Sort(comparer);
+#else
                 var sorted = slice.OrderByDescending(x => x.weight).ToList();
                 for (int i = 0; i < totalBoneCount; ++i)
                     m_BoneWeights[newBoneWeightOffset + i] = sorted[i];
-                #endif
+#endif
 
                 // Limit the amount of bone  influences:
                 totalBoneCount = (byte)Mathf.Min(totalBoneCount, maxBonesPerVertex);
@@ -357,8 +347,9 @@ namespace Obi
                 NormalizeWeights(newBoneWeightOffset, totalBoneCount);
 
                 // Append total bone count
-                m_BonesPerVertex.Add(totalBoneCount);
+                m_BonesPerVertex.Add((byte)totalBoneCount);
                 newBoneWeightOffset += totalBoneCount;
+
                 yield return new CoroutineJob.ProgressInfo("ObiSoftbody: calculating bone weights...", j / (float)vertices.Length);
             }
         }

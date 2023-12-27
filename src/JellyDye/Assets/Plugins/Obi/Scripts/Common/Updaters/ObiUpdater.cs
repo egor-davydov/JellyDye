@@ -27,6 +27,8 @@ namespace Obi
         /// </summary>
         public List<ObiSolver> solvers = new List<ObiSolver>();
 
+        private List<IObiJobHandle> handles = new List<IObiJobHandle>();
+
 
         /// <summary>
         /// Prepares all solvers to begin simulating a new frame. This should be called as soon as possible in the frame,
@@ -53,7 +55,7 @@ namespace Obi
                 ObiColliderWorld.GetInstance().UpdateRigidbodies(solvers,stepDeltaTime);
                 ObiColliderWorld.GetInstance().UpdateWorld(stepDeltaTime);
 
-                List<IObiJobHandle> handles = new List<IObiJobHandle>();
+                handles.Clear();
 
                 // Kick off all solver jobs:
                 foreach (ObiSolver solver in solvers)
@@ -64,6 +66,10 @@ namespace Obi
                 foreach (IObiJobHandle handle in handles)
                     if (handle != null)
                         handle.Complete();
+
+                foreach (ObiSolver solver in solvers)
+                    if (solver != null)
+                        solver.ReleaseJobHandles();
             }
         }
 
@@ -77,7 +83,7 @@ namespace Obi
         {
             using (m_SubstepPerfMarker.Auto())
             {
-                List< IObiJobHandle > handles = new List<IObiJobHandle>();
+                handles.Clear();
 
                 // Kick off all solver jobs:
                 foreach (ObiSolver solver in solvers)
@@ -88,6 +94,10 @@ namespace Obi
                 foreach (IObiJobHandle handle in handles)
                     if (handle != null)
                         handle.Complete();
+
+                foreach (ObiSolver solver in solvers)
+                    if (solver != null)
+                        solver.ReleaseJobHandles();
             }
         }
 

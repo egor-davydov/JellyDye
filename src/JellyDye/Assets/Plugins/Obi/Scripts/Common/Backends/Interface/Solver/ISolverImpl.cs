@@ -16,7 +16,7 @@ namespace Obi
 
         #region Particles
         void ParticleCountChanged(ObiSolver solver);
-        void SetActiveParticles(int[] indices, int num);
+        void SetActiveParticles(ObiNativeIntList indices);
         void InterpolateDiffuseProperties(ObiNativeVector4List properties, ObiNativeVector4List diffusePositions, ObiNativeVector4List diffuseProperties, ObiNativeIntList neighbourCount, int diffuseCount);
         #endregion
 
@@ -44,7 +44,7 @@ namespace Obi
         void SetDeformableTriangles(int[] indices, int num, int destOffset);
         int RemoveDeformableTriangles(int num, int sourceOffset);
 
-        void SetSimplices(int[] simplices, SimplexCounts counts);
+        void SetSimplices(ObiNativeIntList simplices, SimplexCounts counts);
         #endregion
 
         #region Utils
@@ -54,6 +54,7 @@ namespace Obi
         int GetParticleGridSize();
         void GetParticleGrid(ObiNativeAabbList cells);
         void SpatialQuery(ObiNativeQueryShapeList shapes, ObiNativeAffineTransformList transforms, ObiNativeQueryResultList results);
+        void ReleaseJobHandles();
         #endregion
     }
 }

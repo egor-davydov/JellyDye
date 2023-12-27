@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Code.Infrastructure.Installers;
 using Code.Services.Factories;
 
 namespace Code.Infrastructure.States
@@ -15,10 +14,11 @@ namespace Code.Infrastructure.States
     public GameStateMachine(GameStateFactory gameStateFactory) => 
       _gameStateFactory = gameStateFactory;
 
-    public void Setup()
+    public void SetupStates()
     {
       _states = new Dictionary<Type, IExitableState>
       {
+        [typeof(InitializationState)] = _gameStateFactory.Create<InitializationState>(),
         [typeof(LoadProgressState)] = _gameStateFactory.Create<LoadProgressState>(),
         [typeof(LoadLevelState)] = _gameStateFactory.Create<LoadLevelState>(),
         [typeof(GameLoopState)] = _gameStateFactory.Create<GameLoopState>(),

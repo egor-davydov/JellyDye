@@ -118,18 +118,26 @@ namespace Obi
         [HideInInspector] [NonSerialized] public ParticleInActor[] m_ParticleToActor;
 
         private ObiNativeIntList freeList;
-        private int[] activeParticles;
-        private int activeParticleCount = 0;
 
-        [NonSerialized] public List<int> simplices = new List<int>();
         private List<int> points = new List<int>();      /**< 0-simplices*/
         private List<int> edges = new List<int>();      /**< 1-simplices*/
         private List<int> triangles = new List<int>();      /**< 2-simplices*/
         private SimplexCounts m_SimplexCounts;
 
-        [HideInInspector] [NonSerialized] public bool dirtyActiveParticles = true;
-        [HideInInspector] [NonSerialized] public bool dirtySimplices = true;
-        [HideInInspector] [NonSerialized] public int dirtyConstraints = 0;
+        [HideInInspector][NonSerialized] public bool dirtySimplices = true;
+        [HideInInspector][NonSerialized] public int dirtyConstraints = 0;
+
+        private bool m_dirtyActiveParticles = true;
+        public bool dirtyActiveParticles
+        {
+            set
+            {
+                // make sure anytime active particles need to be updated, simplices will be updated too:
+                m_dirtyActiveParticles = value;
+                dirtySimplices |= m_dirtyActiveParticles;
+            }
+            get { return m_dirtyActiveParticles; }
+        }
 
         private ObiCollisionEventArgs collisionArgs = new ObiCollisionEventArgs();
         private ObiCollisionEventArgs particleCollisionArgs = new ObiCollisionEventArgs();
@@ -168,10 +176,14 @@ namespace Obi
         ObiNativeVector4List m_RigidbodyAngularVelocities;
 
         // colors
-        [NonSerialized] private Color[] m_Colors;
+        [NonSerialized] private ObiNativeColorList m_Colors;
 
         // cell indices
         [NonSerialized] private ObiNativeInt4List m_CellCoords;
+
+        // status:
+        [NonSerialized] private ObiNativeIntList m_ActiveParticles;
+        [NonSerialized] private ObiNativeIntList m_Simplices;
 
         // positions
         [NonSerialized] private ObiNativeVector4List m_Positions;
@@ -305,6 +317,28 @@ namespace Obi
             }
         }
 
+        public ObiNativeIntList activeParticles
+        {
+            get
+            {
+                if (m_ActiveParticles == null)
+                    m_ActiveParticles = new ObiNativeIntList();
+
+                return m_ActiveParticles;
+            }
+        }
+
+        public ObiNativeIntList simplices
+        {
+            get
+            {
+                if (m_Simplices == null)
+                    m_Simplices = new ObiNativeIntList();
+
+                return m_Simplices;
+            }
+        }
+
         public ObiNativeVector4List rigidbodyLinearDeltas
         {
             get
@@ -329,13 +363,13 @@ namespace Obi
             }
         }
 
-        public Color[] colors
+        public ObiNativeColorList colors
         {
             get
             {
                 if (m_Colors == null)
                 {
-                    m_Colors = new Color[0];
+                    m_Colors = new ObiNativeColorList();
                 }
                 return m_Colors;
             }
@@ -830,9 +864,7 @@ namespace Obi
                 // Set up local actor and particle buffers:
                 actors = new List<ObiActor>();
                 freeList = new ObiNativeIntList();
-                activeParticles = new int[0];
                 m_ParticleToActor = new ParticleInActor[0];
-                m_Colors = new Color[0];
 
                 // Create constraints:
                 m_Constraints[(int)Oni.ConstraintType.Distance] = new ObiDistanceConstraintsData();
@@ -915,6 +947,9 @@ namespace Obi
 
         private void FreeParticleArrays()
         {
+            activeParticles.Dispose();
+            simplices.Dispose();
+            colors.Dispose();
             cellCoords.Dispose();
             startPositions.Dispose();
             startOrientations.Dispose();
@@ -957,6 +992,8 @@ namespace Obi
             normals.Dispose();
             invInertiaTensors.Dispose();
 
+            m_ActiveParticles = null;
+            m_Simplices = null;
             m_Colors = null;
             m_CellCoords = null;
             m_Positions = null;
@@ -1006,6 +1043,7 @@ namespace Obi
             // only resize if the count is larger than the current amount of particles:
             if (count >= positions.count)
             {
+                colors.ResizeInitialized(count);
                 startPositions.ResizeInitialized(count);
                 positions.ResizeInitialized(count);
                 prevPositions.ResizeInitialized(count);
@@ -1050,11 +1088,9 @@ namespace Obi
                 m_SolverImpl.ParticleCountChanged(this);
             }
 
-            if (count >= activeParticles.Length)
+            if (count >= m_ParticleToActor.Length)
             {
-                Array.Resize(ref activeParticles, count * 2);
                 Array.Resize(ref m_ParticleToActor, count * 2);
-                Array.Resize(ref m_Colors, count * 2);
             }
         }
 
@@ -1269,8 +1305,7 @@ namespace Obi
 
         private void PushActiveParticles()
         {
-            activeParticleCount = 0;
-
+            activeParticles.Clear();
             for (int i = 0; i < actors.Count; ++i)
             {
                 ObiActor currentActor = actors[i];
@@ -1278,18 +1313,12 @@ namespace Obi
                 if (currentActor.isActiveAndEnabled)
                 {
                     for (int j = 0; j < currentActor.activeParticleCount; ++j)
-                    {
-                        activeParticles[activeParticleCount] = currentActor.solverIndices[j];
-                        activeParticleCount++;
-                    }
+                        activeParticles.Add(currentActor.solverIndices[j]);
                 }
             }
 
-            m_SolverImpl.SetActiveParticles(activeParticles, activeParticleCount);
+            implementation.SetActiveParticles(activeParticles);
             dirtyActiveParticles = false;
-
-            // push simplices when active particles change.
-            PushSimplices();
         }
 
         private void PushSimplices()
@@ -1357,7 +1386,7 @@ namespace Obi
                 }
             }
 
-            simplices.Capacity = points.Count + edges.Count + triangles.Count;
+            simplices.capacity = points.Count + edges.Count + triangles.Count;
             simplices.AddRange(points);
             simplices.AddRange(edges);
             simplices.AddRange(triangles);
@@ -1365,7 +1394,7 @@ namespace Obi
             m_SimplexCounts = new SimplexCounts(points.Count, edges.Count / 2, triangles.Count / 3);
             cellCoords.ResizeInitialized(m_SimplexCounts.simplexCount);
 
-            m_SolverImpl.SetSimplices(simplices.ToArray(), m_SimplexCounts);
+            m_SolverImpl.SetSimplices(simplices, m_SimplexCounts);
             dirtySimplices = false;
 
         }
@@ -1640,6 +1669,14 @@ namespace Obi
             foreach (ObiActor actor in actors)
                 actor.Interpolate();
 
+        }
+
+        public void ReleaseJobHandles()
+        {
+            if (!initialized)
+                return;
+
+            m_SolverImpl.ReleaseJobHandles();
         }
 
         /// <summary>

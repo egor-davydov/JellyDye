@@ -1,37 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Code.Data
 {
   [Serializable]
   public class LevelData
   {
-    public int CurrentLevelIndex;
+    public string CurrentLevelId;
     public List<CompletedLevel> CompletedLevels;
-
-
-    public LevelData()
+    
+    public LevelData(string startLevelId)
     {
+      CurrentLevelId = startLevelId;
       CompletedLevels = new List<CompletedLevel>();
     }
 
-    public void ManageCompletedLevel(int levelIndex, int percentage)
+    public void ManageCompletedLevel(string levelId, int percentage)
     {
-      if(IsLevelCompleted(levelIndex))
+      if(IsLevelCompleted(levelId))
       {
-        CompletedLevel previousData = CompletedLevel(levelIndex);
+        CompletedLevel previousData = CompletedLevel(levelId);
         if (previousData.Percentage < percentage)
           previousData.Percentage = percentage;
       }
       else
-        CompletedLevels.Add(new CompletedLevel(levelIndex, percentage));
+        CompletedLevels.Add(new CompletedLevel(levelId, percentage));
     }
 
-    public CompletedLevel CompletedLevel(int levelIndex) => 
-      CompletedLevels.First(completedLevel => completedLevel.Index == levelIndex);
+    public CompletedLevel CompletedLevel(string levelId)
+    {
+      foreach (CompletedLevel completedLevel in CompletedLevels)
+      {
+        if (completedLevel.Id == levelId)
+          return completedLevel;
+      }
 
-    public bool IsLevelCompleted(int levelIndex) => 
-      CompletedLevels.FirstOrDefault(completedLevel => completedLevel.Index == levelIndex) != default;
+      throw new Exception($"Can't find completed level id=\"{levelId}\"");
+    }
+
+    public bool IsLevelCompleted(string levelId)
+    {
+      foreach (CompletedLevel completedLevel in CompletedLevels)
+      {
+        if (completedLevel.Id == levelId)
+          return true;
+      }
+
+      return false;
+    }
   }
 }

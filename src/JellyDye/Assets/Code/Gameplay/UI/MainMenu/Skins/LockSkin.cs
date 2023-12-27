@@ -21,12 +21,15 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     }
     private void Awake()
     {
-      if (_progressService.Progress.SkinData.OpenedSkins.Contains(_equipSkinButton.SkinType))
-      {
-        _iconObject.SetActive(true);
-        _lockedObject.SetActive(false);
-        SkinLocked = false;
-      }
+      if (_progressService.Progress.SkinData.OpenedSkins.Contains(_equipSkinButton.SkinType)) 
+        UnlockSkin();
+    }
+
+    public void UnlockSkin()
+    {
+      _iconObject.SetActive(true);
+      _lockedObject.SetActive(false);
+      SkinLocked = false;
     }
   }
 }

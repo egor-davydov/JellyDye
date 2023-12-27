@@ -9,7 +9,8 @@ namespace Code.Infrastructure.States
     private readonly ProgressService _progressService;
     private readonly ISaveLoadService _saveLoadService;
 
-    public LoadProgressState(GameStateMachine gameStateMachine, ProgressService progressService, ISaveLoadService saveLoadService)
+    public LoadProgressState(GameStateMachine gameStateMachine, ProgressService progressService,
+      ISaveLoadService saveLoadService)
     {
       _gameStateMachine = gameStateMachine;
       _progressService = progressService;
@@ -18,16 +19,16 @@ namespace Code.Infrastructure.States
 
     public void Enter()
     {
-      if (_saveLoadService.IsPlayerHaveProgress())
-        _progressService.SetProgress(_saveLoadService.LoadProgress());
-      else
-        _progressService.CreateProgress();
-      
-      _gameStateMachine.Enter<LoadLevelState, int>(_progressService.Progress.LevelData.CurrentLevelIndex);
+      _saveLoadService.LoadProgress(onLoaded: MoveToNextState);
     }
 
     public void Exit()
     {
+    }
+
+    private void MoveToNextState()
+    {
+      _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.LevelData.CurrentLevelId);
     }
   }
 }
