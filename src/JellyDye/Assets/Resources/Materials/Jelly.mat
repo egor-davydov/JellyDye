@@ -49,7 +49,7 @@ Material:
     - _RimMin: 0
     - _Shadow_HSV_H: 0
     - _Shadow_HSV_S: 0
-    - _Shadow_HSV_V: 0.13
+    - _Shadow_HSV_V: 0
     - _Smoothness: 0.5
     - __dummy__: 0
     m_Colors:

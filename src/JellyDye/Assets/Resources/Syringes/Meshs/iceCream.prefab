@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1372764079654292624, guid: 56c684f55e36f534cb6e2d90fd8b1192, type: 3}
@@ -34,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 1372764079654292648, guid: 56c684f55e36f534cb6e2d90fd8b1192, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 75b23822c11499b4cb7b777f2c356279, type: 2}
+      objectReference: {fileID: 2100000, guid: d8c91319b9599884c9cd41d956a29023, type: 2}
     - target: {fileID: 1372764079654292649, guid: 56c684f55e36f534cb6e2d90fd8b1192, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -112,4 +113,7 @@ PrefabInstance:
       value: iceCream
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56c684f55e36f534cb6e2d90fd8b1192, type: 3}
