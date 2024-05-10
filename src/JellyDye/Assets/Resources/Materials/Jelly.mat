@@ -43,14 +43,14 @@ Material:
     - _EdgeHeight: -0.66
     - _RampSmooth: 0.1
     - _RampSmoothOtherLights: 0.5
-    - _RampThreshold: 0.5
+    - _RampThreshold: 0.831
     - _RampThresholdOtherLights: 0.5
     - _RimMax: 0
     - _RimMin: 0
     - _Shadow_HSV_H: 0
     - _Shadow_HSV_S: 0
     - _Shadow_HSV_V: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 3.23
     - __dummy__: 0
     m_Colors:
     - _Color: {r: 0.27358478, g: 0.27358478, b: 0.27358478, a: 0.36862746}
