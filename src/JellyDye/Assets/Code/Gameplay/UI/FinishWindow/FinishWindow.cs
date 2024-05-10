@@ -67,7 +67,9 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void StartWindowAnimations()
     {
-      StartCoroutine(PercentageIncrease());
+      _paintCountCalculationService.CalculatePaintPercentage(percentage =>
+        StartCoroutine(PercentageIncrease(percentage))
+      );
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
     }
 
@@ -77,9 +79,8 @@ namespace Code.Gameplay.UI.FinishWindow
       transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
     }
 
-    private IEnumerator PercentageIncrease()
+    private IEnumerator PercentageIncrease(float yourPercentage)
     {
-      float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
       float finalPercentage = CeilAndClampPercentage(yourPercentage);
       WriteToProgress(finalPercentage);
       _publishService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
@@ -100,14 +101,14 @@ namespace Code.Gameplay.UI.FinishWindow
       CreateNextLevelButton();
     }
 
-    private async void CreateNextLevelButton() => 
+    private async void CreateNextLevelButton() =>
       await _greenButtonFactory.CreateNextLevelButton(transform);
 
     private void OnLevelEnd(float finalPercentage)
     {
       _analyticsService.LevelEnd(_staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId), _progressLevelData.CurrentLevelId, (int)finalPercentage);
 
-      if(_progressLevelData.CompletedLevels.Count >= 3)
+      if (_progressLevelData.CompletedLevels.Count >= 3)
         _publishService.RequestCanPLayerReviewOrNot(OnServerReviewResponse);
     }
 
@@ -123,9 +124,9 @@ namespace Code.Gameplay.UI.FinishWindow
       _publishService.ShowReviewGameWindow(OnPlayerReviewWindowAction);
     }
 
-    private void OnPlayerReviewWindowAction(bool value) => 
+    private void OnPlayerReviewWindowAction(bool value) =>
       Time.timeScale = 1;
-    
+
     private void WriteToProgress(float finalPercentage)
     {
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelId, (int)finalPercentage);
@@ -144,6 +145,7 @@ namespace Code.Gameplay.UI.FinishWindow
       currentPercentage = Mathf.Clamp(currentPercentage, 0, 100);
       return currentPercentage;
     }
+
     private float RoundAndClampPercentage(float currentPercentage)
     {
       currentPercentage = Mathf.RoundToInt(currentPercentage);

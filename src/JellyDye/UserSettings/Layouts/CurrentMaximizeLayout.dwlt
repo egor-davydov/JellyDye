@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 39795
+  controlID: 41286
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 39796
+  controlID: 41287
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 39797
+  controlID: 41288
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -196,13 +196,13 @@ MonoBehaviour:
     height: 366
   m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 8}
+  m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
   - {fileID: 7}
   - {fileID: 8}
-  m_Selected: 2
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 2
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -590,7 +590,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: -0.17067957, y: -0.060000002, z: 0}
     speed: 2
-    m_Value: {x: 589.30524, y: 1482.712, z: 3.5976167}
+    m_Value: {x: 447.15845, y: 1605.8289, z: 5.638442}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 1.8073934
     speed: 2
-    m_Value: 391.86102
+    m_Value: 476.72702
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 50}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 39871
+  controlID: 41312
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -790,7 +790,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/UI/FinishWindow
+    - Assets/Resources/Fonts
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -798,15 +798,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Resources/UI/FinishWindow
+  - Assets/Resources/Fonts
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Unity\Projects\JellyDyeRoot\src\JellyDye
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 479.6667}
-    m_SelectedIDs: 2e6b0000
-    m_LastClickedID: 27438
+    scrollPos: {x: 0, y: 333.66647}
+    m_SelectedIDs: 1e6b0000
+    m_LastClickedID: 27422
     m_ExpandedIDs: 00000000aa650000ac650000ae650000b0650000b265000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -977,7 +977,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 111.66669}
+    scrollPos: {x: 0, y: 95.66669}
     m_SelectedIDs: 106b0000
     m_LastClickedID: 27408
     m_ExpandedIDs: 00000000aa650000ac650000ae650000b0650000b265000000ca9a3b
