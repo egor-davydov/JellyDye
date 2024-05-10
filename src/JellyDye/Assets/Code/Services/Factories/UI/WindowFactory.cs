@@ -1,4 +1,5 @@
 ﻿using Code.Services.AssetManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -17,16 +18,16 @@ namespace Code.Services.Factories.UI
       _parentsProvider = parentsProvider;
     }
     
-    public GameObject CreateMainMenu()
+    public async UniTask<GameObject>  CreateMainMenu()
     {
-      GameObject menuPrefab = _assetProvider.Load(AssetPath.MainMenu);
+      GameObject menuPrefab = await _assetProvider.Load<GameObject>(AssetPath.MainMenu);
       GameObject menuObject = _instantiator.InstantiatePrefab(menuPrefab, _parentsProvider.ParentForUI);
       return menuObject;
     }
 
-    public GameObject CreateFinishWindow()
+    public async UniTask<GameObject>  CreateFinishWindow()
     {
-      GameObject finishWindowPrefab = _assetProvider.Load(AssetPath.FinishWindow);
+      GameObject finishWindowPrefab = await _assetProvider.Load<GameObject>(AssetPath.FinishWindow);
       GameObject finishWindowObject = _instantiator.InstantiatePrefab(finishWindowPrefab, _parentsProvider.ParentForUI);
       return finishWindowObject;
     }

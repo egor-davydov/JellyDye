@@ -9,6 +9,7 @@ using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.StaticData.Level;
+using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEngine;
 
@@ -33,7 +34,6 @@ namespace Code.Infrastructure.States
 
     private string _levelId;
     private int _levelIndex;
-    private LevelData _progressLevelData;
     private bool _isFirstLoad = true;
     private LevelsStaticData _levelsStaticData;
 
@@ -57,13 +57,14 @@ namespace Code.Infrastructure.States
       _publishService = publishService;
     }
 
+    private LevelData ProgressLevelData => _progressService.Progress.LevelData;
+
     public void Enter(string levelId)
     {
-      _progressLevelData ??= _progressService.Progress.LevelData;
       _levelId = levelId;
-      if(_levelId != _progressLevelData.CurrentLevelId)
+      if(_levelId != ProgressLevelData.CurrentLevelId)
       {
-        _progressLevelData.CurrentLevelId = _levelId;
+        ProgressLevelData.CurrentLevelId = _levelId;
         _saveLoadService.SaveProgress();
       }
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
@@ -81,7 +82,7 @@ namespace Code.Infrastructure.States
       _analyticsService.LevelStart(_levelIndex, _levelId);
     }
 
-    private void OnLoadComplete()
+    private async void OnLoadComplete()
     {
       _levelsStaticData ??= _staticDataService.ForLevels();
       _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
@@ -93,7 +94,7 @@ namespace Code.Infrastructure.States
 
       GameObject syringeObject = InitSyringe();
 
-      GameObject hudObject = InitHud(syringeObject, levelConfig);
+      GameObject hudObject = await InitHud(syringeObject, levelConfig);
       
       SyringeInjection syringeInjection = syringeObject.GetComponent<SyringeInjection>();
       syringeInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
@@ -104,7 +105,7 @@ namespace Code.Infrastructure.States
 
     private GameObject InitJellies(LevelConfig levelConfig)
     {
-      GameObject jelliesObject = _jelliesFactory.CreateJelly(levelConfig.JelliesPrefab);
+      GameObject jelliesObject = _jelliesFactory.CreateJelly(levelConfig.Id);
       return jelliesObject;
     }
 
@@ -116,10 +117,10 @@ namespace Code.Infrastructure.States
       return syringeObject;
     }
 
-    private GameObject InitHud(GameObject syringeObject, LevelConfig levelConfig)
+    private async UniTask<GameObject> InitHud(GameObject syringeObject, LevelConfig levelConfig)
     {
       SyringePaintColor syringePaintColor = syringeObject.GetComponent<SyringePaintColor>();
-      GameObject hudObject = _hudFactory.CreateHud();
+      GameObject hudObject = await _hudFactory.CreateHud();
       hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaintColor, levelConfig.AllColorsCached);
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
       return hudObject;

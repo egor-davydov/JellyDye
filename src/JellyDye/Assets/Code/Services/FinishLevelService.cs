@@ -1,5 +1,6 @@
 ﻿using Code.Gameplay.UI.FinishWindow;
 using Code.Services.Factories.UI;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -64,9 +65,9 @@ namespace Code.Services
       _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
     }
 
-    private void CreateFinishWindow()
+    private async void CreateFinishWindow()
     {
-      GameObject finishWindow = _windowFactory.CreateFinishWindow();
+      GameObject finishWindow = await _windowFactory.CreateFinishWindow();
       finishWindow.GetComponent<FinishWindow>().Initialize(_screenshotService.ScreenshotTexture);
     }
   }

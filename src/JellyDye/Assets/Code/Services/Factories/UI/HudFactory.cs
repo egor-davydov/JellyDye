@@ -1,4 +1,6 @@
-﻿using Code.Services.AssetManagement;
+﻿using System.Threading.Tasks;
+using Code.Services.AssetManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -17,9 +19,9 @@ namespace Code.Services.Factories.UI
       _parentsProvider = parentsProvider;
     }
 
-    public GameObject CreateHud()
+    public async UniTask<GameObject> CreateHud()
     {
-      GameObject hudPrefab = _assetProvider.Load(AssetPath.Hud);
+      GameObject hudPrefab = await _assetProvider.Load<GameObject>(AssetPath.Hud);
       GameObject hudObject = _instantiator.InstantiatePrefab(hudPrefab, _parentsProvider.ParentForUI);
 
       return hudObject;

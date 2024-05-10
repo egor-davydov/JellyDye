@@ -48,7 +48,7 @@ namespace Code.Infrastructure.Installers
 
     private void BindServices()
     {
-      Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
+      Container.Bind<IAssetProvider>().To<AddressablesAssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<PublishService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();

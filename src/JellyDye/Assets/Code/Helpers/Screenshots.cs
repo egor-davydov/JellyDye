@@ -88,7 +88,7 @@ namespace Code.Helpers
       if (++_currentJellyCount < _staticDataService.ForLevels().LevelConfigs.Length)
       {
         Destroy(FindObjectOfType<FluxySolver>().transform.parent.gameObject);
-        _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
+        _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].Id);
         StartCoroutine(WaitColorSet());
       }
       else

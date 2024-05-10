@@ -37,7 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AddAlpha: 0.379
+    - _AddAlpha: 0.38
     - _EdgeAlphaIncrease: 0.12
     - _EdgeAlphaIncreaseHeight: 0.75
     - _EdgeHeight: -0.66
@@ -55,7 +55,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.27358478, g: 0.27358478, b: 0.27358478, a: 0.36862746}
     - _EdgeColor: {r: 1, g: 1, b: 1, a: 0.16470589}
-    - _HColor: {r: 1, g: 1, b: 1, a: 0.5764706}
+    - _HColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0.050980393}
     - _SColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 0.6117647}

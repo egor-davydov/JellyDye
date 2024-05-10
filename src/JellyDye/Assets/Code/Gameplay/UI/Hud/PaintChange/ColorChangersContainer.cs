@@ -23,13 +23,14 @@ namespace Code.Gameplay.UI.Hud.PaintChange
       _colorChangerFactory = colorChangerFactory;
     }
 
-    public void Initialize(SyringePaintColor syringePaintColor, List<Color> allColors)
+    public async void Initialize(SyringePaintColor syringePaintColor, List<Color> allColors)
     {
       _syringePaintColor = syringePaintColor;
       List<Color> shuffledColors = Shuffle(allColors);
       foreach (Color color in shuffledColors)
       {
-        ColorChanger colorChanger = _colorChangerFactory.Create(transform).GetComponent<ColorChanger>();
+        GameObject colorChangerPrefab = await _colorChangerFactory.Create(transform);
+        ColorChanger colorChanger = colorChangerPrefab.GetComponent<ColorChanger>();
         colorChanger.Initialize(_syringePaintColor, color);
         colorChanger.OnColorChange += OnColorChange;
         _colorChangers.Add(colorChanger);

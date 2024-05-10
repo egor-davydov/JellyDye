@@ -1,4 +1,5 @@
 ﻿using Code.Services.AssetManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -14,9 +15,9 @@ namespace Code.Services.Factories.UI
       _instantiator = instantiator;
       _assetProvider = assetProvider;
     }
-    public GameObject Create(Transform parent)
+    public async UniTask<GameObject>  Create(Transform parent)
     {
-      GameObject colorChangePrefab = _assetProvider.Load(AssetPath.ColorChanger);
+      GameObject colorChangePrefab = await _assetProvider.Load<GameObject>(AssetPath.ColorChanger);
       GameObject colorChangeObject = _instantiator.InstantiatePrefab(colorChangePrefab, parent);
       
       return colorChangeObject;

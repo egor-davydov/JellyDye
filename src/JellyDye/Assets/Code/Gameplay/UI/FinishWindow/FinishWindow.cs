@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using Code.Data;
 using Code.Services;
 using Code.Services.Factories.UI;
@@ -96,8 +97,11 @@ namespace Code.Gameplay.UI.FinishWindow
       _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
       _skinProgressBar.IncreaseProgress(finalPercentage);
       SetPercentage(finalPercentage);
-      _greenButtonFactory.CreateMenuButton(transform);
+      CreateNextLevelButton();
     }
+
+    private async void CreateNextLevelButton() => 
+      await _greenButtonFactory.CreateNextLevelButton(transform);
 
     private void OnLevelEnd(float finalPercentage)
     {
