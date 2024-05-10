@@ -1,4 +1,4 @@
-﻿namespace Code.Gameplay.Logic
+﻿namespace Code.Gameplay.Language
 {
   public enum LanguageType
   {

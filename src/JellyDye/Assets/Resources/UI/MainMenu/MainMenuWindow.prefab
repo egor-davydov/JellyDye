@@ -673,7 +673,7 @@ PrefabInstance:
     - target: {fileID: 16799322846083622, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 119fe82970de41cea86248a5ef72c64b, type: 3}
+      objectReference: {fileID: 21300000, guid: 7fd0c23b31aa3b0428e7ee2011605860, type: 3}
     - target: {fileID: 16799323723460221, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -765,7 +765,7 @@ PrefabInstance:
     - target: {fileID: 16799323968525812, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4bcc87058cc943c7b59fefb6b263b7be, type: 3}
+      objectReference: {fileID: 21300000, guid: 054698b418f3b0946ac9a5c2f62e96cc, type: 3}
     - target: {fileID: 16799323968525814, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.9478848
@@ -802,6 +802,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skins_title
       objectReference: {fileID: 0}
+    - target: {fileID: 7689423014757640042, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: _enSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 119fe82970de41cea86248a5ef72c64b, type: 3}
+    - target: {fileID: 7689423014757640042, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: _ruSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7fd0c23b31aa3b0428e7ee2011605860, type: 3}
+    - target: {fileID: 8715460481339994410, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: _enSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4bcc87058cc943c7b59fefb6b263b7be, type: 3}
+    - target: {fileID: 8715460481339994410, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: _ruSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 054698b418f3b0946ac9a5c2f62e96cc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -832,6 +848,10 @@ PrefabInstance:
       propertyPath: _tabToClose
       value: 
       objectReference: {fileID: 35643755165980112}
+    - target: {fileID: 16799322846083622, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5a7e3b386a2ff5c4a885e7c63a2bbf92, type: 3}
     - target: {fileID: 16799323723460221, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -920,6 +940,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: TabWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 16799323968525812, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 122969e8916c38a45b88079eece49753, type: 3}
+    - target: {fileID: 7689423014757640042, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: _enSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d383a468a94b406aa3fc46ecfecbf09a, type: 3}
+    - target: {fileID: 7689423014757640042, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: _ruSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5a7e3b386a2ff5c4a885e7c63a2bbf92, type: 3}
+    - target: {fileID: 8715460481339994410, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: _enSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8769ce4b96d3417983ee151f1977f8fa, type: 3}
+    - target: {fileID: 8715460481339994410, guid: 94904c13cb8a8c24c99c3a4f93d990dc, type: 3}
+      propertyPath: _ruSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 122969e8916c38a45b88079eece49753, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

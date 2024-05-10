@@ -6,6 +6,7 @@ using Code.Gameplay.Logic;
 using CrazyGames;
 using AOT;
 using System.Runtime.InteropServices;
+using Code.Gameplay.Language;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -106,7 +107,9 @@ namespace Code.Services
       {
         "en" => LanguageType.English,
         "ru" => LanguageType.Russian,
-        _ => throw new ArgumentOutOfRangeException($"Unsupported language '{yandexLanguage}'")
+        _ =>
+          LanguageType.English
+          //throw new ArgumentOutOfRangeException($"Unsupported language '{yandexLanguage}'")
       };
     }
 
@@ -170,9 +173,9 @@ namespace Code.Services
     [MonoPInvokeCallback(typeof(Action))]
     private static void OnSdkInitialized()
     {
+      IsSdkInitialized = true;
       SceneManager.LoadScene(LoadSceneName);
       OnYandexSdkInitialized?.Invoke();
-      IsSdkInitialized = true;
     }
 
     [MonoPInvokeCallback(typeof(Action))]
