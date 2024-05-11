@@ -54,7 +54,7 @@ namespace Code.Services
       return true;
     }
 
-    public void CalculatePaintPercentage(Action<float> callback)
+    public void AsyncCalculatePaintPercentage(Action<float> callback)
     {
       RequestDensityTexture(() =>
       {

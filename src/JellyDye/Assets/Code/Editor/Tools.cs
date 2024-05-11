@@ -14,6 +14,8 @@ namespace Code.Editor
     private const string ToolsPath = "Tools/Custom/";
     private const string Screenshots = "Take screenshots/";
     private const string Other = "Other/";
+    
+    private static Screenshots ScreenshotsHelper => Object.FindObjectOfType<Screenshots>();
 
     [MenuItem(ToolsPath+"Delete Progress file")]
     public static void ClearProgress() => 
@@ -39,8 +41,11 @@ namespace Code.Editor
       if (NotInPlaymode())
         return;
 
-      var screenshots = Object.FindObjectOfType<Screenshots>();
-      screenshots.TakeScreenshots(withGround: true, TakeWithoutGround);
+      ScreenshotsHelper.TakeScreenshots(withGround: true, () =>
+      {
+        
+        TakeScreenshotsWithGround();
+      });
     }
 
     [MenuItem(ToolsPath+Screenshots+"With ground")]
@@ -49,8 +54,7 @@ namespace Code.Editor
       if (NotInPlaymode())
         return;
 
-      var screenshots = Object.FindObjectOfType<Screenshots>();
-      screenshots.TakeScreenshots(withGround: true, RefreshAssets);
+      ScreenshotsHelper.TakeScreenshots(withGround: true, RefreshAssets);
     }
 
     [MenuItem(ToolsPath+Screenshots+"Without ground")]
@@ -59,8 +63,7 @@ namespace Code.Editor
       if (NotInPlaymode())
         return;
 
-      var screenshots = Object.FindObjectOfType<Screenshots>();
-      screenshots.TakeScreenshots(withGround: false, RefreshAssets);
+      ScreenshotsHelper.TakeScreenshots(withGround: false, RefreshAssets);
     }
 
     [MenuItem(ToolsPath+Other+"Setup game for taking screenshots")]
@@ -89,7 +92,7 @@ namespace Code.Editor
     [MenuItem(ToolsPath+Other+"UnSetup game for taking screenshots")]
     public static void UnSetupForScreenshots()
     {
-      Screenshots screenshots = Object.FindObjectOfType<Screenshots>();
+      Screenshots screenshots = ScreenshotsHelper;
       if(screenshots != null)
         Object.DestroyImmediate(screenshots.gameObject);
       
@@ -113,12 +116,6 @@ namespace Code.Editor
         return;
 
       Object.FindObjectOfType<Screenshots>().MoveCamera();
-    }
-
-    private static void TakeWithoutGround()
-    {
-      var screenshots = Object.FindObjectOfType<Screenshots>();
-      screenshots.TakeScreenshots(withGround: false, RefreshAssets);
     }
 
     private static void SetDirtyCurrentScene() => 

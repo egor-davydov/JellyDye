@@ -31,10 +31,10 @@ MonoBehaviour:
     - {r: 1, g: 0, b: 0, a: 1}
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
     AllColorsCached:
-    - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
     - {r: 1, g: 0.9695432, b: 0, a: 1}
     - {r: 1, g: 0, b: 0, a: 1}
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
+    - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
     TargetTexture: {fileID: 2800000, guid: bbdff5b0574b8b445b8b3f3b57db6761, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c9145b5692f54c843a0caf481a8afce0, type: 3}
   - Id: cherries
@@ -236,11 +236,11 @@ MonoBehaviour:
     - {r: 0.05879581, g: 0.8989072, b: 0.61472136, a: 1}
     - {r: 0.03947127, g: 0.5833518, b: 0.94362354, a: 1}
     AllColorsCached:
+    - {r: 0.05879581, g: 0.8989072, b: 0.61472136, a: 1}
     - {r: 0.8682399, g: 0.01498151, b: 0.9528302, a: 1}
+    - {r: 0.03947127, g: 0.5833518, b: 0.94362354, a: 1}
     - {r: 0.9414254, g: 0.52450454, b: 0.9811321, a: 1}
     - {r: 0, g: 0.7169812, b: 0, a: 1}
-    - {r: 0.05879581, g: 0.8989072, b: 0.61472136, a: 1}
-    - {r: 0.03947127, g: 0.5833518, b: 0.94362354, a: 1}
     TargetTexture: {fileID: 2800000, guid: 167e17598b73d06448a81e7cc1a8d21b, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c447ce8c23f15bd44bc6b11d0589415b, type: 3}
   - Id: ship
@@ -257,11 +257,11 @@ MonoBehaviour:
     - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
     - {r: 0.2588256, g: 0.0126104355, b: 0.3575967, a: 1}
     AllColorsCached:
+    - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0.22327036, g: 0.7196526, b: 1, a: 1}
     - {r: 1, g: 1, b: 1, a: 1}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
     - {r: 0.2588256, g: 0.0126104355, b: 0.3575967, a: 1}
+    - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
     TargetTexture: {fileID: 2800000, guid: 8f6a06ccf69716840890dcfeabff6453, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 55dfd06310cc25744ba804e83a8672ce, type: 3}
   - Id: ice_cream

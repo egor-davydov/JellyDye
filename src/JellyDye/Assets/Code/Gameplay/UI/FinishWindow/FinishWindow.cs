@@ -67,7 +67,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void StartWindowAnimations()
     {
-      _paintCountCalculationService.CalculatePaintPercentage(percentage =>
+      _paintCountCalculationService.AsyncCalculatePaintPercentage(percentage =>
         StartCoroutine(PercentageIncrease(percentage))
       );
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
