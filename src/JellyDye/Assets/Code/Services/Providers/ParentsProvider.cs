@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code.Services
+namespace Code.Services.Providers
 {
   public class ParentsProvider
   {

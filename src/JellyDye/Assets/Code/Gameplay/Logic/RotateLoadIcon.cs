@@ -7,18 +7,9 @@ namespace Code.Gameplay.Logic
   {
     [SerializeField] private float _rotationSpeed;
     
-    private void Awake()
+    private void Update()
     {
-      StartCoroutine(RotationRoutine());
-    }
-
-    private IEnumerator RotationRoutine()
-    {
-      while (true)
-      {
-        transform.eulerAngles += Vector3.forward * _rotationSpeed;
-        yield return null;
-      }
+      transform.eulerAngles += Vector3.forward * (_rotationSpeed * Time.deltaTime);
     }
   }
 }

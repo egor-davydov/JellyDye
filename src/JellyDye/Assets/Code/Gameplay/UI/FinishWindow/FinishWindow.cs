@@ -68,9 +68,10 @@ namespace Code.Gameplay.UI.FinishWindow
     private void StartWindowAnimations()
     {
       _paintCountCalculationService.AsyncCalculatePaintPercentage(percentage =>
-        StartCoroutine(PercentageIncrease(percentage))
-      );
-      _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
+      {
+        _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
+        StartCoroutine(PercentageIncrease(percentage));
+      });
     }
 
     private void StartAppearanceAnimation(Action onEnd)
@@ -81,7 +82,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private IEnumerator PercentageIncrease(float yourPercentage)
     {
-      float finalPercentage = CeilAndClampPercentage(yourPercentage);
+      float finalPercentage = RoundAndClampPercentage(yourPercentage);
       WriteToProgress(finalPercentage);
       _publishService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
       OnLevelEnd(finalPercentage);
@@ -137,13 +138,6 @@ namespace Code.Gameplay.UI.FinishWindow
     {
       currentPercentage = RoundAndClampPercentage(currentPercentage);
       _percentageText.text = $"{currentPercentage}%";
-    }
-
-    private float CeilAndClampPercentage(float currentPercentage)
-    {
-      currentPercentage = Mathf.CeilToInt(currentPercentage);
-      currentPercentage = Mathf.Clamp(currentPercentage, 0, 100);
-      return currentPercentage;
     }
 
     private float RoundAndClampPercentage(float currentPercentage)

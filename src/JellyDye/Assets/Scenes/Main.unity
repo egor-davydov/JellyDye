@@ -335,7 +335,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -5814904595267639518, guid: 2563df1dcf0ff234ea170d3a82fffe3c, type: 2}
   m_audioClip: {fileID: 8300000, guid: 68c71343070310c4480cdf10be9fc773, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.75
+  m_Volume: 0.569
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -672,7 +672,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 0.6
   m_Range: 30
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

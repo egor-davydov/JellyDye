@@ -15,23 +15,27 @@ namespace Code.Gameplay.Language
     
     private PublishService _publishService;
 
-    public string ResultText { get; private set; }
-
     [Inject]
     public void Construct(PublishService publishService)
     {
       _publishService = publishService;
       
-      LanguageType playerLanguage = _publishService.GetPlayerLanguage();
-      ResultText = playerLanguage switch
-      {
-        LanguageType.English => EnText,
-        LanguageType.Russian => RuText,
-        _ => throw new ArgumentOutOfRangeException()
-      };
-      
       if(!_useForTransfer)
         ChangeLanguage();
+    }
+
+    public string ResultText
+    {
+      get
+      {
+        LanguageType playerLanguage = _publishService.GetPlayerLanguage();
+        return playerLanguage switch
+        {
+          LanguageType.English => EnText,
+          LanguageType.Russian => RuText,
+          _ => throw new ArgumentOutOfRangeException()
+        };
+      }
     }
 
     private void ChangeLanguage() => 

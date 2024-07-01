@@ -14,12 +14,11 @@ namespace Code.Services
 {
   public class PublishService
   {
-    private const string LoadSceneName = "Load";
-
     private static AudioService _audioService;
     private static Action<bool> _isCanReviewResponse;
     private static Action<bool> _onReviewPlayerAction;
     private static Action _onRewarded;
+    private static Action _onSdkInitialize;
     private static Action _onPlayerInitialize;
     private static bool _gameWasMuted;
 
@@ -28,9 +27,6 @@ namespace Code.Services
     private readonly Uri _uri = new (Application.absoluteURL);
     private readonly string _yandexDomain = CrazySDK.Instance.GetSettings().whitelistedDomains[0];
 #endif
-
-    public static event Action OnYandexSdkInitialized;
-    public static bool IsSdkInitialized { get; private set; }
 
     public PublishService(AudioService audioService) =>
       _audioService = audioService;
@@ -83,8 +79,9 @@ namespace Code.Services
     public void InvokeOnSdkInitialize() =>
       OnSdkInitialized();
 
-    public void InitializeYandex(Action onPlayerInitialize)
+    public void InitializeYandex(Action onSdkInitialize, Action onPlayerInitialize)
     {
+      _onSdkInitialize = onSdkInitialize;
       _onPlayerInitialize = onPlayerInitialize;
       InitializeYandexGames(OnSdkInitialized, PlayerInitialized);
     }
@@ -171,12 +168,8 @@ namespace Code.Services
       _onRewarded?.Invoke();
 
     [MonoPInvokeCallback(typeof(Action))]
-    private static void OnSdkInitialized()
-    {
-      IsSdkInitialized = true;
-      SceneManager.LoadScene(LoadSceneName);
-      OnYandexSdkInitialized?.Invoke();
-    }
+    private static void OnSdkInitialized() => 
+      _onSdkInitialize?.Invoke();
 
     [MonoPInvokeCallback(typeof(Action))]
     private static void PlayerInitialized() =>

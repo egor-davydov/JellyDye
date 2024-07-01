@@ -1,11 +1,12 @@
 ﻿using System;
 using Code.Gameplay.Syringe;
+using Code.Services.Providers;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Code.Gameplay.UI.Hud.PaintChange
 {
-  public class ColorChanger : MonoBehaviour
+  public class Jar : MonoBehaviour
   {
     [SerializeField] private Image _colorContainerContentImage;
     [SerializeField] private Button _colorChangeButton;
@@ -14,18 +15,19 @@ namespace Code.Gameplay.UI.Hud.PaintChange
     
     public float SelectedScale => _selectedScale;
     public float ScalingTime => _scalingTime;
+    public Color Color => _color;
     public Vector2 StartScale { get; private set; }
 
-    private Color _containerColor;
-    private SyringePaintColor _syringePaintColor;
+    private Color _color;
+    private SyringeProvider _syringeProvider;
 
-    public event Action<ColorChanger> OnColorChange;
+    public event Action<Jar> OnColorChange;
 
-    public void Initialize(SyringePaintColor syringePaintColor, Color color)
+    public void Initialize(SyringeProvider syringeProvider, Color color)
     {
-      _syringePaintColor = syringePaintColor;
-      _containerColor = color;
-      _colorContainerContentImage.color = _containerColor;
+      _syringeProvider = syringeProvider;
+      _color = color;
+      _colorContainerContentImage.color = _color;
     }
 
     private void Start()
@@ -37,8 +39,8 @@ namespace Code.Gameplay.UI.Hud.PaintChange
 
     private void ChangeColorClick()
     {
-      _syringePaintColor.GetComponent<SyringeInjection>().SyringeReset();
-      _syringePaintColor.ChangeLiquidColor(_containerColor);
+      _syringeProvider.SyringeInjection.SyringeReset();
+      _syringeProvider.SyringePaintColor.ChangeLiquidColor(_color);
       OnColorChange?.Invoke(this);
     }
   }

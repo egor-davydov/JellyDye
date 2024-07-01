@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: -3492079480400555166}
   - component: {fileID: 1807961111308304800}
   m_Layer: 5
-  m_Name: ColorChanger
+  m_Name: Jar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

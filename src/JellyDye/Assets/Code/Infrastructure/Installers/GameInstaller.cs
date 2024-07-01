@@ -5,6 +5,7 @@ using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
+using Code.Services.Providers;
 using Zenject;
 
 namespace Code.Infrastructure.Installers
@@ -16,7 +17,7 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesTo<GameInstaller>().FromInstance(this).AsSingle();
 
       BindServices();
-      BindProgressServices();
+      BindProviders();
       BindStates();
       BindFactories();
     }
@@ -31,7 +32,7 @@ namespace Code.Infrastructure.Installers
     {
       Container.Bind<GameStateFactory>().AsSingle();
       Container.Bind<HudFactory>().AsSingle();
-      Container.Bind<ColorChangerFactory>().AsSingle();
+      Container.Bind<JarFactory>().AsSingle();
       Container.Bind<SyringeFactory>().AsSingle();
       Container.Bind<WindowFactory>().AsSingle();
       Container.Bind<LevelButtonFactory>().AsSingle();
@@ -52,8 +53,8 @@ namespace Code.Infrastructure.Installers
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<PublishService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
-      Container.Bind<ParentsProvider>().AsSingle();
       Container.Bind<StaticDataService>().AsSingle();
+      Container.Bind<ProgressService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
@@ -61,9 +62,11 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
     }
 
-    private void BindProgressServices()
+    private void BindProviders()
     {
-      Container.Bind<ProgressService>().AsSingle();
+      Container.Bind<ParentsProvider>().AsSingle();
+      Container.Bind<SyringeProvider>().AsSingle();
+      Container.Bind<HudProvider>().AsSingle();
     }
 
     private void BindPlatformDependServices()

@@ -5,20 +5,20 @@ using Zenject;
 
 namespace Code.Services.Factories.UI
 {
-  public class ColorChangerFactory
+  public class JarFactory
   {
     private readonly IInstantiator _instantiator;
     private readonly IAssetProvider _assetProvider;
 
-    public ColorChangerFactory(IInstantiator instantiator, IAssetProvider assetProvider)
+    public JarFactory(IInstantiator instantiator, IAssetProvider assetProvider)
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
     }
-    public async UniTask<GameObject>  Create(Transform parent)
+    public async UniTask<GameObject> Create(Transform parent)
     {
-      GameObject colorChangePrefab = await _assetProvider.Load<GameObject>(AssetPath.ColorChanger);
-      GameObject colorChangeObject = _instantiator.InstantiatePrefab(colorChangePrefab, parent);
+      GameObject jarPrefab = await _assetProvider.Load<GameObject>(AssetPath.Jar);
+      GameObject colorChangeObject = _instantiator.InstantiatePrefab(jarPrefab, parent);
       
       return colorChangeObject;
     }

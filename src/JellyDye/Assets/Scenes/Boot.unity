@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b823919c834bc6b78f182e19eeb5bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 4.4
+  _rotationSpeed: 200
 --- !u!114 &401132354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,6 +438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 480561995}
   - component: {fileID: 480561997}
+  - component: {fileID: 480561999}
   - component: {fileID: 480561996}
   m_Layer: 5
   m_Name: InitText
@@ -487,8 +488,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Initialization
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5c710c07aa06c7849be54d6733bdb766, type: 2}
-  m_sharedMaterial: {fileID: 4513160427568067072, guid: 5c710c07aa06c7849be54d6733bdb766, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 701de497ae5a42c4e899f0306a865a60, type: 2}
+  m_sharedMaterial: {fileID: 4876686484098466255, guid: 701de497ae5a42c4e899f0306a865a60, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -562,6 +563,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480561994}
   m_CullTransparentMesh: 1
+--- !u!114 &480561999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480561994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b9bfb26db8248a384b2753f5fd7373b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _languageChangeTime: 3
+  _textMeshPro: {fileID: 480561996}
+  _texts:
+  - "\u0418\u043D\u0438\u0446\u0438\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u044F"
+  - Initialization
 --- !u!1 &579004269
 GameObject:
   m_ObjectHideFlags: 0

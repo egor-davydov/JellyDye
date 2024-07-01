@@ -73,7 +73,7 @@ namespace Code.Helpers
     private void SetupAll()
     {
       MoveCamera();
-      FindObjectOfType<ColorChangersContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
+      FindObjectOfType<JarsContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
       FindObjectOfType<SyringePaintColor>()?.gameObject.SetActive(false);
       _currentJellyCount = _staticDataService.ForLevels().GetLevelIndex(ProgressLevelData.CurrentLevelId);
     }

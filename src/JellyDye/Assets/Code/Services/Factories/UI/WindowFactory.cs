@@ -1,4 +1,5 @@
 ﻿using Code.Services.AssetManagement;
+using Code.Services.Providers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;

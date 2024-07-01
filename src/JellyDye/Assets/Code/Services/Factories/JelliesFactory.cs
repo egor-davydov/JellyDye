@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Code.Services.Providers;
+using UnityEngine;
 using Zenject;
 
 namespace Code.Services.Factories

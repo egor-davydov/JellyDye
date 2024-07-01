@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Code.Gameplay.UI.MainMenu.Skins;
+using Code.Services.Providers;
 using UnityEngine;
 using Zenject;
 
@@ -11,7 +12,8 @@ namespace Code.Services.Factories
     private readonly StaticDataService _staticDataService;
     private readonly ParentsProvider _parentsProvider;
 
-    public SyringeFactory(IInstantiator instantiator, StaticDataService staticDataService, ParentsProvider parentsProvider)
+    public SyringeFactory(IInstantiator instantiator, StaticDataService staticDataService,
+      ParentsProvider parentsProvider)
     {
       _instantiator = instantiator;
       _staticDataService = staticDataService;

@@ -9,19 +9,23 @@ namespace Code.Infrastructure.States
 {
   public class InitializationState : IState
   {
+    private const string LoadSceneName = "Load";
+    
     private readonly GameStateMachine _gameStateMachine;
     private readonly StaticDataService _staticDataService;
     private readonly PublishService _publishService;
+    private readonly SceneLoader _sceneLoader;
 
     [DllImport("__Internal")]
     private static extern void WebDebugLog(string log);
 
     public InitializationState(GameStateMachine gameStateMachine, StaticDataService staticDataService,
-      PublishService publishService)
+      PublishService publishService, SceneLoader sceneLoader)
     {
       _gameStateMachine = gameStateMachine;
       _staticDataService = staticDataService;
       _publishService = publishService;
+      _sceneLoader = sceneLoader;
     }
 
     public void Enter()
@@ -32,7 +36,7 @@ namespace Code.Infrastructure.States
       WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
 #endif
       if (_publishService.IsOnYandexGames())
-        _publishService.InitializeYandex(onPlayerInitialize: OnPlayerInitialized);
+        _publishService.InitializeYandex(OnSdkInitialize, OnPlayerInitialized);
       else
         OnPlayerInitialized();
     }
@@ -41,14 +45,11 @@ namespace Code.Infrastructure.States
     {
     }
 
-    private void InvokeOnInitialize()
-    {
-      _publishService.InvokeOnSdkInitialize();
-      OnPlayerInitialized();
-    }
-
     private void OnPlayerInitialized() =>
       MoveToNextState();
+
+    private void OnSdkInitialize() => 
+      _sceneLoader.StartLoad(LoadSceneName);
 
     private void MoveToNextState() =>
       _gameStateMachine.Enter<LoadProgressState>();

@@ -1,5 +1,6 @@
 ﻿using Code.Gameplay.UI.FinishWindow;
 using Code.Services.Factories.UI;
+using Code.Services.Providers;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -13,27 +14,29 @@ namespace Code.Services
     private readonly CameraService _cameraService;
     private readonly ScreenshotService _screenshotService;
     private readonly WindowFactory _windowFactory;
-    
-    private GameObject _hudObject;
-    private GameObject _syringeObject;
-    private Texture2D _screenshot;
+    private readonly SyringeProvider _syringeProvider;
+    private readonly HudProvider _hudProvider;
+
+    private Texture2D _screenshotWithGround;
 
     public bool CanFinish { get; private set; }
 
-    public FinishLevelService(PaintCountCalculationService paintCountCalculationService, GreenButtonFactory greenButtonFactory,
-      CameraService cameraService, ScreenshotService screenshotService, WindowFactory windowFactory)
+    public FinishLevelService(PaintCountCalculationService paintCountCalculationService,
+      GreenButtonFactory greenButtonFactory, CameraService cameraService,
+      ScreenshotService screenshotService, WindowFactory windowFactory,
+      SyringeProvider syringeProvider, HudProvider hudProvider)
     {
       _paintCountCalculationService = paintCountCalculationService;
       _greenButtonFactory = greenButtonFactory;
       _cameraService = cameraService;
       _screenshotService = screenshotService;
       _windowFactory = windowFactory;
+      _syringeProvider = syringeProvider;
+      _hudProvider = hudProvider;
     }
 
-    public void Initialize(GameObject hudObject, GameObject syringeObject)
+    public void Initialize()
     {
-      _hudObject = hudObject;
-      _syringeObject = syringeObject;
       CanFinish = false;
     }
 
@@ -43,13 +46,13 @@ namespace Code.Services
         return;
 
       CanFinish = true;
-      _greenButtonFactory.CreateFinishButton(_hudObject.transform);
+      _greenButtonFactory.CreateFinishButton(_hudProvider.HudObject.transform);
     }
 
     public void FinishLevel()
     {
-      Object.Destroy(_hudObject);
-      Object.Destroy(_syringeObject);
+      Object.Destroy(_hudProvider.HudObject);
+      Object.Destroy(_syringeProvider.SyringeObject);
       _cameraService.MoveToFinish().OnComplete(ShowPhotoFlash);
     }
 
@@ -61,7 +64,7 @@ namespace Code.Services
 
     private void TakeScreenshotWithoutGround()
     {
-      _screenshot = _screenshotService.ScreenshotTexture;
+      _screenshotWithGround = _screenshotService.ScreenshotTexture;
       _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
     }
 

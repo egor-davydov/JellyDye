@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Code.Services.AssetManagement;
+using Code.Services.Providers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -12,7 +13,8 @@ namespace Code.Services.Factories.UI
     private readonly IAssetProvider _assetProvider;
     private readonly ParentsProvider _parentsProvider;
 
-    public HudFactory(IInstantiator instantiator, IAssetProvider assetProvider, ParentsProvider parentsProvider)
+    public HudFactory(IInstantiator instantiator, IAssetProvider assetProvider,
+      ParentsProvider parentsProvider)
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;

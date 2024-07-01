@@ -16,8 +16,11 @@ namespace Code.Services
     public SceneLoader(ICoroutineRunner coroutineRunner) => 
       _coroutineRunner = coroutineRunner;
 
-    public void StartLoad(string loadId, Action onComplete = null) => 
+    public void StartLoad(string loadId, Action onComplete = null)
+    {
+      LoadProgress = 0;
       _coroutineRunner.StartCoroutine(SceneLoading(loadId, onComplete));
+    }
 
     private IEnumerator SceneLoading(string loadId, Action onComplete = null)
     {
