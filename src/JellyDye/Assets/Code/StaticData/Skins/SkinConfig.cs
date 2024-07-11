@@ -1,6 +1,6 @@
 ﻿using System;
 using Code.Gameplay.UI.MainMenu.Skins;
-using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Code.StaticData.Skins
 {
@@ -8,6 +8,6 @@ namespace Code.StaticData.Skins
   public class SkinConfig
   {
     public SkinType SkinType;
-    public GameObject SkinPrefab;
+    public AssetReference SkinReference;
   }
 }

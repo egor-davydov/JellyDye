@@ -49,12 +49,12 @@ namespace Code.Infrastructure.Installers
 
     private void BindServices()
     {
-      Container.Bind<IAssetProvider>().To<AddressablesAssetProvider>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<PublishService>().AsSingle();
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<StaticDataService>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<AddressablesAssetProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();

@@ -16,7 +16,22 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: b09aba89bd4a47e41b0d928fd68fd9f3
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: eca3625b3222b9e4984feff0b2d33182
+    m_Address: Cocktail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b44716ad6535d2942885b08f59ff789c
+    m_Address: Default
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad6c8a6d47ec0d4498fa400addc3677a
+    m_Address: Bee
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 91cac4386348801488bf6e072ea9a4ba, type: 2}
   m_SchemaSet:

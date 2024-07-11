@@ -37,16 +37,16 @@ namespace Code.Gameplay.UI.MainMenu
       _equippedSkinOnOpen = _progressService.Progress.SkinData.EquippedSkin;
     }
 
-    private void CloseMenu()
+    private async void CloseMenu()
     {
       SkinType equippedSkinOnClose = _progressService.Progress.SkinData.EquippedSkin;
       if (equippedSkinOnClose != _equippedSkinOnOpen)
       {
         Vector3 previousSyringePosition = _syringeProvider.SyringeObject.transform.position;
-        Destroy(_syringeProvider.SyringeObject);
-        GameObject syringeObject = _syringeFactory.CreateSyringe(
+        GameObject syringeObject = await _syringeFactory.CreateSyringe(
           equippedSkinOnClose,
           previousSyringePosition);
+        Destroy(_syringeProvider.SyringeObject);
         _syringeProvider.Initialize(syringeObject);
       
         _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);

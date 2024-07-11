@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fbd0ac333b64a698e11e78f1c549ecc, type: 3}
+  m_Name: CCDTokens
+  m_EditorClassIdentifier: 
+  Configs:
+  - ProfileName: WindowsDev
+    Token: acced3c18a1815713ca6a8c3e3665a54

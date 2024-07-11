@@ -98,7 +98,7 @@ namespace Code.Infrastructure.States
       FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
       _paintCountCalculationService.InitializeOnSceneLoad(fluxySolver, jelliesObject.GetComponentsInChildren<FluxyContainer>());
 
-      InitSyringe();
+      await InitSyringe();
       
       await InitHud(levelConfig);
       
@@ -114,22 +114,20 @@ namespace Code.Infrastructure.States
       return jelliesObject;
     }
 
-    private GameObject InitSyringe()
+    private async UniTask InitSyringe()
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      GameObject syringeObject = _syringeFactory.CreateSyringe(equippedSkin, Vector3.up * 0.14f);
+      GameObject syringeObject = await _syringeFactory.CreateSyringe(equippedSkin, Vector3.up * 0.14f);
       _syringeProvider.Initialize(syringeObject);
       _syringeProvider.SyringeInjection.SyringeReset();
-      return syringeObject;
     }
 
-    private async UniTask<GameObject> InitHud(LevelConfig levelConfig)
+    private async UniTask InitHud(LevelConfig levelConfig)
     {
       GameObject hudObject = await _hudFactory.CreateHud();
       _hudProvider.Initialize(hudObject);
       _hudProvider.JarsContainer.Initialize(levelConfig.AllColorsCached);
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
-      return hudObject;
     }
   }
 }

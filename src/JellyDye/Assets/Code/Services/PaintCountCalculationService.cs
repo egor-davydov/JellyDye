@@ -24,7 +24,7 @@ namespace Code.Services
 #endif
     private LevelConfig _currentLevelConfig;
 
-    private Texture2D DensityReadbackTexture { get; set; }
+    private Texture2D _densityReadbackTexture;
     private RenderTexture DensityRenderTexture => _fluxySolver.framebuffer.stateA;
 
     private PaintCountCalculationService(StaticDataService staticDataService, ProgressService progressService)
@@ -37,7 +37,8 @@ namespace Code.Services
     {
       _fluxySolver = fluxySolver;
       _fluxyContainers = fluxyContainers;
-      DensityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat.RGBAHalf, false);
+      Object.Destroy(_densityReadbackTexture);
+      _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat.RGBAHalf, false);
       
       string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
       _currentLevelConfig = _staticDataService.ForLevels().GetConfigByLevelId(currentLevelId);
@@ -81,15 +82,15 @@ namespace Code.Services
       {
         float uvFluxyCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
         float uvFluxyCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
-        int x = (int)(uvFluxyCoordinatesX * DensityReadbackTexture.width);
-        int y = (int)(uvFluxyCoordinatesY * DensityReadbackTexture.height);
+        int x = (int)(uvFluxyCoordinatesX * _densityReadbackTexture.width);
+        int y = (int)(uvFluxyCoordinatesY * _densityReadbackTexture.height);
         if (maskTexture.GetPixel((int)(uvCoordinates.x * maskTexture.width), (int)(uvCoordinates.y * maskTexture.height)).r != 0)
         {
           shouldPaintedPixelsCount--;
           continue;
         }
 
-        Color pixelColor = DensityReadbackTexture.GetPixel(x, y);
+        Color pixelColor = _densityReadbackTexture.GetPixel(x, y);
         if (pixelColor != Color.clear)
         {
 #if UNITY_EDITOR
@@ -128,15 +129,15 @@ namespace Code.Services
     
     private void RequestDensityTexture(Action callback)
     {
-      if (DensityReadbackTexture != null)
+      if (_densityReadbackTexture != null)
         AsyncGPUReadback.Request(DensityRenderTexture, 0, TextureFormat.RGBAHalf, (AsyncGPUReadbackRequest request) =>
         {
           if (request.hasError)
             Debug.LogError("GPU readback error.");
           else
           {
-            DensityReadbackTexture.LoadRawTextureData(request.GetData<float>());
-            DensityReadbackTexture.Apply();
+            _densityReadbackTexture.LoadRawTextureData(request.GetData<float>());
+            _densityReadbackTexture.Apply();
             callback?.Invoke();
           }
         });
