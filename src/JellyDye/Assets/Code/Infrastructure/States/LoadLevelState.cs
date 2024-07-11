@@ -1,9 +1,8 @@
 using Code.Data;
-using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.Hud;
-using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
+using Code.Services.AssetManagement;
 using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
@@ -25,6 +24,7 @@ namespace Code.Infrastructure.States
     private readonly HudFactory _hudFactory;
     private readonly SyringeFactory _syringeFactory;
     private readonly JelliesFactory _jelliesFactory;
+    private readonly IAssetProvider _assetProvider;
     private readonly ProgressService _progressService;
     private readonly StaticDataService _staticDataService;
     private readonly PaintCountCalculationService _paintCountCalculationService;
@@ -42,7 +42,7 @@ namespace Code.Infrastructure.States
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
-      ProgressService progressService, StaticDataService staticDataService,
+      IAssetProvider assetProvider, ProgressService progressService, StaticDataService staticDataService,
       PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService,
       ISaveLoadService saveLoadService, AnalyticsService analyticsService, PublishService publishService,
       SyringeProvider syringeProvider, HudProvider hudProvider)
@@ -52,6 +52,7 @@ namespace Code.Infrastructure.States
       _hudFactory = hudFactory;
       _syringeFactory = syringeFactory;
       _jelliesFactory = jelliesFactory;
+      _assetProvider = assetProvider;
       _progressService = progressService;
       _staticDataService = staticDataService;
       _paintCountCalculationService = paintCountCalculationService;
@@ -65,13 +66,18 @@ namespace Code.Infrastructure.States
 
     private LevelData ProgressLevelData => _progressService.Progress.LevelData;
 
-    public void Enter(string levelId)
+    public async void Enter(string levelId)
     {
       _levelId = levelId;
       if(_levelId != ProgressLevelData.CurrentLevelId)
       {
         ProgressLevelData.CurrentLevelId = _levelId;
         _saveLoadService.SaveProgress();
+      }
+
+      if (_isFirstLoad)
+      {
+        await _assetProvider.Load<GameObject>(AssetPath.LevelButton);
       }
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
       _publishService.ShowFullscreenAdvAndPauseGame();

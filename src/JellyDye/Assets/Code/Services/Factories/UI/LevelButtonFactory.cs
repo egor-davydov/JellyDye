@@ -15,8 +15,8 @@ namespace Code.Services.Factories.UI
       _instantiator = instantiator;
       _assetProvider = assetProvider;
     }
-    
-    public async UniTask<GameObject>  CreateLevelButton(Transform parent)
+
+    public async UniTask<GameObject> CreateLevelButton(Transform parent)
     {
       GameObject levelButtonPrefab = await _assetProvider.Load<GameObject>(AssetPath.LevelButton);
       GameObject menuObject = _instantiator.InstantiatePrefab(levelButtonPrefab, parent);
