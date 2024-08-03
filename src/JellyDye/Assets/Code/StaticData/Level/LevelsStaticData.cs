@@ -28,7 +28,6 @@ namespace Code.StaticData.Level
       for (var index = 0; index < LevelConfigs.Length; index++)
       {
         LevelConfig levelConfig = LevelConfigs[index];
-        levelConfig.UpdateColors();
         ValidateLevelId(levelConfig, index + 1);
         ValidateMinMax();
         //AddTargetColorIfNeed(levelConfig);

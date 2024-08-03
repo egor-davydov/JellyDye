@@ -50,7 +50,7 @@ namespace Code.Helpers
       if(_groundObject == null)
         Debug.LogWarning("Couldn't find ground");
       
-      _directionPath = $"{Application.dataPath}/Resources/{ResourcesScreenshotsPath}";
+      _directionPath = $"{Application.dataPath}/Resources/{FromResourcesScreenshotsPath}";
       _currentLevelId = ProgressLevelData.CurrentLevelId;
     }
 

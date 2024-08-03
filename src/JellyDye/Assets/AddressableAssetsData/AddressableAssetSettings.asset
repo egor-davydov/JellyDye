@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: b09aba89bd4a47e41b0d928fd68fd9f3
   m_currentHash:
     serializedVersion: 2
-    Hash: 5a63f3f329242760cb5752d8a90ea6e3
+    Hash: 6891ee9ae3c7e8c6381a762ca7956050
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
         m_Value: https://004ee9fd-6a8c-4ff6-994c-da071cda063b.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/1ad379a8-75dd-478b-8c12-e8032ff822d1/release_by_badge/latest/entry_by_path/content/?path=
     - m_InheritedParent: 
       m_Id: 173319cb705aafc448c11737abf67f36
-      m_ProfileName: WindowsDev
+      m_ProfileName: Windows Development
       m_Values:
       - m_Id: ffc119943f18e8345a199721a84038d9
         m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
@@ -97,6 +97,20 @@ MonoBehaviour:
         m_Value: ServerData/[BuildTarget]
       - m_Id: 0902d3cdb76280349b277f48f2f7e92b
         m_Value: https://004ee9fd-6a8c-4ff6-994c-da071cda063b.client-api.unity3dusercontent.com/client_api/v1/environments/development/buckets/c0210571-b8ec-4385-9445-3da7e66e2475/release_by_badge/latest/entry_by_path/content/?path=
+    - m_InheritedParent: 
+      m_Id: 51205a6110089e04ba7ffb26799ee642
+      m_ProfileName: WebGL Development
+      m_Values:
+      - m_Id: ffc119943f18e8345a199721a84038d9
+        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
+      - m_Id: 04dc21f0d0ea231458da61f70647b595
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+      - m_Id: 220b2e444c2bd1740b4563ce6ecb2373
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+      - m_Id: 5f2d23b8fdb130745bf531beba2d755d
+        m_Value: ServerData/[BuildTarget]
+      - m_Id: 0902d3cdb76280349b277f48f2f7e92b
+        m_Value: https://004ee9fd-6a8c-4ff6-994c-da071cda063b.client-api.unity3dusercontent.com/client_api/v1/environments/development/buckets/e4989c20-3af2-456d-98e8-ec542dddb2ff/release_by_badge/latest/entry_by_path/content/?path=
     m_ProfileEntryNames:
     - m_Id: ffc119943f18e8345a199721a84038d9
       m_Name: BuildTarget
@@ -130,7 +144,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9296a2e8b2011264fa864d7fdeba6833, type: 2}
   - {fileID: 11400000, guid: 3f46292e836483246b1cbc7686a1e24d, type: 2}
   - {fileID: 11400000, guid: 2bbc8994be2f80a47a32a25c2125d482, type: 2}
-  m_ActiveProfileId: 173319cb705aafc448c11737abf67f36
+  m_ActiveProfileId: 51205a6110089e04ba7ffb26799ee642
   m_HostingServicesManager:
     m_HostingServiceInfos: []
     m_Settings: {fileID: 11400000}

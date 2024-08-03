@@ -74,7 +74,7 @@ namespace Code.Services.AssetManagement
 #if !UNITY_EDITOR
       using
 #endif 
-      var bundleWebRequest = UnityWebRequestAssetBundle.GetAssetBundle(overrideWebRequest.url);
+      UnityWebRequest bundleWebRequest = UnityWebRequest.Get(overrideWebRequest.url);
       CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
       string token = ccdTokensStaticData.Configs.First(config => config.ProfileName == ccdTokensStaticData.ActiveProfileName).Token;
       string authorization = "Basic " + Authenticate("", token);
@@ -98,7 +98,7 @@ namespace Code.Services.AssetManagement
         yield return new WaitForSeconds(0.5f);
         Debug.Log($"Bytes downloaded: {webRequest.downloadedBytes}");
       }
-
+      Debug.Log($"webRequest.result={webRequest.result}");
       if (webRequest.result != UnityWebRequest.Result.Success)
         Debug.LogError(webRequest.error);
       webRequest.Dispose();

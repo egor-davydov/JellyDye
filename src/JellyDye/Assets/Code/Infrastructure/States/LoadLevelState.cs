@@ -8,6 +8,7 @@ using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.Services.Providers;
+using Code.StaticData;
 using Code.StaticData.Level;
 using Cysharp.Threading.Tasks;
 using Fluxy;
@@ -39,6 +40,7 @@ namespace Code.Infrastructure.States
     private int _levelIndex;
     private bool _isFirstLoad = true;
     private LevelsStaticData _levelsStaticData;
+    private LevelConfig _levelConfig;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
@@ -77,10 +79,18 @@ namespace Code.Infrastructure.States
 
       if (_isFirstLoad)
       {
+        _levelsStaticData = _staticDataService.ForLevels();
         await _assetProvider.Load<GameObject>(AssetPath.LevelButton);
       }
+      _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
+      _levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);
+      if(_levelConfig.JellyMeshConfigs[0].Mesh == null)
+      {
+        foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+          jellyMeshConfig.Mesh = await _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
+      }
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
-      _publishService.ShowFullscreenAdvAndPauseGame();
+      //_publishService.ShowFullscreenAdvAndPauseGame();
       _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);
     }
 
@@ -96,17 +106,13 @@ namespace Code.Infrastructure.States
 
     private async void OnLoadComplete()
     {
-      _levelsStaticData ??= _staticDataService.ForLevels();
-      _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
-      LevelConfig levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);
-
-      GameObject jelliesObject = InitJellies(levelConfig);
+      GameObject jelliesObject = await InitJellies(_levelConfig);
       FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
       _paintCountCalculationService.InitializeOnSceneLoad(fluxySolver, jelliesObject.GetComponentsInChildren<FluxyContainer>());
 
       await InitSyringe();
       
-      await InitHud(levelConfig);
+      await InitHud(_levelConfig);
       
       _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
       
@@ -114,9 +120,9 @@ namespace Code.Infrastructure.States
       _gameStateMachine.Enter<GameLoopState>();
     }
 
-    private GameObject InitJellies(LevelConfig levelConfig)
+    private async UniTask<GameObject> InitJellies(LevelConfig levelConfig)
     {
-      GameObject jelliesObject = _jelliesFactory.CreateJelly(levelConfig.Id);
+      GameObject jelliesObject = await _jelliesFactory.CreateJelly(levelConfig.Id);
       return jelliesObject;
     }
 

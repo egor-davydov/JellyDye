@@ -14,18 +14,25 @@ namespace Code.Editor
     private static CCDTokensStaticData _tokensTarget;
 
     public int callbackOrder => 0;
-    public void OnPreprocessBuild(BuildReport report) => Initialize();
+    public void OnPreprocessBuild(BuildReport report) => SetActiveProfile();
 
     private void OnEnable()
     {
-      _tokensTarget = ((CCDTokensStaticData)target);
+      _tokensTarget = (CCDTokensStaticData)target;
     }
 
-    [RuntimeInitializeOnLoadMethod]
-    private static void Initialize()
+    public override void OnInspectorGUI()
+    {
+      base.OnInspectorGUI();
+      if (GUILayout.Button("Set active profile"))
+        SetActiveProfile();
+    }
+
+    private void SetActiveProfile()
     {
       AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
       _tokensTarget.ActiveProfileName = settings.profileSettings.GetProfileName(settings.activeProfileId);
+      EditorUtility.SetDirty(target);
     }
   }
 }

@@ -9,6 +9,7 @@ using Code.StaticData.Level;
 using Obi;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using static Obi.ObiSoftbodySurfaceBlueprint;
 using BooleanPreference = Fluxy.BooleanPreference;
 
@@ -29,11 +30,6 @@ namespace Code.Editor
       _levelsDataTarget = (LevelsStaticData)target;
       _advanceOptions = new BooleanPreference($"{target.GetType()}.advanceOptions", true);
       _tools = new BooleanPreference($"{target.GetType()}.tools", true);
-      // foreach (LevelConfig levelConfig in _levelsDataTarget.LevelConfigs)
-      // {
-      //   foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs) 
-      //     jellyMeshConfig.SetTargetColorAlphaToOne();
-      // }
     }
 
     public override void OnInspectorGUI()
@@ -55,9 +51,10 @@ namespace Code.Editor
       LevelConfig lastLevelConfig = _levelsDataTarget.LevelConfigs.Last();
       string lastLevelId = lastLevelConfig.Id;
       string newBlueprintsFolder = $"{FolderPath.AbsoluteBlueprintsPath}/{lastLevelId}";
-      var jellyBasePath = $"{FolderPath.AbsolutePrefabsPath}/{lastLevelId}.prefab";
-      if (lastLevelConfig.JelliesPrefab == null)
+      var jelliesPrefabAbsolutePathByLastConfigId = $"{FolderPath.AbsoluteJelliesPath}/{lastLevelId}.prefab";
+      if (lastLevelConfig.JelliesPrefabReference == null)
       {
+        /*
         List<JellyMeshConfig> lastLevelJellyConfigs = lastLevelConfig.JellyMeshConfigs;
 
         if (lastLevelJellyConfigs.Count >= MinimumMeshesToGenerateLevel
@@ -65,10 +62,8 @@ namespace Code.Editor
         {
           if (GUILayout.Button(ButtonNameGenerateLevel(lastLevelId)))
           {
-            RenameAndMoveMeshesAndMasks(lastLevelConfig, newBlueprintsFolder);
-            GenerateNewLevel(jellyBasePath, lastLevelConfig, newBlueprintsFolder);
-            // foreach (JellyMeshConfig jellyMeshConfig in lastLevelJellyConfigs) 
-            //   jellyMeshConfig.SetTargetColorAlphaToOne();
+            RenameAndMoveMeshesAndMasks(lastLevelConfig, newBlueprintsFolder, jelliesPrefab: null);
+            GenerateNewLevel(jelliesPrefabAbsolutePathByLastConfigId, lastLevelConfig, newBlueprintsFolder);
 
             SetTargetDirty();
           }
@@ -78,7 +73,7 @@ namespace Code.Editor
           {
             if (GUILayout.Button(ButtonNameRenameAndMove()))
             {
-              RenameAndMoveMeshesAndMasks(lastLevelConfig, newBlueprintsFolder);
+              RenameAndMoveMeshesAndMasks(lastLevelConfig, newBlueprintsFolder, jelliesPrefab: null);
               SetTargetDirty();
             }
 
@@ -93,30 +88,35 @@ namespace Code.Editor
         }
         else
           EditorGUILayout.HelpBox($"To generate level you should add at least {MinimumMeshesToGenerateLevel} meshes", MessageType.Warning);
+      */
       }
       else
       {
-        GameObject jellyBase = lastLevelConfig.JelliesPrefab;
-        if (jellyBase != null)
+        /*GameObject jelliesPrefab = (GameObject)lastLevelConfig.JelliesPrefabReference.editorAsset;
+        if (jelliesPrefab != null)
         {
           if (GUILayout.Button($"Open {GetInQuotationMarks(lastLevelId)} prefab"))
-            AssetDatabase.OpenAsset(jellyBase);
+            AssetDatabase.OpenAsset(jelliesPrefab);
 
           if (GUILayout.Button($"Delete last prefab {GetInQuotationMarks(lastLevelId)}"))
           {
-            AssetDatabase.DeleteAsset(jellyBasePath);
+            AssetDatabase.DeleteAsset(jelliesPrefabAbsolutePathByLastConfigId);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
           }
+
           if (GUILayout.Button($"Rebind skin {GetInQuotationMarks(lastLevelId)}"))
           {
-            foreach (ObiSoftbodySkinner skinner in jellyBase.GetComponentsInChildren<ObiSoftbodySkinner>())
+            foreach (ObiSoftbodySkinner skinner in jelliesPrefab.GetComponentsInChildren<ObiSoftbodySkinner>())
             {
               IEnumerator bindSkinEnumerator = skinner.BindSkin();
-              while (bindSkinEnumerator.MoveNext()) {}
+              while (bindSkinEnumerator.MoveNext())
+              {
+              }
             }
-            EditorUtility.SetDirty(jellyBase);
-            AssetDatabase.SaveAssetIfDirty(jellyBase);
+
+            EditorUtility.SetDirty(jelliesPrefab);
+            AssetDatabase.SaveAssetIfDirty(jelliesPrefab);
           }
         }
 
@@ -128,16 +128,16 @@ namespace Code.Editor
           lastLevelConfig.JellyMeshConfigs = new(5);
           lastLevelConfig.JellyMeshConfigs.Add(new JellyMeshConfig(null, Color.white));
           lastLevelConfig.JellyMeshConfigs.Add(new JellyMeshConfig(null, Color.white));
-          lastLevelConfig.JelliesPrefab = default;
+          lastLevelConfig.JelliesPrefabReference = default;
           lastLevelConfig.TargetTexture = default;
           lastLevelConfig.TargetTextureWithGround = default;
         }
 
         if (GUILayout.Button(ButtonNameRenameAndMove()))
         {
-          RenameAndMoveMeshesAndMasks(lastLevelConfig, newBlueprintsFolder);
+          RenameAndMoveMeshesAndMasks(lastLevelConfig, newBlueprintsFolder, jelliesPrefab);
           SetTargetDirty();
-        }
+        }*/
 
         _tools.value = EditorGUILayout.BeginFoldoutHeaderGroup(_tools, "Tools");
         if (_tools)
@@ -189,24 +189,77 @@ namespace Code.Editor
           {
             SetupAllScreenshots();
 
+            SetTargetDirty();
             AssetsSaveAndRefresh();
+          }
+
+          if (GUILayout.Button("Update cached colors"))
+          {
+            foreach (LevelConfig levelConfig in levelConfigs) 
+              levelConfig.UpdateColors();
+            
+            SetTargetDirty();
+          }
+
+          if (GUILayout.Button("Set target color alpha to one"))
+          {
+            foreach (LevelConfig levelConfig in _levelsDataTarget.LevelConfigs)
+            {
+              foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs)
+                jellyMeshConfig.SetTargetColorAlphaToOne();
+            }
+          }
+
+          if (GUILayout.Button("Set jellies prefab references"))
+          {
+            foreach (LevelConfig levelConfig in levelConfigs) 
+              levelConfig.JelliesPrefabReference = GetAssetReferenceByAssetPath($"{FolderPath.AbsoluteJelliesPath}/{levelConfig.Id}.prefab");
+
+            SetTargetDirty();
+          }
+          if (GUILayout.Button("Set mesh references by mask"))
+          {
+            foreach (LevelConfig levelConfig in levelConfigs)
+            {
+              var searchInFolders = new[] { $"{FolderPath.AbsoluteMeshesPath}/{levelConfig.Id}" };
+              string[] findAssetsGuids = AssetDatabase.FindAssets($"t:{nameof(Mesh)}", searchInFolders);
+              if(findAssetsGuids.Length == 0)
+                Debug.LogError($"Can't find meshes in folder {searchInFolders[0]}");
+
+              foreach (string guid in findAssetsGuids)
+              {
+                AssetReference assetReference = new AssetReference(guid);
+                string meshName = assetReference.editorAsset.name;
+                JellyMeshConfig jellyMeshConfig = levelConfig.JellyMeshConfigs.FirstOrDefault(x=> x.MaskTexture.name.Last() == meshName.Last());
+                if (jellyMeshConfig != null)
+                {
+                  jellyMeshConfig.SetMeshReference(assetReference);
+                }
+                else
+                {
+                  Debug.LogError($"Can't find jellyMeshConfig for mesh={meshName}");
+                }
+              }
+            }
+
             SetTargetDirty();
           }
         }
       }
 
-      foreach (LevelConfig levelConfig in _levelsDataTarget.LevelConfigs)
-      {
-        foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs)
-          jellyMeshConfig.SetTargetColorAlphaToOne();
-      }
 
       serializedObject.ApplyModifiedProperties();
     }
 
+    private AssetReference GetAssetReferenceByAssetPath(string assetPath)
+    {
+      string jelliesGuid = AssetDatabase.AssetPathToGUID(assetPath);
+      return new AssetReference(jelliesGuid);
+    }
+
     private void SetupAllScreenshots()
     {
-      Texture2D[] texture2Ds = Resources.LoadAll<Texture2D>(FolderPath.ResourcesScreenshotsPath);
+      Texture2D[] texture2Ds = Resources.LoadAll<Texture2D>(FolderPath.FromResourcesScreenshotsPath);
       if (texture2Ds.Length == 0)
       {
         Debug.LogError("Can't find screenshot textures");
@@ -217,11 +270,11 @@ namespace Code.Editor
       {
         if (levelConfig.TargetTexture != null)
           continue;
-        levelConfig.TargetTexture = texture2Ds.First(texture2D => texture2D.name == levelConfig.JelliesPrefab.name);
+        levelConfig.TargetTexture = texture2Ds.First(texture2D => texture2D.name == levelConfig.Id);
         ChangeTextureImportSettings(levelConfig.TargetTexture);
         if (levelConfig.TargetTextureWithGround != null)
           continue;
-        levelConfig.TargetTextureWithGround = texture2Ds.First(texture2D => texture2D.name == levelConfig.JelliesPrefab.name + "_ground");
+        levelConfig.TargetTextureWithGround = texture2Ds.First(texture2D => texture2D.name == levelConfig.Id + "_ground");
         ChangeTextureImportSettings(levelConfig.TargetTextureWithGround);
       }
     }
@@ -233,7 +286,7 @@ namespace Code.Editor
       targetTextureImporter.maxTextureSize = maxTextureSize;
       targetTextureImporter.crunchedCompression = true;
       targetTextureImporter.mipmapEnabled = false;
-      
+
       TextureImporterPlatformSettings platformSettings = targetTextureImporter.GetPlatformTextureSettings("WebGL");
       platformSettings.overridden = true;
       platformSettings.format = TextureImporterFormat.ASTC_12x12;
@@ -255,13 +308,13 @@ namespace Code.Editor
       GeneratePrefab(newJellyBasePath, lastLevelConfig, blueprints);
     }
 
-    private void GeneratePrefab(string newJellyBasePath, LevelConfig lastLevelConfig, List<ObiSoftbodySurfaceBlueprint> blueprints)
+    private void GeneratePrefab(string newJellyBaseAbsolutePath, LevelConfig lastLevelConfig, List<ObiSoftbodySurfaceBlueprint> blueprints)
     {
-      GameObject softbodyPrefab = Resources.Load<GameObject>($"{FolderPath.ResourcesPrefabsPath}/{AssetName.SoftbodySolver}");
-      GameObject jellyBasePrefab = Resources.Load<GameObject>($"{FolderPath.ResourcesPrefabsPath}/{AssetName.JellyBase}");
-      GameObject jellyBase = CreatePrefabVariantAsset(jellyBasePrefab, newJellyBasePath);
+      GameObject softbodyPrefab = Resources.Load<GameObject>(AssetPath.FromResourcesSolverBasePath);
+      GameObject jellyBasePrefab = Resources.Load<GameObject>(AssetPath.FromResourcesJellyBasePath);
+      CreatePrefabVariantAsset(jellyBasePrefab, newJellyBaseAbsolutePath);
       AssetsSaveAndRefresh();
-      GameObject jellyBaseContents = PrefabUtility.LoadPrefabContents(newJellyBasePath);
+      GameObject jellyBaseContents = PrefabUtility.LoadPrefabContents(newJellyBaseAbsolutePath);
 
       foreach (JellyMeshConfig jellyConfig in lastLevelConfig.JellyMeshConfigs)
       {
@@ -271,8 +324,8 @@ namespace Code.Editor
         InstantiateAndWireUpJelly(softbodyPrefab, withMesh, jellyBaseContents, blueprint);
       }
 
-      PrefabUtility.SaveAsPrefabAsset(jellyBaseContents, newJellyBasePath);
-      lastLevelConfig.JelliesPrefab = jellyBase;
+      PrefabUtility.SaveAsPrefabAsset(jellyBaseContents, newJellyBaseAbsolutePath);
+      lastLevelConfig.JelliesPrefabReference = GetAssetReferenceByAssetPath(newJellyBaseAbsolutePath);
       PrefabUtility.UnloadPrefabContents(jellyBaseContents);
     }
 
@@ -285,7 +338,7 @@ namespace Code.Editor
       return newSoftbodyObject;
     }
 
-    private void RenameAndMoveMeshesAndMasks(LevelConfig lastLevelConfig, string newBlueprintsFolder)
+    private void RenameAndMoveMeshesAndMasks(LevelConfig lastLevelConfig, string newBlueprintsFolder, GameObject jelliesPrefab)
     {
       List<JellyMeshConfig> lastLevelJellyConfigs = lastLevelConfig.JellyMeshConfigs;
       string newName = lastLevelConfig.Id;
@@ -312,22 +365,21 @@ namespace Code.Editor
         AssetDatabase.MoveAsset(GetAssetPath(mesh), $"{newBlueprintsFolder}/{mesh.name}.asset");
       }
 
-      GameObject jelliesPrefab = lastLevelConfig.JelliesPrefab;
       if (jelliesPrefab != null)
       {
         string oldName = jelliesPrefab.name;
-        string oldFolder = $"{FolderPath.ResourcesBlueprintsPath}/{oldName}";
-        
+        string oldFolder = $"{FolderPath.FromResourcesBlueprintsPath}/{oldName}";
+
         foreach (ObiSoftbodySurfaceBlueprint blueprint in Resources.LoadAll<ObiSoftbodySurfaceBlueprint>(oldFolder))
         {
           AssetDatabase.RenameAsset(GetAssetPath(blueprint), $"{newName}_bp_{blueprint.name.Last()}");
           AssetDatabase.MoveAsset(GetAssetPath(blueprint), $"{newBlueprintsFolder}/{blueprint.name}.asset");
         }
 
-        foreach (ObiSoftbodySkinner skinner in jelliesPrefab.GetComponentsInChildren<ObiSoftbodySkinner>()) 
+        foreach (ObiSoftbodySkinner skinner in jelliesPrefab.GetComponentsInChildren<ObiSoftbodySkinner>())
           skinner.name = skinner.m_Target.sharedMesh.name;
         EditorUtility.SetDirty(jelliesPrefab);
-        
+
         AssetDatabase.RenameAsset(GetAssetPath(jelliesPrefab), newName);
         Resources.UnloadUnusedAssets();
         string oldFolderAbsolutePath = $"{FolderPath.ResourcesPath}/{oldFolder}";
@@ -354,7 +406,7 @@ namespace Code.Editor
         string newBlueprintAbsolutePath = $"{newBlueprintsFolder}/{newBlueprintName}.asset";
         if (File.Exists(newBlueprintAbsolutePath))
         {
-          blueprints.Add(Resources.Load<ObiSoftbodySurfaceBlueprint>($"{FolderPath.ResourcesBlueprintsPath}/{lastLevelConfig.Id}/{newBlueprintName}"));
+          blueprints.Add(Resources.Load<ObiSoftbodySurfaceBlueprint>($"{FolderPath.FromResourcesBlueprintsPath}/{lastLevelConfig.Id}/{newBlueprintName}"));
           continue;
         }
 

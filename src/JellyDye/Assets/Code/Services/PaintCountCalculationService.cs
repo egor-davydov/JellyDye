@@ -5,6 +5,7 @@ using Code.Services.Progress;
 using Code.StaticData;
 using Code.StaticData.Level;
 using Fluxy;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
@@ -99,8 +100,7 @@ namespace Code.Services
           else
             _colors[pixelColor]++;
 #endif
-          // if (jellyMeshConfig.Mesh.name == "topM")
-          //   Debug.Log($"pixelColor= {pixelColor}");
+          
           if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticDataService.ForLevels().ColorCompareEpsilon))
             paintedPixelsCount++;
         }

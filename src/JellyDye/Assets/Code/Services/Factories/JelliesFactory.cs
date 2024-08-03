@@ -1,5 +1,8 @@
-﻿using Code.Services.Providers;
+﻿using Code.Services.AssetManagement;
+using Code.Services.Providers;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Zenject;
 
 namespace Code.Services.Factories
@@ -7,19 +10,22 @@ namespace Code.Services.Factories
   public class JelliesFactory
   {
     private readonly IInstantiator _instantiator;
+    private readonly IAssetProvider _assetProvider;
     private readonly ParentsProvider _parentsProvider;
     private readonly StaticDataService _staticDataService;
 
-    public JelliesFactory(IInstantiator instantiator, ParentsProvider parentsProvider, StaticDataService staticDataService)
+    public JelliesFactory(IInstantiator instantiator, IAssetProvider assetProvider, ParentsProvider parentsProvider, StaticDataService staticDataService)
     {
       _instantiator = instantiator;
+      _assetProvider = assetProvider;
       _parentsProvider = parentsProvider;
       _staticDataService = staticDataService;
     }
 
-    public GameObject CreateJelly(string id)
+    public async UniTask<GameObject> CreateJelly(string id)
     {
-      GameObject jelliesPrefab = _staticDataService.ForLevels().GetConfigByLevelId(id).JelliesPrefab;
+      AssetReference jelliesPrefabReference = _staticDataService.ForLevels().GetConfigByLevelId(id).JelliesPrefabReference;
+      GameObject jelliesPrefab = await _assetProvider.Load<GameObject>(jelliesPrefabReference);
       GameObject jelliesObject = _instantiator.InstantiatePrefab(jelliesPrefab, _parentsProvider.ParentForGameplay);
       return jelliesObject;
     }

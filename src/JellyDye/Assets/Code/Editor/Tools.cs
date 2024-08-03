@@ -73,7 +73,7 @@ namespace Code.Editor
       if(Object.FindObjectOfType<Screenshots>() == null)
         PrefabUtility.InstantiatePrefab(helpersPrefab);
       GameObject targetPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/SceneAssets/PaintAllContainerTarget.prefab");
-      GameObject softbodyPrefab = Resources.Load<GameObject>($"{FolderPath.ResourcesPrefabsPath}/{AssetName.SoftbodySolver}");
+      GameObject softbodyPrefab = Resources.Load<GameObject>($"{FolderPath.FromResourcesJelliesPath}/{AssetName.SoftbodySolver}");
       GameObject softbodyPrefabContents = PrefabUtility.LoadPrefabContents(AssetDatabase.GetAssetPath(softbodyPrefab));
       FluxyContainer fluxyContainer = softbodyPrefabContents.GetComponentInChildren<FluxyContainer>();
 
@@ -96,7 +96,7 @@ namespace Code.Editor
       if(screenshots != null)
         Object.DestroyImmediate(screenshots.gameObject);
       
-      GameObject softbodyPrefab = Resources.Load<GameObject>($"{FolderPath.ResourcesPrefabsPath}/{AssetName.SoftbodySolver}");
+      GameObject softbodyPrefab = Resources.Load<GameObject>(AssetPath.FromResourcesSolverBasePath);
       GameObject softbodyPrefabContents = PrefabUtility.LoadPrefabContents(AssetDatabase.GetAssetPath(softbodyPrefab));
       FluxyContainer fluxyContainer = softbodyPrefabContents.GetComponentInChildren<FluxyContainer>();
       fluxyContainer.UseMeshProjection = true;

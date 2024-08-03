@@ -1,5 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using Code.Services;
+using Code.Services.AssetManagement;
+using Code.StaticData;
+using Code.StaticData.Level;
+using UnityEngine;
 #if !UNITY_EDITOR && UNITY_WEBGL
 using CrazyGames;
 using UnityEngine;
@@ -15,22 +19,29 @@ namespace Code.Infrastructure.States
     private readonly StaticDataService _staticDataService;
     private readonly PublishService _publishService;
     private readonly SceneLoader _sceneLoader;
+    private readonly IAssetProvider _assetProvider;
 
     [DllImport("__Internal")]
     private static extern void WebDebugLog(string log);
 
     public InitializationState(GameStateMachine gameStateMachine, StaticDataService staticDataService,
-      PublishService publishService, SceneLoader sceneLoader)
+      PublishService publishService, SceneLoader sceneLoader, IAssetProvider assetProvider)
     {
       _gameStateMachine = gameStateMachine;
       _staticDataService = staticDataService;
       _publishService = publishService;
       _sceneLoader = sceneLoader;
+      _assetProvider = assetProvider;
     }
 
     public void Enter()
     {
       _staticDataService.LoadData();
+      foreach (LevelConfig levelConfig in _staticDataService.ForLevels().LevelConfigs)
+      {
+        foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs)
+          _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
+      }
 #if !UNITY_EDITOR && UNITY_WEBGL
       WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
