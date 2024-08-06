@@ -1,9 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Code.Services;
 using Code.Services.AssetManagement;
-using Code.StaticData;
-using Code.StaticData.Level;
-using UnityEngine;
 #if !UNITY_EDITOR && UNITY_WEBGL
 using CrazyGames;
 using UnityEngine;
@@ -37,11 +34,7 @@ namespace Code.Infrastructure.States
     public void Enter()
     {
       _staticDataService.LoadData();
-      foreach (LevelConfig levelConfig in _staticDataService.ForLevels().LevelConfigs)
-      {
-        foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs)
-          _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
-      }
+      _assetProvider.Initialize();
 #if !UNITY_EDITOR && UNITY_WEBGL
       WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");

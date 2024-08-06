@@ -17,18 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: b09aba89bd4a47e41b0d928fd68fd9f3
   m_SerializeEntries:
-  - m_GUID: eca3625b3222b9e4984feff0b2d33182
-    m_Address: Cocktail
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b44716ad6535d2942885b08f59ff789c
     m_Address: Default
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ad6c8a6d47ec0d4498fa400addc3677a
-    m_Address: Bee
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -74,6 +64,51 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 89a2e74f866b49aabec70d93abc11bca
     m_Address: cherries_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0dd486208696ebc468bd95f1831a5828
+    m_Address: 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29fa5172c60d6c24dac74ecb76e72eeb
+    m_Address: 2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b8912851e8b69574d93761951b4f0943
+    m_Address: 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aee9f1f2a5471224393dad31e3fd894a
+    m_Address: 2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9768ca0d562611a49a5e61468d3dc735
+    m_Address: 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bcf1bcab9f70ad7409951ddd640262a1
+    m_Address: 2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9cc756daa7c77df42aa17e41c74a3e27
+    m_Address: Default_base
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52fa222993df6444a8c8dfeaf13731e5
+    m_Address: Default_piston
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6b77fbdf64ab5246b7e13d7c2694413
+    m_Address: Liquid
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
