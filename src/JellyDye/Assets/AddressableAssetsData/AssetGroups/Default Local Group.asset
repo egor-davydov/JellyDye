@@ -13,62 +13,15 @@ MonoBehaviour:
   m_Name: Default Local Group
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
-  m_Data:
-    m_SerializedData: []
   m_GUID: b09aba89bd4a47e41b0d928fd68fd9f3
   m_SerializeEntries:
-  - m_GUID: b44716ad6535d2942885b08f59ff789c
-    m_Address: Default
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c61b6de6b241afc45b4068c6a8a8ae60
-    m_Address: stormy_cloud
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5aba680b235f2d04790c7ccd74604fb5
-    m_Address: cherries
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e596dda4db01655448fddaa8daa979f8
-    m_Address: two_bananas
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ca3c8be2576c4af1851ca36e34dfbac0
-    m_Address: stormy_cloud_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3cfc79b808be4046a959140cff3109bf
-    m_Address: stormy_cloud_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7e8c263a6afc43f09a25afe3536f9c66
-    m_Address: 79_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9b3ed65ef5b7467c9df962c8ebbe05fe
-    m_Address: 79_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f7283c49511241c39f1594d781be83a7
-    m_Address: cherries_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 89a2e74f866b49aabec70d93abc11bca
-    m_Address: cherries_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0dd486208696ebc468bd95f1831a5828
     m_Address: 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1106bf52657ba7f4c8eb5b62c74bea20
+    m_Address: Jar
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -77,8 +30,68 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b8912851e8b69574d93761951b4f0943
+  - m_GUID: 3cfc79b808be4046a959140cff3109bf
+    m_Address: stormy_cloud_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52fa222993df6444a8c8dfeaf13731e5
+    m_Address: Default_piston
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5aba680b235f2d04790c7ccd74604fb5
+    m_Address: cherries
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e8c263a6afc43f09a25afe3536f9c66
+    m_Address: 79_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ed9408bb67d0b44d82aacc03bc9f524
+    m_Address: NextLevelButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8071c1ff0a677ba4eb323ce8bd5fb84e
+    m_Address: HUD
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 831a7b105c139ad49a73ec6ccb606203
+    m_Address: MainMenuWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89a2e74f866b49aabec70d93abc11bca
+    m_Address: cherries_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9768ca0d562611a49a5e61468d3dc735
     m_Address: 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b3ed65ef5b7467c9df962c8ebbe05fe
+    m_Address: 79_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9cc756daa7c77df42aa17e41c74a3e27
+    m_Address: Default_base
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6b77fbdf64ab5246b7e13d7c2694413
+    m_Address: Liquid
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae17f01a720292744994023cb6dbe379
+    m_Address: FinishButton
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -87,7 +100,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9768ca0d562611a49a5e61468d3dc735
+  - m_GUID: b44716ad6535d2942885b08f59ff789c
+    m_Address: Default
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b8912851e8b69574d93761951b4f0943
     m_Address: 1
     m_ReadOnly: 0
     m_SerializedLabels: []
@@ -97,18 +115,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9cc756daa7c77df42aa17e41c74a3e27
-    m_Address: Default_base
+  - m_GUID: bd4f2b197a139b64da35e7b86289cb10
+    m_Address: FinishWindow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 52fa222993df6444a8c8dfeaf13731e5
-    m_Address: Default_piston
+  - m_GUID: c61b6de6b241afc45b4068c6a8a8ae60
+    m_Address: stormy_cloud
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a6b77fbdf64ab5246b7e13d7c2694413
-    m_Address: Liquid
+  - m_GUID: ca3c8be2576c4af1851ca36e34dfbac0
+    m_Address: stormy_cloud_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e596dda4db01655448fddaa8daa979f8
+    m_Address: two_bananas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eea0951dd45af2d4abd761a4712feef5
+    m_Address: LevelButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7283c49511241c39f1594d781be83a7
+    m_Address: cherries_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -116,5 +149,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 91cac4386348801488bf6e072ea9a4ba, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 2387891ba98492244a2f5de469408eff, type: 2}
     - {fileID: 11400000, guid: 4ff0221e0d9889f49be719a3c59b00f4, type: 2}
+    - {fileID: 11400000, guid: 2387891ba98492244a2f5de469408eff, type: 2}

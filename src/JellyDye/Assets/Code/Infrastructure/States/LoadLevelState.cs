@@ -80,7 +80,7 @@ namespace Code.Infrastructure.States
       if (_isFirstLoad)
       {
         _levelsStaticData = _staticDataService.ForLevels();
-        await _assetProvider.Load<GameObject>(AssetPath.LevelButton);
+        await _assetProvider.Load<GameObject>(AssetKey.LevelButton);
       }
       _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
       _levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);

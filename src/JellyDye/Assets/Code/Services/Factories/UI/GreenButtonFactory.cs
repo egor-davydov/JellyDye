@@ -18,14 +18,14 @@ namespace Code.Services.Factories.UI
     
     public async UniTask<GameObject>  CreateFinishButton(Transform parent)
     {
-      GameObject finishButtonPrefab = await _assetProvider.Load<GameObject>(AssetPath.FinishButton);
+      GameObject finishButtonPrefab = await _assetProvider.Load<GameObject>(AssetKey.FinishButton);
       GameObject finishButtonObject = _instantiator.InstantiatePrefab(finishButtonPrefab, parent);
 
       return finishButtonObject;
     }
     public async UniTask<GameObject> CreateNextLevelButton(Transform parent)
     {
-      GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetPath.NextLevelButton);
+      GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetKey.NextLevelButton);
       GameObject buttonObject = _instantiator.InstantiatePrefab(buttonPrefab, parent);
 
       return buttonObject;

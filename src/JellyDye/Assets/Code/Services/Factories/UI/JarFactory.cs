@@ -17,7 +17,7 @@ namespace Code.Services.Factories.UI
     }
     public async UniTask<GameObject> Create(Transform parent)
     {
-      GameObject jarPrefab = await _assetProvider.Load<GameObject>(AssetPath.Jar);
+      GameObject jarPrefab = await _assetProvider.Load<GameObject>(AssetKey.Jar);
       GameObject colorChangeObject = _instantiator.InstantiatePrefab(jarPrefab, parent);
       
       return colorChangeObject;
