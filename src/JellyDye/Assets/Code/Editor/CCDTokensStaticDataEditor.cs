@@ -14,7 +14,11 @@ namespace Code.Editor
     private static CCDTokensStaticData _tokensTarget;
 
     public int callbackOrder => 0;
-    public void OnPreprocessBuild(BuildReport report) => SetActiveProfile();
+    public void OnPreprocessBuild(BuildReport report)
+    {
+      OnEnable();
+      SetActiveProfile();
+    }
 
     private void OnEnable()
     {

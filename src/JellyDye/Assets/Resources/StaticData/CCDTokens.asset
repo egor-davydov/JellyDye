@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbd0ac333b64a698e11e78f1c549ecc, type: 3}
   m_Name: CCDTokens
   m_EditorClassIdentifier: 
-  ActiveProfileName: WebGL Development
+  ActiveProfileName: WebGL Public
   Configs:
   - ProfileName: Windows Development
     Token: acced3c18a1815713ca6a8c3e3665a54

@@ -91,7 +91,7 @@ namespace Code.StaticData.Level
       {
         foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs)
         {
-          if (jellyMeshConfig.Mesh == mesh)
+          if (jellyMeshConfig.MeshReference.editorAsset == mesh || jellyMeshConfig.MeshReference.SubObjectName == mesh.name)
             return jellyMeshConfig;
         }
       }

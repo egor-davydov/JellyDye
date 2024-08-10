@@ -25,7 +25,9 @@ namespace Code.Services.AssetManagement
     public void Initialize()
     {
       Addressables.InitializeAsync();
-      Addressables.WebRequestOverride += AddressablesWebRequestOverride;
+      CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
+      if(default != ccdTokensStaticData.Configs.FirstOrDefault(config => config.ProfileName == ccdTokensStaticData.ActiveProfileName))
+        Addressables.WebRequestOverride += AddressablesWebRequestOverride;
     }
 
     public async UniTask<T> Load<T>(AssetReference assetReference) where T : Object

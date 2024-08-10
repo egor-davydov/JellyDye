@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 11704aa45ad54917ba015be458d75e22
+    m_Address: Unicorn_base_ring
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 29fa5172c60d6c24dac74ecb76e72eeb
     m_Address: 2
     m_ReadOnly: 0
@@ -40,8 +45,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 53349ee8e5514bd39d2ed922a390aa42
+    m_Address: Unicorn_piston_main
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5aba680b235f2d04790c7ccd74604fb5
     m_Address: cherries
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 790dcd64a8694fa48b9f25a7491e4601
+    m_Address: Unicorn_piston_head
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -120,6 +135,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c5668a8e4d9f41a6870c3638a7be8ca7
+    m_Address: Unicorn_base_wings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c61b6de6b241afc45b4068c6a8a8ae60
     m_Address: stormy_cloud
     m_ReadOnly: 0
@@ -127,6 +147,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ca3c8be2576c4af1851ca36e34dfbac0
     m_Address: stormy_cloud_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5f555acb04c4537a68b8a663cfd7c96
+    m_Address: Unicorn_base_main
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
