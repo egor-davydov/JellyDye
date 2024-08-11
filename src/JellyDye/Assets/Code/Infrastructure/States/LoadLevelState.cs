@@ -84,11 +84,8 @@ namespace Code.Infrastructure.States
       }
       _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
       _levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);
-      if(_levelConfig.JellyMeshConfigs[0].Mesh == null)
-      {
-        foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
-          jellyMeshConfig.Mesh = await _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
-      }
+      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+        jellyMeshConfig.Mesh = await _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
       //_publishService.ShowFullscreenAdvAndPauseGame();
       _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);

@@ -40,7 +40,7 @@ namespace Code.Gameplay.UI.MainMenu
     private async void CloseMenu()
     {
       SkinType equippedSkinOnClose = _progressService.Progress.SkinData.EquippedSkin;
-      if (equippedSkinOnClose != _equippedSkinOnOpen)
+      if (equippedSkinOnClose != _equippedSkinOnOpen && !SyringeAlreadyDestroyed())
       {
         Vector3 previousSyringePosition = _syringeProvider.SyringeObject.transform.position;
         GameObject syringeObject = await _syringeFactory.CreateSyringe(
@@ -56,5 +56,8 @@ namespace Code.Gameplay.UI.MainMenu
       }
       Destroy(_menuObject);
     }
+
+    private bool SyringeAlreadyDestroyed() => 
+      _syringeProvider.SyringeObject == null;
   }
 }

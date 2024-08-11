@@ -15,27 +15,28 @@ namespace Code.Services.AssetManagement
 {
   public class AddressablesAssetProvider : IAssetProvider
   {
-    private readonly Dictionary<string, AsyncOperationHandle> _completedCache = new();
+    private readonly Dictionary<object, AsyncOperationHandle> _completedCache = new();
 
     private readonly StaticDataService _staticDataService;
 
-    public AddressablesAssetProvider(StaticDataService staticDataService) => 
+    public AddressablesAssetProvider(StaticDataService staticDataService) =>
       _staticDataService = staticDataService;
 
     public void Initialize()
     {
       Addressables.InitializeAsync();
       CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
-      if(default != ccdTokensStaticData.Configs.FirstOrDefault(config => config.ProfileName == ccdTokensStaticData.ActiveProfileName))
+      if (default != ccdTokensStaticData.Configs.FirstOrDefault(config => config.ProfileName == ccdTokensStaticData.ActiveProfileName))
         Addressables.WebRequestOverride += AddressablesWebRequestOverride;
     }
 
     public async UniTask<T> Load<T>(AssetReference assetReference) where T : Object
     {
-      if (_completedCache.TryGetValue(assetReference.AssetGUID, out AsyncOperationHandle completedHandle))
+      object assetKey = assetReference.RuntimeKey;
+      if (_completedCache.TryGetValue(assetKey, out AsyncOperationHandle completedHandle))
         return await completedHandle.Convert<T>().Task;
-      AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetReference.AssetGUID);
-      _completedCache[assetReference.AssetGUID] = handle;
+      AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetKey);
+      _completedCache[assetKey] = handle;
 
       return await handle.Task;
     }
