@@ -59,25 +59,21 @@ namespace Code.Gameplay.UI.FinishWindow
     {
       _shouldBeImage.texture = _staticDataService.ForLevels().GetConfigByLevelId(_progressLevelData.CurrentLevelId).TargetTextureWithGround;
       _yourResultImage.texture = screenshot;
-      StartAppearanceAnimation(onEnd: StartWindowAnimations);
     }
 
     private void OnDestroy() =>
       _scaleTween.Kill();
 
-    private void StartWindowAnimations()
-    {
-      _paintCountCalculationService.AsyncCalculatePaintPercentage(percentage =>
-      {
-        _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
-        StartCoroutine(PercentageIncrease(percentage));
-      });
-    }
-
-    private void StartAppearanceAnimation(Action onEnd)
+    public void AnimateWindowAppearance(Action onEnd)
     {
       transform.localScale = Vector3.zero;
       transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
+    }
+
+    public void AnimatePercentageText(float percentage)
+    {
+      _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
+      StartCoroutine(PercentageIncrease(percentage));
     }
 
     private IEnumerator PercentageIncrease(float yourPercentage)
