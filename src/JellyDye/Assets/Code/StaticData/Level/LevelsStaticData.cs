@@ -84,7 +84,7 @@ namespace Code.StaticData.Level
 
       throw new Exception($"Can't find config by id= \"{levelId}\"");
     }
-    
+#if UNITY_EDITOR
     public JellyMeshConfig GetJellyConfigByMesh(Mesh mesh) //use only in editor, use LevelConfig
     {
       foreach (LevelConfig levelConfig in LevelConfigs)
@@ -98,5 +98,6 @@ namespace Code.StaticData.Level
 
       throw new Exception($"Error in method GetJellyConfigByMesh. Cant find JellyMeshConfig for mesh \"{mesh}\"");
     }
+#endif
   }
 }
