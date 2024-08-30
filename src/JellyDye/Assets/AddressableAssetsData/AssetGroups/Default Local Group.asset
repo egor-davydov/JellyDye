@@ -45,11 +45,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 53349ee8e5514bd39d2ed922a390aa42
-    m_Address: Unicorn_piston_main
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5aba680b235f2d04790c7ccd74604fb5
     m_Address: cherries
     m_ReadOnly: 0

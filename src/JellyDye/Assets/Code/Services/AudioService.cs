@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Services.AssetManagement;
 using UnityEngine;
 using UnityEngine.Audio;
 using Zenject;
@@ -7,18 +8,24 @@ namespace Code.Services
 {
   public class AudioService : IInitializable
   {
-    private const string MixerPath = "Audio/Mixer";
     private const string ParameterName = "MasterVolume";
 
+    private readonly IAssetProvider _assetProvider;
+    
     private AudioMixer _audioMixer;
     private float _startVolume;
 
     public event Action<bool> OnAudioStateChanged;
     public bool IsAudioMuted { get; private set; }
 
-    public void Initialize()
+    public AudioService(IAssetProvider assetProvider)
     {
-      _audioMixer = Resources.Load<AudioMixer>(MixerPath);
+      _assetProvider = assetProvider;
+    }
+    
+    public async void Initialize()
+    {
+      _audioMixer = await _assetProvider.Load<AudioMixer>(AssetKey.AudioMixer);
       _audioMixer.GetFloat(ParameterName, out _startVolume);
     }
 

@@ -9,5 +9,6 @@
     public const string FinishButton = "FinishButton";
     public const string FinishWindow = "FinishWindow";
     public const string NextLevelButton = "NextLevelButton";
+    public const string AudioMixer = "AudioMixer";
   }
 }

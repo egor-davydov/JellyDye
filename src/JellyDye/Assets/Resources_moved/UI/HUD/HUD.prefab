@@ -359,7 +359,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 42761642052527506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.6982464}
+  m_AnchorMin: {x: 0, y: 0.74300003}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -1112,7 +1112,7 @@ MonoBehaviour:
   m_Content: {fileID: 4729559356489264432}
   m_Horizontal: 1
   m_Vertical: 0
-  m_MovementType: 2
+  m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -1604,6 +1604,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4729559356336244709}
     m_Modifications:
+    - target: {fileID: 4682218244145349333, guid: 16a57760496234d42bc9744fe620f044, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8747877591171899462, guid: 16a57760496234d42bc9744fe620f044, type: 3}
       propertyPath: m_Name
       value: ReloadLevel_button
@@ -1634,7 +1638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8982933232696431077, guid: 16a57760496234d42bc9744fe620f044, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.84400004
+      value: 0.83661455
       objectReference: {fileID: 0}
     - target: {fileID: 8982933232696431077, guid: 16a57760496234d42bc9744fe620f044, type: 3}
       propertyPath: m_SizeDelta.x

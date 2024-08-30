@@ -201,6 +201,21 @@ namespace Code.Editor
             SetTargetDirty();
           }
 
+          if (GUILayout.Button("Delete 'clear' colors"))
+          {
+            foreach (LevelConfig levelConfig in levelConfigs)
+              for (var index = 0; index < levelConfig.AdditionalColors.Count; index++)
+              {
+                Color levelConfigAdditionalColor = levelConfig.AdditionalColors[index];
+                if(levelConfigAdditionalColor == Color.clear)
+                {
+                  levelConfig.AdditionalColors.RemoveAt(index);
+                  Debug.Log($"Removed clear color in '{levelConfig.Id}' config at '{index}' index");
+                }
+              }
+            SetTargetDirty();
+          }
+
           if (GUILayout.Button("Set target color alpha to one"))
           {
             foreach (LevelConfig levelConfig in _levelsDataTarget.LevelConfigs)

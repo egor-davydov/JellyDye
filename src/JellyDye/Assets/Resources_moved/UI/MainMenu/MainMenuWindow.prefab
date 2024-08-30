@@ -268,6 +268,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 2563df1dcf0ff234ea170d3a82fffe3c, type: 2}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -623,7 +624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b570f046f123f8e448d86fbe0ff03eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiAudio: {fileID: 2546320569475937431}
   _menuObject: {fileID: 35643755105224522}
   _backButton: {fileID: 2755833467874093024}
 --- !u!1001 &3050598400359408
@@ -1684,6 +1684,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2628965900095645989, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2628965900095645989, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3921305361521709740, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}

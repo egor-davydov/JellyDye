@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: b09aba89bd4a47e41b0d928fd68fd9f3
   m_currentHash:
     serializedVersion: 2
-    Hash: 85b38d373e954d14a10ee987aea42ae5
+    Hash: 6b8ee5a00bd864f15f1c1727024d160b
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_CatalogRequestsTimeout: 0
@@ -27,8 +27,8 @@ MonoBehaviour:
     m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     m_ClassName: UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider
   m_AssetBundleProviderType:
-    m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    m_ClassName: UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider
+    m_AssemblyName: Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_ClassName: UnityEngine.AddressableAssets.ResourceProviders.ContentCatalogProvider
   m_IgnoreUnsupportedFilesInBuild: 0
   m_UniqueBundleIds: 0
   m_EnableJsonCatalog: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
   m_CcdLogRequests: 0
   m_CcdLogRequestHeaders: 0
   m_maxConcurrentWebRequests: 3
-  m_UseUWRForLocalBundles: 0
+  m_UseUWRForLocalBundles: 1
   m_BundleTimeout: 0
   m_BundleRetryCount: 0
   m_BundleRedirectLimit: -1

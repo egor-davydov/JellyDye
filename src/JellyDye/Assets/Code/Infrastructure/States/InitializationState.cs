@@ -1,10 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using Code.Logging;
 using Code.Services;
 using Code.Services.AssetManagement;
-#if !UNITY_EDITOR && UNITY_WEBGL
-using CrazyGames;
+using Code.StaticData;
+using Code.StaticData.Level;
 using UnityEngine;
-#endif
 
 namespace Code.Infrastructure.States
 {
@@ -17,10 +16,7 @@ namespace Code.Infrastructure.States
     private readonly PublishService _publishService;
     private readonly SceneLoader _sceneLoader;
     private readonly IAssetProvider _assetProvider;
-
-    [DllImport("__Internal")]
-    private static extern void WebDebugLog(string log);
-
+    
     public InitializationState(GameStateMachine gameStateMachine, StaticDataService staticDataService,
       PublishService publishService, SceneLoader sceneLoader, IAssetProvider assetProvider)
     {
@@ -35,10 +31,9 @@ namespace Code.Infrastructure.States
     {
       _staticDataService.LoadData();
       _assetProvider.Initialize();
-#if !UNITY_EDITOR && UNITY_WEBGL
-      WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
-      WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
-#endif
+      WarmUpLevels();
+      // WebDebug.Log($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
+      // WebDebug.Log($"Application.absoluteURL={Application.absoluteURL}");
       if (_publishService.IsOnYandexGames())
         _publishService.InitializeYandex(OnSdkInitialize, OnPlayerInitialized);
       else
@@ -49,13 +44,25 @@ namespace Code.Infrastructure.States
     {
     }
 
-    private void OnPlayerInitialized() =>
+    private void OnPlayerInitialized()
+    {
       MoveToNextState();
+    }
 
     private void OnSdkInitialize() => 
       _sceneLoader.StartLoad(LoadSceneName);
 
     private void MoveToNextState() =>
       _gameStateMachine.Enter<LoadProgressState>();
+
+    private void WarmUpLevels()
+    {
+      foreach (LevelConfig levelConfig in _staticDataService.ForLevels().LevelConfigs)
+      {
+        _assetProvider.Load<GameObject>(levelConfig.JelliesPrefabReference);
+        foreach (JellyMeshConfig levelConfigJellyMeshConfig in levelConfig.JellyMeshConfigs)
+          _assetProvider.Load<Mesh>(levelConfigJellyMeshConfig.MeshReference);
+      }
+    }
   }
 }

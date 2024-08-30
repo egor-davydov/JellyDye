@@ -46,10 +46,10 @@ MonoBehaviour:
     - {r: 1, g: 0, b: 0, a: 1}
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
     AllColorsCached:
+    - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
     - {r: 1, g: 0.9695432, b: 0, a: 1}
     - {r: 1, g: 0, b: 0, a: 1}
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
-    - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
     TargetTexture: {fileID: 2800000, guid: bbdff5b0574b8b445b8b3f3b57db6761, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c9145b5692f54c843a0caf481a8afce0, type: 3}
   - Id: cherries
@@ -453,13 +453,11 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
     AdditionalColors:
-    - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
     - {r: 0.2588256, g: 0.0126104355, b: 0.3575967, a: 1}
     AllColorsCached:
     - {r: 0.22327036, g: 0.7196526, b: 1, a: 1}
     - {r: 1, g: 1, b: 1, a: 1}
-    - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0.25772744, g: 0.11765909, b: 0.88180566, a: 1}
     - {r: 0.2588256, g: 0.0126104355, b: 0.3575967, a: 1}
     TargetTexture: {fileID: 2800000, guid: 8f6a06ccf69716840890dcfeabff6453, type: 3}
@@ -1368,8 +1366,8 @@ MonoBehaviour:
     AdditionalColors: []
     AllColorsCached:
     - {r: 0.97040164, g: 1, b: 1, a: 1}
-    - {r: 0.559, g: 0.75996286, b: 0.8867924, a: 1}
     - {r: 1, g: 0.5693971, b: 0.25157225, a: 1}
+    - {r: 0.559, g: 0.75996286, b: 0.8867924, a: 1}
     TargetTexture: {fileID: 2800000, guid: 14ad2a3d35f8e774a8e4db10a2cc74cc, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: b144a0b8835f61248a15ed3d99cc041e, type: 3}
   - Id: comb_with_hair_on
@@ -1400,10 +1398,10 @@ MonoBehaviour:
     - {r: 0.24382079, g: 0.71535265, b: 0.076093554, a: 1}
     - {r: 0.29001063, g: 0.68296576, b: 0.5674922, a: 1}
     AllColorsCached:
-    - {r: 0.24382079, g: 0.71535265, b: 0.076093554, a: 1}
     - {r: 0.98287284, g: 1, b: 0.23270434, a: 1}
-    - {r: 0.29001063, g: 0.68296576, b: 0.5674922, a: 1}
     - {r: 0.33725494, g: 0.88439494, b: 0.972549, a: 1}
+    - {r: 0.24382079, g: 0.71535265, b: 0.076093554, a: 1}
+    - {r: 0.29001063, g: 0.68296576, b: 0.5674922, a: 1}
     TargetTexture: {fileID: 2800000, guid: ee27a7716a0111b458075318038900e6, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 33a0ea21f04853841bd306d7920ae86f, type: 3}
   - Id: human_pelvis
@@ -1450,9 +1448,9 @@ MonoBehaviour:
     - {r: 0.7280183, g: 0.37170702, b: 0.94952965, a: 1}
     - {r: 0.47372693, g: 0.46320993, b: 0.5379384, a: 1}
     AllColorsCached:
+    - {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
     - {r: 0.4424008, g: 1, b: 0.26100624, a: 1}
     - {r: 0.7280183, g: 0.37170702, b: 0.94952965, a: 1}
-    - {r: 0.95294124, g: 0.8196079, b: 0.44705886, a: 1}
     - {r: 0.47372693, g: 0.46320993, b: 0.5379384, a: 1}
     TargetTexture: {fileID: 2800000, guid: b0d1a3764d6b5f94aae733d67228a895, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: cc469dc37b0528a4b9c2a1522cb87634, type: 3}
@@ -1570,11 +1568,11 @@ MonoBehaviour:
     - {r: 0.10522914, g: 0.87801266, b: 0.541856, a: 1}
     - {r: 0.012935638, g: 0.082648635, b: 0.28895646, a: 1}
     AllColorsCached:
-    - {r: 0.012935638, g: 0.082648635, b: 0.28895646, a: 1}
-    - {r: 0.10522914, g: 0.87801266, b: 0.541856, a: 1}
-    - {r: 0.6738791, g: 0.9150943, b: 0.19568045, a: 1}
     - {r: 0.62299746, g: 0.990566, b: 0.8517639, a: 1}
+    - {r: 0.6738791, g: 0.9150943, b: 0.19568045, a: 1}
     - {r: 1, g: 0.6761006, b: 0.8744064, a: 1}
+    - {r: 0.10522914, g: 0.87801266, b: 0.541856, a: 1}
+    - {r: 0.012935638, g: 0.082648635, b: 0.28895646, a: 1}
     TargetTexture: {fileID: 2800000, guid: 466bdb4ffaceb1148800f8200fd12d54, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 330f505c9780e124983608360af7f7a5, type: 3}
   - Id: kitties
