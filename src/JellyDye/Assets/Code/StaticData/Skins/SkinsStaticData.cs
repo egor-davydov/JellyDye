@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Code.Gameplay.UI.MainMenu.Skins;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Code.StaticData.Skins
 {
@@ -13,7 +12,7 @@ namespace Code.StaticData.Skins
     public SkinConfig[] SkinConfigs;
     [field: SerializeField, Range(0, 1)] public float MinSkinProgress { get; private set; }
 
-    public AssetReference GetSkinByType(SkinType skinType) => 
-      SkinConfigs.First(config => config.SkinType == skinType).SkinReference;
+    public SkinConfig GetSkinByType(SkinType skinType) => 
+      SkinConfigs.First(config => config.SkinType == skinType);
   }
 }

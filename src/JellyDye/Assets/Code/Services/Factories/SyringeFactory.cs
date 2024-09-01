@@ -27,7 +27,7 @@ namespace Code.Services.Factories
 
     public async UniTask<GameObject> CreateSyringe(SkinType skinType, Vector3 at)
     {
-      AssetReference skinReference = _staticDataService.ForSkins().GetSkinByType(skinType);
+      AssetReference skinReference = _staticDataService.ForSkins().GetSkinByType(skinType).SkinReference;
       GameObject syringePrefab = await _assetProvider.Load<GameObject>(skinReference);
       GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab, at, syringePrefab.transform.rotation, _parentsProvider.ParentForGameplay);
 
