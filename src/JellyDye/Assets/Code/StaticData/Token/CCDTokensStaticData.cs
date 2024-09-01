@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Code.StaticData.Token
 {
@@ -6,6 +7,6 @@ namespace Code.StaticData.Token
   public class CCDTokensStaticData : ScriptableObject
   {
     public string ActiveProfileName;
-    public CCDTokenConfig[] Configs;
+    public List<CCDTokenConfig> Configs;
   }
 }

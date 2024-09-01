@@ -1,4 +1,5 @@
-﻿using Code.StaticData.Token;
+﻿using System.Linq;
+using Code.StaticData.Token;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
@@ -28,9 +29,21 @@ namespace Code.Editor
     public override void OnInspectorGUI()
     {
       base.OnInspectorGUI();
+      string activeProfileName = _tokensTarget.ActiveProfileName;
+      GUI.enabled = !HasActiveProfile(activeProfileName);
+      if (GUILayout.Button("Add active profile"))
+      {
+        _tokensTarget.Configs.Add(new CCDTokenConfig(activeProfileName));
+        EditorUtility.SetDirty(target);
+      }
+      GUI.enabled = true;
+
       if (GUILayout.Button("Set active profile"))
         SetActiveProfile();
     }
+
+    private bool HasActiveProfile(string activeProfileName) => 
+      _tokensTarget.Configs.FirstOrDefault(config => config.ProfileName == activeProfileName) != default;
 
     private void SetActiveProfile()
     {

@@ -84,6 +84,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<InitializationState>().AsSingle();
       Container.Bind<LoadProgressState>().AsSingle();
       Container.Bind<LoadLevelState>().AsSingle();
+      Container.Bind<WarmUpState>().AsSingle();
       Container.Bind<GameLoopState>().AsSingle();
     }
   }

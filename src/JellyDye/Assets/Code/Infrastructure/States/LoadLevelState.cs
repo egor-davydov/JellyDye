@@ -19,7 +19,7 @@ namespace Code.Infrastructure.States
   public class LoadLevelState : IPayloadState<string>
   {
     private const string MainSceneName = "Main";
-    
+
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly HudFactory _hudFactory;
@@ -39,7 +39,6 @@ namespace Code.Infrastructure.States
     private string _levelId;
     private int _levelIndex;
     private bool _isFirstLoad = true;
-    private LevelsStaticData _levelsStaticData;
     private LevelConfig _levelConfig;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
@@ -66,24 +65,20 @@ namespace Code.Infrastructure.States
       _hudProvider = hudProvider;
     }
 
+    private LevelsStaticData LevelsStaticData => _staticDataService.ForLevels();
     private LevelData ProgressLevelData => _progressService.Progress.LevelData;
 
     public async void Enter(string levelId)
     {
       _levelId = levelId;
-      if(_levelId != ProgressLevelData.CurrentLevelId)
+      if (_levelId != ProgressLevelData.CurrentLevelId)
       {
         ProgressLevelData.CurrentLevelId = _levelId;
         _saveLoadService.SaveProgress();
       }
 
-      if (_isFirstLoad)
-      {
-        _levelsStaticData = _staticDataService.ForLevels();
-        await _assetProvider.Load<GameObject>(AssetKey.LevelButton);
-      }
-      _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
-      _levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);
+      _levelIndex = LevelsStaticData.GetLevelIndex(_levelId);
+      _levelConfig = LevelsStaticData.GetConfigByLevelId(_levelId);
       foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
         jellyMeshConfig.Mesh = await _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
@@ -93,11 +88,12 @@ namespace Code.Infrastructure.States
 
     public void Exit()
     {
-      if(_isFirstLoad)
+      if (_isFirstLoad)
       {
         _publishService.GameReadyToPlay();
         _isFirstLoad = false;
       }
+
       _analyticsService.LevelStart(_levelIndex, _levelId);
     }
 
@@ -108,11 +104,11 @@ namespace Code.Infrastructure.States
       _paintCountCalculationService.InitializeOnSceneLoad(fluxySolver, jelliesObject.GetComponentsInChildren<FluxyContainer>());
 
       await InitSyringe();
-      
+
       await InitHud(_levelConfig);
-      
+
       _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
-      
+
       _finishLevelService.Initialize();
       _gameStateMachine.Enter<GameLoopState>();
     }

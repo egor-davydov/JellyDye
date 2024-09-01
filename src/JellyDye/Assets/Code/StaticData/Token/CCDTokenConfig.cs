@@ -7,5 +7,10 @@ namespace Code.StaticData.Token
   {
     public string ProfileName;
     public string Token;
+
+    public CCDTokenConfig(string profileName)
+    {
+      ProfileName = profileName;
+    }
   }
 }

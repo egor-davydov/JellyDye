@@ -20,6 +20,7 @@ namespace Code.Infrastructure.States
       {
         [typeof(InitializationState)] = _gameStateFactory.Create<InitializationState>(),
         [typeof(LoadProgressState)] = _gameStateFactory.Create<LoadProgressState>(),
+        [typeof(WarmUpState)] = _gameStateFactory.Create<WarmUpState>(),
         [typeof(LoadLevelState)] = _gameStateFactory.Create<LoadLevelState>(),
         [typeof(GameLoopState)] = _gameStateFactory.Create<GameLoopState>(),
       };

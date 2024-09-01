@@ -1335,10 +1335,11 @@ MonoBehaviour:
     JellyMeshConfigs:
     - <MeshReference>k__BackingField:
         m_AssetGUID: dedca227748572c4eb8c5bfa9835f3fd
-        m_SubObjectName: 
+        m_SubObjectName: alarm_clock_1
         m_SubObjectGUID: 
-        m_SubObjectType: 
-        m_EditorAssetChanged: 0
+        m_SubObjectType: UnityEngine.Mesh, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        m_EditorAssetChanged: 1
       <MaskTexture>k__BackingField: {fileID: 2800000, guid: 32eded4a5bd04d3ea5ce5845a9f07db0, type: 3}
       <TargetColor>k__BackingField: {r: 0.97040164, g: 1, b: 1, a: 1}
     - <MeshReference>k__BackingField:

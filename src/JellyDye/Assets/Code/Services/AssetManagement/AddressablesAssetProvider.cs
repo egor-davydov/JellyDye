@@ -18,6 +18,7 @@ namespace Code.Services.AssetManagement
     private readonly Dictionary<object, AsyncOperationHandle> _completedCache = new();
 
     private readonly StaticDataService _staticDataService;
+    private Func<CCDTokenConfig, bool> _ccdTokensPredicate;
 
     public AddressablesAssetProvider(StaticDataService staticDataService) =>
       _staticDataService = staticDataService;
@@ -26,6 +27,7 @@ namespace Code.Services.AssetManagement
     {
       Addressables.InitializeAsync();
       CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
+      _ccdTokensPredicate = config => config.ProfileName == ccdTokensStaticData.ActiveProfileName;
       if (default != ccdTokensStaticData.Configs.FirstOrDefault(config => config.ProfileName == ccdTokensStaticData.ActiveProfileName))
         Addressables.WebRequestOverride += AddressablesWebRequestOverride;
     }
@@ -69,7 +71,7 @@ namespace Code.Services.AssetManagement
     private void AddressablesWebRequestOverride(UnityWebRequest overrideWebRequest)
     {
       CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
-      string token = ccdTokensStaticData.Configs.First(config => config.ProfileName == ccdTokensStaticData.ActiveProfileName).Token;
+      string token = ccdTokensStaticData.Configs.First(_ccdTokensPredicate).Token;
       string authorization = "Basic " + Authenticate("", token);
       overrideWebRequest.SetRequestHeader("Authorization", authorization);
     }
