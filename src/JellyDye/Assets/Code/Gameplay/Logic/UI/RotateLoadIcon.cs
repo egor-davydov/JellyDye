@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Code.Gameplay.Logic
+namespace Code.Gameplay.Logic.UI
 {
   public class RotateLoadIcon : MonoBehaviour
   {

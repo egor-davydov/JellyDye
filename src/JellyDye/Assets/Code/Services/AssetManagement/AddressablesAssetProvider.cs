@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,26 +31,34 @@ namespace Code.Services.AssetManagement
         Addressables.WebRequestOverride += AddressablesWebRequestOverride;
     }
 
+    public bool TryGetAsyncOperationHandle(AssetReference assetReference, out AsyncOperationHandle handle)
+    {
+      if(_completedCache.TryGetValue(assetReference.RuntimeKey, out AsyncOperationHandle completedHandle));
+      {
+        handle = completedHandle;
+        return true;
+      }
+    }
+    
     public async UniTask<T> Load<T>(AssetReference assetReference) where T : Object
     {
-      object assetKey = assetReference.RuntimeKey;
-      if (_completedCache.TryGetValue(assetKey, out AsyncOperationHandle completedHandle))
-        return await completedHandle.Convert<T>().Task;
-      AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetKey);
-      _completedCache[assetKey] = handle;
-
-      return await handle.Task;
+      return await LoadByKey<T>(assetReference.RuntimeKey);
     }
 
     public async UniTask<T> Load<T>(string address) where T : Object
     {
-      if (_completedCache.TryGetValue(address, out AsyncOperationHandle completedHandle))
-        return await completedHandle.Convert<T>().Task;
+      return await LoadByKey<T>(address);
+    }
 
-      AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(address);
-      _completedCache[address] = handle;
+    private async UniTask<T> LoadByKey<T>(object key) where T : Object
+    {
+      if (_completedCache.TryGetValue(key, out AsyncOperationHandle completedHandle))
+        return await completedHandle.Convert<T>();
 
-      return await handle.Task;
+      AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
+      _completedCache[key] = handle;
+
+      return await handle;
     }
 
     public UniTask<GameObject> Instantiate(string address, Vector3 at) =>
@@ -67,6 +74,12 @@ namespace Code.Services.AssetManagement
 
       _completedCache.Clear();
     }
+
+    public AsyncOperationHandle GetHandle(AssetReference assetReference) => 
+      _completedCache[assetReference.RuntimeKey];
+
+    public AsyncOperationHandle GetHandle(string address) => 
+      _completedCache[address];
 
     private void AddressablesWebRequestOverride(UnityWebRequest overrideWebRequest)
     {

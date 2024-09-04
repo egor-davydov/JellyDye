@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Code.Services.AssetManagement
 {
@@ -12,5 +13,7 @@ namespace Code.Services.AssetManagement
         UniTask<GameObject> Instantiate(string path, Vector3 at);
         UniTask<GameObject> Instantiate(string address, Transform under = null);
         void Cleanup();
+        AsyncOperationHandle GetHandle(AssetReference assetReference);
+        AsyncOperationHandle GetHandle(string address);
     }
 }

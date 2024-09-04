@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-using Code.Gameplay.Language;
 using TMPro;
 using UnityEngine;
 
-namespace Code.Gameplay.Logic
+namespace Code.Gameplay.Logic.UI
 {
   public class LoopLanguages : MonoBehaviour
   {

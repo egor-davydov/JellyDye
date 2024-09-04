@@ -6,7 +6,7 @@ namespace Code.Infrastructure.States
   public class InitializationState : IState
   {
     private const string LoadSceneName = "Load";
-    
+
     private readonly GameStateMachine _gameStateMachine;
     private readonly StaticDataService _staticDataService;
     private readonly PublishService _publishService;
@@ -44,11 +44,11 @@ namespace Code.Infrastructure.States
       MoveToNextState();
     }
 
-    private void OnSdkInitialize() => 
-      _sceneLoader.StartLoad(LoadSceneName);
+    private void OnSdkInitialize()
+    {
+    }
 
     private void MoveToNextState() =>
       _gameStateMachine.Enter<LoadProgressState>();
-
   }
 }

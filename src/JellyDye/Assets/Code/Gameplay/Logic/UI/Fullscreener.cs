@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.Gameplay.Logic
+namespace Code.Gameplay.Logic.UI
 {
   public class Fullscreener : MonoBehaviour
   {

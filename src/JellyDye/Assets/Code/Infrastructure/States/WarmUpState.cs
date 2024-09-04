@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
 using Code.Services.AssetManagement;
@@ -10,7 +8,6 @@ using Code.StaticData.Level;
 using Code.StaticData.Skins;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Code.Infrastructure.States
 {
@@ -32,9 +29,9 @@ namespace Code.Infrastructure.States
       _progressService = progressService;
     }
     
-    public async void Enter()
+    public void Enter()
     {
-      await WarmUpCurrentAssets();
+      WarmUpCurrentAssets();
       WarmUpOtherAssets();
       _gameStateMachine.Enter<LoadLevelState, string>(CurrentLevelId);
     }
@@ -43,27 +40,27 @@ namespace Code.Infrastructure.States
     {
     }
 
-    private async UniTask WarmUpCurrentAssets()
+    private void WarmUpCurrentAssets()
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      await WarmUpSyringeSkin(_staticDataService.ForSkins().GetSkinByType(equippedSkin));
-      await WarmUpLevel(_staticDataService.ForLevels().GetConfigByLevelId(CurrentLevelId));
+      WarmUpSyringeSkin(_staticDataService.ForSkins().GetSkinByType(equippedSkin)).Forget();
+      WarmUpLevel(_staticDataService.ForLevels().GetConfigByLevelId(CurrentLevelId)).Forget();
     }
 
     private void WarmUpOtherAssets()
     {
       _assetProvider.Load<GameObject>(AssetKey.LevelButton);
-      WarmUpLevelsQueued();
-      WarmUpSyringesQueued();
+      WarmUpLevelsQueued().Forget();
+      WarmUpSyringesQueued().Forget();
     }
 
-    private async void WarmUpLevelsQueued()
+    private async UniTaskVoid WarmUpLevelsQueued()
     {
       foreach (LevelConfig levelConfig in _staticDataService.ForLevels().LevelConfigs)
         await WarmUpLevel(levelConfig);
     }
 
-    private async void WarmUpSyringesQueued()
+    private async UniTaskVoid WarmUpSyringesQueued()
     {
       foreach (SkinConfig skinConfig in _staticDataService.ForSkins().SkinConfigs)
         await WarmUpSyringeSkin(skinConfig);
@@ -71,19 +68,19 @@ namespace Code.Infrastructure.States
 
     private async UniTask WarmUpLevel(LevelConfig levelConfig)
     {
-      float startTime = Time.time;
+      //float startTime = Time.time;
       List<UniTask> tasks = new() { _assetProvider.Load<GameObject>(levelConfig.JelliesPrefabReference) };
       foreach (JellyMeshConfig levelConfigJellyMeshConfig in levelConfig.JellyMeshConfigs)
         tasks.Add(_assetProvider.Load<Mesh>(levelConfigJellyMeshConfig.MeshReference));
-      await UniTask.WaitUntil(() => tasks.All(x => x.Status == UniTaskStatus.Succeeded));
+      await tasks;
       //Debug.Log($"Level {levelConfig.Id} loaded in {Time.time - startTime} seconds");
     }
 
     private async UniTask WarmUpSyringeSkin(SkinConfig skinConfig)
     {
-      float startTime = Time.time;
+      //float startTime = Time.time;
       var uniTask = _assetProvider.Load<GameObject>(skinConfig.SkinReference);
-      await UniTask.WaitUntil(() => uniTask.Status == UniTaskStatus.Succeeded);
+      await uniTask;
       //Debug.Log($"Skin {skinConfig.SkinType} loaded in {Time.time - startTime} seconds");
     }
   }

@@ -46,7 +46,6 @@ namespace Code.Gameplay.Syringe
     private Tween _moveTween;
     private int _injectableLayer;
     private FinishLevelService _finishLevelService;
-    private readonly WaitForEndOfFrame _waitForEndOfFrame = new();
     private Vector3 _currentForceDirection;
 
     [Inject]

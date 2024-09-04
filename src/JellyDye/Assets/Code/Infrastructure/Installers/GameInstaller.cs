@@ -67,6 +67,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<ParentsProvider>().AsSingle();
       Container.Bind<SyringeProvider>().AsSingle();
       Container.Bind<HudProvider>().AsSingle();
+      Container.Bind<LevelLoadingFillProvider>().AsSingle();
     }
 
     private void BindPlatformDependServices()
