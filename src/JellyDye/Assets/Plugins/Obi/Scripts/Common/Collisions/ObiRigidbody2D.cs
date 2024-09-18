@@ -30,7 +30,7 @@ namespace Obi
             prevPosition = transform.position;
             prevRotation = transform.rotation;
 
-            linearVelocity = unityRigidbody.velocity;
+            linearVelocity = unityRigidbody.linearVelocity;
             angularVelocity = unityRigidbody.angularVelocity;
             base.OnEnable();
         }
@@ -51,7 +51,7 @@ namespace Obi
             else
             {
                 // if the object is non-kinematic, just copy velocities.
-                linearVelocity = unityRigidbody.velocity;
+                linearVelocity = unityRigidbody.linearVelocity;
                 angularVelocity = unityRigidbody.angularVelocity;
             }
 
@@ -77,7 +77,7 @@ namespace Obi
             // kinematic rigidbodies are passed to Obi with zero velocity, so we must ignore the new velocities calculated by the solver:
             if (Application.isPlaying && !(unityRigidbody.isKinematic || kinematicForParticles))
             {
-                unityRigidbody.velocity += new Vector2(linearDelta.x, linearDelta.y);
+                unityRigidbody.linearVelocity += new Vector2(linearDelta.x, linearDelta.y);
                 unityRigidbody.angularVelocity += angularDelta[2] * Mathf.Rad2Deg;
             }
 

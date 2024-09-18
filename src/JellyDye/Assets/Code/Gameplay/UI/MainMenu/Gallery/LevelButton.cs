@@ -33,11 +33,13 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     private string _levelId;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
+    private StringsService _stringsService;
 
     [Inject]
     public void Construct(GameStateMachine gameStateMachine, ProgressService progressService,
-      StaticDataService staticDataService)
+      StaticDataService staticDataService, StringsService stringsService)
     {
+      _stringsService = stringsService;
       _staticDataService = staticDataService;
       _progressService = progressService;
       _gameStateMachine = gameStateMachine;
@@ -55,7 +57,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         FullCompletedTurnOn(false);
         _levelNumber.text = levelsStaticData.IsShowingNames
           ? levelId
-          : (levelIndex + 1).ToString();
+          : _stringsService.Numbers[levelIndex+1];
       }
       else
       {
@@ -74,8 +76,8 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         UnCompletedTurnOn(false);
         NotFullCompletedTurnOn(true);
         FullCompletedTurnOn(false);
-        _levelPercentage.text = $"{percentage}\n%";
-        _levelNumberWithPercentage.text = (levelIndex + 1).ToString();
+        _levelPercentage.text = _stringsService.PercentagesWithNewLine[percentage];
+        _levelNumberWithPercentage.text = _stringsService.Numbers[levelIndex+1];
         Color levelPercentageColor = PercentageColor(percentage);
 
         _levelPercentage.color = levelPercentageColor;

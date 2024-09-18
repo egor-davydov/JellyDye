@@ -10,14 +10,16 @@ namespace Code.Services
   public class CameraService : IDisposable
   {
     private readonly ICoroutineRunner _coroutineRunner;
+    private readonly AudioService _audioService;
     private Tween _moveTween;
     private Tween _rotateTween;
     
     public LevelCamera LevelCamera { get; private set; }
 
-    public CameraService(ICoroutineRunner coroutineRunner)
+    public CameraService(ICoroutineRunner coroutineRunner, AudioService audioService)
     {
       _coroutineRunner = coroutineRunner;
+      _audioService = audioService;
     }
 
     public void Initialize(LevelCamera levelCamera)
@@ -46,7 +48,8 @@ namespace Code.Services
 
     private IEnumerator ShowFlash(Action onFlashEnd)
     {
-      LevelCamera.PhotoAudioSource.Play();
+      if(!_audioService.IsAudioMuted)
+        LevelCamera.PhotoAudioSource.Play();
       GameObject flashObject = LevelCamera.FlashLight.gameObject;
       flashObject.SetActive(true);
       yield return new WaitForSeconds(LevelCamera.FlashDuration);

@@ -27,12 +27,12 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       _levelButtonFactory = levelButtonFactory;
     }
 
-    private void Awake()
+    private async void Awake()
     {
       LevelConfig[] levelConfigs = _staticDataService.ForLevels().LevelConfigs;
       for (int i = 0; i < levelConfigs.Length; i++)
       {
-        GameObject levelButtonObject = _levelButtonFactory.CreateLevelButton(transform);
+        GameObject levelButtonObject = await _levelButtonFactory.CreateLevelButton(transform);
         levelButtonObject.GetComponent<LevelButton>().Initialize(levelConfigs[i].Id, i);
       }
 

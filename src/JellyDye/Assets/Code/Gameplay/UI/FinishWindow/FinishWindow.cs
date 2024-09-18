@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using Code.Data;
 using Code.Services;
 using Code.Services.Factories.UI;
@@ -26,7 +27,6 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
 
-    private PaintCountCalculationService _paintCountCalculationService;
     private GreenButtonFactory _greenButtonFactory;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
@@ -36,20 +36,20 @@ namespace Code.Gameplay.UI.FinishWindow
     private Tween _scaleTween;
     private PublishService _publishService;
     private AnalyticsService _analyticsService;
+    private StringsService _stringsService;
 
     [Inject]
-    public void Construct(PaintCountCalculationService paintCountCalculationService,
-      GreenButtonFactory greenButtonFactory, ProgressService progressService,
+    public void Construct(GreenButtonFactory greenButtonFactory, ProgressService progressService,
       StaticDataService staticDataService, ISaveLoadService saveLoadService,
-      PublishService publishService, AnalyticsService analyticsService)
+      PublishService publishService, AnalyticsService analyticsService, StringsService stringsService)
     {
+      _stringsService = stringsService;
       _analyticsService = analyticsService;
       _publishService = publishService;
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
       _greenButtonFactory = greenButtonFactory;
-      _paintCountCalculationService = paintCountCalculationService;
 
       _progressLevelData = _progressService.Progress.LevelData;
     }
@@ -58,28 +58,26 @@ namespace Code.Gameplay.UI.FinishWindow
     {
       _shouldBeImage.texture = _staticDataService.ForLevels().GetConfigByLevelId(_progressLevelData.CurrentLevelId).TargetTextureWithGround;
       _yourResultImage.texture = screenshot;
-      StartAppearanceAnimation(onEnd: StartWindowAnimations);
     }
 
     private void OnDestroy() =>
       _scaleTween.Kill();
 
-    private void StartWindowAnimations()
-    {
-      StartCoroutine(PercentageIncrease());
-      _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
-    }
-
-    private void StartAppearanceAnimation(Action onEnd)
+    public void AnimateWindowAppearance(Action onEnd)
     {
       transform.localScale = Vector3.zero;
       transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
     }
 
-    private IEnumerator PercentageIncrease()
+    public void AnimatePercentageText(float percentage)
     {
-      float yourPercentage = _paintCountCalculationService.CalculatePaintPercentage();
-      float finalPercentage = CeilAndClampPercentage(yourPercentage);
+      _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
+      StartCoroutine(PercentageIncrease(percentage));
+    }
+
+    private IEnumerator PercentageIncrease(float yourPercentage)
+    {
+      float finalPercentage = RoundAndClampPercentage(yourPercentage);
       WriteToProgress(finalPercentage);
       _publishService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
       OnLevelEnd(finalPercentage);
@@ -96,14 +94,17 @@ namespace Code.Gameplay.UI.FinishWindow
       _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
       _skinProgressBar.IncreaseProgress(finalPercentage);
       SetPercentage(finalPercentage);
-      _greenButtonFactory.CreateMenuButton(transform);
+      CreateNextLevelButton();
     }
+
+    private async void CreateNextLevelButton() =>
+      await _greenButtonFactory.CreateNextLevelButton(transform);
 
     private void OnLevelEnd(float finalPercentage)
     {
       _analyticsService.LevelEnd(_staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId), _progressLevelData.CurrentLevelId, (int)finalPercentage);
 
-      if(_progressLevelData.CompletedLevels.Count >= 3)
+      if (_progressLevelData.CompletedLevels.Count >= 3)
         _publishService.RequestCanPLayerReviewOrNot(OnServerReviewResponse);
     }
 
@@ -119,9 +120,9 @@ namespace Code.Gameplay.UI.FinishWindow
       _publishService.ShowReviewGameWindow(OnPlayerReviewWindowAction);
     }
 
-    private void OnPlayerReviewWindowAction(bool value) => 
+    private void OnPlayerReviewWindowAction(bool value) =>
       Time.timeScale = 1;
-    
+
     private void WriteToProgress(float finalPercentage)
     {
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelId, (int)finalPercentage);
@@ -131,15 +132,9 @@ namespace Code.Gameplay.UI.FinishWindow
     private void SetPercentage(float currentPercentage)
     {
       currentPercentage = RoundAndClampPercentage(currentPercentage);
-      _percentageText.text = $"{currentPercentage}%";
+      _percentageText.text = _stringsService.Percentages[(int)currentPercentage];
     }
 
-    private float CeilAndClampPercentage(float currentPercentage)
-    {
-      currentPercentage = Mathf.CeilToInt(currentPercentage);
-      currentPercentage = Mathf.Clamp(currentPercentage, 0, 100);
-      return currentPercentage;
-    }
     private float RoundAndClampPercentage(float currentPercentage)
     {
       currentPercentage = Mathf.RoundToInt(currentPercentage);

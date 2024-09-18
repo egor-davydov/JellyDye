@@ -3,12 +3,15 @@
   public static class FolderPath
   {
     public const string ResourcesPath = "Assets/Resources";
+    public const string AddressablesPath = "Assets/Resources_moved";
     
-    public static readonly string AbsoluteBlueprintsPath = $"{ResourcesPath}/{ResourcesBlueprintsPath}";
-    public static readonly string AbsolutePrefabsPath = $"{ResourcesPath}/{ResourcesPrefabsPath}";
+    public static readonly string AbsoluteBlueprintsPath = $"{ResourcesPath}/{FromResourcesBlueprintsPath}";
+    public static readonly string AbsoluteMeshesPath = $"{AddressablesPath}/{FromResourcesBlueprintsPath}";
+    public static readonly string AbsoluteJelliesPath = $"{AddressablesPath}/{FromResourcesJelliesPath}";
+    public static readonly string AbsoluteJelliesBasePath = $"{ResourcesPath}/{FromResourcesJelliesPath}";
     
-    public const string ResourcesBlueprintsPath = "Levels/MeshesAndBlueprints";
-    public const string ResourcesPrefabsPath = "Levels/Jellies";
-    public const string ResourcesScreenshotsPath = "Levels/TargetColorScreenshots";
+    public const string FromResourcesBlueprintsPath = "Levels/MeshesAndBlueprints";
+    public const string FromResourcesJelliesPath = "Levels/Jellies";
+    public const string FromResourcesScreenshotsPath = "Levels/TargetColorScreenshots";
   }
 }

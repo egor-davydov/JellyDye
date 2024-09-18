@@ -1,8 +1,14 @@
 fileFormatVersion: 2
-guid: b5ee7f1788474bd44a48b0a201461151
+guid: e32421016bfac73428ad0300ac21fd4e
 TextScriptImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-  
+AssetOrigin:
+  serializedVersion: 1
+  productId: 157735
+  packageName: Extenject Dependency Injection IOC
+  packageVersion: 
+  assetPath: Assets/Plugins/Zenject/package.json
+  uploadId: 0

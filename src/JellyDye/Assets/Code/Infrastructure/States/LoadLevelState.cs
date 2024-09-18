@@ -1,28 +1,36 @@
+using System.Collections.Generic;
+using System.Linq;
 using Code.Data;
-using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.Hud;
-using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
+using Code.Services.AssetManagement;
 using Code.Services.Factories;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
+using Code.Services.Providers;
+using Code.StaticData;
 using Code.StaticData.Level;
+using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.SceneManagement;
 
 namespace Code.Infrastructure.States
 {
   public class LoadLevelState : IPayloadState<string>
   {
     private const string MainSceneName = "Main";
-    
+
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly HudFactory _hudFactory;
     private readonly SyringeFactory _syringeFactory;
     private readonly JelliesFactory _jelliesFactory;
+    private readonly IAssetProvider _assetProvider;
     private readonly ProgressService _progressService;
     private readonly StaticDataService _staticDataService;
     private readonly PaintCountCalculationService _paintCountCalculationService;
@@ -30,24 +38,28 @@ namespace Code.Infrastructure.States
     private readonly ISaveLoadService _saveLoadService;
     private readonly AnalyticsService _analyticsService;
     private readonly PublishService _publishService;
+    private readonly SyringeProvider _syringeProvider;
+    private readonly HudProvider _hudProvider;
+    private readonly LevelLoadingFillProvider _levelLoadingFillProvider;
 
     private string _levelId;
     private int _levelIndex;
-    private LevelData _progressLevelData;
     private bool _isFirstLoad = true;
-    private LevelsStaticData _levelsStaticData;
+    private LevelConfig _levelConfig;
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
-      ProgressService progressService, StaticDataService staticDataService,
+      IAssetProvider assetProvider, ProgressService progressService, StaticDataService staticDataService,
       PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService,
-      ISaveLoadService saveLoadService, AnalyticsService analyticsService, PublishService publishService)
+      ISaveLoadService saveLoadService, AnalyticsService analyticsService, PublishService publishService,
+      SyringeProvider syringeProvider, HudProvider hudProvider, LevelLoadingFillProvider levelLoadingFillProvider)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
       _hudFactory = hudFactory;
       _syringeFactory = syringeFactory;
       _jelliesFactory = jelliesFactory;
+      _assetProvider = assetProvider;
       _progressService = progressService;
       _staticDataService = staticDataService;
       _paintCountCalculationService = paintCountCalculationService;
@@ -55,74 +67,120 @@ namespace Code.Infrastructure.States
       _saveLoadService = saveLoadService;
       _analyticsService = analyticsService;
       _publishService = publishService;
+      _syringeProvider = syringeProvider;
+      _hudProvider = hudProvider;
+      _levelLoadingFillProvider = levelLoadingFillProvider;
     }
 
-    public void Enter(string levelId)
+    private LevelsStaticData LevelsStaticData => _staticDataService.ForLevels();
+    private LevelData ProgressLevelData => _progressService.Progress.LevelData;
+
+    public async void Enter(string levelId)
     {
-      _progressLevelData ??= _progressService.Progress.LevelData;
       _levelId = levelId;
-      if(_levelId != _progressLevelData.CurrentLevelId)
+      bool sameLevelAsInProgress = _levelId == ProgressLevelData.CurrentLevelId;
+      if (!sameLevelAsInProgress)
       {
-        _progressLevelData.CurrentLevelId = _levelId;
+        ProgressLevelData.CurrentLevelId = _levelId;
         _saveLoadService.SaveProgress();
       }
+
+      bool isLevelReloaded = sameLevelAsInProgress && !_isFirstLoad;
+      if (!isLevelReloaded)
+      {
+        _levelIndex = LevelsStaticData.GetLevelIndex(_levelId);
+        _levelConfig = LevelsStaticData.GetConfigByLevelId(_levelId);
+        
+        List<AsyncOperationHandle> loadingOperations = GetLevelLoadOperations();
+        if (!loadingOperations.All(x => x.IsDone))
+        {
+          await SceneManager.LoadSceneAsync("Load");
+          _levelLoadingFillProvider.LevelLoadingFill.StartFill(loadingOperations).Forget();
+          await UniTask.WaitUntil(() => loadingOperations.All(x => x.IsDone));
+        }
+
+        foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+          jellyMeshConfig.Mesh = await _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
+      }
+
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
-      _publishService.ShowFullscreenAdvAndPauseGame();
+      //_publishService.ShowFullscreenAdvAndPauseGame();
       _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);
     }
 
     public void Exit()
     {
-      if(_isFirstLoad)
+      if (_isFirstLoad)
       {
         _publishService.GameReadyToPlay();
         _isFirstLoad = false;
       }
+
       _analyticsService.LevelStart(_levelIndex, _levelId);
     }
 
-    private void OnLoadComplete()
+    private List<AsyncOperationHandle> GetLevelLoadOperations()
     {
-      _levelsStaticData ??= _staticDataService.ForLevels();
-      _levelIndex = _levelsStaticData.GetLevelIndex(_levelId);
-      LevelConfig levelConfig = _levelsStaticData.GetConfigByLevelId(_levelId);
+      int necessaryAssetsCount = _isFirstLoad ? 3 : 2;
+      List<AsyncOperationHandle> handles = new(necessaryAssetsCount + _levelConfig.JellyMeshConfigs.Count);
+      AssetReference prefabReference = _levelConfig.JelliesPrefabReference;
+      _assetProvider.Load<GameObject>(prefabReference);
+      handles.Add(_assetProvider.GetHandle(prefabReference));
+      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+      {
+        AssetReference meshReference = jellyMeshConfig.MeshReference;
+        _assetProvider.Load<Mesh>(meshReference);
+        handles.Add(_assetProvider.GetHandle(meshReference));
+      }
 
-      GameObject jelliesObject = InitJellies(levelConfig);
+      if (_isFirstLoad)
+      {
+        _assetProvider.Load<GameObject>(AssetKey.Hud);
+        handles.Add(_assetProvider.GetHandle(AssetKey.Hud));
+      }
+
+      AssetReference syringeSkinReference = _staticDataService.ForSkins().GetSkinByType(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
+      _assetProvider.Load<GameObject>(syringeSkinReference);
+      handles.Add(_assetProvider.GetHandle(syringeSkinReference));
+      return handles;
+    }
+
+    private async void OnLoadComplete()
+    {
+      GameObject jelliesObject = await InitJellies(_levelConfig);
       FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
       _paintCountCalculationService.InitializeOnSceneLoad(fluxySolver, jelliesObject.GetComponentsInChildren<FluxyContainer>());
 
-      GameObject syringeObject = InitSyringe();
+      await InitSyringe();
 
-      GameObject hudObject = InitHud(syringeObject, levelConfig);
-      
-      SyringeInjection syringeInjection = syringeObject.GetComponent<SyringeInjection>();
-      syringeInjection.Initialize(hudObject.GetComponentInChildren<InjectionButton>());
-      _finishLevelService.Initialize(hudObject, syringeObject);
+      await InitHud(_levelConfig);
 
+      _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
+
+      _finishLevelService.Initialize();
       _gameStateMachine.Enter<GameLoopState>();
     }
 
-    private GameObject InitJellies(LevelConfig levelConfig)
+    private async UniTask<GameObject> InitJellies(LevelConfig levelConfig)
     {
-      GameObject jelliesObject = _jelliesFactory.CreateJelly(levelConfig.JelliesPrefab);
+      GameObject jelliesObject = await _jelliesFactory.CreateJelly(levelConfig.Id);
       return jelliesObject;
     }
 
-    private GameObject InitSyringe()
+    private async UniTask InitSyringe()
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      GameObject syringeObject = _syringeFactory.CreateSyringe(equippedSkin, Vector3.up * 0.14f);
-      syringeObject.GetComponent<SyringeInjection>().SyringeReset();
-      return syringeObject;
+      GameObject syringeObject = await _syringeFactory.CreateSyringe(equippedSkin, Vector3.up * 0.14f);
+      _syringeProvider.Initialize(syringeObject);
+      _syringeProvider.SyringeInjection.SyringeReset();
     }
 
-    private GameObject InitHud(GameObject syringeObject, LevelConfig levelConfig)
+    private async UniTask InitHud(LevelConfig levelConfig)
     {
-      SyringePaintColor syringePaintColor = syringeObject.GetComponent<SyringePaintColor>();
-      GameObject hudObject = _hudFactory.CreateHud();
-      hudObject.GetComponentInChildren<ColorChangersContainer>().Initialize(syringePaintColor, levelConfig.AllColorsCached);
+      GameObject hudObject = await _hudFactory.CreateHud();
+      _hudProvider.Initialize(hudObject);
+      _hudProvider.JarsContainer.Initialize(levelConfig.AllColorsCached);
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
-      return hudObject;
     }
   }
 }

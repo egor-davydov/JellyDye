@@ -1,4 +1,3 @@
-using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 
 namespace Code.Infrastructure.States
@@ -6,14 +5,12 @@ namespace Code.Infrastructure.States
   public class LoadProgressState : IState
   {
     private readonly GameStateMachine _gameStateMachine;
-    private readonly ProgressService _progressService;
     private readonly ISaveLoadService _saveLoadService;
 
-    public LoadProgressState(GameStateMachine gameStateMachine, ProgressService progressService,
+    public LoadProgressState(GameStateMachine gameStateMachine,
       ISaveLoadService saveLoadService)
     {
       _gameStateMachine = gameStateMachine;
-      _progressService = progressService;
       _saveLoadService = saveLoadService;
     }
 
@@ -28,7 +25,7 @@ namespace Code.Infrastructure.States
 
     private void MoveToNextState()
     {
-      _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.LevelData.CurrentLevelId);
+      _gameStateMachine.Enter<WarmUpState>();
     }
   }
 }

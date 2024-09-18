@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Code.Helpers;
 using Code.Services.Progress;
 using Code.StaticData;
 using Code.StaticData.Level;
 using Fluxy;
 using UnityEngine;
+using UnityEngine.Rendering;
+using Object = UnityEngine.Object;
 
 namespace Code.Services
 {
@@ -19,10 +22,11 @@ namespace Code.Services
 #if UNITY_EDITOR
     private readonly Dictionary<Color, int> _colors = new();
 #endif
-    private Rect _convertToTextureRect;
-    private RenderTexture _fluxyStateA;
     private LevelConfig _currentLevelConfig;
-    
+
+    private Texture2D _densityReadbackTexture;
+    private RenderTexture DensityRenderTexture => _fluxySolver.framebuffer.stateA;
+
     private PaintCountCalculationService(StaticDataService staticDataService, ProgressService progressService)
     {
       _progressService = progressService;
@@ -33,8 +37,8 @@ namespace Code.Services
     {
       _fluxySolver = fluxySolver;
       _fluxyContainers = fluxyContainers;
-      _fluxyStateA = _fluxySolver.framebuffer.stateA;
-      _convertToTextureRect = new Rect(0, 0, _fluxyStateA.width, _fluxyStateA.height);
+      Object.Destroy(_densityReadbackTexture);
+      _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat.RGBAHalf, false);
       
       string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
       _currentLevelConfig = _staticDataService.ForLevels().GetConfigByLevelId(currentLevelId);
@@ -51,24 +55,25 @@ namespace Code.Services
       return true;
     }
 
-    public float CalculatePaintPercentage()
+    public void AsyncCalculatePaintPercentage(Action<float> callback)
     {
-      Texture2D fluxyTexture = ConvertToTexture2D();
-      int paintedPixelsCount = 0;
-      int countPixelsShouldPaint = 0;
-      foreach (FluxyContainer fluxyContainer in _fluxyContainers)
+      RequestDensityTexture(() =>
       {
-        JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
-        Vector2Int pixelsCount = CalculateJellyPaintedPixelsCount(fluxyTexture, jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
-        paintedPixelsCount += pixelsCount.x;
-        countPixelsShouldPaint += pixelsCount.y;
-      }
-      Object.Destroy(fluxyTexture);
+        int paintedPixelsCount = 0;
+        int countPixelsShouldPaint = 0;
+        foreach (FluxyContainer fluxyContainer in _fluxyContainers)
+        {
+          JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
+          Vector2Int pixelsCount = CalculateJellyPaintedPixelsCount(jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
+          paintedPixelsCount += pixelsCount.x;
+          countPixelsShouldPaint += pixelsCount.y;
+        }
 
-      return (float)paintedPixelsCount / countPixelsShouldPaint * 100;
+        callback.Invoke((float)paintedPixelsCount / countPixelsShouldPaint * 100);
+      });
     }
 
-    private Vector2Int CalculateJellyPaintedPixelsCount(Texture2D fluxyTexture, JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
+    private Vector2Int CalculateJellyPaintedPixelsCount(JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
     {
       int paintedPixelsCount = 0;
       int shouldPaintedPixelsCount = jellyMeshConfig.Mesh.uv.Length;
@@ -77,15 +82,15 @@ namespace Code.Services
       {
         float uvFluxyCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
         float uvFluxyCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
-        int x = (int)(uvFluxyCoordinatesX * fluxyTexture.width);
-        int y = (int)(uvFluxyCoordinatesY * fluxyTexture.height);
+        int x = (int)(uvFluxyCoordinatesX * _densityReadbackTexture.width);
+        int y = (int)(uvFluxyCoordinatesY * _densityReadbackTexture.height);
         if (maskTexture.GetPixel((int)(uvCoordinates.x * maskTexture.width), (int)(uvCoordinates.y * maskTexture.height)).r != 0)
         {
           shouldPaintedPixelsCount--;
           continue;
         }
 
-        Color pixelColor = fluxyTexture.GetPixel(x, y);
+        Color pixelColor = _densityReadbackTexture.GetPixel(x, y);
         if (pixelColor != Color.clear)
         {
 #if UNITY_EDITOR
@@ -94,13 +99,11 @@ namespace Code.Services
           else
             _colors[pixelColor]++;
 #endif
-          // if (jellyMeshConfig.Mesh.name == "topM")
-          //   Debug.Log($"pixelColor= {pixelColor}");
+          
           if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticDataService.ForLevels().ColorCompareEpsilon))
             paintedPixelsCount++;
         }
       }
-      Object.Destroy(fluxyTexture);
 #if UNITY_EDITOR
       int maxColorsCount = 0;
       Color maxColorsCountColor = Color.clear;
@@ -123,16 +126,20 @@ namespace Code.Services
       return new Vector2Int(paintedPixelsCount, shouldPaintedPixelsCount);
     }
     
-    private Texture2D ConvertToTexture2D()
+    private void RequestDensityTexture(Action callback)
     {
-      RenderTexture oldTexture = RenderTexture.active;
-      Texture2D texture2D = new Texture2D(_fluxyStateA.width, _fluxyStateA.height, TextureFormat.RGBA32, false);
-      RenderTexture.active = _fluxyStateA;
-      texture2D.ReadPixels(_convertToTextureRect, 0, 0);
-      texture2D.Apply();
-      RenderTexture.active = oldTexture;
-
-      return texture2D;
+      if (_densityReadbackTexture != null)
+        AsyncGPUReadback.Request(DensityRenderTexture, 0, TextureFormat.RGBAHalf, (AsyncGPUReadbackRequest request) =>
+        {
+          if (request.hasError)
+            Debug.LogError("GPU readback error.");
+          else
+          {
+            _densityReadbackTexture.LoadRawTextureData(request.GetData<float>());
+            _densityReadbackTexture.Apply();
+            callback?.Invoke();
+          }
+        });
     }
   }
 }

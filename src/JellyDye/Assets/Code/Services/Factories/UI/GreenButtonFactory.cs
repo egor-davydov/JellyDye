@@ -1,4 +1,5 @@
 ﻿using Code.Services.AssetManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -15,16 +16,16 @@ namespace Code.Services.Factories.UI
       _assetProvider = assetProvider;
     }
     
-    public GameObject CreateFinishButton(Transform parent)
+    public async UniTask<GameObject>  CreateFinishButton(Transform parent)
     {
-      GameObject finishButtonPrefab = _assetProvider.Load(AssetPath.FinishButton);
+      GameObject finishButtonPrefab = await _assetProvider.Load<GameObject>(AssetKey.FinishButton);
       GameObject finishButtonObject = _instantiator.InstantiatePrefab(finishButtonPrefab, parent);
 
       return finishButtonObject;
     }
-    public GameObject CreateMenuButton(Transform parent)
+    public async UniTask<GameObject> CreateNextLevelButton(Transform parent)
     {
-      GameObject buttonPrefab = _assetProvider.Load(AssetPath.NextLevelButton);
+      GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetKey.NextLevelButton);
       GameObject buttonObject = _instantiator.InstantiatePrefab(buttonPrefab, parent);
 
       return buttonObject;

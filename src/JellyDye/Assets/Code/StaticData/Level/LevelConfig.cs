@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Code.Helpers;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Code.StaticData.Level
 {
@@ -11,7 +12,7 @@ namespace Code.StaticData.Level
   {
     public string Id;
     public List<JellyMeshConfig> JellyMeshConfigs;
-    public GameObject JelliesPrefab;
+    public AssetReference JelliesPrefabReference;
     public List<Color> AdditionalColors;
     public List<Color> AllColorsCached;
     public Texture2D TargetTexture;
