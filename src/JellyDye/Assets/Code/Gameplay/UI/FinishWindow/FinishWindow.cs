@@ -27,7 +27,6 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
 
-    private PaintCountCalculationService _paintCountCalculationService;
     private GreenButtonFactory _greenButtonFactory;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
@@ -37,20 +36,20 @@ namespace Code.Gameplay.UI.FinishWindow
     private Tween _scaleTween;
     private PublishService _publishService;
     private AnalyticsService _analyticsService;
+    private StringsService _stringsService;
 
     [Inject]
-    public void Construct(PaintCountCalculationService paintCountCalculationService,
-      GreenButtonFactory greenButtonFactory, ProgressService progressService,
+    public void Construct(GreenButtonFactory greenButtonFactory, ProgressService progressService,
       StaticDataService staticDataService, ISaveLoadService saveLoadService,
-      PublishService publishService, AnalyticsService analyticsService)
+      PublishService publishService, AnalyticsService analyticsService, StringsService stringsService)
     {
+      _stringsService = stringsService;
       _analyticsService = analyticsService;
       _publishService = publishService;
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
       _greenButtonFactory = greenButtonFactory;
-      _paintCountCalculationService = paintCountCalculationService;
 
       _progressLevelData = _progressService.Progress.LevelData;
     }
@@ -133,7 +132,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private void SetPercentage(float currentPercentage)
     {
       currentPercentage = RoundAndClampPercentage(currentPercentage);
-      _percentageText.text = $"{currentPercentage}%";
+      _percentageText.text = _stringsService.Percentages[(int)currentPercentage];
     }
 
     private float RoundAndClampPercentage(float currentPercentage)

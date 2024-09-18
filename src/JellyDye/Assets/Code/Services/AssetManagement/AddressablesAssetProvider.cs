@@ -14,7 +14,7 @@ namespace Code.Services.AssetManagement
 {
   public class AddressablesAssetProvider : IAssetProvider
   {
-    private readonly Dictionary<object, AsyncOperationHandle> _completedCache = new();
+    private Dictionary<object, AsyncOperationHandle> _completedCache;
 
     private readonly StaticDataService _staticDataService;
     private Func<CCDTokenConfig, bool> _ccdTokensPredicate;
@@ -24,6 +24,11 @@ namespace Code.Services.AssetManagement
 
     public void Initialize()
     {
+      int levelPrefabsCount = _staticDataService.ForLevels().LevelConfigs.Length;
+      int jellyMeshesCount = _staticDataService.ForLevels().LevelConfigs.Sum(x => x.JellyMeshConfigs.Count);
+      int skinsCount = _staticDataService.ForSkins().SkinConfigs.Length;
+      int assetsCount = levelPrefabsCount + jellyMeshesCount + skinsCount + 10;
+      _completedCache = new(assetsCount);
       Addressables.InitializeAsync();
       CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
       _ccdTokensPredicate = config => config.ProfileName == ccdTokensStaticData.ActiveProfileName;
@@ -33,13 +38,13 @@ namespace Code.Services.AssetManagement
 
     public bool TryGetAsyncOperationHandle(AssetReference assetReference, out AsyncOperationHandle handle)
     {
-      if(_completedCache.TryGetValue(assetReference.RuntimeKey, out AsyncOperationHandle completedHandle));
+      if (_completedCache.TryGetValue(assetReference.RuntimeKey, out AsyncOperationHandle completedHandle)) ;
       {
         handle = completedHandle;
         return true;
       }
     }
-    
+
     public async UniTask<T> Load<T>(AssetReference assetReference) where T : Object
     {
       return await LoadByKey<T>(assetReference.RuntimeKey);
@@ -75,10 +80,10 @@ namespace Code.Services.AssetManagement
       _completedCache.Clear();
     }
 
-    public AsyncOperationHandle GetHandle(AssetReference assetReference) => 
+    public AsyncOperationHandle GetHandle(AssetReference assetReference) =>
       _completedCache[assetReference.RuntimeKey];
 
-    public AsyncOperationHandle GetHandle(string address) => 
+    public AsyncOperationHandle GetHandle(string address) =>
       _completedCache[address];
 
     private void AddressablesWebRequestOverride(UnityWebRequest overrideWebRequest)

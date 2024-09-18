@@ -1,6 +1,7 @@
 ﻿using Code.Gameplay.UI.FinishWindow;
 using Code.Services.Factories.UI;
 using Code.Services.Providers;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -49,7 +50,7 @@ namespace Code.Services
         return;
 
       CanFinish = true;
-      _greenButtonFactory.CreateFinishButton(_hudProvider.HudObject.transform);
+      _greenButtonFactory.CreateFinishButton(_hudProvider.HudObject.transform).Forget();
     }
 
     public void FinishLevel()

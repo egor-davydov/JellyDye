@@ -21,13 +21,17 @@ namespace Code.Services
     private static bool _gameWasMuted;
 
     private readonly bool _isOnCrazyGames = CrazySDK.IsOnCrazyGames && Application.platform != RuntimePlatform.WindowsPlayer;
+    private StaticDataService _staticDataService;
 #if !UNITY_EDITOR && UNITY_WEBGL
     private readonly Uri _uri = new (Application.absoluteURL);
     private readonly string _yandexDomain = CrazySDK.Instance.GetSettings().whitelistedDomains[0];
 #endif
 
-    public PublishService(AudioService audioService) =>
+    public PublishService(AudioService audioService, StaticDataService staticDataService)
+    {
+      _staticDataService = staticDataService;
       _audioService = audioService;
+    }
 
     [DllImport("__Internal")]
     private static extern bool IsMobile();
@@ -95,7 +99,7 @@ namespace Code.Services
     public LanguageType GetPlayerLanguage()
     {
       if (!IsOnYandexGames())
-        return LanguageType.English;
+        return _staticDataService.ForGameSettings().DefaultLanguage;
 
       string yandexLanguage = GetYandexLanguage();
       return yandexLanguage switch

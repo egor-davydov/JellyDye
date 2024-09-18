@@ -78,47 +78,34 @@ namespace Code.Infrastructure.States
     public async void Enter(string levelId)
     {
       _levelId = levelId;
-      if (_levelId != ProgressLevelData.CurrentLevelId)
+      bool sameLevelAsInProgress = _levelId == ProgressLevelData.CurrentLevelId;
+      if (!sameLevelAsInProgress)
       {
         ProgressLevelData.CurrentLevelId = _levelId;
         _saveLoadService.SaveProgress();
       }
 
-      _levelIndex = LevelsStaticData.GetLevelIndex(_levelId);
-      _levelConfig = LevelsStaticData.GetConfigByLevelId(_levelId);
-      List<AsyncOperationHandle> loadingOperations = GetLevelLoadOperations();
-      if(!loadingOperations.All(x => x.IsDone))
+      bool isLevelReloaded = sameLevelAsInProgress && !_isFirstLoad;
+      if (!isLevelReloaded)
       {
-        await SceneManager.LoadSceneAsync("Load");
-        _levelLoadingFillProvider.LevelLoadingFill.StartFill(loadingOperations).Forget();
-        await UniTask.WaitUntil(() => loadingOperations.All(x => x.IsDone));
+        _levelIndex = LevelsStaticData.GetLevelIndex(_levelId);
+        _levelConfig = LevelsStaticData.GetConfigByLevelId(_levelId);
+        
+        List<AsyncOperationHandle> loadingOperations = GetLevelLoadOperations();
+        if (!loadingOperations.All(x => x.IsDone))
+        {
+          await SceneManager.LoadSceneAsync("Load");
+          _levelLoadingFillProvider.LevelLoadingFill.StartFill(loadingOperations).Forget();
+          await UniTask.WaitUntil(() => loadingOperations.All(x => x.IsDone));
+        }
+
+        foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+          jellyMeshConfig.Mesh = await _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
       }
-      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
-        jellyMeshConfig.Mesh = await _assetProvider.Load<Mesh>(jellyMeshConfig.MeshReference);
+
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
       //_publishService.ShowFullscreenAdvAndPauseGame();
       _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);
-    }
-
-    private List<AsyncOperationHandle> GetLevelLoadOperations()
-    {
-      List<AsyncOperationHandle> handles = new(3 + _levelConfig.JellyMeshConfigs.Count);
-      AssetReference prefabReference = _levelConfig.JelliesPrefabReference;
-      _assetProvider.Load<GameObject>(prefabReference);
-      handles.Add(_assetProvider.GetHandle(prefabReference));
-      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
-      {
-        AssetReference meshReference = jellyMeshConfig.MeshReference;
-        _assetProvider.Load<Mesh>(meshReference);
-        handles.Add(_assetProvider.GetHandle(meshReference));
-      }
-
-      _assetProvider.Load<GameObject>(AssetKey.Hud);
-      handles.Add(_assetProvider.GetHandle(AssetKey.Hud));
-      AssetReference syringeSkinReference = _staticDataService.ForSkins().GetSkinByType(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
-      _assetProvider.Load<GameObject>(syringeSkinReference);
-      handles.Add(_assetProvider.GetHandle(syringeSkinReference));
-      return handles;
     }
 
     public void Exit()
@@ -130,6 +117,32 @@ namespace Code.Infrastructure.States
       }
 
       _analyticsService.LevelStart(_levelIndex, _levelId);
+    }
+
+    private List<AsyncOperationHandle> GetLevelLoadOperations()
+    {
+      int necessaryAssetsCount = _isFirstLoad ? 3 : 2;
+      List<AsyncOperationHandle> handles = new(necessaryAssetsCount + _levelConfig.JellyMeshConfigs.Count);
+      AssetReference prefabReference = _levelConfig.JelliesPrefabReference;
+      _assetProvider.Load<GameObject>(prefabReference);
+      handles.Add(_assetProvider.GetHandle(prefabReference));
+      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+      {
+        AssetReference meshReference = jellyMeshConfig.MeshReference;
+        _assetProvider.Load<Mesh>(meshReference);
+        handles.Add(_assetProvider.GetHandle(meshReference));
+      }
+
+      if (_isFirstLoad)
+      {
+        _assetProvider.Load<GameObject>(AssetKey.Hud);
+        handles.Add(_assetProvider.GetHandle(AssetKey.Hud));
+      }
+
+      AssetReference syringeSkinReference = _staticDataService.ForSkins().GetSkinByType(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
+      _assetProvider.Load<GameObject>(syringeSkinReference);
+      handles.Add(_assetProvider.GetHandle(syringeSkinReference));
+      return handles;
     }
 
     private async void OnLoadComplete()
