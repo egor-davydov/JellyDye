@@ -30,7 +30,7 @@ namespace Obi
             prevPosition = unityRigidbody.position;
             prevRotation = unityRigidbody.rotation;
 
-            linearVelocity = unityRigidbody.velocity;
+            linearVelocity = unityRigidbody.linearVelocity;
             angularVelocity = unityRigidbody.angularVelocity;
             base.OnEnable();
         }
@@ -51,7 +51,7 @@ namespace Obi
             else
             {
                 // if the object is non-kinematic, just copy velocities.
-                linearVelocity = unityRigidbody.velocity;
+                linearVelocity = unityRigidbody.linearVelocity;
                 angularVelocity = unityRigidbody.angularVelocity;
             }
 
@@ -79,7 +79,7 @@ namespace Obi
             {
                 if (Vector3.SqrMagnitude(linearDelta) > 0.00001f || Vector3.SqrMagnitude(angularDelta) > 0.00001f)
                 {
-                    unityRigidbody.velocity += linearDelta;
+                    unityRigidbody.linearVelocity += linearDelta;
                     unityRigidbody.angularVelocity += angularDelta;
                 }
             }

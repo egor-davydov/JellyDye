@@ -1,5 +1,7 @@
 ﻿using Code.Gameplay.UI.FinishWindow;
 using Code.Services.Factories.UI;
+using Code.Services.Providers;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -12,28 +14,34 @@ namespace Code.Services
     private readonly CameraService _cameraService;
     private readonly ScreenshotService _screenshotService;
     private readonly WindowFactory _windowFactory;
-    
-    private GameObject _hudObject;
-    private GameObject _syringeObject;
-    private Texture2D _screenshot;
+    private readonly SyringeProvider _syringeProvider;
+    private readonly HudProvider _hudProvider;
+
+    private Texture2D _screenshotWithGround;
+    private float? _countedPercentage;
+    private FinishWindow _finishWindow;
 
     public bool CanFinish { get; private set; }
 
-    public FinishLevelService(PaintCountCalculationService paintCountCalculationService, GreenButtonFactory greenButtonFactory,
-      CameraService cameraService, ScreenshotService screenshotService, WindowFactory windowFactory)
+    public FinishLevelService(PaintCountCalculationService paintCountCalculationService,
+      GreenButtonFactory greenButtonFactory, CameraService cameraService,
+      ScreenshotService screenshotService, WindowFactory windowFactory,
+      SyringeProvider syringeProvider, HudProvider hudProvider)
     {
       _paintCountCalculationService = paintCountCalculationService;
       _greenButtonFactory = greenButtonFactory;
       _cameraService = cameraService;
       _screenshotService = screenshotService;
       _windowFactory = windowFactory;
+      _syringeProvider = syringeProvider;
+      _hudProvider = hudProvider;
     }
 
-    public void Initialize(GameObject hudObject, GameObject syringeObject)
+    public void Initialize()
     {
-      _hudObject = hudObject;
-      _syringeObject = syringeObject;
       CanFinish = false;
+      _countedPercentage = null;
+      _finishWindow = null;
     }
 
     public void CheckPaint()
@@ -42,32 +50,45 @@ namespace Code.Services
         return;
 
       CanFinish = true;
-      _greenButtonFactory.CreateFinishButton(_hudObject.transform);
+      _greenButtonFactory.CreateFinishButton(_hudProvider.HudObject.transform).Forget();
     }
 
     public void FinishLevel()
     {
-      Object.Destroy(_hudObject);
-      Object.Destroy(_syringeObject);
+      _paintCountCalculationService.AsyncCalculatePaintPercentage((percentage)=>
+      {
+        if (_finishWindow == null)
+          _countedPercentage = percentage;
+        else
+          _finishWindow.AnimatePercentageText(percentage);
+      });
+      Object.Destroy(_hudProvider.HudObject);
+      Object.Destroy(_syringeProvider.SyringeObject);
       _cameraService.MoveToFinish().OnComplete(ShowPhotoFlash);
     }
 
-    private void ShowPhotoFlash() => 
+    private void ShowPhotoFlash() =>
       _cameraService.ShowPhotoFlash(onFlashEnd: TakeScreenshot);
 
-    private void TakeScreenshot() => 
+    private void TakeScreenshot() =>
       _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
 
     private void TakeScreenshotWithoutGround()
     {
-      _screenshot = _screenshotService.ScreenshotTexture;
+      _screenshotWithGround = _screenshotService.ScreenshotTexture;
       _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
     }
 
-    private void CreateFinishWindow()
+    private async void CreateFinishWindow()
     {
-      GameObject finishWindow = _windowFactory.CreateFinishWindow();
-      finishWindow.GetComponent<FinishWindow>().Initialize(_screenshotService.ScreenshotTexture);
+      GameObject finishWindowObject = await _windowFactory.CreateFinishWindow();
+      _finishWindow = finishWindowObject.GetComponent<FinishWindow>();
+      _finishWindow.Initialize(_screenshotService.ScreenshotTexture);
+      _finishWindow.AnimateWindowAppearance(() =>
+      {
+        if (_countedPercentage.HasValue)
+          _finishWindow.AnimatePercentageText(_countedPercentage.Value);
+      });
     }
   }
 }

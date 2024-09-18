@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using AOT;
 using Code.Data;
+using Code.Logging;
 using UnityEngine;
 
 namespace Code.Services.Progress.SaveLoad
@@ -12,7 +13,6 @@ namespace Code.Services.Progress.SaveLoad
     
     private static Action _onLoaded;
     
-    [DllImport("__Internal")] private static extern void WebDebugLog(string log);
     [DllImport("__Internal")] private static extern void SaveToYandex(string json);
     [DllImport("__Internal")] private static extern void LoadFromYandex(Action<string> onLoaded);
 
@@ -38,7 +38,7 @@ namespace Code.Services.Progress.SaveLoad
     {
       PlayerProgress playerProgress = JsonUtility.FromJson<PlayerProgress>(jsonCloudData);
       bool playerHaventProgress = playerProgress.LevelData.CurrentLevelId == default;
-      WebDebugLog(playerHaventProgress
+      WebDebug.Log(playerHaventProgress
         ? "Player haven't got any progress"
         : "Player has progress");
       if(playerHaventProgress)

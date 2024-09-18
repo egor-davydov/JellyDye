@@ -1,4 +1,5 @@
 ﻿using Code.Services.AssetManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -14,10 +15,10 @@ namespace Code.Services.Factories.UI
       _instantiator = instantiator;
       _assetProvider = assetProvider;
     }
-    
-    public GameObject CreateLevelButton(Transform parent)
+
+    public async UniTask<GameObject> CreateLevelButton(Transform parent)
     {
-      GameObject levelButtonPrefab = _assetProvider.Load(AssetPath.LevelButton);
+      GameObject levelButtonPrefab = await _assetProvider.Load<GameObject>(AssetKey.LevelButton);
       GameObject menuObject = _instantiator.InstantiatePrefab(levelButtonPrefab, parent);
       return menuObject;
     }

@@ -26,7 +26,7 @@ const library = {
 },
   InitializeYandexGames: function (onSdkInitialize, onPlayerInitialize) {
     const sdkScript = document.createElement('script');
-    sdkScript.src = 'https://yandex.ru/games/sdk/v2';
+    sdkScript.src = '/sdk.js';
     document.head.appendChild(sdkScript);
     console.log('on sdkScript document.head.append');
 
@@ -36,7 +36,7 @@ const library = {
         console.log('on window[YaGames].init()');
         yandexGames.isYandexGames = true;
         yandexGames.sdk = sdk;
-        dynCall('v', onSdkInitialize, []);
+        {{{ makeDynCall('v', 'onSdkInitialize') }}}();
         yandexGames.appendBackgroundImage(sdk.environment.i18n.lang);
         if (sdk.deviceInfo.isDesktop()) {
           var container = document.querySelector("#unity-container");
@@ -68,7 +68,7 @@ const library = {
 
         Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise, billingInitializationPromise]).then(function () {
           console.log('Yandex SDK initialized');
-          dynCall('v', onPlayerInitialize, []);
+          {{{ makeDynCall('v', 'onPlayerInitialize') }}}();
         });
       }).catch(function (e) {
           console.log('Error on sdk initialization: '+e);
@@ -86,7 +86,7 @@ const library = {
         const jsonObject = JSON.stringify(_data);
         console.log('LoadFromYandex jsonObject ' + jsonObject);
         var buffer = yandexGames.allocateUnmanagedString(jsonObject);
-        dynCall('vi', callback, [buffer]);
+        {{{ makeDynCall('vi', 'callback') }}}(buffer);
         _free(buffer);
     }).catch(function (e) { console.log('Error on loading player data. ', e); });
   },
@@ -107,10 +107,10 @@ const library = {
      yandexGames.sdk.adv.showFullscreenAdv({
         callbacks: {
             onOpen: function() {
-              dynCall('v', onOpen, []);
+            {{{ makeDynCall('v', 'onOpen') }}}();
             },
             onClose: function(wasShown) {
-              dynCall('vi', onClose, [wasShown]);
+            {{{ makeDynCall('vi', 'onClose') }}}(wasShown);
             },
             onError: function(error) {
               console.log('Error while show FullscreenAdv:', error);
@@ -122,7 +122,7 @@ const library = {
      yandexGames.sdk.adv.showRewardedVideo({
         callbacks: {
           onRewarded: () => {
-            dynCall('v', onRewarded, []);
+            {{{ makeDynCall('v', 'onRewarded') }}}();
           },
           onError: (e) => {
             console.log('Error while open video ad:', e);
@@ -133,7 +133,7 @@ const library = {
   RequestYandexIsPlayerCanReview: function (response) {
      yandexGames.sdk.feedback.canReview()
         .then(({ value, reason }) => {
-            dynCall('vi', response, [value]);
+            {{{ makeDynCall('vi', 'response') }}}(value);
             if (!value) {
                 console.log(reason);
             }
@@ -142,7 +142,7 @@ const library = {
   ShowYandexReviewGameWindow: function (onPlayerAction) {
      yandexGames.sdk.feedback.requestReview()
         .then(({ feedbackSent }) => {
-            dynCall('vi', onPlayerAction, [feedbackSent]);
+            {{{ makeDynCall('vi', 'onPlayerAction') }}}(feedbackSent);
         });
   },
   WebDebugLog: function (log) {

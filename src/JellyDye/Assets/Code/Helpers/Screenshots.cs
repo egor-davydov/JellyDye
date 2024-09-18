@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using Code.Data;
 using Code.Gameplay.Logic;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.Hud.PaintChange;
@@ -22,12 +23,16 @@ namespace Code.Helpers
     private StaticDataService _staticDataService;
     private ScreenshotService _screenshotService;
     private int _currentJellyCount;
+    private string _currentLevelId;
     private JelliesFactory _jelliesFactory;
     private string _directionPath;
     private bool IsGroundActive => _groundObject.activeSelf;
     private GameObject _groundObject;
     private bool _groundScreenshotsDone;
     private Action _onDone;
+    private LevelData ProgressLevelData =>_progressService.Progress.LevelData;
+
+    private LevelConfig[] LevelsConfigs => _staticDataService.ForLevels().LevelConfigs;
 
     [Inject]
     public void Construct(ProgressService progressService, StaticDataService staticDataService,
@@ -45,7 +50,8 @@ namespace Code.Helpers
       if(_groundObject == null)
         Debug.LogWarning("Couldn't find ground");
       
-      _directionPath = $"{Application.dataPath}/Resources/{ResourcesScreenshotsPath}";
+      _directionPath = $"{Application.dataPath}/Resources/{FromResourcesScreenshotsPath}";
+      _currentLevelId = ProgressLevelData.CurrentLevelId;
     }
 
     public void TakeScreenshots(bool withGround, Action onDone = null)
@@ -53,7 +59,7 @@ namespace Code.Helpers
       _groundObject.SetActive(withGround);
       _onDone = onDone;
       SetupAll();
-      TakeScreenshot();
+      TakeScreenshotByService();
     }
 
     public void MoveCamera()
@@ -67,47 +73,56 @@ namespace Code.Helpers
     private void SetupAll()
     {
       MoveCamera();
-      FindObjectOfType<ColorChangersContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
+      FindObjectOfType<JarsContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
       FindObjectOfType<SyringePaintColor>()?.gameObject.SetActive(false);
-      _currentJellyCount = _staticDataService.ForLevels().GetLevelIndex(_progressService.Progress.LevelData.CurrentLevelId);
+      _currentJellyCount = _staticDataService.ForLevels().GetLevelIndex(ProgressLevelData.CurrentLevelId);
     }
 
-    private void TakeScreenshot()
+    private void TakeScreenshotByService()
     {
       _screenshotService.TakeScreenshot(OnMake);
     }
 
     private void OnMake()
     {
-      LevelConfig[] levelConfigs = _staticDataService.ForLevels().LevelConfigs;
       if (!Directory.Exists(_directionPath))
         Directory.CreateDirectory(_directionPath);
 
-      WriteScreenshotOnDisk(levelConfigs);
+      WriteScreenshotOnDisk();
 
       if (++_currentJellyCount < _staticDataService.ForLevels().LevelConfigs.Length)
       {
-        Destroy(FindObjectOfType<FluxySolver>().transform.parent.gameObject);
-        _jelliesFactory.CreateJelly(levelConfigs[_currentJellyCount].JelliesPrefab);
-        StartCoroutine(WaitColorSet());
+        ReplaceJellyBy(LevelsConfigs[_currentJellyCount].Id);
       }
       else
       {
+        ReplaceJellyBy(ProgressLevelData.CurrentLevelId);
         _onDone?.Invoke();
       }
+    }
+
+    private void ReplaceJellyBy(string id)
+    {
+      if (_currentLevelId == id)
+        return;
+      _currentLevelId = id;
+      Destroy(FindObjectOfType<FluxySolver>().transform.parent.gameObject);
+      _jelliesFactory.CreateJelly(id);
+      StartCoroutine(WaitColorSet());
     }
 
     private IEnumerator WaitColorSet()
     {
       yield return new WaitForEndOfFrame();
       yield return new WaitForEndOfFrame();
-      TakeScreenshot();
+      yield return new WaitForEndOfFrame();
+      TakeScreenshotByService();
     }
 
-    private void WriteScreenshotOnDisk(LevelConfig[] levelConfigs)
+    private void WriteScreenshotOnDisk()
     {
       string groundTag = IsGroundActive ? "_ground" : "";
-      var screenshotPath = $"{_directionPath}/{levelConfigs[_currentJellyCount].Id}{groundTag}.png";
+      var screenshotPath = $"{_directionPath}/{LevelsConfigs[_currentJellyCount].Id}{groundTag}.png";
       byte[] bytes = _screenshotService.ScreenshotTexture.EncodeToPNG();
       if (File.Exists(screenshotPath))
         File.Delete(screenshotPath);

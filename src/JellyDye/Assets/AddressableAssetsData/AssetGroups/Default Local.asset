@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local
+  m_GUID: b09aba89bd4a47e41b0d928fd68fd9f3
+  m_SerializeEntries:
+  - m_GUID: 19f99d36be3233545ba035e34a615209
+    m_Address: stormy_cloud
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2563df1dcf0ff234ea170d3a82fffe3c
+    m_Address: AudioMixer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3436234f47be094429966d85916174f9
+    m_Address: cherries
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52fa222993df6444a8c8dfeaf13731e5
+    m_Address: Default_piston
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6408d64e021658b4db06ef9dca78f9ac
+    m_Address: HUD
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 934358535c3ccd6488eaf3979370d632
+    m_Address: FinishWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9cc756daa7c77df42aa17e41c74a3e27
+    m_Address: Default_base
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6b77fbdf64ab5246b7e13d7c2694413
+    m_Address: Liquid
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b44716ad6535d2942885b08f59ff789c
+    m_Address: Default
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c61b6de6b241afc45b4068c6a8a8ae60
+    m_Address: stormy_cloud
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e2cd78d4de58ecf448203d267e666dbd
+    m_Address: MainMenu
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 91cac4386348801488bf6e072ea9a4ba, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4ff0221e0d9889f49be719a3c59b00f4, type: 2}
+    - {fileID: 11400000, guid: 2387891ba98492244a2f5de469408eff, type: 2}

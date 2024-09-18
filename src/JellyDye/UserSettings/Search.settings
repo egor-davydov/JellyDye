@@ -1,4 +1,5 @@
 trackSelection = true
+refreshSearchWindowsInPlayMode = false
 fetchPreview = true
 defaultFlags = 0
 keepOpen = false
@@ -16,6 +17,12 @@ scopes = {
 	"last_search.F8949528" = "t:Texture .png"
 	"OpenInspectorPreview.F8949528" = "0"
 	"currentGroup.F8949528" = "all"
+	"last_search.E8DA15E5" = "t:Mesh"
+	"OpenInspectorPreview.E8DA15E5" = "1"
+	"currentGroup.E8DA15E5" = "asset"
+	"last_search.110DEAF1" = "p: dir=\"FluXY\" "
+	"OpenInspectorPreview.110DEAF1" = "1"
+	"currentGroup.110DEAF1" = "asset"
 }
 providers = {
 	adb = {
@@ -58,22 +65,59 @@ providers = {
 		priority = 50
 		defaultAction = null
 	}
+	profilermarkers = {
+		active = false
+		priority = 100
+		defaultAction = null
+	}
+	menu = {
+		active = true
+		priority = 80
+		defaultAction = null
+	}
+	settings = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	calculator = {
+		active = true
+		priority = 10
+		defaultAction = null
+	}
+	static_methods = {
+		active = true
+		priority = 85
+		defaultAction = null
+	}
 }
 objectSelectors = {
 }
 recentSearches = [
+	"p: dir=\"FluXY\" "
+	""
+	"p: dir=MeshesAndBlueprints t:ObiSoftbodySurfaceBlueprint"
+	"p: dir=\"MeshesAndBlueprints\" "
+	"p: dir=\"alarm_clock\" "
+	"p: dir=MeshesAndBlueprints t:Mesh"
+	"p: dir=MeshesAndBlueprints"
+	"p: dir=\"Assets\" "
+	"t:Mesh"
+	"t:Mesh id:\"create/\""
 	"t:Tex"
 	"t"
-	"t:Mesh"
 	"S"
 	"t:Sprite"
 ]
 searchItemFavorites = [
 ]
 savedSearchesSortOrder = 0
-showSavedSearchPanel = true
+showSavedSearchPanel = false
+hideTabs = false
 expandedQueries = [-1765347274]
-queryBuilder = false
+queryBuilder = true
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
 disabledIndexers = ""
+minIndexVariations = 2
+findProviderIndexHelper = true

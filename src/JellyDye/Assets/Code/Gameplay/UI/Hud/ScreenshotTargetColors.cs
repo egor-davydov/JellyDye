@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Code.Gameplay.Language;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,12 @@ namespace Code.Gameplay.UI.Hud
   {
     [SerializeField] private TextMeshProUGUI _levelNumberText;
     [SerializeField] private RawImage _screenshotImage;
+    [SerializeField] private LanguageChangerText _languageChangerText;
     
     public void Initialize(Texture2D screenshotImage, int levelNumber)
     {
       _screenshotImage.texture = screenshotImage;
-      _levelNumberText.text = $"Level {levelNumber}";
+      _levelNumberText.text = $"{_languageChangerText.ResultText} {levelNumber}";
     }
   }
 }

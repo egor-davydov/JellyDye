@@ -9,7 +9,10 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Floor
   m_Shader: {fileID: 4800000, guid: a6da473b89caeb1409bac856668af764, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - TCP2_BUMP
   - TCP2_SPEC_TOON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -18,12 +21,13 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: b825c42cd30e70e4e8475286ae683dae, type: 3}
+        m_Scale: {x: 1.06, y: 2.57}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
@@ -43,7 +47,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: e2b4e911bb82ecf438786bc474b996ca, type: 3}
-        m_Scale: {x: 5.17, y: 5.21}
+        m_Scale: {x: 1.06, y: 2.57}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -78,7 +82,7 @@ Material:
     - _RampThreshold: 0.5
     - _Shininess: 0.06
     - _SmoothnessTextureChannel: 0
-    - _SpecSmooth: 0.04
+    - _SpecSmooth: 0.346
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
@@ -87,6 +91,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HColor: {r: 1, g: 0.9717894, b: 0.80566037, a: 1}
-    - _SColor: {r: 0.8301887, g: 0.7315059, b: 0.7315059, a: 1}
-    - _SpecColor: {r: 0.7735849, g: 0.38241363, b: 0.38241363, a: 1}
+    - _SColor: {r: 0.2735849, g: 0.22884774, b: 0.22884774, a: 1}
+    - _SpecColor: {r: 0.8962264, g: 0.3269253, b: 0.3269253, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

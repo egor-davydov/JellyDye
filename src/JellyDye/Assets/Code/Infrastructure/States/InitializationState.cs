@@ -1,38 +1,36 @@
-﻿using System.Runtime.InteropServices;
-using Code.Services;
-#if !UNITY_EDITOR && UNITY_WEBGL
-using CrazyGames;
-using UnityEngine;
-#endif
+﻿using Code.Services;
+using Code.Services.AssetManagement;
 
 namespace Code.Infrastructure.States
 {
   public class InitializationState : IState
   {
+    private const string LoadSceneName = "Load";
+
     private readonly GameStateMachine _gameStateMachine;
     private readonly StaticDataService _staticDataService;
     private readonly PublishService _publishService;
-
-    [DllImport("__Internal")]
-    private static extern void WebDebugLog(string log);
+    private readonly SceneLoader _sceneLoader;
+    private readonly IAssetProvider _assetProvider;
 
     public InitializationState(GameStateMachine gameStateMachine, StaticDataService staticDataService,
-      PublishService publishService)
+      PublishService publishService, SceneLoader sceneLoader, IAssetProvider assetProvider)
     {
       _gameStateMachine = gameStateMachine;
       _staticDataService = staticDataService;
       _publishService = publishService;
+      _sceneLoader = sceneLoader;
+      _assetProvider = assetProvider;
     }
 
     public void Enter()
     {
       _staticDataService.LoadData();
-#if !UNITY_EDITOR && UNITY_WEBGL
-      WebDebugLog($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
-      WebDebugLog($"Application.absoluteURL={Application.absoluteURL}");
-#endif
+      _assetProvider.Initialize();
+      // WebDebug.Log($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
+      // WebDebug.Log($"Application.absoluteURL={Application.absoluteURL}");
       if (_publishService.IsOnYandexGames())
-        _publishService.InitializeYandex(onPlayerInitialize: OnPlayerInitialized);
+        _publishService.InitializeYandex(OnSdkInitialize, OnPlayerInitialized);
       else
         OnPlayerInitialized();
     }
@@ -41,14 +39,14 @@ namespace Code.Infrastructure.States
     {
     }
 
-    private void InvokeOnInitialize()
+    private void OnPlayerInitialized()
     {
-      _publishService.InvokeOnSdkInitialize();
-      OnPlayerInitialized();
+      MoveToNextState();
     }
 
-    private void OnPlayerInitialized() =>
-      MoveToNextState();
+    private void OnSdkInitialize()
+    {
+    }
 
     private void MoveToNextState() =>
       _gameStateMachine.Enter<LoadProgressState>();

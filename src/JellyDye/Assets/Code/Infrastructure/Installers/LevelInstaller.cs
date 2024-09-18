@@ -1,5 +1,6 @@
 ﻿using Code.Gameplay.Logic;
 using Code.Services;
+using Code.Services.Providers;
 using UnityEngine;
 using Zenject;
 
