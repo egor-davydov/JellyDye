@@ -61,21 +61,15 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
 
             if (!string.IsNullOrEmpty(_errorMessage))
             {
-                GUILayout.Label(_errorMessage, new GUIStyle
-                {
-                    wordWrap = true,
-                    normal =
-                    {
-                        textColor = Color.red
-                    }
-                });
+                GUILayout.Label(_errorMessage, new GUIStyle { wordWrap = true, normal = { textColor = Color.red } });
             }
 
             EditorGUILayout.Space(5);
 
             GUILayout.Label(
                 "This utility analyzes the Build Report from the Editor.log file. It will display all the files included in your final build, and the memory they occupy. You can use this utility to detect more opportunities to decrease the final build size. There may be textures that still occupy a lot of memory, uncompressed sounds, or stuff forgotten in the Resources folders that gets included in the build.",
-                EditorStyles.wordWrappedLabel);
+                EditorStyles.wordWrappedLabel
+            );
         }
 
         private static string GetEditorLogPath()
@@ -131,7 +125,8 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
             }
 
             var buildReportStr = editorLogStr
-                .Split(new[] {$"----------------------{Environment.NewLine}Build Report{Environment.NewLine}"}, StringSplitOptions.None).Last();
+                .Split(new[] { $"----------------------{Environment.NewLine}Build Report{Environment.NewLine}" }, StringSplitOptions.None)
+                .Last();
             if (!buildReportStr.StartsWith("Uncompressed usage by category"))
             {
                 _errorMessage =
@@ -140,14 +135,13 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
             }
 
             // clear the lines until we reach the lines with files and the memory they occupy
-            var buildReportLines = buildReportStr.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var buildReportLines = buildReportStr.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             while (!buildReportLines[0].StartsWith("Used Assets and files from the Resources folder"))
             {
                 buildReportLines.RemoveAt(0);
             }
 
             buildReportLines.RemoveAt(0);
-
 
             // start building the tree with the lines with files from the report
             var treeElements = new List<BuildLogTreeItem>();
@@ -162,13 +156,13 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
                 // the line has the following format " 0.1 kb	 0.0% Packages/com.unity.timeline/Runtime/Animation/ICurvesOwner.cs"
 
                 idIncrement++;
-                var splitLine = line.Replace("\t", " ").Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+                var splitLine = line.Replace("\t", " ").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                 var size = float.Parse(splitLine[0], CultureInfo.InvariantCulture.NumberFormat);
                 var sizeUnit = splitLine[1];
                 var sizePercentage = float.Parse(splitLine[2].Replace("%", ""), CultureInfo.InvariantCulture.NumberFormat);
-                
+
                 // split the original line by percentage ("1.2%"), last part is the path of the asset
-                var path = line.Split(new[] {splitLine[2]}, StringSplitOptions.None).Last().Trim();
+                var path = line.Split(new[] { splitLine[2] }, StringSplitOptions.None).Last().Trim();
 
                 if (path.StartsWith("Packages/") && !_includeFilesFromPackages)
                 {
@@ -178,16 +172,37 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
                 treeElements.Add(new BuildLogTreeItem("BuildLogLine", 0, idIncrement, size, sizeUnit, sizePercentage, path));
             }
 
-
             var treeModel = new TreeModel<BuildLogTreeItem>(treeElements);
             var treeViewState = new TreeViewState();
-            _multiColumnHeaderState = _multiColumnHeaderState ?? new MultiColumnHeaderState(new[]
-            {
-                // when adding a new column don't forget to check the sorting method, and the CellGUI method
-                new MultiColumnHeaderState.Column() {headerContent = new GUIContent() {text = "Size"}, width = 80, minWidth = 60, canSort = true},
-                new MultiColumnHeaderState.Column() {headerContent = new GUIContent() {text = "Size %"}, width = 60, minWidth = 40, canSort = true},
-                new MultiColumnHeaderState.Column() {headerContent = new GUIContent() {text = "Path"}, width = 300, minWidth = 200, canSort = true},
-            });
+            _multiColumnHeaderState =
+                _multiColumnHeaderState
+                ?? new MultiColumnHeaderState(
+                    new[]
+                    {
+                        // when adding a new column don't forget to check the sorting method, and the CellGUI method
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Size" },
+                            width = 80,
+                            minWidth = 60,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Size %" },
+                            width = 60,
+                            minWidth = 40,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Path" },
+                            width = 300,
+                            minWidth = 200,
+                            canSort = true,
+                        },
+                    }
+                );
             _buildLogTree = new BuildLogTree(treeViewState, new MultiColumnHeader(_multiColumnHeaderState), treeModel);
             _isAnalyzing = false;
             if (OptimizerWindow.EditorWindowInstance != null)

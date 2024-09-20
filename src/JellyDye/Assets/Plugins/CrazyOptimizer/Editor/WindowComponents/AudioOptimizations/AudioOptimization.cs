@@ -52,26 +52,27 @@ namespace CrazyGames.WindowComponents.AudioOptimizations
 
             GUILayout.Label(
                 "This utility gives you an overview of the audio clips used in your project. By optimizing various settings, you will be able to considerably decrease your final build size and runtime memory usage. You can click on an audio clip to select it in the Project view. To find out more about how the tool finds the audio clips, please check our GitHub repo.",
-                EditorStyles.wordWrappedLabel);
+                EditorStyles.wordWrappedLabel
+            );
 
-
-            BuildExplanation("Load type",
-                "The default option, Decompress On Load, is good for audio clips that require precision when played, for example, audio effects or dialogues. For background audio clips Compressed In Memory is recommended, since it reduces the runtime memory, though audio playback is less precise and may introduce latency.");
-            BuildExplanation("Quality",
-                "Lowering the quality will reduce the build size. You can experiment with a lower audio quality for background audio.");
+            BuildExplanation(
+                "Load type",
+                "The default option, Decompress On Load, is good for audio clips that require precision when played, for example, audio effects or dialogues. For background audio clips Compressed In Memory is recommended, since it reduces the runtime memory, though audio playback is less precise and may introduce latency."
+            );
+            BuildExplanation(
+                "Quality",
+                "Lowering the quality will reduce the build size. You can experiment with a lower audio quality for background audio."
+            );
         }
 
         static void BuildExplanation(string label, string explanation)
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label(label, EditorStyles.boldLabel, GUILayout.Width(130));
-            GUILayout.Label(
-                explanation,
-                EditorStyles.wordWrappedLabel);
+            GUILayout.Label(explanation, EditorStyles.wordWrappedLabel);
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
-
 
         /**
          * Find recursively the audio clips on which this scene depends.
@@ -176,15 +177,33 @@ namespace CrazyGames.WindowComponents.AudioOptimizations
             var treeModel = new TreeModel<AudioTreeItem>(treeElements);
             var treeViewState = new TreeViewState();
             if (_multiColumnHeaderState == null)
-                _multiColumnHeaderState = new MultiColumnHeaderState(new[]
-                {
-                    // when adding a new column don't forget to check the sorting method, and the CellGUI method
-                    new MultiColumnHeaderState.Column()
-                        { headerContent = new GUIContent() { text = "Audio clip" }, width = 150, minWidth = 150, canSort = true },
-                    new MultiColumnHeaderState.Column()
-                        { headerContent = new GUIContent() { text = "Load type" }, width = 150, minWidth = 150, canSort = true },
-                    new MultiColumnHeaderState.Column() { headerContent = new GUIContent() { text = "Quality" }, width = 60, minWidth = 60, canSort = true },
-                });
+                _multiColumnHeaderState = new MultiColumnHeaderState(
+                    new[]
+                    {
+                        // when adding a new column don't forget to check the sorting method, and the CellGUI method
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Audio clip" },
+                            width = 150,
+                            minWidth = 150,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Load type" },
+                            width = 150,
+                            minWidth = 150,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Quality" },
+                            width = 60,
+                            minWidth = 60,
+                            canSort = true,
+                        },
+                    }
+                );
             _audioCompressionTree = new AudioTree(treeViewState, new MultiColumnHeader(_multiColumnHeaderState), treeModel);
             _isAnalyzing = false;
             if (OptimizerWindow.EditorWindowInstance != null)

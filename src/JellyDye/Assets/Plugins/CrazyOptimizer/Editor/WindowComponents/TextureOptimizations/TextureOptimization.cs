@@ -52,14 +52,18 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
 
             GUILayout.Label(
                 "This utility gives you an overview of the textures used in your project. By optimizing various settings, you will be able to considerably decrease your final build size. You can click on a texture to select it in the Project view. To find out more about how the tool finds the textures, please check our GitHub repo.",
-                EditorStyles.wordWrappedLabel);
+                EditorStyles.wordWrappedLabel
+            );
 
-
-            BuildExplanation("Max size",
-                "Decrease the max size as much as possible while the texture still looks good in game. You most likely don't need the default 2048 set by Unity.");
+            BuildExplanation(
+                "Max size",
+                "Decrease the max size as much as possible while the texture still looks good in game. You most likely don't need the default 2048 set by Unity."
+            );
             BuildExplanation("Compression", "Lower quality will decrease the final build size.");
-            BuildExplanation("Crunch compression",
-                "All the textures with crunch compression enabled will be compressed together, decreasing the final build size.");
+            BuildExplanation(
+                "Crunch compression",
+                "All the textures with crunch compression enabled will be compressed together, decreasing the final build size."
+            );
             BuildExplanation("Crunch comp. quality", "A higher compression quality means larger textures and longer compression times.");
         }
 
@@ -67,9 +71,7 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label(label, EditorStyles.boldLabel, GUILayout.Width(130));
-            GUILayout.Label(
-                explanation,
-                EditorStyles.wordWrappedLabel);
+            GUILayout.Label(explanation, EditorStyles.wordWrappedLabel);
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
@@ -115,7 +117,7 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
         static List<string> GetUsedTexturesInResources()
         {
             var usedTexturePaths = new HashSet<string>();
-            var allAssetPaths = AssetDatabase.FindAssets("", new[] {"Assets"}).Select(AssetDatabase.GUIDToAssetPath).ToList();
+            var allAssetPaths = AssetDatabase.FindAssets("", new[] { "Assets" }).Select(AssetDatabase.GUIDToAssetPath).ToList();
 
             // keep only the assets inside a Resources folder, that is not inside an Editor folder
             var rx = new Regex(@"\w*(?<!Editor\/)Resources\/", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -165,7 +167,7 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
                 idIncrement++;
                 try
                 {
-                    var textureImporter = (TextureImporter) AssetImporter.GetAtPath(texturePath);
+                    var textureImporter = (TextureImporter)AssetImporter.GetAtPath(texturePath);
                     treeElements.Add(new TextureTreeItem("Texture2D", 0, idIncrement, texturePath, textureImporter));
                 }
                 catch (Exception)
@@ -177,18 +179,54 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
             var treeModel = new TreeModel<TextureTreeItem>(treeElements);
             var treeViewState = new TreeViewState();
             if (_multiColumnHeaderState == null)
-                _multiColumnHeaderState = new MultiColumnHeaderState(new[]
-                {
-                    // when adding a new column don't forget to check the sorting method, and the CellGUI method
-                    new MultiColumnHeaderState.Column() {headerContent = new GUIContent() {text = "Texture"}, width = 150, minWidth = 150, canSort = true},
-                    new MultiColumnHeaderState.Column() {headerContent = new GUIContent() {text = "Type"}, width = 60, minWidth = 60, canSort = true},
-                    new MultiColumnHeaderState.Column() {headerContent = new GUIContent() {text = "Max size"}, width = 60, minWidth = 60, canSort = true},
-                    new MultiColumnHeaderState.Column() {headerContent = new GUIContent() {text = "Compression"}, width = 80, minWidth = 80, canSort = true},
-                    new MultiColumnHeaderState.Column()
-                        {headerContent = new GUIContent() {text = "Crunch compression"}, width = 120, minWidth = 120, canSort = true},
-                    new MultiColumnHeaderState.Column()
-                        {headerContent = new GUIContent() {text = "Crunch comp. quality"}, width = 128, minWidth = 128, canSort = true},
-                });
+                _multiColumnHeaderState = new MultiColumnHeaderState(
+                    new[]
+                    {
+                        // when adding a new column don't forget to check the sorting method, and the CellGUI method
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Texture" },
+                            width = 150,
+                            minWidth = 150,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Type" },
+                            width = 60,
+                            minWidth = 60,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Max size" },
+                            width = 60,
+                            minWidth = 60,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Compression" },
+                            width = 80,
+                            minWidth = 80,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Crunch compression" },
+                            width = 120,
+                            minWidth = 120,
+                            canSort = true,
+                        },
+                        new MultiColumnHeaderState.Column()
+                        {
+                            headerContent = new GUIContent() { text = "Crunch comp. quality" },
+                            width = 128,
+                            minWidth = 128,
+                            canSort = true,
+                        },
+                    }
+                );
             _textureCompressionTree = new TextureTree(treeViewState, new MultiColumnHeader(_multiColumnHeaderState), treeModel);
             _isAnalyzing = false;
             if (OptimizerWindow.EditorWindowInstance != null)

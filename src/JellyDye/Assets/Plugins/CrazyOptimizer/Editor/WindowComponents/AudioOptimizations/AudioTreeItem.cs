@@ -1,6 +1,6 @@
-﻿using CrazyGames.TreeLib;
-using System;
+﻿using System;
 using System.IO;
+using CrazyGames.TreeLib;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,7 +34,8 @@ namespace CrazyGames.WindowComponents.AudioOptimizations
         private readonly AudioImporter _audioImporter;
         private readonly AudioImporterSampleSettings _platformSettings;
 
-        public AudioTreeItem(string name, int depth, int id, string audioPath, AudioImporter audioImporter) : base(name, depth, id)
+        public AudioTreeItem(string name, int depth, int id, string audioPath, AudioImporter audioImporter)
+            : base(name, depth, id)
         {
             if (depth == -1)
                 return;

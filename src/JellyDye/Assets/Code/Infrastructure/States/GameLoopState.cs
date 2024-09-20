@@ -5,14 +5,12 @@ namespace Code.Infrastructure.States
 {
   public class GameLoopState : IState
   {
-    public UniTaskVoid Enter()
+    public async UniTaskVoid Enter()
     {
-      return default;
     }
 
-    public UniTaskVoid Exit()
+    public async UniTaskVoid Exit()
     {
-      return default;
     }
   }
 }

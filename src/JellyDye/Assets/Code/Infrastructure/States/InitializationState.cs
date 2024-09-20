@@ -20,22 +20,17 @@ namespace Code.Infrastructure.States
       _assetProvider = assetProvider;
     }
 
-    public UniTaskVoid Enter()
+    public async UniTaskVoid Enter()
     {
       _staticDataService.LoadData();
       _assetProvider.Initialize();
       // WebDebug.Log($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       // WebDebug.Log($"Application.absoluteURL={Application.absoluteURL}");
-      if (_publishService.IsOnYandexGames())
-        _publishService.InitializeYandex(OnSdkInitialize, OnPlayerInitialized);
-      else
-        OnPlayerInitialized();
-      return default;
+      _publishService.Initialize(OnSdkInitialize, OnPlayerInitialized);
     }
 
-    public UniTaskVoid Exit()
+    public async UniTaskVoid Exit()
     {
-      return default;
     }
 
     private void OnPlayerInitialized()

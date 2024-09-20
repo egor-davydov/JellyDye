@@ -29,7 +29,6 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
                 return; // No column to sort for (just use the order the data are in)
             }
 
-
             var sortedColumns = multiColumnHeader.state.sortedColumns;
 
             if (sortedColumns.Length == 0)
@@ -87,7 +86,6 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
             }
         }
 
-
         void OnSortingChanged(MultiColumnHeader multiColumnHeader)
         {
             SortIfNeeded(rootItem, GetRows());
@@ -102,7 +100,7 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
 
         protected override void RowGUI(RowGUIArgs args)
         {
-            var item = (TreeViewItem<BuildLogTreeItem>) args.item;
+            var item = (TreeViewItem<BuildLogTreeItem>)args.item;
 
             for (int i = 0; i < args.GetNumVisibleColumns(); ++i)
             {

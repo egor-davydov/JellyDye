@@ -29,18 +29,18 @@ namespace Code.Infrastructure.States
     public void Enter<TState>() where TState : IState
     {
       IState state = ChangeState<TState>();
-      state.Enter().Forget();
+      state.Enter();
     }
 
     public void Enter<TState, TPayload>(TPayload payload) where TState : IPayloadState<TPayload>
     {
       IPayloadState<TPayload> state = ChangeState<TState>();
-      state.Enter(payload).Forget();
+      state.Enter(payload);
     }
 
     private TState ChangeState<TState>() where TState : IExitableState
     {
-      _currentState?.Exit().Forget();
+      _currentState?.Exit();
       TState state = (TState)_states[typeof(TState)];
       _currentState = state;
       

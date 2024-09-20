@@ -1,9 +1,9 @@
-﻿using CrazyGames.WindowComponents;
+﻿using System;
+using CrazyGames.WindowComponents;
+using CrazyGames.WindowComponents.AudioOptimizations;
 using CrazyGames.WindowComponents.ModelOptimizations;
 using CrazyGames.WindowComponents.TextureOptimizations;
 using CrazyOptimizer.Editor.WindowComponents.BuildLogs;
-using System;
-using CrazyGames.WindowComponents.AudioOptimizations;
 using UnityEditor;
 using UnityEngine;
 

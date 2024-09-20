@@ -6,13 +6,15 @@ using System.Runtime.InteropServices;
 using AOT;
 using Code.Gameplay.Language;
 using CrazyGames;
+using ModestTree;
 using UnityEngine;
 
 namespace Code.Services
 {
   public class PublishService
   {
-    private static AudioService _audioService;
+    private const string YandexHost = "app-257958.games.s3.yandex.net";
+    
     private static Action<bool> _isCanReviewResponse;
     private static Action<bool> _onReviewPlayerAction;
     private static Action _onRewarded;
@@ -20,12 +22,21 @@ namespace Code.Services
     private static Action _onPlayerInitialize;
     private static bool _gameWasMuted;
 
-    private readonly bool _isOnCrazyGames = CrazySDK.IsOnCrazyGames && Application.platform != RuntimePlatform.WindowsPlayer;
-    private StaticDataService _staticDataService;
-#if !UNITY_EDITOR && UNITY_WEBGL
-    private readonly Uri _uri = new (Application.absoluteURL);
-    private readonly string _yandexDomain = CrazySDK.Instance.GetSettings().whitelistedDomains[0];
-#endif
+    private static AudioService _audioService;
+    private readonly StaticDataService _staticDataService;
+
+    private readonly bool _isOnCrazyGames = CrazySDK.IsAvailable && Application.platform != RuntimePlatform.WindowsPlayer;
+
+    private Uri Uri
+    {
+      get
+      {
+        string absoluteURL = Application.absoluteURL;
+        return string.IsNullOrEmpty(absoluteURL) 
+          ? default 
+          : new Uri(absoluteURL);
+      }
+    }
 
     public PublishService(AudioService audioService, StaticDataService staticDataService)
     {
@@ -60,33 +71,33 @@ namespace Code.Services
     [DllImport("__Internal")]
     private static extern void ShowYandexRewardedVideo(Action onRewarded);
 
-    public bool IsPlatformMobile()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      return IsMobile();
-#else
-      return false;
-#endif
-    }
-    
-    public bool IsOnYandexGames()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-      return _uri.Host == _yandexDomain;
-#else
-      return false;
-#endif
-    }
-
-    public void InvokeOnSdkInitialize() =>
-      OnSdkInitialized();
-
-    public void InitializeYandex(Action onSdkInitialize, Action onPlayerInitialize)
+    public void Initialize(Action onSdkInitialize, Action onPlayerInitialize)
     {
       _onSdkInitialize = onSdkInitialize;
       _onPlayerInitialize = onPlayerInitialize;
-      InitializeYandexGames(OnSdkInitialized, PlayerInitialized);
+      if (IsOnYandexGames())
+      {
+        InitializeYandexGames(OnSdkInitialized, PlayerInitialized);
+      }
+      else
+      {
+        if (_isOnCrazyGames)
+          CrazySDK.Init(_onPlayerInitialize);
+        else
+          _onPlayerInitialize.Invoke();
+      }
     }
+
+    public bool IsPlatformMobile()
+    {
+      if (!IsOnYandexGames())
+        return false;
+
+      return IsMobile();
+    }
+
+    public bool IsOnYandexGames() => 
+      Uri != null && Uri.Host == YandexHost;
 
     public void SetToLeaderboard(int score)
     {
@@ -108,21 +119,19 @@ namespace Code.Services
         "ru" => LanguageType.Russian,
         _ =>
           LanguageType.English
-          //throw new ArgumentOutOfRangeException($"Unsupported language '{yandexLanguage}'")
+        //throw new ArgumentOutOfRangeException($"Unsupported language '{yandexLanguage}'")
       };
     }
 
     public void ShowFullscreenAdvAndPauseGame()
     {
+      _gameWasMuted = _audioService.IsAudioMuted;
       if (!IsOnYandexGames())
       {
         if (_isOnCrazyGames)
-          if (CrazyAds.Instance != null)
-            CrazyAds.Instance.beginAdBreak();
+          CrazySDK.Ad.RequestAd(CrazyAdType.Midgame, OnFullscreenAdvOpen, (error) => { OnFullscreenAdvClose(false); }, () => { OnFullscreenAdvClose(true); });
         return;
       }
-
-      _gameWasMuted = _audioService.IsAudioMuted;
 
       ShowYandexFullscreenAdv(onOpen: OnFullscreenAdvOpen, onClose: OnFullscreenAdvClose);
     }
@@ -157,7 +166,7 @@ namespace Code.Services
       if (!IsOnYandexGames())
       {
         if (_isOnCrazyGames)
-          CrazyAds.Instance.beginAdBreakRewarded(GiveReward);
+          CrazySDK.Ad.RequestAd(CrazyAdType.Rewarded, () => { }, (error) => { }, GiveReward);
         else
           GiveReward();
         return;
@@ -170,7 +179,7 @@ namespace Code.Services
       _onRewarded?.Invoke();
 
     [MonoPInvokeCallback(typeof(Action))]
-    private static void OnSdkInitialized() => 
+    private static void OnSdkInitialized() =>
       _onSdkInitialize?.Invoke();
 
     [MonoPInvokeCallback(typeof(Action))]

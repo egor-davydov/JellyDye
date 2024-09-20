@@ -1,6 +1,6 @@
-using CrazyGames.TreeLib;
 using System;
 using System.IO;
+using CrazyGames.TreeLib;
 using UnityEditor;
 
 namespace CrazyGames.WindowComponents.ModelOptimizations
@@ -58,7 +58,8 @@ namespace CrazyGames.WindowComponents.ModelOptimizations
 
         private readonly ModelImporter _modelImporter;
 
-        public ModelTreeItem(string name, int depth, int id, string modelPath, ModelImporter modelImporter) : base(name, depth, id)
+        public ModelTreeItem(string name, int depth, int id, string modelPath, ModelImporter modelImporter)
+            : base(name, depth, id)
         {
             if (depth == -1)
                 return;

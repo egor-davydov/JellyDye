@@ -15,15 +15,13 @@ namespace Code.Infrastructure.States
       _saveLoadService = saveLoadService;
     }
 
-    public UniTaskVoid Enter()
+    public async UniTaskVoid Enter()
     {
       _saveLoadService.LoadProgress(onLoaded: MoveToNextState);
-      return default;
     }
 
-    public UniTaskVoid Exit()
+    public async UniTaskVoid Exit()
     {
-      return default;
     }
 
     private void MoveToNextState()

@@ -29,7 +29,6 @@ namespace CrazyGames.WindowComponents.AudioOptimizations
                 return; // No column to sort for (just use the order the data are in)
             }
 
-
             var sortedColumns = multiColumnHeader.state.sortedColumns;
 
             if (sortedColumns.Length == 0)
@@ -86,7 +85,6 @@ namespace CrazyGames.WindowComponents.AudioOptimizations
                 }
             }
         }
-
 
         void OnSortingChanged(MultiColumnHeader multiColumnHeader)
         {

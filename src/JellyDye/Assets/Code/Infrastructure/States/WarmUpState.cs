@@ -29,17 +29,15 @@ namespace Code.Infrastructure.States
       _progressService = progressService;
     }
     
-    public UniTaskVoid Enter()
+    public async UniTaskVoid Enter()
     {
       WarmUpCurrentAssets();
       WarmUpOtherAssets();
       _gameStateMachine.Enter<LoadLevelState, string>(CurrentLevelId);
-      return default;
     }
 
-    public UniTaskVoid Exit()
+    public async UniTaskVoid Exit()
     {
-      return default;
     }
 
     private void WarmUpCurrentAssets()

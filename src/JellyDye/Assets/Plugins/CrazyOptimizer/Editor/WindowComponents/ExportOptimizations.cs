@@ -13,38 +13,58 @@ namespace CrazyGames.WindowComponents
             if (typeof(PlayerSettings.WebGL).GetProperty("compressionFormat") != null)
             {
                 var compressionOk = PlayerSettings.WebGL.compressionFormat == WebGLCompressionFormat.Brotli;
-                Action fixCompression = () => { PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Brotli; };
+                Action fixCompression = () =>
+                {
+                    PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Brotli;
+                };
                 RenderFixableItem("Brotli compression", compressionOk, fixCompression);
             }
 
             if (typeof(PlayerSettings.WebGL).GetProperty("nameFilesAsHashes") != null)
             {
                 var nameAsHashesOk = PlayerSettings.WebGL.nameFilesAsHashes;
-                Action fixNameAsHashes = () => { PlayerSettings.WebGL.nameFilesAsHashes = true; };
+                Action fixNameAsHashes = () =>
+                {
+                    PlayerSettings.WebGL.nameFilesAsHashes = true;
+                };
                 RenderFixableItem("Name file as hashes", nameAsHashesOk, fixNameAsHashes);
             }
 
             if (typeof(PlayerSettings.WebGL).GetProperty("exceptionSupport") != null)
             {
                 var exceptionsOk = PlayerSettings.WebGL.exceptionSupport == WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
-                Action fixExceptions = () => { PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly; };
-                RenderFixableItem("Exception support", exceptionsOk, fixExceptions,
-                    "The \"Fix\" button sets exception support to \"Explicitly thrown exceptions only\". You can choose \"None\" in Player Settings for better performance, but first of all read about it on our developer documentation.");
+                Action fixExceptions = () =>
+                {
+                    PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
+                };
+                RenderFixableItem(
+                    "Exception support",
+                    exceptionsOk,
+                    fixExceptions,
+                    "The \"Fix\" button sets exception support to \"Explicitly thrown exceptions only\". You can choose \"None\" in Player Settings for better performance, but first of all read about it on our developer documentation."
+                );
             }
 
             if (typeof(PlayerSettings).GetProperty("stripEngineCode") != null)
             {
                 var stripEngineCodeOk = PlayerSettings.stripEngineCode;
-                Action fixStripEngineCode = () => { PlayerSettings.stripEngineCode = true; };
-                RenderFixableItem("Strip engine code", stripEngineCodeOk, fixStripEngineCode,
-                    "To decrease the bundle size even more, you can select Medium or High stripping from Player Settings, but first of all read about them on our developer documentation.");
+                Action fixStripEngineCode = () =>
+                {
+                    PlayerSettings.stripEngineCode = true;
+                };
+                RenderFixableItem(
+                    "Strip engine code",
+                    stripEngineCodeOk,
+                    fixStripEngineCode,
+                    "To decrease the bundle size even more, you can select Medium or High stripping from Player Settings, but first of all read about them on our developer documentation."
+                );
             }
-
 
             if (UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline != null)
             {
                 RenderInfoItem(
-                    "If you are using URP but don't use post-processing we recommend disabling them. This will reduce approximately 1mb from your final build size. Check our tips on the link below for more info.");
+                    "If you are using URP but don't use post-processing we recommend disabling them. This will reduce approximately 1mb from your final build size. Check our tips on the link below for more info."
+                );
             }
 
 #if UNITY_2021 || UNITY_2022
@@ -54,22 +74,23 @@ namespace CrazyGames.WindowComponents
             if (preloadedShadersCount > 0)
             {
                 RenderInfoItem(
-                    "Your project is preloading " + preloadedShadersCount + " shader(s). On WebGL, preloading shaders may considerably slow down the loading of the game.");
+                    "Your project is preloading "
+                        + preloadedShadersCount
+                        + " shader(s). On WebGL, preloading shaders may considerably slow down the loading of the game."
+                );
             }
 #endif
-
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Read more tips on our developer documentation"))
             {
-                Application.OpenURL("https://developer.crazygames.com/unity-export-tips");
+                Application.OpenURL("https://docs.crazygames.com/sdk/unity/resources/export-tips/");
             }
 
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
-
 
         /// <summary>
         /// Render OK/FAIL, option name, and "Fix" button.
@@ -80,39 +101,16 @@ namespace CrazyGames.WindowComponents
         /// <param name="additionalInfo">If specified, some additional info is displayed below label name</param>
         private static void RenderFixableItem(string optionName, bool ok, Action fixAction, string additionalInfo = null)
         {
-            var okStyle = new GUIStyle
-            {
-                fontStyle = FontStyle.Bold,
-                normal =
-                {
-                    textColor = Color.green
-                }
-            };
+            var okStyle = new GUIStyle { fontStyle = FontStyle.Bold, normal = { textColor = Color.green } };
 
-            var failStyle = new GUIStyle
-            {
-                fontStyle = FontStyle.Bold,
-                normal =
-                {
-                    textColor = Color.red
-                }
-            };
+            var failStyle = new GUIStyle { fontStyle = FontStyle.Bold, normal = { textColor = Color.red } };
 
-            var labelStyle = new GUIStyle
-            {
-                normal =
-                {
-                    textColor = EditorStyles.label.normal.textColor
-                }
-            };
+            var labelStyle = new GUIStyle { normal = { textColor = EditorStyles.label.normal.textColor } };
             var additionalInfoStyle = new GUIStyle
             {
                 fontSize = 11,
                 wordWrap = true,
-                normal =
-                {
-                    textColor = EditorStyles.label.normal.textColor
-                }
+                normal = { textColor = EditorStyles.label.normal.textColor },
             };
 
             EditorGUILayout.BeginVertical();
@@ -149,22 +147,8 @@ namespace CrazyGames.WindowComponents
 
         private static void RenderInfoItem(string info)
         {
-            var infoStyle = new GUIStyle
-            {
-                fontStyle = FontStyle.Bold,
-                normal =
-                {
-                    textColor = new Color(0.1618f, 0.5568f, 1)
-                }
-            };
-            var labelStyle = new GUIStyle
-            {
-                wordWrap = true,
-                normal =
-                {
-                    textColor = EditorStyles.label.normal.textColor,
-                }
-            };
+            var infoStyle = new GUIStyle { fontStyle = FontStyle.Bold, normal = { textColor = new Color(0.1618f, 0.5568f, 1) } };
+            var labelStyle = new GUIStyle { wordWrap = true, normal = { textColor = EditorStyles.label.normal.textColor } };
 
             EditorGUILayout.BeginVertical();
             GUILayout.Space(10);
@@ -176,9 +160,7 @@ namespace CrazyGames.WindowComponents
             GUILayout.Label(info, labelStyle);
             GUILayout.FlexibleSpace();
 
-
             EditorGUILayout.EndHorizontal();
-
 
             GUILayout.Space(10);
             EditorGUILayout.EndVertical();

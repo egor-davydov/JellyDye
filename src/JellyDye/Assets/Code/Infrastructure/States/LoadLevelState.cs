@@ -109,7 +109,7 @@ namespace Code.Infrastructure.States
       SetupLevel().Forget();
     }
 
-    public UniTaskVoid Exit()
+    public async UniTaskVoid Exit()
     {
       if (_isFirstLoad)
       {
@@ -118,33 +118,6 @@ namespace Code.Infrastructure.States
       }
 
       _analyticsService.LevelStart(_levelIndex, _levelId);
-      return default;
-    }
-
-    private List<AsyncOperationHandle> GetLevelLoadOperations()
-    {
-      int necessaryAssetsCount = _isFirstLoad ? 3 : 2;
-      List<AsyncOperationHandle> handles = new(necessaryAssetsCount + _levelConfig.JellyMeshConfigs.Count);
-      AssetReference prefabReference = _levelConfig.JelliesPrefabReference;
-      _assetProvider.Load<GameObject>(prefabReference);
-      handles.Add(_assetProvider.GetHandle(prefabReference));
-      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
-      {
-        AssetReference meshReference = jellyMeshConfig.MeshReference;
-        _assetProvider.Load<Mesh>(meshReference);
-        handles.Add(_assetProvider.GetHandle(meshReference));
-      }
-
-      if (_isFirstLoad)
-      {
-        _assetProvider.Load<GameObject>(AssetKey.Hud);
-        handles.Add(_assetProvider.GetHandle(AssetKey.Hud));
-      }
-
-      AssetReference syringeSkinReference = _staticDataService.ForSkins().GetSkinByType(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
-      _assetProvider.Load<GameObject>(syringeSkinReference);
-      handles.Add(_assetProvider.GetHandle(syringeSkinReference));
-      return handles;
     }
 
     private async UniTaskVoid SetupLevel()
@@ -184,6 +157,32 @@ namespace Code.Infrastructure.States
       _hudProvider.Initialize(hudObject);
       _hudProvider.JarsContainer.InitializeAndCreateJars(levelConfig.AllColorsCached).Forget();
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
+    }
+
+    private List<AsyncOperationHandle> GetLevelLoadOperations()
+    {
+      int necessaryAssetsCount = _isFirstLoad ? 3 : 2;
+      List<AsyncOperationHandle> handles = new(necessaryAssetsCount + _levelConfig.JellyMeshConfigs.Count);
+      AssetReference prefabReference = _levelConfig.JelliesPrefabReference;
+      _assetProvider.Load<GameObject>(prefabReference);
+      handles.Add(_assetProvider.GetHandle(prefabReference));
+      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+      {
+        AssetReference meshReference = jellyMeshConfig.MeshReference;
+        _assetProvider.Load<Mesh>(meshReference);
+        handles.Add(_assetProvider.GetHandle(meshReference));
+      }
+
+      if (_isFirstLoad)
+      {
+        _assetProvider.Load<GameObject>(AssetKey.Hud);
+        handles.Add(_assetProvider.GetHandle(AssetKey.Hud));
+      }
+
+      AssetReference syringeSkinReference = _staticDataService.ForSkins().GetSkinByType(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
+      _assetProvider.Load<GameObject>(syringeSkinReference);
+      handles.Add(_assetProvider.GetHandle(syringeSkinReference));
+      return handles;
     }
   }
 }

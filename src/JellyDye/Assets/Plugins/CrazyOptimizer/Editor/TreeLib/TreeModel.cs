@@ -5,14 +5,15 @@ using System.Linq;
 namespace CrazyGames.TreeLib
 {
     // The TreeModel is a utility class working on a list of serializable TreeElements where the order and the depth of each TreeElement define
-    // the tree structure. Note that the TreeModel itself is not serializable (in Unity we are currently limited to serializing lists/arrays) but the 
+    // the tree structure. Note that the TreeModel itself is not serializable (in Unity we are currently limited to serializing lists/arrays) but the
     // input list is.
-    // The tree representation (parent and children references) are then build internally using TreeElementUtility.ListToTree (using depth 
-    // values of the elements). 
+    // The tree representation (parent and children references) are then build internally using TreeElementUtility.ListToTree (using depth
+    // values of the elements).
     // The first element of the input list is required to have depth == -1 (the hiddenroot) and the rest to have
     // depth >= 0 (otherwise an exception will be thrown)
 
-    public class TreeModel<T> where T : TreeElement
+    public class TreeModel<T>
+        where T : TreeElement
     {
         IList<T> m_Data;
         T m_Root;
@@ -200,7 +201,9 @@ namespace CrazyGames.TreeLib
         public void MoveElements(TreeElement parentElement, int insertionIndex, List<TreeElement> elements)
         {
             if (insertionIndex < 0)
-                throw new ArgumentException("Invalid input: insertionIndex is -1, client needs to decide what index elements should be reparented at");
+                throw new ArgumentException(
+                    "Invalid input: insertionIndex is -1, client needs to decide what index elements should be reparented at"
+                );
 
             // Invalid reparenting input
             if (parentElement == null)

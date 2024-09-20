@@ -7,11 +7,20 @@ namespace CrazyGames.TreeLib
     [Serializable]
     public class TreeElement
     {
-        [SerializeField] int m_ID;
-        [SerializeField] string m_Name;
-        [SerializeField] int m_Depth;
-        [NonSerialized] TreeElement m_Parent;
-        [NonSerialized] List<TreeElement> m_Children;
+        [SerializeField]
+        int m_ID;
+
+        [SerializeField]
+        string m_Name;
+
+        [SerializeField]
+        int m_Depth;
+
+        [NonSerialized]
+        TreeElement m_Parent;
+
+        [NonSerialized]
+        List<TreeElement> m_Children;
 
         public int depth
         {
@@ -48,9 +57,7 @@ namespace CrazyGames.TreeLib
             set { m_ID = value; }
         }
 
-        public TreeElement()
-        {
-        }
+        public TreeElement() { }
 
         public TreeElement(string name, int depth, int id)
         {

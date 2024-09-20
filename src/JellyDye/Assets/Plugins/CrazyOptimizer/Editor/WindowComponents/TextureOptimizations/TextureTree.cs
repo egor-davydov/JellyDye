@@ -29,7 +29,6 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
                 return; // No column to sort for (just use the order the data are in)
             }
 
-
             var sortedColumns = multiColumnHeader.state.sortedColumns;
 
             if (sortedColumns.Length == 0)
@@ -96,7 +95,6 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
             }
         }
 
-
         void OnSortingChanged(MultiColumnHeader multiColumnHeader)
         {
             SortIfNeeded(rootItem, GetRows());
@@ -111,7 +109,7 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
 
         protected override void RowGUI(RowGUIArgs args)
         {
-            var item = (TreeViewItem<TextureTreeItem>) args.item;
+            var item = (TreeViewItem<TextureTreeItem>)args.item;
 
             for (int i = 0; i < args.GetNumVisibleColumns(); ++i)
             {

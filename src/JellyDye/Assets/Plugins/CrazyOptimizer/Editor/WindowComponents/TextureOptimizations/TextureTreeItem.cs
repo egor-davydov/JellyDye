@@ -1,6 +1,6 @@
-﻿using CrazyGames.TreeLib;
-using System;
+﻿using System;
 using System.IO;
+using CrazyGames.TreeLib;
 using UnityEditor;
 
 namespace CrazyGames.WindowComponents.TextureOptimizations
@@ -40,7 +40,8 @@ namespace CrazyGames.WindowComponents.TextureOptimizations
         private readonly TextureImporter _textureImporter;
         private readonly TextureImporterPlatformSettings _platformSettings;
 
-        public TextureTreeItem(string name, int depth, int id, string texturePath, TextureImporter textureImporter) : base(name, depth, id)
+        public TextureTreeItem(string name, int depth, int id, string texturePath, TextureImporter textureImporter)
+            : base(name, depth, id)
         {
             if (depth == -1)
                 return;

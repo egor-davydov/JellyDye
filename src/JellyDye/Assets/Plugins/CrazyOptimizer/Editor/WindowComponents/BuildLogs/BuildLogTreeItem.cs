@@ -28,8 +28,8 @@ namespace CrazyOptimizer.Editor.WindowComponents.BuildLogs
             }
         }
 
-
-        public BuildLogTreeItem(string name, int depth, int id, float size, string sizeUnit, float sizePercentage, string filePath) : base(name, depth, id)
+        public BuildLogTreeItem(string name, int depth, int id, float size, string sizeUnit, float sizePercentage, string filePath)
+            : base(name, depth, id)
         {
             if (depth == -1)
                 return;
