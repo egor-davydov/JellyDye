@@ -293,7 +293,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6908023878915511053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2407ce121193496da9e62cc5d6d7d91e, type: 3}
+  m_Script: {fileID: 11500000, guid: da7f8bc96ab3d7343ae708a03999962e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _syringeAudio: {fileID: 5440877559713876049}

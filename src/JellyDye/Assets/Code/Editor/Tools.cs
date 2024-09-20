@@ -2,6 +2,7 @@
 using Code.Constants;
 using Code.Helpers;
 using Code.Services.Progress.SaveLoad;
+using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -15,7 +16,7 @@ namespace Code.Editor
     private const string Screenshots = "Take screenshots/";
     private const string Other = "Other/";
     
-    private static Screenshots ScreenshotsHelper => Object.FindObjectOfType<Screenshots>();
+    private static Screenshots ScreenshotsHelper => Object.FindAnyObjectByType<Screenshots>();
 
     [MenuItem(ToolsPath+"Delete Progress file")]
     public static void ClearProgress() => 
@@ -36,34 +37,33 @@ namespace Code.Editor
     }
 
     [MenuItem(ToolsPath+Screenshots+"All")]
-    public static void TakeScreenshots()
+    public static async UniTaskVoid TakeScreenshots()
     {
       if (NotInPlaymode())
         return;
 
-      ScreenshotsHelper.TakeScreenshots(withGround: true, () =>
-      {
-        
+      await ScreenshotsHelper.TakeScreenshots(withGround: true);
         TakeScreenshotsWithGround();
-      });
     }
 
     [MenuItem(ToolsPath+Screenshots+"With ground")]
-    public static void TakeScreenshotsWithGround()
+    public static async UniTaskVoid TakeScreenshotsWithGround()
     {
       if (NotInPlaymode())
         return;
 
-      ScreenshotsHelper.TakeScreenshots(withGround: true, RefreshAssets);
+      await ScreenshotsHelper.TakeScreenshots(withGround: true);
+      RefreshAssets();
     }
 
     [MenuItem(ToolsPath+Screenshots+"Without ground")]
-    public static void TakeScreenshotsWithoutGround()
+    public static async UniTaskVoid TakeScreenshotsWithoutGround()
     {
       if (NotInPlaymode())
         return;
 
-      ScreenshotsHelper.TakeScreenshots(withGround: false, RefreshAssets);
+      await ScreenshotsHelper.TakeScreenshots(withGround: false);
+      RefreshAssets();
     }
 
     [MenuItem(ToolsPath+Other+"Setup game for taking screenshots")]

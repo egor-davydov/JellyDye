@@ -17,7 +17,6 @@ namespace Code.Services
     private readonly SyringeProvider _syringeProvider;
     private readonly HudProvider _hudProvider;
 
-    private Texture2D _screenshotWithGround;
     private float? _countedPercentage;
     private FinishWindow _finishWindow;
 
@@ -53,41 +52,32 @@ namespace Code.Services
       _greenButtonFactory.CreateFinishButton(_hudProvider.HudObject.transform).Forget();
     }
 
-    public void FinishLevel()
+    public async UniTaskVoid FinishLevel()
     {
       _paintCountCalculationService.AsyncCalculatePaintPercentage((percentage)=>
       {
         if (_finishWindow == null)
           _countedPercentage = percentage;
         else
-          _finishWindow.AnimatePercentageText(percentage);
+          _finishWindow.AnimatePercentageText(percentage).Forget();
       });
       Object.Destroy(_hudProvider.HudObject);
       Object.Destroy(_syringeProvider.SyringeObject);
-      _cameraService.MoveToFinish().OnComplete(ShowPhotoFlash);
+      await _cameraService.MoveToFinish();
+      await _cameraService.ShowPhotoFlash();
+      Texture2D screenshot = await _screenshotService.TakeScreenshot();
+      CreateFinishWindow(screenshot).Forget();
     }
 
-    private void ShowPhotoFlash() =>
-      _cameraService.ShowPhotoFlash(onFlashEnd: TakeScreenshot);
-
-    private void TakeScreenshot() =>
-      _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
-
-    private void TakeScreenshotWithoutGround()
-    {
-      _screenshotWithGround = _screenshotService.ScreenshotTexture;
-      _screenshotService.TakeScreenshot(onTake: CreateFinishWindow);
-    }
-
-    private async void CreateFinishWindow()
+    private async UniTaskVoid CreateFinishWindow(Texture2D screenshot)
     {
       GameObject finishWindowObject = await _windowFactory.CreateFinishWindow();
       _finishWindow = finishWindowObject.GetComponent<FinishWindow>();
-      _finishWindow.Initialize(_screenshotService.ScreenshotTexture);
+      _finishWindow.Initialize(screenshot);
       _finishWindow.AnimateWindowAppearance(() =>
       {
         if (_countedPercentage.HasValue)
-          _finishWindow.AnimatePercentageText(_countedPercentage.Value);
+          _finishWindow.AnimatePercentageText(_countedPercentage.Value).Forget();
       });
     }
   }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Code.Gameplay.Syringe
 {
-  public class SyringePaintColor : MonoBehaviour
+  public class SyringeLiquidColor : MonoBehaviour
   {
     [SerializeField] private SyringeAudio _syringeAudio;
     [SerializeField] private FluxyTarget _fluxyTarget;

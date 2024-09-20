@@ -2,6 +2,7 @@
 using System.Collections;
 using Code.Gameplay.Logic;
 using Code.Infrastructure;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -9,16 +10,14 @@ namespace Code.Services
 {
   public class CameraService : IDisposable
   {
-    private readonly ICoroutineRunner _coroutineRunner;
     private readonly AudioService _audioService;
     private Tween _moveTween;
     private Tween _rotateTween;
     
     public LevelCamera LevelCamera { get; private set; }
 
-    public CameraService(ICoroutineRunner coroutineRunner, AudioService audioService)
+    public CameraService(AudioService audioService)
     {
-      _coroutineRunner = coroutineRunner;
       _audioService = audioService;
     }
 
@@ -33,31 +32,24 @@ namespace Code.Services
       _rotateTween.Kill();
     }
 
-    public Tween MoveToFinish()
+    public async UniTask MoveToFinish()
     {
       _moveTween = LevelCamera.transform.DOMove(LevelCamera.FinishPosition, LevelCamera.MovingTime);
       _rotateTween = LevelCamera.transform.DORotate(LevelCamera.FinishRotation, LevelCamera.MovingTime);
-      _coroutineRunner.StartCoroutine(ResizeCamera());
-      return _moveTween;
+      await ResizeCamera();
     }
 
-    public void ShowPhotoFlash(Action onFlashEnd = null)
-    {
-      _coroutineRunner.StartCoroutine(ShowFlash(onFlashEnd));
-    }
-
-    private IEnumerator ShowFlash(Action onFlashEnd)
+    public async UniTask ShowPhotoFlash()
     {
       if(!_audioService.IsAudioMuted)
         LevelCamera.PhotoAudioSource.Play();
       GameObject flashObject = LevelCamera.FlashLight.gameObject;
       flashObject.SetActive(true);
-      yield return new WaitForSeconds(LevelCamera.FlashDuration);
+      await UniTask.Delay(TimeSpan.FromSeconds(LevelCamera.FlashDuration));
       flashObject.SetActive(false);
-      onFlashEnd?.Invoke();
     }
 
-    private IEnumerator ResizeCamera()
+    private async UniTask ResizeCamera()
     {
       float currentTime = 0;
       while (currentTime < LevelCamera.MovingTime)
@@ -68,7 +60,7 @@ namespace Code.Services
           currentTime / LevelCamera.MovingTime);
 
         currentTime += Time.deltaTime;
-        yield return null;
+        await UniTask.NextFrame();
       }
 
       LevelCamera.Camera.orthographicSize = LevelCamera.TargetSize;

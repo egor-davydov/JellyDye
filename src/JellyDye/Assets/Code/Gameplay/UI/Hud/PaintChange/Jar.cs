@@ -36,11 +36,10 @@ namespace Code.Gameplay.UI.Hud.PaintChange
       _colorChangeButton.onClick.AddListener(ChangeColorClick);
     }
 
-
     private void ChangeColorClick()
     {
       _syringeProvider.SyringeInjection.SyringeReset();
-      _syringeProvider.SyringePaintColor.ChangeLiquidColor(_color);
+      _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(_color);
       OnColorChange?.Invoke(this);
     }
   }

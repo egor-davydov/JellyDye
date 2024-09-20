@@ -8,7 +8,9 @@ using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
+using Code.Services.Providers;
 using Code.StaticData.Level;
+using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEngine;
 using Zenject;
@@ -22,7 +24,6 @@ namespace Code.Helpers
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ScreenshotService _screenshotService;
-    private int _currentJellyCount;
     private string _currentLevelId;
     private JelliesFactory _jelliesFactory;
     private string _directionPath;
@@ -30,14 +31,18 @@ namespace Code.Helpers
     private GameObject _groundObject;
     private bool _groundScreenshotsDone;
     private Action _onDone;
+    private HudProvider _hudProvider;
+    private SyringeProvider _syringeProvider;
     private LevelData ProgressLevelData =>_progressService.Progress.LevelData;
 
     private LevelConfig[] LevelsConfigs => _staticDataService.ForLevels().LevelConfigs;
 
     [Inject]
     public void Construct(ProgressService progressService, StaticDataService staticDataService,
-      ScreenshotService screenshotService, JelliesFactory jelliesFactory)
+      ScreenshotService screenshotService, JelliesFactory jelliesFactory, HudProvider hudProvider, SyringeProvider syringeProvider)
     {
+      _syringeProvider = syringeProvider;
+      _hudProvider = hudProvider;
       _jelliesFactory = jelliesFactory;
       _screenshotService = screenshotService;
       _staticDataService = staticDataService;
@@ -54,17 +59,27 @@ namespace Code.Helpers
       _currentLevelId = ProgressLevelData.CurrentLevelId;
     }
 
-    public void TakeScreenshots(bool withGround, Action onDone = null)
+    public async UniTask TakeScreenshots(bool withGround)
     {
       _groundObject.SetActive(withGround);
-      _onDone = onDone;
       SetupAll();
-      TakeScreenshotByService();
+      if (!Directory.Exists(_directionPath))
+        Directory.CreateDirectory(_directionPath);
+      int currentLevelIndex = _staticDataService.ForLevels().GetLevelIndex(ProgressLevelData.CurrentLevelId);
+      for (int i = currentLevelIndex; i < _staticDataService.ForLevels().LevelConfigs.Length; i++)
+      {
+        string levelId = LevelsConfigs[i].Id;
+        await UniTask.WaitForEndOfFrame();
+        Texture2D screenshot = await _screenshotService.TakeScreenshot();
+        WriteScreenshotOnDisk(screenshot, levelId);
+        await ReplaceJellyBy(levelId);
+      }
+      ReplaceJellyBy(ProgressLevelData.CurrentLevelId);
     }
 
     public void MoveCamera()
     {
-      LevelCamera levelCamera = FindObjectOfType<LevelCamera>();
+      LevelCamera levelCamera = FindAnyObjectByType<LevelCamera>();
       levelCamera.Camera.orthographicSize = levelCamera.TargetSize;
       levelCamera.transform.eulerAngles = levelCamera.FinishRotation;
       levelCamera.transform.position = levelCamera.FinishPosition;
@@ -73,57 +88,24 @@ namespace Code.Helpers
     private void SetupAll()
     {
       MoveCamera();
-      FindObjectOfType<JarsContainer>()?.transform.parent.parent.parent.gameObject.SetActive(false);
-      FindObjectOfType<SyringePaintColor>()?.gameObject.SetActive(false);
-      _currentJellyCount = _staticDataService.ForLevels().GetLevelIndex(ProgressLevelData.CurrentLevelId);
+      _hudProvider.HudObject.SetActive(false);
+      _syringeProvider.SyringeObject.SetActive(false);
     }
 
-    private void TakeScreenshotByService()
-    {
-      _screenshotService.TakeScreenshot(OnMake);
-    }
-
-    private void OnMake()
-    {
-      if (!Directory.Exists(_directionPath))
-        Directory.CreateDirectory(_directionPath);
-
-      WriteScreenshotOnDisk();
-
-      if (++_currentJellyCount < _staticDataService.ForLevels().LevelConfigs.Length)
-      {
-        ReplaceJellyBy(LevelsConfigs[_currentJellyCount].Id);
-      }
-      else
-      {
-        ReplaceJellyBy(ProgressLevelData.CurrentLevelId);
-        _onDone?.Invoke();
-      }
-    }
-
-    private void ReplaceJellyBy(string id)
+    private async UniTask ReplaceJellyBy(string id)
     {
       if (_currentLevelId == id)
         return;
       _currentLevelId = id;
-      Destroy(FindObjectOfType<FluxySolver>().transform.parent.gameObject);
-      _jelliesFactory.CreateJelly(id);
-      StartCoroutine(WaitColorSet());
+      Destroy(FindAnyObjectByType<FluxySolver>().transform.parent.gameObject);
+      await _jelliesFactory.CreateJelly(id);
     }
 
-    private IEnumerator WaitColorSet()
-    {
-      yield return new WaitForEndOfFrame();
-      yield return new WaitForEndOfFrame();
-      yield return new WaitForEndOfFrame();
-      TakeScreenshotByService();
-    }
-
-    private void WriteScreenshotOnDisk()
+    private void WriteScreenshotOnDisk(Texture2D screenshot, string levelId)
     {
       string groundTag = IsGroundActive ? "_ground" : "";
-      var screenshotPath = $"{_directionPath}/{LevelsConfigs[_currentJellyCount].Id}{groundTag}.png";
-      byte[] bytes = _screenshotService.ScreenshotTexture.EncodeToPNG();
+      var screenshotPath = $"{_directionPath}/{levelId}{groundTag}.png";
+      byte[] bytes = screenshot.EncodeToPNG();
       if (File.Exists(screenshotPath))
         File.Delete(screenshotPath);
       File.WriteAllBytes(screenshotPath, bytes);

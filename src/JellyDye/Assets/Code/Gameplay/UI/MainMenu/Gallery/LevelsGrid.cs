@@ -1,8 +1,8 @@
 ﻿using Code.Services;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
-using Code.StaticData;
 using Code.StaticData.Level;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -27,7 +27,12 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       _levelButtonFactory = levelButtonFactory;
     }
 
-    private async void Awake()
+    private void Awake()
+    {
+      InitLevelsGrid().Forget();
+    }
+
+    private async UniTaskVoid InitLevelsGrid()
     {
       LevelConfig[] levelConfigs = _staticDataService.ForLevels().LevelConfigs;
       for (int i = 0; i < levelConfigs.Length; i++)

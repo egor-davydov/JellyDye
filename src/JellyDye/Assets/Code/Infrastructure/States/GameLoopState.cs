@@ -1,14 +1,18 @@
 ﻿
+using Cysharp.Threading.Tasks;
+
 namespace Code.Infrastructure.States
 {
   public class GameLoopState : IState
   {
-    public void Enter()
+    public UniTaskVoid Enter()
     {
+      return default;
     }
 
-    public void Exit()
+    public UniTaskVoid Exit()
     {
+      return default;
     }
   }
 }

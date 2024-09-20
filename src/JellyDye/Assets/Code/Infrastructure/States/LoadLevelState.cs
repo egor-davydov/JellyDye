@@ -75,7 +75,7 @@ namespace Code.Infrastructure.States
     private LevelsStaticData LevelsStaticData => _staticDataService.ForLevels();
     private LevelData ProgressLevelData => _progressService.Progress.LevelData;
 
-    public async void Enter(string levelId)
+    public async UniTaskVoid Enter(string levelId)
     {
       _levelId = levelId;
       bool sameLevelAsInProgress = _levelId == ProgressLevelData.CurrentLevelId;
@@ -105,10 +105,11 @@ namespace Code.Infrastructure.States
 
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
       //_publishService.ShowFullscreenAdvAndPauseGame();
-      _sceneLoader.StartLoad(loadId: MainSceneName, OnLoadComplete);
+      await _sceneLoader.StartLoad(loadId: MainSceneName);
+      SetupLevel().Forget();
     }
 
-    public void Exit()
+    public UniTaskVoid Exit()
     {
       if (_isFirstLoad)
       {
@@ -117,6 +118,7 @@ namespace Code.Infrastructure.States
       }
 
       _analyticsService.LevelStart(_levelIndex, _levelId);
+      return default;
     }
 
     private List<AsyncOperationHandle> GetLevelLoadOperations()
@@ -145,7 +147,7 @@ namespace Code.Infrastructure.States
       return handles;
     }
 
-    private async void OnLoadComplete()
+    private async UniTaskVoid SetupLevel()
     {
       GameObject jelliesObject = await InitJellies(_levelConfig);
       FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
@@ -158,6 +160,7 @@ namespace Code.Infrastructure.States
       _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
 
       _finishLevelService.Initialize();
+      //_finishLevelService.FinishLevel();
       _gameStateMachine.Enter<GameLoopState>();
     }
 
@@ -179,7 +182,7 @@ namespace Code.Infrastructure.States
     {
       GameObject hudObject = await _hudFactory.CreateHud();
       _hudProvider.Initialize(hudObject);
-      _hudProvider.JarsContainer.Initialize(levelConfig.AllColorsCached);
+      _hudProvider.JarsContainer.InitializeAndCreateJars(levelConfig.AllColorsCached).Forget();
       hudObject.GetComponentInChildren<ScreenshotTargetColors>().Initialize(levelConfig.TargetTexture, _levelIndex + 1);
     }
   }

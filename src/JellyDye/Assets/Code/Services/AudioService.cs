@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Code.Services.AssetManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
 using Zenject;
@@ -23,7 +25,12 @@ namespace Code.Services
       _assetProvider = assetProvider;
     }
     
-    public async void Initialize()
+    public void Initialize()
+    {
+      LoadAndInitializeAudioMixer().Forget();
+    }
+
+    private async UniTaskVoid LoadAndInitializeAudioMixer()
     {
       _audioMixer = await _assetProvider.Load<AudioMixer>(AssetKey.AudioMixer);
       _audioMixer.GetFloat(ParameterName, out _startVolume);

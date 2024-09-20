@@ -415,6 +415,7 @@ MonoBehaviour:
   _shouldBeImage: {fileID: 4970889508480495939}
   _percentageText: {fileID: 645669028295108151}
   _textTransform: {fileID: 4859523683457835306}
+  _resultsTransform: {fileID: 1670206771362019099}
   _appearanceAnimationDuration: 0.3
   _percentageIncreaseTime: 2
   _textIncreaseScale: 1.3
