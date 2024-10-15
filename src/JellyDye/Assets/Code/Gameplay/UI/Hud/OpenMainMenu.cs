@@ -1,4 +1,5 @@
 ﻿using Code.Services.Factories.UI;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -21,7 +22,7 @@ namespace Code.Gameplay.UI.Hud
     private void OpenMenuClick()
     {
       _uiAudio.PlayClick();
-      _windowFactory.CreateMainMenu();
+      _windowFactory.CreateMainMenu().Forget();
     }
   }
 }

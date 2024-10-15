@@ -20,17 +20,19 @@ namespace Code.Infrastructure.States
       _assetProvider = assetProvider;
     }
 
-    public async UniTaskVoid Enter()
+    public UniTaskVoid Enter()
     {
       _staticDataService.LoadData();
       _assetProvider.Initialize();
       // WebDebug.Log($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       // WebDebug.Log($"Application.absoluteURL={Application.absoluteURL}");
       _publishService.Initialize(OnSdkInitialize, OnPlayerInitialized);
+      return default;
     }
 
-    public async UniTaskVoid Exit()
+    public UniTaskVoid Exit()
     {
+      return default;
     }
 
     private void OnPlayerInitialized()

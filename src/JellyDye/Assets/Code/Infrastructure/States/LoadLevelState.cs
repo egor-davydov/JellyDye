@@ -109,7 +109,7 @@ namespace Code.Infrastructure.States
       SetupLevel().Forget();
     }
 
-    public async UniTaskVoid Exit()
+    public UniTaskVoid Exit()
     {
       if (_isFirstLoad)
       {
@@ -118,6 +118,7 @@ namespace Code.Infrastructure.States
       }
 
       _analyticsService.LevelStart(_levelIndex, _levelId);
+      return default;
     }
 
     private async UniTaskVoid SetupLevel()

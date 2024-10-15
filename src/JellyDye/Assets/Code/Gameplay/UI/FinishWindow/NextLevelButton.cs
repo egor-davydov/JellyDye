@@ -6,6 +6,7 @@ using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.StaticData;
 using Code.StaticData.Level;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -44,7 +45,7 @@ namespace Code.Gameplay.UI.FinishWindow
       if (nextLevelIndex == null)
       {
         if(currentLevelIndex == lastLevelIndex)
-          _windowFactory.CreateMainMenu();
+          _windowFactory.CreateMainMenu().Forget();
         else
           LoadLevel(currentLevelIndex + 1, levelsStaticData);
       }

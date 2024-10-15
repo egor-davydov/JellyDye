@@ -13,6 +13,7 @@ namespace Code.Services.Progress
     {
       _staticDataService = staticDataService;
     }
+    
     public void SetProgress(PlayerProgress progress)
     {
       Progress = progress;

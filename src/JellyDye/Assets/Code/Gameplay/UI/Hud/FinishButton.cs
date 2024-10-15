@@ -19,6 +19,6 @@ namespace Code.Gameplay.UI.Hud
       _finishButton.onClick.AddListener(FinishLevel);
 
     private void FinishLevel() => 
-      _finishLevelService.FinishLevel();
+      _finishLevelService.FinishLevel().Forget();
   }
 }

@@ -10,16 +10,9 @@ using UnityEngine;
 namespace Code.Editor
 {
   [CustomEditor(typeof(CCDTokensStaticData))]
-  public class CCDTokensStaticDataEditor : UnityEditor.Editor, IPreprocessBuildWithReport
+  public class CCDTokensStaticDataEditor : UnityEditor.Editor
   {
     private static CCDTokensStaticData _tokensTarget;
-
-    public int callbackOrder => 0;
-    public void OnPreprocessBuild(BuildReport report)
-    {
-      OnEnable();
-      SetActiveProfile();
-    }
 
     private void OnEnable()
     {
