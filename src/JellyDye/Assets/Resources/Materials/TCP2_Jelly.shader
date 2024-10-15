@@ -10,7 +10,7 @@ Shader "Custom/TCP2_Jelly"
         _Color ("Color", Color) = (1,1,1,1)
         _HColor ("Highlight Color", Color) = (0.785,0.785,0.785,1.0)
         _SColor ("Shadow Color", Color) = (0.195,0.195,0.195,1.0)
-        _AddAlpha ("_AddAlpha", Range(0,1)) = 0.3
+        _AddAlpha ("_AddAlpha", Range(0,1)) = 0.38
 
         [Header(Shadow HSV)]
         _Shadow_HSV_H ("Hue", Range(-360,360)) = 0
@@ -55,18 +55,10 @@ Shader "Custom/TCP2_Jelly"
 
     SubShader
     {
-
-        Tags
-        {
-            "RenderType"="Opaque"
-            "Queue"="Transparent"
-            "RenderQueue"="Transparent"
-        }
-
+        Blend SrcAlpha OneMinusSrcAlpha
         CGPROGRAM
-        #pragma surface surf ToonyColorsCustom addshadow fullforwardshadows exclude_path:deferred exclude_path:prepass alpha
+        #pragma surface surf ToonyColorsCustom keepalpha
         #pragma target 3.0
-        #include "UnityCG.cginc"
         #include "Assets/Plugins/FluXY/Resources/Shaders/FluidUtils.hlsl"
 
         //================================================================
@@ -225,12 +217,14 @@ Shader "Custom/TCP2_Jelly"
 
         void surf(Input IN, inout SurfaceOutputCustom o)
         {
-            half2 uv = TileToUV(IN.UV_MAINTEX, _TileIndex);
-            half4 paintcolor = tex2D(_MainTex, uv);
+            half2 paintUV = TileToUV(IN.UV_MAINTEX, _TileIndex);
+            half4 paintColor = tex2D(_MainTex, paintUV);
             half4 jelly = tex2D(_JellyTex, IN.UV_MAINTEX) * _Color;
 
-            o.Albedo = paintcolor.rgb;
-            half alpha = paintcolor.r == 0 && paintcolor.g == 0 && paintcolor.b == 0 && paintcolor.a == 0 ? jelly.a : paintcolor.a + _AddAlpha;
+            o.Albedo = paintColor.rgb;
+            half alpha = paintColor.r == 0 && paintColor.g == 0 && paintColor.b == 0 && paintColor.a == 0
+                             ? jelly.a
+                             : paintColor.a + _AddAlpha;
             alpha = saturate(alpha);
             o.Alpha = alpha;
 

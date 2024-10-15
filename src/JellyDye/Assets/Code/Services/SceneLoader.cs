@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +16,7 @@ namespace Code.Services
       while (!loadSceneAsync.isDone)
       {
         LoadProgress = loadSceneAsync.progress;
-        await UniTask.NextFrame();
+        await UniTask.NextFrame(PlayerLoopTiming.LastUpdate);
       }
     }
   }
