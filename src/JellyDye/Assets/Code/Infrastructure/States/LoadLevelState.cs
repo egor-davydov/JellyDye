@@ -24,6 +24,7 @@ namespace Code.Infrastructure.States
   public class LoadLevelState : IPayloadState<string>
   {
     private const string MainSceneName = "Main";
+    private const string LoadSceneName = "Load";
 
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -90,11 +91,11 @@ namespace Code.Infrastructure.States
       {
         _levelIndex = LevelsStaticData.GetLevelIndex(_levelId);
         _levelConfig = LevelsStaticData.GetConfigByLevelId(_levelId);
-        
+
         List<AsyncOperationHandle> loadingOperations = GetLevelLoadOperations();
         if (!loadingOperations.All(x => x.IsDone))
         {
-          await SceneManager.LoadSceneAsync("Load");
+          await SceneManager.LoadSceneAsync(LoadSceneName);
           _levelLoadingFillProvider.LevelLoadingFill.StartFill(loadingOperations).Forget();
           await UniTask.WaitUntil(() => loadingOperations.All(x => x.IsDone));
         }
@@ -125,7 +126,8 @@ namespace Code.Infrastructure.States
     {
       GameObject jelliesObject = await InitJellies(_levelConfig);
       FluxySolver fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
-      _paintCountCalculationService.InitializeOnSceneLoad(fluxySolver, jelliesObject.GetComponentsInChildren<FluxyContainer>());
+      _paintCountCalculationService.InitializeOnSceneLoad(fluxySolver,
+        jelliesObject.GetComponentsInChildren<FluxyContainer>());
 
       await InitSyringe();
 
@@ -163,26 +165,20 @@ namespace Code.Infrastructure.States
     private List<AsyncOperationHandle> GetLevelLoadOperations()
     {
       int necessaryAssetsCount = _isFirstLoad ? 3 : 2;
-      List<AsyncOperationHandle> handles = new(necessaryAssetsCount + _levelConfig.JellyMeshConfigs.Count);
-      AssetReference prefabReference = _levelConfig.JelliesPrefabReference;
-      _assetProvider.Load<GameObject>(prefabReference);
-      handles.Add(_assetProvider.GetHandle(prefabReference));
-      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+      List<AsyncOperationHandle> handles = new(necessaryAssetsCount + _levelConfig.JellyMeshConfigs.Count)
       {
-        AssetReference meshReference = jellyMeshConfig.MeshReference;
-        _assetProvider.Load<Mesh>(meshReference);
-        handles.Add(_assetProvider.GetHandle(meshReference));
-      }
+        _assetProvider.WarmUpAsset<GameObject>(_levelConfig.JelliesPrefabReference)
+      };
+      foreach (JellyMeshConfig jellyMeshConfig in _levelConfig.JellyMeshConfigs)
+        handles.Add(_assetProvider.WarmUpAsset<Mesh>(jellyMeshConfig.MeshReference));
 
       if (_isFirstLoad)
-      {
-        _assetProvider.Load<GameObject>(AssetKey.Hud);
-        handles.Add(_assetProvider.GetHandle(AssetKey.Hud));
-      }
+        handles.Add(_assetProvider.WarmUpAsset<GameObject>(AssetKey.Hud));
 
-      AssetReference syringeSkinReference = _staticDataService.ForSkins().GetSkinByType(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
-      _assetProvider.Load<GameObject>(syringeSkinReference);
-      handles.Add(_assetProvider.GetHandle(syringeSkinReference));
+      AssetReference syringeSkinReference = _staticDataService.ForSkins()
+        .GetSkinByType(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
+      handles.Add(_assetProvider.WarmUpAsset<GameObject>(syringeSkinReference));
+
       return handles;
     }
   }

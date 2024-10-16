@@ -34,13 +34,13 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.scriptablebuildpipeline": "2.1.4",
+        "com.unity.profiling.core": "1.0.2",
         "com.unity.modules.assetbundle": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.modules.unitywebrequestassetbundle": "1.0.0",
-        "com.unity.profiling.core": "1.0.2"
+        "com.unity.scriptablebuildpipeline": "2.1.4",
+        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -69,8 +69,8 @@
       "source": "registry",
       "dependencies": {
         "com.unity.burst": "1.8.13",
-        "com.unity.nuget.mono-cecil": "1.11.4",
         "com.unity.test-framework": "1.4.3",
+        "com.unity.nuget.mono-cecil": "1.11.4",
         "com.unity.test-framework.performance": "3.0.3"
       },
       "url": "https://packages.unity.com"
@@ -114,8 +114,8 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.timeline": "1.7.1",
-        "com.autodesk.fbx": "5.1.1"
+        "com.autodesk.fbx": "5.1.1",
+        "com.unity.timeline": "1.7.1"
       },
       "url": "https://packages.unity.com"
     },
@@ -168,13 +168,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.nuget.newtonsoft-json": {
-      "version": "3.2.1",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.performance.profile-analyzer": {
       "version": "1.2.2",
       "depth": 1,
@@ -205,32 +198,6 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.services.ccd.management": {
-      "version": "3.0.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.services.core": "1.10.1",
-        "com.unity.nuget.newtonsoft-json": "3.2.1",
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.modules.unitywebrequestwww": "1.0.0",
-        "com.unity.modules.unitywebrequestaudio": "1.0.0",
-        "com.unity.modules.unitywebrequesttexture": "1.0.0",
-        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.services.core": {
-      "version": "1.13.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.nuget.newtonsoft-json": "3.2.1",
-        "com.unity.modules.androidjni": "1.0.0"
-      },
       "url": "https://packages.unity.com"
     },
     "com.unity.settings-manager": {
@@ -295,12 +262,6 @@
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,
-      "source": "builtin",
-      "dependencies": {}
-    },
-    "com.unity.modules.androidjni": {
-      "version": "1.0.0",
-      "depth": 2,
       "source": "builtin",
       "dependencies": {}
     },
@@ -418,37 +379,6 @@
       "dependencies": {
         "com.unity.modules.assetbundle": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0"
-      }
-    },
-    "com.unity.modules.unitywebrequestaudio": {
-      "version": "1.0.0",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.modules.audio": "1.0.0"
-      }
-    },
-    "com.unity.modules.unitywebrequesttexture": {
-      "version": "1.0.0",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0"
-      }
-    },
-    "com.unity.modules.unitywebrequestwww": {
-      "version": "1.0.0",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.modules.unitywebrequestassetbundle": "1.0.0",
-        "com.unity.modules.unitywebrequestaudio": "1.0.0",
-        "com.unity.modules.audio": "1.0.0",
-        "com.unity.modules.assetbundle": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0"
       }
     }
   }
