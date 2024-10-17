@@ -436,7 +436,7 @@ MonoBehaviour:
   - {fileID: 9176237901648258519}
   _nextSkinImage: {fileID: 2768066064333836018}
   _progressImage: {fileID: 1413985459183875306}
-  _progressMoveTime: 1
+  _progressMoveTime: 2
 --- !u!1 &1907030320903734844
 GameObject:
   m_ObjectHideFlags: 0

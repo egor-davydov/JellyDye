@@ -33,9 +33,7 @@ MonoBehaviour:
   m_UniqueBundleIds: 0
   m_EnableJsonCatalog: 0
   m_NonRecursiveBuilding: 1
-  m_CCDEnabled: 1
-  m_CcdLogRequests: 0
-  m_CcdLogRequestHeaders: 0
+  m_CCDEnabled: 0
   m_maxConcurrentWebRequests: 3
   m_UseUWRForLocalBundles: 1
   m_BundleTimeout: 0
@@ -50,7 +48,6 @@ MonoBehaviour:
   mBuiltInBundleCustomNaming: 
   m_MonoScriptBundleNaming: 0
   m_CheckForContentUpdateRestrictionsOption: 0
-  m_BuildAndReleaseBinFileOption: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
     m_Id: 5f2d23b8fdb130745bf531beba2d755d
@@ -62,8 +59,8 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
-  - {fileID: 11400000, guid: 4c7fc01bf36fade4e8aae1398fe3bbe2, type: 2}
   - {fileID: 11400000, guid: b8a9ac20ce3cd4c4e9639e55733efcfe, type: 2}
+  - {fileID: 11400000, guid: 4c7fc01bf36fade4e8aae1398fe3bbe2, type: 2}
   - {fileID: 11400000, guid: cf1fe877c06a8d644b46c9af961fc69b, type: 2}
   - {fileID: 11400000, guid: 9eb294e0c3eb8b94dbef500bb074efd9, type: 2}
   - {fileID: 11400000, guid: a7dab005081a632438b44f5cddc1d55c, type: 2}
@@ -147,9 +144,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f46292e836483246b1cbc7686a1e24d, type: 2}
   - {fileID: 11400000, guid: 2bbc8994be2f80a47a32a25c2125d482, type: 2}
   m_ActiveProfileId: 51205a6110089e04ba7ffb26799ee642
-  m_CcdManagedData:
-    EnvironmentId: 
-    EnvironmentName: 
-    BucketId: 
-    Badge: 
-    State: 0

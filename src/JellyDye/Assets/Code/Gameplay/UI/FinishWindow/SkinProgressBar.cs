@@ -6,6 +6,7 @@ using Code.Services;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.StaticData.Skins;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,10 +31,13 @@ namespace Code.Gameplay.UI.FinishWindow
     private Tween _fillTween;
     private List<SkinType> _openedSkinTypes;
     private UnlockableSkinConfig _nextSkinConfig;
+    private NewSkinSceneService _newSkinSceneService;
 
     [Inject]
-    public void Construct(ProgressService progressService, ISaveLoadService saveLoadService, StaticDataService staticDataService)
+    public void Construct(ProgressService progressService, ISaveLoadService saveLoadService,
+      StaticDataService staticDataService, NewSkinSceneService newSkinSceneService)
     {
+      _newSkinSceneService = newSkinSceneService;
       _staticDataService = staticDataService;
       _progressService = progressService;
       _saveLoadService = saveLoadService;
@@ -44,7 +48,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private void Awake()
     {
       if (AllSkinsUnlocked())
-        HideSkinObject();
+        HideSkinObjects();
       else
       {
         SetNextSkinSprite();
@@ -52,39 +56,75 @@ namespace Code.Gameplay.UI.FinishWindow
       }
     }
 
-    private void OnDestroy() => 
+    private void OnDestroy() =>
       _fillTween.Kill();
 
-    public void IncreaseProgress(float finalPercentage)
+    public void IncreaseProgress(float increaseAmount)
     {
-      if (AllSkinsUnlocked())
+      increaseAmount = 1.5f;
+      if (increaseAmount == 0 || AllSkinsUnlocked())
         return;
 
-      // float progressFor100PercentBasedOnLevelCount = (float)_unlockableSkinConfigs.Length / _staticDataService.ForLevels().LevelConfigs.Length;
-      // float skinProgressFor100Percent = Mathf.Clamp(progressFor100PercentBasedOnLevelCount, _staticDataService.ForSkins().MinSkinProgress, 1f);;
-      float increaseAmount = _staticDataService.ForSkins().MinSkinProgress / 100 * finalPercentage;
+      PlayAnimations(increaseAmount).Forget();
+    }
 
-      if (_progressImage.fillAmount + increaseAmount < 1)
+    private async UniTaskVoid PlayAnimations(float increaseAmount)
+    {
+      if (!ProgressImageWillBeFilled(increaseAmount))
+      {
+        _fillTween = _progressImage.DOFillAmount(_finalFillAmount, _progressMoveTime).SetEase(FillTweenEase);
+      }
+      else
+      {
+        bool isAllSkinsUnlocked = AllSkinsUnlocked();
+        float fillDuration = isAllSkinsUnlocked
+          ? _progressMoveTime
+          : _progressMoveTime * ((1 - _progressImage.fillAmount) / increaseAmount);
+        _fillTween = _progressImage.DOFillAmount(1, fillDuration)
+          .SetEase(FillTweenEase);
+        await _fillTween;
+
+        await _newSkinSceneService.ShowSkinScene(_nextSkinConfig.SkinType);
+        await UniTask.WaitWhile(() => !Input.GetKeyDown(KeyCode.C));
+        await _newSkinSceneService.HideSkinScene();
+
+        if (!isAllSkinsUnlocked)
+        {
+          SetNextSkinSprite();
+          _progressImage.fillAmount = 0;
+          float lastPartDuration = _progressMoveTime - fillDuration;
+          _fillTween = _progressImage.DOFillAmount(_finalFillAmount, lastPartDuration).SetEase(FillTweenEase);
+        }
+        else
+        {
+          HideSkinObjects();
+        }
+      }
+    }
+
+    public void CalculateAndSetProgress(float increaseAmount)
+    {
+      if (!ProgressImageWillBeFilled(increaseAmount))
       {
         _finalFillAmount = _progressImage.fillAmount + increaseAmount;
-        _fillTween = _progressImage.DOFillAmount(_finalFillAmount, _progressMoveTime).SetEase(FillTweenEase);
       }
       else
       {
         _finalFillAmount = _progressImage.fillAmount + increaseAmount - 1;
         _progressService.Progress.SkinData.OpenedSkins.Add(_nextSkinConfig.SkinType);
-        float fillTime = AllSkinsUnlocked() ? _progressMoveTime : _progressMoveTime * _progressImage.fillAmount;
-        _fillTween = _progressImage
-          .DOFillAmount(1, fillTime).SetEase(FillTweenEase)
-          .OnComplete(OnProgressFilled);
       }
 
       _progressService.Progress.SkinData.NextSkinProgress = _finalFillAmount;
-      _saveLoadService.SaveProgress();
+    }
+
+    private bool ProgressImageWillBeFilled(float increaseAmount)
+    {
+      return _progressImage.fillAmount + increaseAmount >= 1;
     }
 
     private bool AllSkinsUnlocked() =>
-      _staticDataService.ForSkins().UnlockableSkins.All(unlockableSkinConfig => !PlayerDontHaveSkin(unlockableSkinConfig.SkinType));
+      _staticDataService.ForSkins().UnlockableSkins
+        .All(unlockableSkinConfig => !PlayerDontHaveSkin(unlockableSkinConfig.SkinType));
 
     private UnlockableSkinConfig FindOutNextSkin()
     {
@@ -100,20 +140,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private bool PlayerDontHaveSkin(SkinType observableSkinType) =>
       _openedSkinTypes.All(skinType => skinType != observableSkinType);
 
-    private void OnProgressFilled()
-    {
-      if (AllSkinsUnlocked())
-        HideSkinObject();
-      else
-      {
-        SetNextSkinSprite();
-        _progressImage.fillAmount = 0;
-        float fillTime = _progressMoveTime * (1 - _progressImage.fillAmount);
-        _fillTween = _progressImage.DOFillAmount(_finalFillAmount, fillTime).SetEase(FillTweenEase);
-      }
-    }
-
-    private void HideSkinObject()
+    private void HideSkinObjects()
     {
       foreach (GameObject objectToDisableIfPlayerHaveAllSkin in _objectsToDisableIfPlayerHaveAllSkins)
         objectToDisableIfPlayerHaveAllSkin.SetActive(false);

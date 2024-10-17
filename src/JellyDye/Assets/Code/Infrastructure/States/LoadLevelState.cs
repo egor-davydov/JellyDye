@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Code.Constants;
 using Code.Data;
 using Code.Gameplay.UI.Hud;
 using Code.Gameplay.UI.MainMenu.Skins;
@@ -23,9 +24,6 @@ namespace Code.Infrastructure.States
 {
   public class LoadLevelState : IPayloadState<string>
   {
-    private const string MainSceneName = "Main";
-    private const string LoadSceneName = "Load";
-
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly HudFactory _hudFactory;
@@ -42,6 +40,7 @@ namespace Code.Infrastructure.States
     private readonly SyringeProvider _syringeProvider;
     private readonly HudProvider _hudProvider;
     private readonly LevelLoadingFillProvider _levelLoadingFillProvider;
+    private readonly ParentsProvider _parentsProvider;
 
     private string _levelId;
     private int _levelIndex;
@@ -53,7 +52,8 @@ namespace Code.Infrastructure.States
       IAssetProvider assetProvider, ProgressService progressService, StaticDataService staticDataService,
       PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService,
       ISaveLoadService saveLoadService, AnalyticsService analyticsService, PublishService publishService,
-      SyringeProvider syringeProvider, HudProvider hudProvider, LevelLoadingFillProvider levelLoadingFillProvider)
+      SyringeProvider syringeProvider, HudProvider hudProvider, LevelLoadingFillProvider levelLoadingFillProvider,
+      ParentsProvider parentsProvider)
     {
       _gameStateMachine = gameStateMachine;
       _sceneLoader = sceneLoader;
@@ -71,6 +71,7 @@ namespace Code.Infrastructure.States
       _syringeProvider = syringeProvider;
       _hudProvider = hudProvider;
       _levelLoadingFillProvider = levelLoadingFillProvider;
+      _parentsProvider = parentsProvider;
     }
 
     private LevelsStaticData LevelsStaticData => _staticDataService.ForLevels();
@@ -95,7 +96,7 @@ namespace Code.Infrastructure.States
         List<AsyncOperationHandle> loadingOperations = GetLevelLoadOperations();
         if (!loadingOperations.All(x => x.IsDone))
         {
-          await SceneManager.LoadSceneAsync(LoadSceneName);
+          await SceneManager.LoadSceneAsync(SceneName.Load);
           _levelLoadingFillProvider.LevelLoadingFill.StartFill(loadingOperations).Forget();
           await UniTask.WaitUntil(() => loadingOperations.All(x => x.IsDone));
         }
@@ -106,7 +107,7 @@ namespace Code.Infrastructure.States
 
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
       //_publishService.ShowFullscreenAdvAndPauseGame();
-      await _sceneLoader.StartLoad(loadId: MainSceneName);
+      await _sceneLoader.StartLoad(loadId: SceneName.Main);
       SetupLevel().Forget();
     }
 
@@ -136,7 +137,7 @@ namespace Code.Infrastructure.States
       _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
 
       _finishLevelService.Initialize();
-      //_finishLevelService.FinishLevel();
+      _finishLevelService.FinishLevel();
       _gameStateMachine.Enter<GameLoopState>();
     }
 
@@ -149,7 +150,8 @@ namespace Code.Infrastructure.States
     private async UniTask InitSyringe()
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      GameObject syringeObject = await _syringeFactory.CreateSyringe(equippedSkin, Vector3.up * 0.14f);
+      GameObject syringeObject = await _syringeFactory.CreateSyringe(equippedSkin, _parentsProvider.ParentForGameplay);
+      syringeObject.transform.position = Vector3.up * 0.14f;
       _syringeProvider.Initialize(syringeObject);
       _syringeProvider.SyringeInjection.SyringeReset();
     }

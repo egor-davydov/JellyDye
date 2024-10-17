@@ -47,10 +47,12 @@ namespace Code.Gameplay.UI.MainMenu
       SkinType equippedSkinOnClose = _progressService.Progress.SkinData.EquippedSkin;
       if (equippedSkinOnClose != _equippedSkinOnOpen && !SyringeAlreadyDestroyed())
       {
-        Vector3 previousSyringePosition = _syringeProvider.SyringeObject.transform.position;
+        Transform previousSyringeTransform = _syringeProvider.SyringeObject.transform;
         GameObject syringeObject = await _syringeFactory.CreateSyringe(
           equippedSkinOnClose,
-          previousSyringePosition);
+          previousSyringeTransform.position,
+          previousSyringeTransform.rotation,
+          previousSyringeTransform.parent);
         Destroy(_syringeProvider.SyringeObject);
         _syringeProvider.Initialize(syringeObject);
 
@@ -61,7 +63,7 @@ namespace Code.Gameplay.UI.MainMenu
       }
     }
 
-    private bool SyringeAlreadyDestroyed() => 
+    private bool SyringeAlreadyDestroyed() =>
       _syringeProvider.SyringeObject == null;
   }
 }

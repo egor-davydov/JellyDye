@@ -55,6 +55,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<StaticDataService>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
+      Container.Bind<NewSkinSceneService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AddressablesAssetProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();

@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using Code.Gameplay.UI.MainMenu.Skins;
+﻿using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services.AssetManagement;
-using Code.Services.Providers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -14,22 +12,29 @@ namespace Code.Services.Factories
     private readonly IInstantiator _instantiator;
     private readonly IAssetProvider _assetProvider;
     private readonly StaticDataService _staticDataService;
-    private readonly ParentsProvider _parentsProvider;
 
-    public SyringeFactory(IInstantiator instantiator, IAssetProvider assetProvider, StaticDataService staticDataService,
-      ParentsProvider parentsProvider)
+    public SyringeFactory(IInstantiator instantiator, IAssetProvider assetProvider, StaticDataService staticDataService
+    )
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
       _staticDataService = staticDataService;
-      _parentsProvider = parentsProvider;
     }
 
-    public async UniTask<GameObject> CreateSyringe(SkinType skinType, Vector3 at)
+    public async UniTask<GameObject> CreateSyringe(SkinType skinType, Vector3 at, Quaternion rotation, Transform parent)
+    {
+      GameObject syringeObject = await CreateSyringe(skinType, parent);
+      syringeObject.transform.position = at;
+      syringeObject.transform.rotation = rotation;
+      return syringeObject;
+    }
+
+    public async UniTask<GameObject> CreateSyringe(SkinType skinType, Transform parent)
     {
       AssetReference skinReference = _staticDataService.ForSkins().GetSkinByType(skinType).SkinReference;
       GameObject syringePrefab = await _assetProvider.Load<GameObject>(skinReference);
-      GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab, at, syringePrefab.transform.rotation, _parentsProvider.ParentForGameplay);
+      GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab, syringePrefab.transform.position,
+        syringePrefab.transform.rotation, parent);
 
       return syringeObject;
     }
