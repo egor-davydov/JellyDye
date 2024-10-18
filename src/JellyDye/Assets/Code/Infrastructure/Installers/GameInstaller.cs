@@ -56,6 +56,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<StaticDataService>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
       Container.Bind<NewSkinSceneService>().AsSingle();
+      Container.Bind<InputService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AddressablesAssetProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();

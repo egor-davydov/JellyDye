@@ -137,7 +137,7 @@ namespace Code.Infrastructure.States
       _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
 
       _finishLevelService.Initialize();
-      _finishLevelService.FinishLevel();
+      //_finishLevelService.FinishLevel();
       _gameStateMachine.Enter<GameLoopState>();
     }
 

@@ -16,16 +16,18 @@ namespace Code.Services
     private readonly CameraService _cameraService;
     private readonly ParentsProvider _parentsProvider;
     private readonly SyringeFactory _syringeFactory;
+    private readonly InputService _inputService;
 
     private Transform _newSkinStandTransform;
     private readonly CancellationTokenSource _cts;
     private Vector3 _skinRotationPoint;
 
     public NewSkinSceneService(CameraService cameraService, ParentsProvider parentsProvider,
-      SyringeFactory syringeFactory)
+      SyringeFactory syringeFactory, InputService inputService)
     {
       _parentsProvider = parentsProvider;
       _syringeFactory = syringeFactory;
+      _inputService = inputService;
       _cameraService = cameraService;
       _cts = new CancellationTokenSource();
     }
@@ -56,10 +58,16 @@ namespace Code.Services
 
     private async UniTaskVoid StartSkinRotation(GameObject syringeObject)
     {
+      bool isAutoRotating = true;
       while (true)
       {
-        syringeObject.transform.RotateAround(_skinRotationPoint, Vector3.up, RotationAngle * Time.deltaTime);
-        await UniTask.Yield(_cts.Token);
+        if (isAutoRotating)
+        {
+          syringeObject.transform.RotateAround(_skinRotationPoint, Vector3.up, RotationAngle * Time.deltaTime);
+          await UniTask.Yield(PlayerLoopTiming.Update, _cts.Token);
+        }
+        //if(_inputService.IsUserPressedInputInGameSpace)
+          
       }
     }
 
