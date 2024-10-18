@@ -30,66 +30,81 @@ MonoBehaviour:
     SkinReference:
       m_AssetGUID: b44716ad6535d2942885b08f59ff789c
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   - SkinType: 1
     SkinReference:
       m_AssetGUID: ad6c8a6d47ec0d4498fa400addc3677a
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 4
     SkinReference:
       m_AssetGUID: 816cc8b961fa20f4db5b789f0eb16471
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 2
     SkinReference:
       m_AssetGUID: eca3625b3222b9e4984feff0b2d33182
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 5
     SkinReference:
       m_AssetGUID: e13456bcd4de91642bbf989abae3a8f0
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 6
     SkinReference:
       m_AssetGUID: fa4620e69a8d099419c586d845811cb0
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 3
     SkinReference:
       m_AssetGUID: 0ae26b1b139b14f47ba7ab7f3ed7473b
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 8
     SkinReference:
       m_AssetGUID: aac5d43030b6b5445aabca1caeb21703
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 9
     SkinReference:
       m_AssetGUID: 8b42480325bcfeb4a95738f8189650aa
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 7
     SkinReference:
       m_AssetGUID: c610249e1f964ec4d8f8340dd11760ba
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   - SkinType: 10
     SkinReference:
       m_AssetGUID: bc54823b681cca148aceabef4414d3b0
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
   <MinSkinProgress>k__BackingField: 0.2
+  <NewSkinSceneConfig>k__BackingField:
+    <AutoRotationSpeed>k__BackingField: 60
+    <RotationSpeed>k__BackingField: 15
+    <InertiaDamping>k__BackingField: 5
