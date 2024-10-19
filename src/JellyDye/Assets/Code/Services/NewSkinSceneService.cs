@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Code.Constants;
 using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.MainMenu.Skins;
@@ -19,12 +18,11 @@ namespace Code.Services
     private readonly SyringeFactory _syringeFactory;
     private readonly InputService _inputService;
     private readonly StaticDataService _staticDataService;
-    private readonly CancellationTokenSource _cts;
 
     private Transform _newSkinStandTransform;
     private Vector3 _skinRotationPoint;
 
-    private bool _isRotating;
+    private bool _allowSkinRotation;
     private Vector3 _previousMousePosition;
     private Vector2 _currentRotationVelocity;
     private Vector2 _lastRotationVelocity;
@@ -37,7 +35,6 @@ namespace Code.Services
       _inputService = inputService;
       _staticDataService = staticDataService;
       _cameraService = cameraService;
-      _cts = new CancellationTokenSource();
     }
 
     private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.ForSkins().NewSkinSceneConfig;
@@ -70,10 +67,12 @@ namespace Code.Services
 
     private async UniTaskVoid StartSkinRotation(GameObject syringeObject)
     {
-      bool isAutoRotating = true;
-      while (true)
+      bool isUserRotateSkin = false;
+      bool isSkinAutoRotating = true;
+      _allowSkinRotation = true;
+      while (_allowSkinRotation)
       {
-        if (isAutoRotating)
+        if (isSkinAutoRotating)
         {
           syringeObject.transform.RotateAround(_skinRotationPoint, Vector3.up,
             -NewSkinSceneConfig.AutoRotationSpeed * Time.deltaTime);
@@ -81,18 +80,18 @@ namespace Code.Services
 
         if (_inputService.IsInputButtonPressed)
         {
-          isAutoRotating = false;
-          _isRotating = true;
+          isSkinAutoRotating = false;
+          isUserRotateSkin = true;
           _previousMousePosition = Input.mousePosition;
         }
 
         if (_inputService.IsInputButtonReleased)
         {
-          _isRotating = false;
+          isUserRotateSkin = false;
           _lastRotationVelocity = _currentRotationVelocity;
         }
 
-        if (_isRotating)
+        if (isUserRotateSkin)
         {
           Vector3 mouseDelta = Input.mousePosition - _previousMousePosition;
 
@@ -116,7 +115,7 @@ namespace Code.Services
           RotateWithVelocity(syringeObject, _lastRotationVelocity);
         }
 
-        await UniTask.Yield(PlayerLoopTiming.Update, _cts.Token);
+        await UniTask.Yield(PlayerLoopTiming.Update);
       }
     }
 
@@ -127,7 +126,7 @@ namespace Code.Services
     }
 
     private void StopSkinRotation() =>
-      _cts.Cancel();
+      _allowSkinRotation = false;
 
     private async Task LoadSceneAndDisableMainSceneRenderers()
     {
