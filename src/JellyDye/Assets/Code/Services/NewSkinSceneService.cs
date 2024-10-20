@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Code.Constants;
-using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services.Factories;
 using Code.Services.Providers;
@@ -48,13 +47,11 @@ namespace Code.Services
     public async UniTask ShowSkinScene(SkinType skinType)
     {
       await LoadSceneAndDisableMainSceneRenderers();
-      GameObject syringeObject = await _syringeFactory.CreateSyringe(skinType, _newSkinStandTransform);
-      syringeObject.transform.localPosition = Vector3.zero;
-      syringeObject.transform.localRotation = Quaternion.identity;
-      syringeObject.transform.localScale = Vector3.one;
-      Object.Destroy(syringeObject.GetComponent<SyringeLiquidColor>());
-      Object.Destroy(syringeObject.GetComponent<SyringeMove>());
-      StartSkinRotation(syringeObject).Forget();
+      Transform syringeTransform = (await _syringeFactory.CreateMesh(skinType, _newSkinStandTransform)).transform;
+      syringeTransform.localPosition = Vector3.zero;
+      syringeTransform.localRotation = Quaternion.identity;
+      syringeTransform.localScale = Vector3.one;
+      StartSkinRotation(syringeTransform).Forget();
     }
 
     public async UniTask HideSkinScene()
@@ -65,7 +62,7 @@ namespace Code.Services
       await SceneManager.UnloadSceneAsync(SceneName.NewSkin);
     }
 
-    private async UniTaskVoid StartSkinRotation(GameObject syringeObject)
+    private async UniTaskVoid StartSkinRotation(Transform syringeTransform)
     {
       bool isUserRotateSkin = false;
       bool isSkinAutoRotating = true;
@@ -74,7 +71,7 @@ namespace Code.Services
       {
         if (isSkinAutoRotating)
         {
-          syringeObject.transform.RotateAround(_skinRotationPoint, Vector3.up,
+          syringeTransform.RotateAround(_skinRotationPoint, Vector3.up,
             -NewSkinSceneConfig.AutoRotationSpeed * Time.deltaTime);
         }
 
@@ -100,7 +97,7 @@ namespace Code.Services
 
           _currentRotationVelocity = new Vector2(rotationX, rotationY);
 
-          RotateWithVelocity(syringeObject, _currentRotationVelocity);
+          RotateWithVelocity(syringeTransform, _currentRotationVelocity);
 
           _previousMousePosition = Input.mousePosition;
         }
@@ -112,17 +109,17 @@ namespace Code.Services
           if (_lastRotationVelocity.sqrMagnitude < 0.01f)
             _lastRotationVelocity = Vector2.zero;
 
-          RotateWithVelocity(syringeObject, _lastRotationVelocity);
+          RotateWithVelocity(syringeTransform, _lastRotationVelocity);
         }
 
         await UniTask.Yield(PlayerLoopTiming.Update);
       }
     }
 
-    private void RotateWithVelocity(GameObject rotationObject, Vector2 rotationVelocity)
+    private void RotateWithVelocity(Transform rotationTransform, Vector2 rotationVelocity)
     {
-      rotationObject.transform.RotateAround(_skinRotationPoint, Vector3.up, rotationVelocity.y);
-      rotationObject.transform.RotateAround(_skinRotationPoint, Vector3.right, rotationVelocity.x);
+      rotationTransform.RotateAround(_skinRotationPoint, Vector3.up, rotationVelocity.y);
+      rotationTransform.RotateAround(_skinRotationPoint, Vector3.right, rotationVelocity.x);
     }
 
     private void StopSkinRotation() =>

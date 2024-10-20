@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed6a1d62cfa34a408e1069998dc6696, type: 3}
   m_Name: CrazyGamesSettings
   m_EditorClassIdentifier: 
-  whitelistedDomains: 
- - app-257958.games.s3.yandex.net
+  whitelistedDomains:
+  - app-257958.games.s3.yandex.net
   - html-classic.itch.zone
   pauseGameDuringAd: 1
   accountAvailableResponse: 0
@@ -21,6 +21,6 @@ MonoBehaviour:
   getUserResponse: 0
   authPromptResponse: 0
   getTokenResponse: 0
-  disableSdkLogs: 0
-  disableAdPreviews: 0
+  disableSdkLogs: 1
+  disableAdPreviews: 1
   deviceType: 0

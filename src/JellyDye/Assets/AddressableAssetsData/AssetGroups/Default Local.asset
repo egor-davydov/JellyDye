@@ -30,11 +30,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 52fa222993df6444a8c8dfeaf13731e5
-    m_Address: Default_piston
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6408d64e021658b4db06ef9dca78f9ac
     m_Address: HUD
     m_ReadOnly: 0
@@ -45,8 +40,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9cc756daa7c77df42aa17e41c74a3e27
-    m_Address: Default_base
+  - m_GUID: a67499c80470b024fa25fd95a85efcd1
+    m_Address: Default
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -55,13 +50,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b44716ad6535d2942885b08f59ff789c
-    m_Address: Default
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c61b6de6b241afc45b4068c6a8a8ae60
-    m_Address: stormy_cloud
+  - m_GUID: d8f53005475ced64d8eb08e3c951a713
+    m_Address: _SyringeBase
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

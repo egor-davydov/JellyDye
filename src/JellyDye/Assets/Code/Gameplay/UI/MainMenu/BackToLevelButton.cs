@@ -48,7 +48,7 @@ namespace Code.Gameplay.UI.MainMenu
       if (equippedSkinOnClose != _equippedSkinOnOpen && !SyringeAlreadyDestroyed())
       {
         Transform previousSyringeTransform = _syringeProvider.SyringeObject.transform;
-        GameObject syringeObject = await _syringeFactory.CreateSyringe(
+        GameObject syringeObject = await _syringeFactory.Create(
           equippedSkinOnClose,
           previousSyringeTransform.position,
           previousSyringeTransform.rotation,

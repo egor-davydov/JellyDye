@@ -15,173 +15,53 @@ MonoBehaviour:
   m_GroupName: Syringes Remote
   m_GUID: ce90f42bf81feca46b4ef83a56ef52de
   m_SerializeEntries:
-  - m_GUID: 038c247468be4992ab371856b76dc2ed
-    m_Address: Crown_piston_head
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 04be48f3df2948e18a14b98d66dbb127
-    m_Address: Crown_piston_main
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0ae26b1b139b14f47ba7ab7f3ed7473b
-    m_Address: IceCream
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 11704aa45ad54917ba015be458d75e22
-    m_Address: Unicorn_base_ring
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 13cdd1a07acd418f94d38752664e8060
-    m_Address: Syringe_Sailor_base_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 40a297c749a14ae1973c0105e6fc81f8
-    m_Address: Syringe_Cocktail_base
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 53349ee8e5514bd39d2ed922a390aa42
-    m_Address: Unicorn_piston_main
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5367e6b245984d38bd39371b0168fe7c
-    m_Address: Crown_base
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5ba82a20b1a044a1a47afe4c396fcc34
-    m_Address: Syringe_Pimp_base
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5bed86145df44360bd6e4a2e3cb16125
-    m_Address: Bee_piston
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 69941863bfbb435d891dc2392cc5b2cc
-    m_Address: Disco_piston
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6a79582e6efb411f913c8ab189982409
-    m_Address: Syringe_Sailor_base
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 790dcd64a8694fa48b9f25a7491e4601
-    m_Address: Unicorn_piston_head
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 816cc8b961fa20f4db5b789f0eb16471
-    m_Address: Sailor
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8b42480325bcfeb4a95738f8189650aa
-    m_Address: Unicorn
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8bba27986ac548e588031cf6e20340af
-    m_Address: Syringe_Cocktail_base_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9876bdde049e48a9b26184edd412a3c0
-    m_Address: Syringe_IceCream_base_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aac5d43030b6b5445aabca1caeb21703
-    m_Address: Butterfly
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ad6c8a6d47ec0d4498fa400addc3677a
-    m_Address: Bee
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ad822a88fc014f039b4616ce3d6784c8
-    m_Address: Bee_base
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b72bc01598f54e578710a2896e2fcc6b
-    m_Address: Syringe_IceCream_base
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: baa822569386462c93a68d500855d3da
-    m_Address: Disco_base
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bc54823b681cca148aceabef4414d3b0
-    m_Address: Disco
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bedcb4c6cc514cf99bf81af9455ba7fa
-    m_Address: Butterfly_piston
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c5668a8e4d9f41a6870c3638a7be8ca7
-    m_Address: Unicorn_base_wings
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c610249e1f964ec4d8f8340dd11760ba
+  - m_GUID: 3695a98dea841f94d8456247428fdf1b
     m_Address: Crown
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ca25c6a8548f46c08f851246c123ebb2
-    m_Address: Syringe_Pimp_base_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d0f84e63d40e4dc3ad72982460fd390f
-    m_Address: Syringe_Vintage_base_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d5f555acb04c4537a68b8a663cfd7c96
-    m_Address: Unicorn_base_main
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d84049e3e9b04190a176057f3b308353
-    m_Address: Butterfly_base
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e13456bcd4de91642bbf989abae3a8f0
-    m_Address: Vintage
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eca3625b3222b9e4984feff0b2d33182
+  - m_GUID: 3c3870c8ca70723449bb5281e4d38789
     m_Address: Cocktail
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f16871dbec144d37a7725475b378ebbf
-    m_Address: Syringe_Vintage_base
+  - m_GUID: 5743b756ab491ce44b2c07fe53fae2d1
+    m_Address: Disco
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fa4620e69a8d099419c586d845811cb0
+  - m_GUID: 5fb11f42386e956418f9a8206fb9bde1
+    m_Address: Sailor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab31d003c21ae1c4a94a44964665b201
+    m_Address: Bee
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b2aca02f34e73784082ed96e0f63ba2c
     m_Address: Pimp
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d79c60942823dc64293b1056db16733f
+    m_Address: Butterfly
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e68367beaf2519548b8abd2e18a9d936
+    m_Address: Unicorn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f064d805f96a58242a133fbf484d6feb
+    m_Address: IceCream
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f2abedf3ffbf04d41a5de11664a10265
+    m_Address: Vintage
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

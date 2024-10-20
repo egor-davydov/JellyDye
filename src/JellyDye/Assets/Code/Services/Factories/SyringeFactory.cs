@@ -1,4 +1,5 @@
-﻿using Code.Gameplay.UI.MainMenu.Skins;
+﻿using Code.Gameplay.Syringe;
+using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services.AssetManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -21,22 +22,35 @@ namespace Code.Services.Factories
       _staticDataService = staticDataService;
     }
 
-    public async UniTask<GameObject> CreateSyringe(SkinType skinType, Vector3 at, Quaternion rotation, Transform parent)
+    public async UniTask<GameObject> Create(SkinType skinType, Vector3 at, Quaternion rotation, Transform parent)
     {
-      GameObject syringeObject = await CreateSyringe(skinType, parent);
+      GameObject syringeObject = await Create(skinType, parent);
       syringeObject.transform.position = at;
       syringeObject.transform.rotation = rotation;
       return syringeObject;
     }
 
-    public async UniTask<GameObject> CreateSyringe(SkinType skinType, Transform parent)
+    public async UniTask<GameObject> Create(SkinType skinType, Transform parent)
+    {
+      AssetReference syringeBaseReference = _staticDataService.ForSkins().SyringeBaseReference;
+      GameObject syringeBasePrefab = await _assetProvider.Load<GameObject>(syringeBaseReference);
+      GameObject syringeBaseObject = _instantiator.InstantiatePrefab(syringeBasePrefab,
+        syringeBasePrefab.transform.position,
+        syringeBasePrefab.transform.rotation, parent);
+
+      SyringeMesh syringeMesh = await CreateMesh(skinType, syringeBaseObject.transform);
+      syringeBaseObject.GetComponent<SyringeInjection>().WireUp(syringeMesh.PistonTransform, syringeMesh.LiquidTransform);
+      syringeBaseObject.GetComponent<SyringeLiquidColor>().WireUp(syringeMesh.LiquidRenderer);
+
+      return syringeBaseObject;
+    }
+
+    public async UniTask<SyringeMesh> CreateMesh(SkinType skinType, Transform parent)
     {
       AssetReference skinReference = _staticDataService.ForSkins().GetSkinByType(skinType).SkinReference;
-      GameObject syringePrefab = await _assetProvider.Load<GameObject>(skinReference);
-      GameObject syringeObject = _instantiator.InstantiatePrefab(syringePrefab, syringePrefab.transform.position,
-        syringePrefab.transform.rotation, parent);
-
-      return syringeObject;
+      GameObject syringeMeshPrefab = await _assetProvider.Load<GameObject>(skinReference);
+      SyringeMesh syringeMesh = _instantiator.InstantiatePrefabForComponent<SyringeMesh>(syringeMeshPrefab, parent);
+      return syringeMesh;
     }
   }
 }

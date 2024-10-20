@@ -150,7 +150,7 @@ namespace Code.Infrastructure.States
     private async UniTask InitSyringe()
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      GameObject syringeObject = await _syringeFactory.CreateSyringe(equippedSkin, _parentsProvider.ParentForGameplay);
+      GameObject syringeObject = await _syringeFactory.Create(equippedSkin, _parentsProvider.ParentForGameplay);
       syringeObject.transform.position = Vector3.up * 0.14f;
       _syringeProvider.Initialize(syringeObject);
       _syringeProvider.SyringeInjection.SyringeReset();

@@ -14,15 +14,10 @@ namespace Code.Gameplay.Syringe
   {
     private const float LiquidSpeed = 2.65f;
 
-    [Header("Components")] [SerializeField]
-    private SyringeAudio _syringeAudio;
-
+    [Header("Components")] [SerializeField] private SyringeAudio _syringeAudio;
     [SerializeField] private SyringeMove _syringeMove;
     [SerializeField] private FluxyTarget _fluxyTarget;
-
-    [Header("Transforms")] [SerializeField]
-    private Transform _pistonTransform;
-
+    [Header("Transforms")] [SerializeField] private Transform _pistonTransform;
     [SerializeField] private Transform _liquidTransform;
     [Header("Paint")] [SerializeField] private Vector2 _startForceDirection;
     [SerializeField] private float _targetForcePower;
@@ -59,6 +54,16 @@ namespace Code.Gameplay.Syringe
       _finishLevelService = finishLevelService;
     }
 
+    public void WireUp(Transform pistonTransform, Transform liquidTransform)
+    {
+      _pistonTransform = pistonTransform;
+      _liquidTransform = liquidTransform;
+
+      _minPistonPosition = _pistonTransform.localPosition - Vector3.up * _pistonMovingDistance;
+      _pistonResetPosition = _pistonTransform.localPosition;
+      _liquidResetScale = _liquidTransform.localScale.y;
+    }
+
     public void Initialize(InjectionButton injectionButton)
     {
       _injectionButton = injectionButton;
@@ -71,10 +76,7 @@ namespace Code.Gameplay.Syringe
       _fluxyTarget.force = _startForceDirection;
       _injectableLayer = 1 << LayerMask.NameToLayer("Injectable");
       _startTargetScale = _fluxyTarget.scale;
-      _minPistonPosition = _pistonTransform.localPosition - Vector3.up * _pistonMovingDistance;
       _movingCloserDirection = transform.localRotation * Vector3.down;
-      _pistonResetPosition = _pistonTransform.localPosition;
-      _liquidResetScale = _liquidTransform.localScale.y;
     }
 
     private void OnDestroy()

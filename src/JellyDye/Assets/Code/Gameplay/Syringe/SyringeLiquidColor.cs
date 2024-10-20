@@ -13,8 +13,9 @@ namespace Code.Gameplay.Syringe
     private static readonly int LiquidColorId = Shader.PropertyToID("_Color");
     private static readonly int LiquidHColorId = Shader.PropertyToID("_HColor");
 
-    private void Awake()
+    public void WireUp(MeshRenderer liquidRenderer)
     {
+      _liquidRenderer = liquidRenderer;
       _liquidRenderer.sharedMaterial = new Material(_shader);
     }
 

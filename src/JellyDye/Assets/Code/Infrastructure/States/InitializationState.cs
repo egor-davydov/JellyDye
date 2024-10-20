@@ -22,7 +22,7 @@ namespace Code.Infrastructure.States
 
     public UniTaskVoid Enter()
     {
-      _staticDataService.LoadData();
+      _staticDataService.Initialize();
       _assetProvider.Initialize();
       // WebDebug.Log($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       // WebDebug.Log($"Application.absoluteURL={Application.absoluteURL}");
