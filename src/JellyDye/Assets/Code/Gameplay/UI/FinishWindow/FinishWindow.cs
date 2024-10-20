@@ -27,7 +27,7 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
 
-    private GreenButtonFactory _greenButtonFactory;
+    private AnimatedButtonFactory _animatedButtonFactory;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ISaveLoadService _saveLoadService;
@@ -39,7 +39,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private StringsService _stringsService;
 
     [Inject]
-    public void Construct(GreenButtonFactory greenButtonFactory, ProgressService progressService,
+    public void Construct(AnimatedButtonFactory animatedButtonFactory, ProgressService progressService,
       StaticDataService staticDataService, ISaveLoadService saveLoadService,
       PublishService publishService, AnalyticsService analyticsService, StringsService stringsService)
     {
@@ -49,7 +49,7 @@ namespace Code.Gameplay.UI.FinishWindow
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
-      _greenButtonFactory = greenButtonFactory;
+      _animatedButtonFactory = animatedButtonFactory;
 
       _progressLevelData = _progressService.Progress.LevelData;
     }
@@ -73,6 +73,7 @@ namespace Code.Gameplay.UI.FinishWindow
     public async UniTaskVoid AnimatePercentageText(float percentage)
     {
       float finalPercentage = RoundAndClampPercentage(percentage);
+      finalPercentage = 100;
       float skinProgressBarIncreaseAmount = _staticDataService.ForSkins().MinSkinProgress * (finalPercentage / 100);
       UpdatePlayerProgress(finalPercentage, skinProgressBarIncreaseAmount);
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
@@ -80,7 +81,7 @@ namespace Code.Gameplay.UI.FinishWindow
       OnLevelEnd(finalPercentage);
       await PercentageIncrease(finalPercentage);
       _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
-      _skinProgressBar.IncreaseProgress(skinProgressBarIncreaseAmount);
+      await _skinProgressBar.IncreaseProgress(skinProgressBarIncreaseAmount);
       CreateNextLevelButton().Forget();
     }
 
@@ -99,7 +100,7 @@ namespace Code.Gameplay.UI.FinishWindow
     }
 
     private async UniTaskVoid CreateNextLevelButton() =>
-      await _greenButtonFactory.CreateNextLevelButton(transform);
+      await _animatedButtonFactory.CreateNextLevelButton(transform);
 
     private void OnLevelEnd(float finalPercentage)
     {

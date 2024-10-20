@@ -1,4 +1,5 @@
-﻿using Code.Services;
+﻿using Code.Gameplay.UI.NewSkin;
+using Code.Services;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +9,7 @@ namespace Code.Infrastructure.Installers
   {
     [SerializeField] private Transform _newSkinStandTransform;
     [SerializeField] private Transform _skinRotationPointTransform;
+    [SerializeField] private NewSkinHud _newSkinHud;
 
     private NewSkinSceneService _newSkinSceneService;
 
@@ -19,7 +21,7 @@ namespace Code.Infrastructure.Installers
 
     private void Awake()
     {
-      _newSkinSceneService.Initialize(_newSkinStandTransform, _skinRotationPointTransform.position);
+      _newSkinSceneService.Initialize(_newSkinStandTransform, _skinRotationPointTransform.position, _newSkinHud);
     }
 
     public override void InstallBindings()

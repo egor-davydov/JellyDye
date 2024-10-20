@@ -37,7 +37,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<WindowFactory>().AsSingle();
       Container.Bind<LevelButtonFactory>().AsSingle();
       Container.Bind<JelliesFactory>().AsSingle();
-      Container.Bind<GreenButtonFactory>().AsSingle();
+      Container.Bind<AnimatedButtonFactory>().AsSingle();
     }
 
     private void SetupStatesAndMoveToNextState()

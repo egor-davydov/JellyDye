@@ -2,7 +2,6 @@
 using Code.Services.Factories.UI;
 using Code.Services.Providers;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using UnityEngine;
 
 namespace Code.Services
@@ -10,7 +9,7 @@ namespace Code.Services
   public class FinishLevelService
   {
     private readonly PaintCountCalculationService _paintCountCalculationService;
-    private readonly GreenButtonFactory _greenButtonFactory;
+    private readonly AnimatedButtonFactory _animatedButtonFactory;
     private readonly CameraService _cameraService;
     private readonly ScreenshotService _screenshotService;
     private readonly WindowFactory _windowFactory;
@@ -23,12 +22,12 @@ namespace Code.Services
     public bool CanFinish { get; private set; }
 
     public FinishLevelService(PaintCountCalculationService paintCountCalculationService,
-      GreenButtonFactory greenButtonFactory, CameraService cameraService,
+      AnimatedButtonFactory animatedButtonFactory, CameraService cameraService,
       ScreenshotService screenshotService, WindowFactory windowFactory,
       SyringeProvider syringeProvider, HudProvider hudProvider)
     {
       _paintCountCalculationService = paintCountCalculationService;
-      _greenButtonFactory = greenButtonFactory;
+      _animatedButtonFactory = animatedButtonFactory;
       _cameraService = cameraService;
       _screenshotService = screenshotService;
       _windowFactory = windowFactory;
@@ -49,12 +48,12 @@ namespace Code.Services
         return;
 
       CanFinish = true;
-      _greenButtonFactory.CreateFinishButton(_hudProvider.HudObject.transform).Forget();
+      _animatedButtonFactory.CreateFinishButton(_hudProvider.HudObject.transform).Forget();
     }
 
     public async UniTaskVoid FinishLevel()
     {
-      _paintCountCalculationService.AsyncCalculatePaintPercentage((percentage)=>
+      _paintCountCalculationService.AsyncCalculatePaintPercentage((percentage) =>
       {
         if (_finishWindow == null)
           _countedPercentage = percentage;

@@ -109,8 +109,9 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  <MinSkinProgress>k__BackingField: 0.2
+  <MinSkinProgress>k__BackingField: 1
   <NewSkinSceneConfig>k__BackingField:
     <AutoRotationSpeed>k__BackingField: 60
     <RotationSpeed>k__BackingField: 15
     <InertiaDamping>k__BackingField: 5
+    <DelayBeforeCloseButtonCreation>k__BackingField: 1
