@@ -26,6 +26,7 @@ namespace Code.Services
     private Vector2 _currentRotationVelocity;
     private Vector2 _lastRotationVelocity;
     private NewSkinHud _newSkinHud;
+    private AudioSource _audioSource;
 
     public NewSkinSceneService(CameraService cameraService, ParentsProvider parentsProvider,
       SyringeFactory syringeFactory, InputService inputService, StaticDataService staticDataService)
@@ -39,8 +40,9 @@ namespace Code.Services
 
     private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.ForSkins().NewSkinSceneConfig;
 
-    public void Initialize(Transform newSkinStandTransform, Vector3 skinRotationPoint, NewSkinHud newSkinHud)
+    public void Initialize(Transform newSkinStandTransform, Vector3 skinRotationPoint, NewSkinHud newSkinHud, AudioSource audioSource)
     {
+      _audioSource = audioSource;
       _newSkinHud = newSkinHud;
       _skinRotationPoint = skinRotationPoint;
       _newSkinStandTransform = newSkinStandTransform;
@@ -49,6 +51,8 @@ namespace Code.Services
     public async UniTask ShowSkinScene(SkinType skinType)
     {
       await LoadSceneAndDisableMainSceneRenderers();
+
+      _audioSource.PlayOneShot(NewSkinSceneConfig.NewSkinSound);
       UniTask hudInitTask = _newSkinHud.InitializeAsync(skinType, NewSkinSceneConfig.DelayBeforeCloseButtonCreation);
       Transform syringeTransform = (await _syringeFactory.CreateMesh(skinType, _newSkinStandTransform)).transform;
       syringeTransform.localScale = Vector3.one;
@@ -78,14 +82,14 @@ namespace Code.Services
             -NewSkinSceneConfig.AutoRotationSpeed * Time.deltaTime);
         }
 
-        if (_inputService.IsInputButtonPressed)
+        if (_inputService.IsInputButtonPressedInGameSpace)
         {
           isSkinAutoRotating = false;
           isUserRotateSkin = true;
           _previousMousePosition = Input.mousePosition;
         }
 
-        if (_inputService.IsInputButtonReleased)
+        if (isUserRotateSkin && _inputService.IsInputButtonReleased)
         {
           isUserRotateSkin = false;
           _lastRotationVelocity = _currentRotationVelocity;
@@ -139,6 +143,7 @@ namespace Code.Services
     private void MainSceneRenderersSetActive(bool active)
     {
       _cameraService.LevelCamera.gameObject.SetActive(active);
+      _parentsProvider.ParentForOther.gameObject.SetActive(active);
       _parentsProvider.ParentForUI.gameObject.SetActive(active);
       _parentsProvider.ParentForGameplay.gameObject.SetActive(active);
     }

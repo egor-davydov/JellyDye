@@ -11,5 +11,6 @@
     public const string NextLevelButton = "FinishWindow/NextLevelButton.prefab";
     public const string CloseSkinButton = "CloseSkinButton";
     public const string AudioMixer = "AudioMixer";
+    public const string EquipNewSkinButton = "EquipNewSkinButton";
   }
 }

@@ -10,6 +10,7 @@ namespace Code.Infrastructure.Installers
     [SerializeField] private Transform _newSkinStandTransform;
     [SerializeField] private Transform _skinRotationPointTransform;
     [SerializeField] private NewSkinHud _newSkinHud;
+    [SerializeField] private AudioSource _audioSource;
 
     private NewSkinSceneService _newSkinSceneService;
 
@@ -21,7 +22,7 @@ namespace Code.Infrastructure.Installers
 
     private void Awake()
     {
-      _newSkinSceneService.Initialize(_newSkinStandTransform, _skinRotationPointTransform.position, _newSkinHud);
+      _newSkinSceneService.Initialize(_newSkinStandTransform, _skinRotationPointTransform.position, _newSkinHud, _audioSource);
     }
 
     public override void InstallBindings()

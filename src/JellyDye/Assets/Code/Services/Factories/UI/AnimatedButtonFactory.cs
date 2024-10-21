@@ -1,4 +1,5 @@
 ﻿using Code.Gameplay.UI;
+using Code.Gameplay.UI.NewSkin;
 using Code.Services.AssetManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -35,7 +36,7 @@ namespace Code.Services.Factories.UI
       return animatedButton;
     }
 
-    public async UniTask<AnimatedButton> CreateCloseSkinButton(Transform parent, bool animate = true)
+    public async UniTask<CloseSkinButton> CreateCloseSkinButton(Transform parent, bool animate = true)
     {
       GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetKey.CloseSkinButton);
       AnimatedButton animatedButton = _instantiator.InstantiatePrefabForComponent<AnimatedButton>(buttonPrefab, parent);
@@ -44,7 +45,7 @@ namespace Code.Services.Factories.UI
       else
         animatedButton.SetFinishPosition();
 
-      return animatedButton;
+      return animatedButton.GetComponent<CloseSkinButton>();
     }
   }
 }

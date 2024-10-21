@@ -73,7 +73,7 @@ namespace Code.Gameplay.UI.FinishWindow
     public async UniTaskVoid AnimatePercentageText(float percentage)
     {
       float finalPercentage = RoundAndClampPercentage(percentage);
-      finalPercentage = 100;
+      //finalPercentage = 100;
       float skinProgressBarIncreaseAmount = _staticDataService.ForSkins().MinSkinProgress * (finalPercentage / 100);
       UpdatePlayerProgress(finalPercentage, skinProgressBarIncreaseAmount);
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);

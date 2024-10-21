@@ -4,7 +4,6 @@ using System.Linq;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
 using Code.Services.Progress;
-using Code.Services.Progress.SaveLoad;
 using Code.StaticData.Skins;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -23,7 +22,6 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private Image _progressImage;
     [SerializeField] private float _progressMoveTime = 1f;
 
-    private ISaveLoadService _saveLoadService;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
 
@@ -35,13 +33,12 @@ namespace Code.Gameplay.UI.FinishWindow
     private bool _isAllSkinsUnlockedOnStart;
 
     [Inject]
-    public void Construct(ProgressService progressService, ISaveLoadService saveLoadService,
+    public void Construct(ProgressService progressService,
       StaticDataService staticDataService, NewSkinSceneService newSkinSceneService)
     {
       _newSkinSceneService = newSkinSceneService;
       _staticDataService = staticDataService;
       _progressService = progressService;
-      _saveLoadService = saveLoadService;
 
       _openedSkinTypes = _progressService.Progress.SkinData.OpenedSkins;
     }
@@ -62,7 +59,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private bool AllSkinsUnlocked()
     {
       return _staticDataService.ForSkins().UnlockableSkins
-        .All(unlockableSkinConfig => !PlayerDontHaveSkin(unlockableSkinConfig.SkinType));
+        .All(unlockableSkinConfig => PlayerHaveSkin(unlockableSkinConfig.SkinType));
     }
 
     private void OnDestroy() =>
@@ -84,7 +81,8 @@ namespace Code.Gameplay.UI.FinishWindow
       }
       else
       {
-        float fillDuration = _isAllSkinsUnlockedOnStart
+        bool allSkinsUnlocked = AllSkinsUnlocked();
+        float fillDuration = allSkinsUnlocked
           ? _progressMoveTime
           : _progressMoveTime * ((1 - _progressImage.fillAmount) / increaseAmount);
         _fillTween = _progressImage.DOFillAmount(1, fillDuration)
@@ -93,7 +91,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
         await _newSkinSceneService.ShowSkinScene(_nextSkinConfig.SkinType);
         await _newSkinSceneService.HideSkinScene();
-        if (!AllSkinsUnlocked())
+        if (!allSkinsUnlocked)
         {
           SetNextSkinSprite();
           _progressImage.fillAmount = 0;
@@ -125,24 +123,22 @@ namespace Code.Gameplay.UI.FinishWindow
       _progressService.Progress.SkinData.NextSkinProgress = _finalFillAmount;
     }
 
-    private bool ProgressImageWillBeFilled(float increaseAmount)
-    {
-      return _progressImage.fillAmount + increaseAmount >= 1;
-    }
+    private bool ProgressImageWillBeFilled(float increaseAmount) =>
+      _progressImage.fillAmount + increaseAmount >= 1;
 
     private UnlockableSkinConfig FindOutNextSkin()
     {
       foreach (UnlockableSkinConfig unlockableSkinConfig in _staticDataService.ForSkins().UnlockableSkins)
       {
-        if (PlayerDontHaveSkin(unlockableSkinConfig.SkinType))
+        if (!PlayerHaveSkin(unlockableSkinConfig.SkinType))
           return unlockableSkinConfig;
       }
 
       throw new Exception("Cant find next skin config");
     }
 
-    private bool PlayerDontHaveSkin(SkinType observableSkinType) =>
-      _openedSkinTypes.All(skinType => skinType != observableSkinType);
+    private bool PlayerHaveSkin(SkinType observableSkinType) =>
+      _openedSkinTypes.FirstOrDefault(skinType => skinType != observableSkinType) != default;
 
     private void HideSkinObjects()
     {

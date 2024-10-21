@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1361908269750057148, guid: a17b9ac7c0d1fa1438c533e1b49e22bd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2500
       objectReference: {fileID: 0}
     - target: {fileID: 1361908269750057148, guid: a17b9ac7c0d1fa1438c533e1b49e22bd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -64,6 +64,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 35b89298d459f414a8526fc20535ef7c, type: 3}
+    - target: {fileID: 8273798390996855254, guid: a17b9ac7c0d1fa1438c533e1b49e22bd, type: 3}
+      propertyPath: m_Maskable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8273798390996855254, guid: a17b9ac7c0d1fa1438c533e1b49e22bd, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

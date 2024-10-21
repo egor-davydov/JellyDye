@@ -38,6 +38,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<LevelButtonFactory>().AsSingle();
       Container.Bind<JelliesFactory>().AsSingle();
       Container.Bind<AnimatedButtonFactory>().AsSingle();
+      Container.Bind<EquipNewSkinButtonFactory>().AsSingle();
     }
 
     private void SetupStatesAndMoveToNextState()

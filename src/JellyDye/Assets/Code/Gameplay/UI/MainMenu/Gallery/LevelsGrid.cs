@@ -37,8 +37,8 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       LevelConfig[] levelConfigs = _staticDataService.ForLevels().LevelConfigs;
       for (int i = 0; i < levelConfigs.Length; i++)
       {
-        GameObject levelButtonObject = await _levelButtonFactory.CreateLevelButton(transform);
-        levelButtonObject.GetComponent<LevelButton>().Initialize(levelConfigs[i].Id, i);
+        LevelButton levelButton = await _levelButtonFactory.CreateLevelButton(transform);
+        levelButton.Initialize(levelConfigs[i].Id, i);
       }
 
       MoveScrollToCurrentLevel(levelConfigs.Length);
@@ -51,7 +51,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       float sizeOfLevelButtonWithSpacing = _gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y;
       int rowsCount = Mathf.RoundToInt((float)levelsCount / 2);
       float scrollHeight = sizeOfLevelButtonWithSpacing * rowsCount;
-      
+
       float movingHeight = levelRow * sizeOfLevelButtonWithSpacing - _offsetScrollMoveToProgress;
       movingHeight = Mathf.Clamp(movingHeight, 0, scrollHeight - Screen.height);
       ((RectTransform)transform).anchoredPosition = Vector2.up * movingHeight;

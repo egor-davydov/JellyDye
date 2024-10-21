@@ -10,5 +10,6 @@ namespace Code.StaticData.Skins
     [field: SerializeField] public float RotationSpeed { get; private set; }
     [field: SerializeField] public float InertiaDamping { get; private set; }
     [field: SerializeField] public float DelayBeforeCloseButtonCreation { get; private set; }
+    [field: SerializeField] public AudioClip NewSkinSound { get; private set; }
   }
 }
