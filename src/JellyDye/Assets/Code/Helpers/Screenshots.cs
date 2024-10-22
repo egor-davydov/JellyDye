@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using Code.Data;
 using Code.Gameplay.Logic;
-using Code.Gameplay.Syringe;
-using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
@@ -33,7 +30,7 @@ namespace Code.Helpers
     private Action _onDone;
     private HudProvider _hudProvider;
     private SyringeProvider _syringeProvider;
-    private LevelData ProgressLevelData =>_progressService.Progress.LevelData;
+    private LevelData ProgressLevelData => _progressService.Progress.LevelData;
 
     private LevelConfig[] LevelsConfigs => _staticDataService.ForLevels().LevelConfigs;
 
@@ -52,9 +49,9 @@ namespace Code.Helpers
     private void Awake()
     {
       _groundObject = GameObject.FindGameObjectWithTag("Ground");
-      if(_groundObject == null)
+      if (_groundObject == null)
         Debug.LogWarning("Couldn't find ground");
-      
+
       _directionPath = $"{Application.dataPath}/Resources/{FromResourcesScreenshotsPath}";
       _currentLevelId = ProgressLevelData.CurrentLevelId;
     }
@@ -65,16 +62,19 @@ namespace Code.Helpers
       SetupAll();
       if (!Directory.Exists(_directionPath))
         Directory.CreateDirectory(_directionPath);
-      int currentLevelIndex = _staticDataService.ForLevels().GetLevelIndex(ProgressLevelData.CurrentLevelId);
-      for (int i = currentLevelIndex; i < _staticDataService.ForLevels().LevelConfigs.Length; i++)
+      int startLevelIndex = _staticDataService.ForLevels().GetLevelIndex(ProgressLevelData.CurrentLevelId);
+      for (int i = startLevelIndex; i < _staticDataService.ForLevels().LevelConfigs.Length; i++)
       {
         string levelId = LevelsConfigs[i].Id;
+
+        await ReplaceJellyBy(levelId);
+        await UniTask.WaitForEndOfFrame();
         await UniTask.WaitForEndOfFrame();
         Texture2D screenshot = await _screenshotService.TakeScreenshot();
-        WriteScreenshotOnDisk(screenshot, levelId);
-        await ReplaceJellyBy(levelId);
+        await WriteScreenshotOnDisk(screenshot, levelId);
       }
-      ReplaceJellyBy(ProgressLevelData.CurrentLevelId);
+
+      await ReplaceJellyBy(ProgressLevelData.CurrentLevelId);
     }
 
     public void MoveCamera()
@@ -101,14 +101,14 @@ namespace Code.Helpers
       await _jelliesFactory.CreateJelly(id);
     }
 
-    private void WriteScreenshotOnDisk(Texture2D screenshot, string levelId)
+    private async UniTask WriteScreenshotOnDisk(Texture2D screenshot, string levelId)
     {
       string groundTag = IsGroundActive ? "_ground" : "";
       var screenshotPath = $"{_directionPath}/{levelId}{groundTag}.png";
       byte[] bytes = screenshot.EncodeToPNG();
       if (File.Exists(screenshotPath))
         File.Delete(screenshotPath);
-      File.WriteAllBytes(screenshotPath, bytes);
+      await File.WriteAllBytesAsync(screenshotPath, bytes);
     }
 #endif
   }

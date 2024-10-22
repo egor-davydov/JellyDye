@@ -8,7 +8,6 @@ using Code.Services;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.StaticData.Level;
-using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -20,6 +19,9 @@ namespace Code.Editor
 {
   public static class Tools
   {
+    public static readonly string AbsoluteJelliesToAddPath = $"{FolderPath.ResourcesPath}/JelliesToAdd";
+    public static readonly string AbsoluteHelpersPath = "Assets/SceneAssets/Helpers.prefab";
+    public static readonly string AbsoluteTargetToFillContainerWithPaintPath = "Assets/SceneAssets/TargetToFillContainerWithPaint.prefab";
     private const string ToolsPath = "Tools/Custom/";
     private const string Progress = "Progress/";
     private const string Screenshots = "Take screenshots/";
@@ -47,10 +49,10 @@ namespace Code.Editor
       saveLoadService.SaveProgress();
     }
 
-    [MenuItem(ToolsPath + "Delete files in \"JelliesToAdd\" folder, that ends with \"d1\"")]
+    [MenuItem(ToolsPath + "Delete files in \"_JelliesToAdd\" folder, that ends with \"d1\"")]
     public static void DeleteFiles()
     {
-      string[] files = Directory.GetFiles("Assets/Resources/Levels/JelliesToAdd");
+      string[] files = Directory.GetFiles(AbsoluteJelliesToAddPath);
       foreach (string file in files)
       {
         string[] strings = file.Split('.');
@@ -63,19 +65,19 @@ namespace Code.Editor
     }
 
     [MenuItem(ToolsPath + Screenshots + "All")]
-    public static async UniTaskVoid TakeScreenshots()
+    public static async void TakeScreenshots()
     {
-      if (NotInPlaymode())
+      if (NotInPlayModeShowError())
         return;
 
       await ScreenshotsHelper.TakeScreenshots(withGround: true);
-      TakeScreenshotsWithGround();
+      TakeScreenshotsWithoutGround();
     }
 
     [MenuItem(ToolsPath + Screenshots + "With ground")]
-    public static async UniTaskVoid TakeScreenshotsWithGround()
+    public static async void TakeScreenshotsWithGround()
     {
-      if (NotInPlaymode())
+      if (NotInPlayModeShowError())
         return;
 
       await ScreenshotsHelper.TakeScreenshots(withGround: true);
@@ -83,9 +85,9 @@ namespace Code.Editor
     }
 
     [MenuItem(ToolsPath + Screenshots + "Without ground")]
-    public static async UniTaskVoid TakeScreenshotsWithoutGround()
+    public static async void TakeScreenshotsWithoutGround()
     {
-      if (NotInPlaymode())
+      if (NotInPlayModeShowError())
         return;
 
       await ScreenshotsHelper.TakeScreenshots(withGround: false);
@@ -95,24 +97,29 @@ namespace Code.Editor
     [MenuItem(ToolsPath + Other + "Setup game for taking screenshots")]
     public static void SetupForScreenshots()
     {
-      GameObject helpersPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/SceneAssets/Helpers.prefab");
+      GameObject helpersPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AbsoluteHelpersPath);
       if (ScreenshotsHelper == null)
         PrefabUtility.InstantiatePrefab(helpersPrefab);
-      GameObject targetPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/SceneAssets/PaintAllContainerTarget.prefab");
+      GameObject targetPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(AbsoluteTargetToFillContainerWithPaintPath);
       GameObject softbodyPrefab = Resources.Load<GameObject>($"{FolderPath.FromResourcesJelliesPath}/{AssetName.SoftbodySolver}");
       GameObject softbodyPrefabContents = PrefabUtility.LoadPrefabContents(AssetDatabase.GetAssetPath(softbodyPrefab));
       FluxyContainer fluxyContainer = softbodyPrefabContents.GetComponentInChildren<FluxyContainer>();
 
-      fluxyContainer.UseMeshProjection = false;
-      fluxyContainer.gameObject.AddComponent<AutoSetTargetColor>();
+      bool isAlreadySetup = fluxyContainer.UseMeshProjection == false;
+      if (isAlreadySetup)
+      {
+        fluxyContainer.UseMeshProjection = false;
 
-      GameObject targetObject = (GameObject)PrefabUtility.InstantiatePrefab(targetPrefab, fluxyContainer.transform);
-      targetObject.transform.position = Vector3.zero;
+        fluxyContainer.gameObject.AddComponent<AutoSetTargetColor>();
 
-      fluxyContainer.targets.Add(targetObject.GetComponent<FluxyTarget>());
+        GameObject targetObject = (GameObject)PrefabUtility.InstantiatePrefab(targetPrefab, fluxyContainer.transform);
+        targetObject.transform.position = Vector3.zero;
 
-      PrefabUtility.SaveAsPrefabAsset(softbodyPrefabContents, AssetDatabase.GetAssetPath(softbodyPrefab));
-      SetDirtyCurrentScene();
+        fluxyContainer.targets.Add(targetObject.GetComponent<FluxyTarget>());
+
+        PrefabUtility.SaveAsPrefabAsset(softbodyPrefabContents, AssetDatabase.GetAssetPath(softbodyPrefab));
+        SetDirtyCurrentScene();
+      }
     }
 
     [MenuItem(ToolsPath + Other + "UnSetup game for taking screenshots")]
@@ -158,8 +165,18 @@ namespace Code.Editor
       if (Application.isPlaying)
         return false;
 
-      Debug.LogError("You should enter playmode to use this");
       return true;
+    }
+
+    private static bool NotInPlayModeShowError()
+    {
+      if (NotInPlaymode())
+      {
+        Debug.LogError("You should enter playmode to use this");
+        return true;
+      }
+
+      return false;
     }
   }
 }

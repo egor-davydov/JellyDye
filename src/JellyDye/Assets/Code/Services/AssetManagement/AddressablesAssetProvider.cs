@@ -69,7 +69,7 @@ namespace Code.Services.AssetManagement
 
     public AsyncOperationHandle WarmUpAsset<T>(string key) where T : Object
     {
-      Load<T>(key);
+      Load<T>(key).Forget();
       return _completedCache[key];
     }
 
