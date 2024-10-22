@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local
   m_GUID: b09aba89bd4a47e41b0d928fd68fd9f3
   m_SerializeEntries:
+  - m_GUID: 1289f05349232fe4192c51f20afc0a55
+    m_Address: Materials
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 19f99d36be3233545ba035e34a615209
     m_Address: stormy_cloud
     m_ReadOnly: 0
@@ -27,6 +32,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3436234f47be094429966d85916174f9
     m_Address: cherries
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c88c339b7d7d4537b423df244a83a4e
+    m_Address: Materials/FluidSimulation.shader
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
