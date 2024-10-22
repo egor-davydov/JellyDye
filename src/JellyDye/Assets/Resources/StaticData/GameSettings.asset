@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8a917fb707489d80b87fe79ee96723, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  DefaultLanguage: 0
+  DefaultLanguage: 1

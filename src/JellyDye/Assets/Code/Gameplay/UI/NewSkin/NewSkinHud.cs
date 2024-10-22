@@ -35,21 +35,21 @@ namespace Code.Gameplay.UI.NewSkin
 
     public async UniTask InitializeAsync(SkinType skinType, float delayBeforeCloseButtonCreation)
     {
-      string upper = _publishService.GetPlayerLanguage() switch
+      string localizedSkinName = _publishService.GetPlayerLanguage() switch
       {
-        LanguageType.English => skinType.ToString().ToUpper(),
+        LanguageType.English => skinType.ToString(),
         LanguageType.Russian => _staticDataService.ForSkins().GetSkinByType(skinType).RuName,
         _ => throw new ArgumentOutOfRangeException()
       };
 
-      _skinNameText.text = upper;
+      _skinNameText.text = localizedSkinName.ToUpper();
 
-      EquipNewSkinButton equipNewSkinButton = await _equipNewSkinButtonFactory.Create(_uiParent);
+      EquipNewSkinButton equipNewSkinButton = await _equipNewSkinButtonFactory.Create(_uiParent).AttachExternalCancellation(destroyCancellationToken);
       equipNewSkinButton.Initialize(skinType);
 
-      await UniTask.WaitForSeconds(delayBeforeCloseButtonCreation);
+      await UniTask.WaitForSeconds(delayBeforeCloseButtonCreation).AttachExternalCancellation(destroyCancellationToken);
 
-      CloseSkinButtonClick = (await _animatedButtonFactory.CreateCloseSkinButton(_uiParent)).Button.onClick;
+      CloseSkinButtonClick = (await _animatedButtonFactory.CreateCloseSkinButton(_uiParent).AttachExternalCancellation(destroyCancellationToken)).Button.onClick;
     }
   }
 }

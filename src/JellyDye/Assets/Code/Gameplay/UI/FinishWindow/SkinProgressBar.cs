@@ -138,7 +138,7 @@ namespace Code.Gameplay.UI.FinishWindow
     }
 
     private bool PlayerHaveSkin(SkinType observableSkinType) =>
-      _openedSkinTypes.FirstOrDefault(skinType => skinType != observableSkinType) != default;
+      _openedSkinTypes.FirstOrDefault(skinType => skinType == observableSkinType) != default;
 
     private void HideSkinObjects()
     {

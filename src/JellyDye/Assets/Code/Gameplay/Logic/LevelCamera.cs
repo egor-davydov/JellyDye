@@ -7,6 +7,7 @@ namespace Code.Gameplay.Logic
     [field: SerializeField] public float FlashDuration { get; private set; }
     [field: SerializeField] public Light FlashLight { get; private set; }
     [field: SerializeField] public AudioSource PhotoAudioSource { get; private set; }
+    [field: SerializeField] public AudioClip PhotoSound { get; private set; }
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector3 _finishPosition;
     [SerializeField] private Vector3 _finishRotation;

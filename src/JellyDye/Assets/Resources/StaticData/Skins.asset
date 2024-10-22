@@ -39,6 +39,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u0421\u0442\u0430\u043D\u0434\u0430\u0440\u0442"
   - SkinType: 1
     SkinReference:
       m_AssetGUID: 77ba5b884fb29c442b3b88c3f9ce64f3
@@ -46,6 +47,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u041F\u0447\u0435\u043B\u0430"
   - SkinType: 4
     SkinReference:
       m_AssetGUID: db5eea765d11fa044bf5c56334201d5a
@@ -53,6 +55,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u0421\u0435\u0439\u043B\u043E\u0440"
   - SkinType: 2
     SkinReference:
       m_AssetGUID: 9e3cf9e99b6f6734988fb43477619e66
@@ -60,6 +63,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u041A\u043E\u043A\u0442\u0435\u0439\u043B\u044C"
   - SkinType: 5
     SkinReference:
       m_AssetGUID: 906bf18379b660c4980eed41ed8f1c49
@@ -67,6 +71,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u0412\u0438\u043D\u0442\u0430\u0436"
   - SkinType: 6
     SkinReference:
       m_AssetGUID: aa155a72cf7a56248a26b4e0aef4269a
@@ -74,6 +79,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u0420\u043E\u0441\u043A\u043E\u0448\u044C"
   - SkinType: 3
     SkinReference:
       m_AssetGUID: 0e48e2a0501ef6e42acb34b592a06ab6
@@ -81,6 +87,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u041C\u043E\u0440\u043E\u0436\u0435\u043D\u043E\u0435"
   - SkinType: 8
     SkinReference:
       m_AssetGUID: 499c6bf1ef570ba4d8937115d93678d0
@@ -88,6 +95,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u0411\u0430\u0431\u043E\u0447\u043A\u0430"
   - SkinType: 9
     SkinReference:
       m_AssetGUID: b68795c5c4b259143a160b06088423e8
@@ -95,6 +103,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u0415\u0434\u0438\u043D\u043E\u0440\u043E\u0433"
   - SkinType: 7
     SkinReference:
       m_AssetGUID: bda9669c4e326d34cad08c54a85a59b7
@@ -102,6 +111,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u041A\u043E\u0440\u043E\u043D\u0430"
   - SkinType: 10
     SkinReference:
       m_AssetGUID: 323696dfe2c8dba408b2c37029b30c38
@@ -109,7 +119,8 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  <MinSkinProgress>k__BackingField: 1
+    RuName: "\u0414\u0438\u0441\u043A\u043E"
+  <MinSkinProgress>k__BackingField: 0.2
   <NewSkinSceneConfig>k__BackingField:
     <AutoRotationSpeed>k__BackingField: 60
     <RotationSpeed>k__BackingField: 15

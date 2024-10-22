@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -316,6 +317,7 @@ MonoBehaviour:
   <FlashDuration>k__BackingField: 0.3
   <FlashLight>k__BackingField: {fileID: 1312344691}
   <PhotoAudioSource>k__BackingField: {fileID: 330474154}
+  <PhotoSound>k__BackingField: {fileID: 8300000, guid: 68c71343070310c4480cdf10be9fc773, type: 3}
   _camera: {fileID: 330474151}
   _finishPosition: {x: 0, y: 2.7, z: -0.3}
   _finishRotation: {x: 75, y: 0, z: 0}
@@ -331,8 +333,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 2563df1dcf0ff234ea170d3a82fffe3c, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 68c71343070310c4480cdf10be9fc773, type: 3}
-  m_Resource: {fileID: 8300000, guid: 68c71343070310c4480cdf10be9fc773, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.04
   m_Pitch: 1

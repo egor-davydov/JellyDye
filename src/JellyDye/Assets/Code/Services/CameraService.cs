@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using Code.Gameplay.Logic;
-using Code.Infrastructure;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -13,7 +11,7 @@ namespace Code.Services
     private readonly AudioService _audioService;
     private Tween _moveTween;
     private Tween _rotateTween;
-    
+
     public LevelCamera LevelCamera { get; private set; }
 
     public CameraService(AudioService audioService)
@@ -41,8 +39,7 @@ namespace Code.Services
 
     public async UniTask ShowPhotoFlash()
     {
-      if(!_audioService.IsAudioMuted)
-        LevelCamera.PhotoAudioSource.Play();
+      LevelCamera.PhotoAudioSource.PlayOneShot(LevelCamera.PhotoSound);
       GameObject flashObject = LevelCamera.FlashLight.gameObject;
       flashObject.SetActive(true);
       await UniTask.Delay(TimeSpan.FromSeconds(LevelCamera.FlashDuration));

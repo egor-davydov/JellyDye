@@ -10,6 +10,7 @@ namespace Code.Gameplay.UI.NewSkin
 {
   public class EquipNewSkinButton : MonoBehaviour
   {
+    [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private Button _button;
     [SerializeField] private Image _skinEquippedImage;
     [SerializeField] private float _fadeDelay;
@@ -36,10 +37,11 @@ namespace Code.Gameplay.UI.NewSkin
 
     private async UniTaskVoid OnEquipNewSkinButtonClick()
     {
+      _uiAudio.PlayClick();
       _progressService.Progress.SkinData.EquipSkin(_skinType);
       _button.gameObject.SetActive(false);
-      UniTask.WaitForSeconds(_fadeDelay);
-      await _skinEquippedImage.DOFade(0, _fadeTime);
+      await UniTask.WaitForSeconds(_fadeDelay).AttachExternalCancellation(destroyCancellationToken);
+      await _skinEquippedImage.DOFade(0, _fadeTime).WithCancellation(destroyCancellationToken);
       Destroy(gameObject);
     }
   }
