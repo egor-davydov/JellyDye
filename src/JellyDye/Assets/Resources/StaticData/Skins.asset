@@ -123,7 +123,7 @@ MonoBehaviour:
   <MinSkinProgress>k__BackingField: 1
   <NewSkinSceneConfig>k__BackingField:
     <AutoRotationSpeed>k__BackingField: 60
-    <RotationSpeed>k__BackingField: 15
+    <RotationSpeed>k__BackingField: 30
     <InertiaDamping>k__BackingField: 5
     <DelayBeforeCloseButtonCreation>k__BackingField: 1
     <NewSkinSound>k__BackingField: {fileID: 8300000, guid: ddfa1092b6bb50b4b86e9fe2851f48ce, type: 3}
