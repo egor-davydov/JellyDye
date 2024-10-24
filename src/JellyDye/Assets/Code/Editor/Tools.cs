@@ -106,7 +106,7 @@ namespace Code.Editor
       FluxyContainer fluxyContainer = softbodyPrefabContents.GetComponentInChildren<FluxyContainer>();
 
       bool isAlreadySetup = fluxyContainer.UseMeshProjection == false;
-      if (isAlreadySetup)
+      if (!isAlreadySetup)
       {
         fluxyContainer.UseMeshProjection = false;
 
