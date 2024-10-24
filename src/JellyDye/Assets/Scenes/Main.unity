@@ -319,7 +319,7 @@ MonoBehaviour:
   _camera: {fileID: 330474151}
   _finishPosition: {x: 0, y: 2.7, z: -0.3}
   _finishRotation: {x: 75, y: 0, z: 0}
-  _movingTime: 0.8
+  _movingTime: 0.7
   _targetSize: 1.1
   _photoAudioSource: {fileID: 330474157}
   _photoSound: {fileID: 8300000, guid: 68c71343070310c4480cdf10be9fc773, type: 3}

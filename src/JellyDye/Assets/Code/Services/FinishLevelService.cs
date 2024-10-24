@@ -63,6 +63,7 @@ namespace Code.Services
       Object.Destroy(_hudProvider.HudObject);
       Object.Destroy(_syringeProvider.SyringeObject);
       await _cameraService.MoveToFinish();
+      await UniTask.WaitForSeconds(1 - _cameraService.LevelCamera.MovingTime);
       await _cameraService.ShowPhotoFlash();
       Texture2D screenshot = await _screenshotService.TakeScreenshot();
       CreateFinishWindow(screenshot).Forget();

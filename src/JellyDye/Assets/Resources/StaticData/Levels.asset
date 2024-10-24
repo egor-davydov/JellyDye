@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Levels
   m_EditorClassIdentifier: 
   ColorCompareEpsilon: 0.4
-  <FinishLevelImmediately>k__BackingField: 1
+  <FinishLevelImmediately>k__BackingField: 0
   <OpenNewSkin>k__BackingField: 0
   <IsShowingNames>k__BackingField: 0
   <MinGeneratedResolution>k__BackingField: 9
@@ -49,9 +49,9 @@ MonoBehaviour:
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
     AllColorsCached:
     - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
-    - {r: 1, g: 0, b: 0, a: 1}
     - {r: 1, g: 0.9695432, b: 0, a: 1}
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
     TargetTexture: {fileID: 2800000, guid: bbdff5b0574b8b445b8b3f3b57db6761, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c9145b5692f54c843a0caf481a8afce0, type: 3}
   - Id: cherries
@@ -82,9 +82,9 @@ MonoBehaviour:
     - {r: 0.29976553, g: 0.23311329, b: 0.09000063, a: 1}
     - {r: 0.8350761, g: 0.9979086, b: 0.80719686, a: 1}
     AllColorsCached:
+    - {r: 0.8350761, g: 0.9979086, b: 0.80719686, a: 1}
     - {r: 0.29976553, g: 0.23311329, b: 0.09000063, a: 1}
     - {r: 0.9339623, g: 0, b: 0.25227758, a: 1}
-    - {r: 0.8350761, g: 0.9979086, b: 0.80719686, a: 1}
     - {r: 0.21597241, g: 0.8584906, b: 0.21778724, a: 1}
     TargetTexture: {fileID: 2800000, guid: a0003f0b5854518468b17763a4840885, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 4e7c8a11a7b71a7458d29db9b6acb344, type: 3}
@@ -227,10 +227,10 @@ MonoBehaviour:
     - {r: 0.12198341, g: 0.011216283, b: 0.98027015, a: 1}
     - {r: 0.26614422, g: 0.34851462, b: 0.22594357, a: 1}
     AllColorsCached:
+    - {r: 0.12198341, g: 0.011216283, b: 0.98027015, a: 1}
     - {r: 0.36480185, g: 0.8679245, b: 0.3411652, a: 1}
     - {r: 0.26614422, g: 0.34851462, b: 0.22594357, a: 1}
     - {r: 0.9050528, g: 0.28930813, b: 1, a: 1}
-    - {r: 0.12198341, g: 0.011216283, b: 0.98027015, a: 1}
     TargetTexture: {fileID: 2800000, guid: 846c5153ce8f495448630684b5c07f0b, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: fb8f8eb8b2fa8ce4da637c51d32b5bee, type: 3}
   - Id: clouds

@@ -23,15 +23,18 @@ namespace Code.Gameplay.Syringe
     [SerializeField] private float _targetForcePower;
     [SerializeField] private float _paintIncreaseSpeed;
     [SerializeField] private float _paintRotationSpeed;
-    [Header("Piston")] [SerializeField] private float _pistonSpeed;
+    [Header("Animation")] [SerializeField, Range(0, 0.5f)] private float _movingCloserDistance;
+    [SerializeField, Range(0, 0.2f)] private float _movingLittleBackDistance;
+    [SerializeField] private Ease _moveEase;
+    [SerializeField] private Ease _movelittleBackEase;
     [SerializeField] private float _movingCloserTime;
     [SerializeField] private float _movingLittleBackTime;
     [SerializeField] private float _movingBackTime;
     [SerializeField] private float _resetTime;
-    [SerializeField, Range(0, 0.5f)] private float _movingCloserDistance;
-    [SerializeField, Range(0, 0.2f)] private float _movingLittleBackDistance;
+    [Header("Piston")] [SerializeField] private float _pistonSpeed;
     [SerializeField] private float _pistonMovingDistance = 0.3f;
     [Header("Liquid")] [SerializeField] private float _minLiquidScaleY = 0.01f;
+    [SerializeField] private float _liquidScaleYToResetOnStop = 0.3f;
 
     private Vector3 _minPistonPosition;
     private Vector3 _injectionStartPosition;
@@ -91,8 +94,8 @@ namespace Code.Gameplay.Syringe
         _moveTween.Kill();
     }
 
-    public void SyringeReset() =>
-      StartCoroutine(Reset());
+    public void SyringeReset(bool fromMinPositions = true) =>
+      StartCoroutine(ResetPaint(fromMinPositions));
 
     private void OnStartInjection()
     {
@@ -106,11 +109,11 @@ namespace Code.Gameplay.Syringe
       Vector3 currentSyringePosition = transform.position;
       _injectionStartPosition = currentSyringePosition;
       TweenerCore<Vector3, Vector3, VectorOptions> moveCloserTween =
-        transform.DOMove(currentSyringePosition + _movingCloserDirection * _movingCloserDistance, _movingCloserTime);
+        transform.DOMove(currentSyringePosition + _movingCloserDirection * _movingCloserDistance, _movingCloserTime).SetEase(_moveEase);
       _moveTween = DOTween.Sequence()
         .Append(moveCloserTween)
         .Append(transform.DOMove(moveCloserTween.endValue - _movingCloserDirection * _movingLittleBackDistance,
-          _movingLittleBackTime))
+          _movingLittleBackTime).SetEase(_movelittleBackEase))
         .OnComplete(TryStartPaint);
     }
 
@@ -129,6 +132,8 @@ namespace Code.Gameplay.Syringe
       _isMovingBack = true;
       _moveTween = transform.DOMove(_injectionStartPosition, _movingBackTime)
         .OnComplete(() => _isMovingBack = false);
+      if (_liquidTransform.localScale.y <= _liquidScaleYToResetOnStop)
+        SyringeReset(fromMinPositions: false);
     }
 
     private bool DidntAlreadyStopped()
@@ -228,10 +233,13 @@ namespace Code.Gameplay.Syringe
           new Vector3(_liquidTransform.localScale.x, _minLiquidScaleY, _liquidTransform.localScale.z);
     }
 
-    private IEnumerator Reset()
+    private IEnumerator ResetPaint(bool fromMinPositions = true)
     {
-      _pistonTransform.localPosition = _minPistonPosition;
-      _liquidTransform.localScale = new Vector3(1, _minLiquidScaleY, 1);
+      if (fromMinPositions)
+      {
+        _pistonTransform.localPosition = _minPistonPosition;
+        _liquidTransform.localScale = new Vector3(1, _minLiquidScaleY, 1);
+      }
 
       Vector3 liquidResetScale =
         new Vector3(_liquidTransform.localScale.x, _liquidResetScale, _liquidTransform.localScale.z);

@@ -155,15 +155,18 @@ MonoBehaviour:
   _targetForcePower: 1.2
   _paintIncreaseSpeed: 0.7
   _paintRotationSpeed: 145
-  _pistonSpeed: 0.2
-  _movingCloserTime: 0.2
-  _movingLittleBackTime: 0.01
+  _movingCloserDistance: 0.06
+  _movingLittleBackDistance: 0.02
+  _moveEase: 27
+  _movelittleBackEase: 1
+  _movingCloserTime: 0.15
+  _movingLittleBackTime: 0.03
   _movingBackTime: 0.2
   _resetTime: 0.3
-  _movingCloserDistance: 0.03
-  _movingLittleBackDistance: 0.01
+  _pistonSpeed: 0.2
   _pistonMovingDistance: 0.37
   _minLiquidScaleY: 0.03
+  _liquidScaleYToResetOnStop: 0.3
 --- !u!114 &5631050146303792006
 MonoBehaviour:
   m_ObjectHideFlags: 0
