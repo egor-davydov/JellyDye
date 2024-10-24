@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
-using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 namespace Code.Services
@@ -8,16 +10,18 @@ namespace Code.Services
   {
     public float LoadProgress { get; private set; }
 
-    public async UniTask StartLoad(string loadId)
+    public async UniTask<SceneInstance> Load(string loadId, LoadSceneMode loadMode = LoadSceneMode.Single)
     {
       LoadProgress = 0;
-      AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(loadId);
+      AsyncOperationHandle<SceneInstance> loadSceneAsync = Addressables.LoadSceneAsync(loadId, loadMode);
 
-      while (!loadSceneAsync.isDone)
+      while (!loadSceneAsync.IsDone)
       {
-        LoadProgress = loadSceneAsync.progress;
+        LoadProgress = loadSceneAsync.PercentComplete;
         await UniTask.NextFrame(PlayerLoopTiming.LastUpdate);
       }
+
+      return loadSceneAsync.Result;
     }
   }
 }

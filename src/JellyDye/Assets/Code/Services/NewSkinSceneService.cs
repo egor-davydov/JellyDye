@@ -1,4 +1,5 @@
 ﻿using Code.Constants;
+using Code.Gameplay.Syringe;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Gameplay.UI.NewSkin;
 using Code.Services.Factories;
@@ -6,6 +7,8 @@ using Code.Services.Providers;
 using Code.StaticData.Skins;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 namespace Code.Services
@@ -13,6 +16,7 @@ namespace Code.Services
   public class NewSkinSceneService
   {
     private readonly CameraService _cameraService;
+    private readonly SceneLoader _sceneLoader;
     private readonly ParentsProvider _parentsProvider;
     private readonly SyringeFactory _syringeFactory;
     private readonly InputService _inputService;
@@ -20,17 +24,15 @@ namespace Code.Services
 
     private Transform _newSkinStandTransform;
     private Vector3 _skinRotationPoint;
-
-    private bool _allowSkinRotation;
-    private Vector3 _previousMousePosition;
-    private Vector2 _currentRotationVelocity;
-    private Vector2 _lastRotationVelocity;
     private NewSkinHud _newSkinHud;
     private AudioSource _audioSource;
 
-    public NewSkinSceneService(CameraService cameraService, ParentsProvider parentsProvider,
+    private SceneInstance _sceneInstance;
+
+    public NewSkinSceneService(SceneLoader sceneLoader, CameraService cameraService, ParentsProvider parentsProvider,
       SyringeFactory syringeFactory, InputService inputService, StaticDataService staticDataService)
     {
+      _sceneLoader = sceneLoader;
       _parentsProvider = parentsProvider;
       _syringeFactory = syringeFactory;
       _inputService = inputService;
@@ -53,91 +55,27 @@ namespace Code.Services
       await LoadSceneAndDisableMainSceneRenderers();
 
       _audioSource.PlayOneShot(NewSkinSceneConfig.NewSkinSound);
-      UniTask hudInitTask = _newSkinHud.InitializeAsync(skinType, NewSkinSceneConfig.DelayBeforeCloseButtonCreation);
-      Transform syringeTransform = (await _syringeFactory.CreateMesh(skinType, _newSkinStandTransform)).transform;
-      syringeTransform.localScale = Vector3.one;
-      StartSkinRotation(syringeTransform).Forget();
+      UniTask hudInitTask = _newSkinHud.InitializeAsync(skinType);
+      SyringeMesh syringeMesh = await _syringeFactory.CreateMesh(skinType, _newSkinStandTransform);
+      syringeMesh.transform.localScale = Vector3.one;
+      SyringeRotation syringeRotation = syringeMesh.gameObject.AddComponent<SyringeRotation>();
+      syringeRotation.Construct(_inputService, _staticDataService);
+      syringeRotation.Initialize(_skinRotationPoint);
       await hudInitTask;
       await _newSkinHud.CloseSkinButtonClick;
     }
 
-    public async UniTask HideSkinScene()
-    {
-      StopSkinRotation();
-      await SceneManager.UnloadSceneAsync(SceneName.NewSkin);
-      MainSceneRenderersSetActive(true);
-      SceneManager.SetActiveScene(SceneManager.GetSceneByName(SceneName.Main));
-    }
-
-    private async UniTaskVoid StartSkinRotation(Transform syringeTransform)
-    {
-      bool isUserRotateSkin = false;
-      bool isSkinAutoRotating = true;
-      _allowSkinRotation = true;
-      while (_allowSkinRotation)
-      {
-        if (isSkinAutoRotating)
-        {
-          syringeTransform.RotateAround(_skinRotationPoint, Vector3.up,
-            -NewSkinSceneConfig.AutoRotationSpeed * Time.deltaTime);
-        }
-
-        if (_inputService.IsInputButtonPressedInGameSpace)
-        {
-          isSkinAutoRotating = false;
-          isUserRotateSkin = true;
-          _previousMousePosition = Input.mousePosition;
-        }
-
-        if (isUserRotateSkin && _inputService.IsInputButtonReleased)
-        {
-          isUserRotateSkin = false;
-          _lastRotationVelocity = _currentRotationVelocity;
-        }
-
-        if (isUserRotateSkin)
-        {
-          Vector3 mouseDelta = Input.mousePosition - _previousMousePosition;
-
-          float rotationY = -mouseDelta.x * NewSkinSceneConfig.RotationSpeed * Time.deltaTime;
-          float rotationX = mouseDelta.y * NewSkinSceneConfig.RotationSpeed * Time.deltaTime;
-
-          _currentRotationVelocity = new Vector2(rotationX, rotationY);
-
-          RotateWithVelocity(syringeTransform, _currentRotationVelocity);
-
-          _previousMousePosition = Input.mousePosition;
-        }
-        else if (_lastRotationVelocity != Vector2.zero)
-        {
-          float dampingFactor = 1f - (NewSkinSceneConfig.InertiaDamping * Time.deltaTime);
-          _lastRotationVelocity *= dampingFactor;
-
-          if (_lastRotationVelocity.sqrMagnitude < 0.01f)
-            _lastRotationVelocity = Vector2.zero;
-
-          RotateWithVelocity(syringeTransform, _lastRotationVelocity);
-        }
-
-        await UniTask.Yield(PlayerLoopTiming.Update);
-      }
-    }
-
-    private void RotateWithVelocity(Transform rotationTransform, Vector2 rotationVelocity)
-    {
-      rotationTransform.RotateAround(_skinRotationPoint, Vector3.up, rotationVelocity.y);
-      rotationTransform.RotateAround(_skinRotationPoint, Vector3.right, rotationVelocity.x);
-    }
-
-    private void StopSkinRotation() =>
-      _allowSkinRotation = false;
-
     private async UniTask LoadSceneAndDisableMainSceneRenderers()
     {
-      AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(SceneName.NewSkin, LoadSceneMode.Additive);
-      loadSceneAsync.allowSceneActivation = true;
+      UniTask<SceneInstance> loadSceneTask = _sceneLoader.Load(SceneName.NewSkin, LoadSceneMode.Additive);
       MainSceneRenderersSetActive(false);
-      await loadSceneAsync;
+      _sceneInstance = await loadSceneTask;
+    }
+
+    public async UniTask HideSkinScene()
+    {
+      await Addressables.UnloadSceneAsync(_sceneInstance);
+      MainSceneRenderersSetActive(true);
     }
 
     private void MainSceneRenderersSetActive(bool active)

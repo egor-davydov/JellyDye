@@ -18,7 +18,6 @@ using Fluxy;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.SceneManagement;
 
 namespace Code.Infrastructure.States
 {
@@ -96,7 +95,7 @@ namespace Code.Infrastructure.States
         List<AsyncOperationHandle> loadingOperations = GetLevelLoadOperations();
         if (!loadingOperations.All(x => x.IsDone))
         {
-          await SceneManager.LoadSceneAsync(SceneName.Load);
+          await _sceneLoader.Load(loadId: SceneName.Load);
           _levelLoadingFillProvider.LevelLoadingFill.StartFill(loadingOperations).Forget();
           await UniTask.WaitUntil(() => loadingOperations.All(x => x.IsDone));
         }
@@ -107,7 +106,7 @@ namespace Code.Infrastructure.States
 
       //Debug.Log($"Enter LoadLevelState LoadingSceneIndex: '{levelId}'");
       //_publishService.ShowFullscreenAdvAndPauseGame();
-      await _sceneLoader.StartLoad(loadId: SceneName.Main);
+      await _sceneLoader.Load(loadId: SceneName.Main);
       SetupLevel().Forget();
     }
 

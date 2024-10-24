@@ -3,6 +3,7 @@ using Code.Gameplay.Language;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services;
 using Code.Services.Factories.UI;
+using Code.StaticData.Skins;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -31,9 +32,10 @@ namespace Code.Gameplay.UI.NewSkin
       _animatedButtonFactory = animatedButtonFactory;
     }
 
+    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.ForSkins().NewSkinSceneConfig;
     public ButtonClickedEvent CloseSkinButtonClick { get; private set; }
 
-    public async UniTask InitializeAsync(SkinType skinType, float delayBeforeCloseButtonCreation)
+    public async UniTask InitializeAsync(SkinType skinType)
     {
       string localizedSkinName = _publishService.GetPlayerLanguage() switch
       {
@@ -47,7 +49,7 @@ namespace Code.Gameplay.UI.NewSkin
       EquipNewSkinButton equipNewSkinButton = await _equipNewSkinButtonFactory.Create(_uiParent).AttachExternalCancellation(destroyCancellationToken);
       equipNewSkinButton.Initialize(skinType);
 
-      await UniTask.WaitForSeconds(delayBeforeCloseButtonCreation).AttachExternalCancellation(destroyCancellationToken);
+      await UniTask.WaitForSeconds(NewSkinSceneConfig.DelayBeforeCloseButtonCreation).AttachExternalCancellation(destroyCancellationToken);
 
       CloseSkinButtonClick = (await _animatedButtonFactory.CreateCloseSkinButton(_uiParent).AttachExternalCancellation(destroyCancellationToken)).Button.onClick;
     }

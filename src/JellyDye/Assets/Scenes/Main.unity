@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 330474155}
   - component: {fileID: 330474153}
   - component: {fileID: 330474150}
-  - component: {fileID: 330474154}
+  - component: {fileID: 330474157}
   m_Layer: 0
   m_Name: LevelCamera
   m_TagString: MainCamera
@@ -316,14 +316,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <FlashDuration>k__BackingField: 0.3
   <FlashLight>k__BackingField: {fileID: 1312344691}
-  <PhotoAudioSource>k__BackingField: {fileID: 330474154}
-  <PhotoSound>k__BackingField: {fileID: 8300000, guid: 68c71343070310c4480cdf10be9fc773, type: 3}
   _camera: {fileID: 330474151}
   _finishPosition: {x: 0, y: 2.7, z: -0.3}
   _finishRotation: {x: 75, y: 0, z: 0}
-  _movingTime: 1
+  _movingTime: 0.8
   _targetSize: 1.1
---- !u!82 &330474154
+  _photoAudioSource: {fileID: 330474157}
+  _photoSound: {fileID: 8300000, guid: 68c71343070310c4480cdf10be9fc773, type: 3}
+--- !u!114 &330474155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330474149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca0f4c48c68543c381c8b4ced4e392c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 330474151}
+  _boundsSizeX: 1.3
+  _boundsSizeY: 2.4
+--- !u!114 &330474156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330474149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 604721152a304617b60e642d5eebc5c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetFpsCount: 60
+--- !u!82 &330474157
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -335,7 +363,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: 2563df1dcf0ff234ea170d3a82fffe3c, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 0.04
   m_Pitch: 1
   Loop: 0
@@ -420,34 +448,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &330474155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330474149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca0f4c48c68543c381c8b4ced4e392c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camera: {fileID: 330474151}
-  _boundsSizeX: 1.3
-  _boundsSizeY: 2.4
---- !u!114 &330474156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330474149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 604721152a304617b60e642d5eebc5c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetFpsCount: 60
 --- !u!1 &503041965
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,7 +717,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
