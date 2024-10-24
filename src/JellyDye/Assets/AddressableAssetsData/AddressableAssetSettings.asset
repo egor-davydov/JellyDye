@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: b09aba89bd4a47e41b0d928fd68fd9f3
   m_currentHash:
     serializedVersion: 2
-    Hash: 45d925bd1e3753c395a517bb160573ca
+    Hash: 328c09da3a6304cff1ea185af09f7ed0
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
       - m_Id: 04dc21f0d0ea231458da61f70647b595
         m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
       - m_Id: 0902d3cdb76280349b277f48f2f7e92b
-        m_Value: https://004ee9fd-6a8c-4ff6-994c-da071cda063b.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/1469d7d0-3267-4b5a-a3e8-981d3cc18525/release_by_badge/1_2_1/entry_by_path/content/?path=
+        m_Value: https://004ee9fd-6a8c-4ff6-994c-da071cda063b.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/1469d7d0-3267-4b5a-a3e8-981d3cc18525/release_by_badge/1_3/entry_by_path/content/?path=
       - m_Id: 220b2e444c2bd1740b4563ce6ecb2373
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
       - m_Id: 5f2d23b8fdb130745bf531beba2d755d

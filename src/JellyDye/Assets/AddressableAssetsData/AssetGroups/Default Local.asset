@@ -25,13 +25,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2563df1dcf0ff234ea170d3a82fffe3c
-    m_Address: AudioMixer
+  - m_GUID: 26eee2b398e1f3b4d92facd2d9063854
+    m_Address: Fonts
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 26eee2b398e1f3b4d92facd2d9063854
-    m_Address: Fonts
+  - m_GUID: 276a363e412fa1f4c871a24fcf6a027d
+    m_Address: Audio
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
