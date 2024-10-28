@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f775c1bc1453486c93433fa577686278, type: 3}
   m_Name: Skins
   m_EditorClassIdentifier: 
+  <SyringeBaseReference>k__BackingField:
+    m_AssetGUID: d8f53005475ced64d8eb08e3c951a713
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   UnlockableSkins:
   - <SkinType>k__BackingField: 1
     <Icon>k__BackingField: {fileID: 21300000, guid: 4c3b220e235c4681828f1b08d4a2e73a, type: 3}
@@ -28,68 +34,96 @@ MonoBehaviour:
   SkinConfigs:
   - SkinType: 0
     SkinReference:
-      m_AssetGUID: b44716ad6535d2942885b08f59ff789c
+      m_AssetGUID: 32e6647faaa5f26418aa7d6744ddadbd
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+    RuName: "\u0421\u0442\u0430\u043D\u0434\u0430\u0440\u0442"
   - SkinType: 1
     SkinReference:
-      m_AssetGUID: ad6c8a6d47ec0d4498fa400addc3677a
+      m_AssetGUID: 77ba5b884fb29c442b3b88c3f9ce64f3
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u041F\u0447\u0435\u043B\u0430"
   - SkinType: 4
     SkinReference:
-      m_AssetGUID: 816cc8b961fa20f4db5b789f0eb16471
+      m_AssetGUID: db5eea765d11fa044bf5c56334201d5a
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u0421\u0435\u0439\u043B\u043E\u0440"
   - SkinType: 2
     SkinReference:
-      m_AssetGUID: eca3625b3222b9e4984feff0b2d33182
+      m_AssetGUID: 9e3cf9e99b6f6734988fb43477619e66
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u041A\u043E\u043A\u0442\u0435\u0439\u043B\u044C"
   - SkinType: 5
     SkinReference:
-      m_AssetGUID: e13456bcd4de91642bbf989abae3a8f0
+      m_AssetGUID: 906bf18379b660c4980eed41ed8f1c49
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u0412\u0438\u043D\u0442\u0430\u0436"
   - SkinType: 6
     SkinReference:
-      m_AssetGUID: fa4620e69a8d099419c586d845811cb0
+      m_AssetGUID: aa155a72cf7a56248a26b4e0aef4269a
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u0420\u043E\u0441\u043A\u043E\u0448\u044C"
   - SkinType: 3
     SkinReference:
-      m_AssetGUID: 0ae26b1b139b14f47ba7ab7f3ed7473b
+      m_AssetGUID: 0e48e2a0501ef6e42acb34b592a06ab6
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u041C\u043E\u0440\u043E\u0436\u0435\u043D\u043E\u0435"
   - SkinType: 8
     SkinReference:
-      m_AssetGUID: aac5d43030b6b5445aabca1caeb21703
+      m_AssetGUID: 499c6bf1ef570ba4d8937115d93678d0
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u0411\u0430\u0431\u043E\u0447\u043A\u0430"
   - SkinType: 9
     SkinReference:
-      m_AssetGUID: 8b42480325bcfeb4a95738f8189650aa
+      m_AssetGUID: b68795c5c4b259143a160b06088423e8
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u0415\u0434\u0438\u043D\u043E\u0440\u043E\u0433"
   - SkinType: 7
     SkinReference:
-      m_AssetGUID: c610249e1f964ec4d8f8340dd11760ba
+      m_AssetGUID: bda9669c4e326d34cad08c54a85a59b7
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u041A\u043E\u0440\u043E\u043D\u0430"
   - SkinType: 10
     SkinReference:
-      m_AssetGUID: bc54823b681cca148aceabef4414d3b0
+      m_AssetGUID: 323696dfe2c8dba408b2c37029b30c38
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 1
+      m_EditorAssetChanged: 0
+    RuName: "\u0414\u0438\u0441\u043A\u043E"
   <MinSkinProgress>k__BackingField: 0.2
+  <NewSkinSceneConfig>k__BackingField:
+    <AutoRotationSpeed>k__BackingField: 60
+    <RotationSpeed>k__BackingField: 15
+    <InertiaDamping>k__BackingField: 5
+    <DelayBeforeCloseButtonCreation>k__BackingField: 1
+    <NewSkinSound>k__BackingField: {fileID: 8300000, guid: ddfa1092b6bb50b4b86e9fe2851f48ce, type: 3}

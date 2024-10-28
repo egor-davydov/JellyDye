@@ -1,5 +1,4 @@
 ﻿using System;
-using Code.Gameplay.Syringe;
 using Code.Services.Providers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +11,7 @@ namespace Code.Gameplay.UI.Hud.PaintChange
     [SerializeField] private Button _colorChangeButton;
     [SerializeField] private float _selectedScale;
     [SerializeField] private float _scalingTime;
-    
+
     public float SelectedScale => _selectedScale;
     public float ScalingTime => _scalingTime;
     public Color Color => _color;
@@ -36,11 +35,10 @@ namespace Code.Gameplay.UI.Hud.PaintChange
       _colorChangeButton.onClick.AddListener(ChangeColorClick);
     }
 
-
     private void ChangeColorClick()
     {
       _syringeProvider.SyringeInjection.SyringeReset();
-      _syringeProvider.SyringePaintColor.ChangeLiquidColor(_color);
+      _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(_color);
       OnColorChange?.Invoke(this);
     }
   }

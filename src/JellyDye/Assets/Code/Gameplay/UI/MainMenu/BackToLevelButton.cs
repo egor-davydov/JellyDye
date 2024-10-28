@@ -1,9 +1,8 @@
-using Code.Gameplay.Syringe;
-using Code.Gameplay.UI.Hud.PaintChange;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Services.Factories;
 using Code.Services.Progress;
 using Code.Services.Providers;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -33,31 +32,38 @@ namespace Code.Gameplay.UI.MainMenu
 
     private void Awake()
     {
-      _backButton.onClick.AddListener(CloseMenu);
+      _backButton.onClick.AddListener(UniTask.UnityAction(CloseMenu));
       _equippedSkinOnOpen = _progressService.Progress.SkinData.EquippedSkin;
     }
 
-    private async void CloseMenu()
+    private async UniTaskVoid CloseMenu()
+    {
+      await ChangeSkinIfNeeded();
+      Destroy(_menuObject);
+    }
+
+    private async UniTask ChangeSkinIfNeeded()
     {
       SkinType equippedSkinOnClose = _progressService.Progress.SkinData.EquippedSkin;
       if (equippedSkinOnClose != _equippedSkinOnOpen && !SyringeAlreadyDestroyed())
       {
-        Vector3 previousSyringePosition = _syringeProvider.SyringeObject.transform.position;
-        GameObject syringeObject = await _syringeFactory.CreateSyringe(
+        Transform previousSyringeTransform = _syringeProvider.SyringeObject.transform;
+        GameObject syringeObject = await _syringeFactory.Create(
           equippedSkinOnClose,
-          previousSyringePosition);
+          previousSyringeTransform.position,
+          previousSyringeTransform.rotation,
+          previousSyringeTransform.parent);
         Destroy(_syringeProvider.SyringeObject);
         _syringeProvider.Initialize(syringeObject);
-      
+
         _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
         Color currentSelectedColor = _hudProvider.JarsContainer.CurrentSelectedColor;
-        _syringeProvider.SyringePaintColor.ChangeLiquidColor(currentSelectedColor);
+        _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(currentSelectedColor);
         _syringeProvider.SyringeInjection.SyringeReset();
       }
-      Destroy(_menuObject);
     }
 
-    private bool SyringeAlreadyDestroyed() => 
+    private bool SyringeAlreadyDestroyed() =>
       _syringeProvider.SyringeObject == null;
   }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Code.Gameplay.UI.MainMenu.Skins;
 
 namespace Code.Data
@@ -10,13 +9,18 @@ namespace Code.Data
   {
     public SkinType EquippedSkin = SkinType.Default;
     public float NextSkinProgress;
-    public List<SkinType> OpenedSkins = new(11)
+    public List<SkinType> OpenedSkins;
+
+    public SkinData(int countOfSkins)
     {
-      SkinType.Default
-    };
-    
+      OpenedSkins = new List<SkinType>(countOfSkins)
+      {
+        SkinType.Default
+      };
+    }
+
     public event Action Changed;
-    
+
     public void EquipSkin(SkinType skinType)
     {
       EquippedSkin = skinType;

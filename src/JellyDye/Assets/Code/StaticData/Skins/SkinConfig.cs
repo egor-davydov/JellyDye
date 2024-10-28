@@ -9,5 +9,6 @@ namespace Code.StaticData.Skins
   {
     public SkinType SkinType;
     public AssetReference SkinReference;
+    public string RuName;
   }
 }

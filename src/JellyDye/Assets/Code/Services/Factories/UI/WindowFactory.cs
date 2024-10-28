@@ -18,15 +18,15 @@ namespace Code.Services.Factories.UI
       _assetProvider = assetProvider;
       _parentsProvider = parentsProvider;
     }
-    
-    public async UniTask<GameObject>  CreateMainMenu()
+
+    public async UniTask<GameObject> CreateMainMenu()
     {
       GameObject menuPrefab = await _assetProvider.Load<GameObject>(AssetKey.MainMenu);
       GameObject menuObject = _instantiator.InstantiatePrefab(menuPrefab, _parentsProvider.ParentForUI);
       return menuObject;
     }
 
-    public async UniTask<GameObject>  CreateFinishWindow()
+    public async UniTask<GameObject> CreateFinishWindow()
     {
       GameObject finishWindowPrefab = await _assetProvider.Load<GameObject>(AssetKey.FinishWindow);
       GameObject finishWindowObject = _instantiator.InstantiatePrefab(finishWindowPrefab, _parentsProvider.ParentForUI);

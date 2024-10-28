@@ -23,9 +23,9 @@ namespace Code.Gameplay.Logic.UI
 
     public async UniTaskVoid StartFill(List<AsyncOperationHandle> loadingOperations)
     {
-      while (true)
+      while (_loadingFillImage.fillAmount != 1)
       {
-        _loadingFillImage.fillAmount = (loadingOperations.Sum(x => x.PercentComplete) / loadingOperations.Count + _sceneLoader.LoadProgress) / 2;
+        _loadingFillImage.fillAmount = (loadingOperations.Average(x => x.PercentComplete) + _sceneLoader.LoadProgress) / 2;
         await UniTask.NextFrame(this.GetCancellationTokenOnDestroy());
       }
     }

@@ -1,4 +1,5 @@
 using Code.Services.Progress.SaveLoad;
+using Cysharp.Threading.Tasks;
 
 namespace Code.Infrastructure.States
 {
@@ -14,13 +15,15 @@ namespace Code.Infrastructure.States
       _saveLoadService = saveLoadService;
     }
 
-    public void Enter()
+    public UniTaskVoid Enter()
     {
       _saveLoadService.LoadProgress(onLoaded: MoveToNextState);
+      return default;
     }
 
-    public void Exit()
+    public UniTaskVoid Exit()
     {
+      return default;
     }
 
     private void MoveToNextState()

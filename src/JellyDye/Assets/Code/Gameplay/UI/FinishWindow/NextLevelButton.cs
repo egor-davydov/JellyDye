@@ -4,8 +4,8 @@ using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
-using Code.StaticData;
 using Code.StaticData.Level;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -29,10 +29,11 @@ namespace Code.Gameplay.UI.FinishWindow
       _progressService = progressService;
       _staticDataService = staticDataService;
       _gameStateMachine = gameStateMachine;
-      
+
       _progressLevelData = _progressService.Progress.LevelData;
     }
-    private void Awake() => 
+
+    private void Awake() =>
       _nextLevelButton.onClick.AddListener(OnNextLevelButtonClick);
 
     private void OnNextLevelButtonClick()
@@ -43,8 +44,8 @@ namespace Code.Gameplay.UI.FinishWindow
       int lastLevelIndex = levelsStaticData.LevelConfigs.Length - 1;
       if (nextLevelIndex == null)
       {
-        if(currentLevelIndex == lastLevelIndex)
-          _windowFactory.CreateMainMenu();
+        if (currentLevelIndex == lastLevelIndex)
+          _windowFactory.CreateMainMenu().Forget();
         else
           LoadLevel(currentLevelIndex + 1, levelsStaticData);
       }
@@ -52,7 +53,7 @@ namespace Code.Gameplay.UI.FinishWindow
         LoadLevel(nextLevelIndex.Value, levelsStaticData);
     }
 
-    private void LoadLevel(int levelIndex, LevelsStaticData levelsStaticData) => 
+    private void LoadLevel(int levelIndex, LevelsStaticData levelsStaticData) =>
       _gameStateMachine.Enter<LoadLevelState, string>(levelsStaticData.LevelConfigs[levelIndex].Id);
 
     private int? GetNextLevelIndex(int currentLevelIndex)
@@ -61,7 +62,7 @@ namespace Code.Gameplay.UI.FinishWindow
       int? futureLevelIndex = FindUnCompletedLevelIndex(currentLevelIndex + 1, levelConfigs.Length, levelConfigs);
       if (futureLevelIndex != null)
         return futureLevelIndex.Value;
-      
+
       int? previousLevelIndex = FindUnCompletedLevelIndex(0, currentLevelIndex + 1, levelConfigs);
       if (previousLevelIndex != null)
         return previousLevelIndex.Value;

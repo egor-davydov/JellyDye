@@ -17,9 +17,9 @@ namespace Code.Infrastructure.States
     private readonly GameStateMachine _gameStateMachine;
     private readonly IAssetProvider _assetProvider;
     private readonly ProgressService _progressService;
-      
+
     private string CurrentLevelId => _progressService.Progress.LevelData.CurrentLevelId;
-    
+
     public WarmUpState(GameStateMachine gameStateMachine, IAssetProvider assetProvider,
       StaticDataService staticDataService, ProgressService progressService)
     {
@@ -28,16 +28,18 @@ namespace Code.Infrastructure.States
       _staticDataService = staticDataService;
       _progressService = progressService;
     }
-    
-    public void Enter()
+
+    public UniTaskVoid Enter()
     {
       WarmUpCurrentAssets();
       WarmUpOtherAssets();
       _gameStateMachine.Enter<LoadLevelState, string>(CurrentLevelId);
+      return default;
     }
 
-    public void Exit()
+    public UniTaskVoid Exit()
     {
+      return default;
     }
 
     private void WarmUpCurrentAssets()

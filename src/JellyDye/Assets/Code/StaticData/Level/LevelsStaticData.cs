@@ -10,6 +10,8 @@ namespace Code.StaticData.Level
     private const int RangeMinResolution = 6;
     private const int RangeMaxResolution = 19;
     public float ColorCompareEpsilon = 0.4f;
+    [field: SerializeField] public bool FinishLevelImmediately { get; private set; }
+    [field: SerializeField] public bool OpenNewSkin { get; private set; }
     [field: SerializeField] public bool IsShowingNames { get; private set; }
 
     [field: SerializeField, Range(RangeMinResolution, RangeMaxResolution)]
@@ -52,7 +54,7 @@ namespace Code.StaticData.Level
         return secondColor;
       return null;
     }
-    
+
     private void ValidateLevelId(LevelConfig levelConfig, int levelNumber)
     {
       if (levelConfig.Id.Contains(' '))

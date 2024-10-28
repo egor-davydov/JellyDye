@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -493,7 +494,7 @@ GameObject:
   - component: {fileID: 480561999}
   - component: {fileID: 480561996}
   m_Layer: 5
-  m_Name: InitText
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -540,8 +541,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Initialization
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 701de497ae5a42c4e899f0306a865a60, type: 2}
-  m_sharedMaterial: {fileID: 4876686484098466255, guid: 701de497ae5a42c4e899f0306a865a60, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7c1725e0a1a6dfd4ebc4e55fa870872d, type: 2}
+  m_sharedMaterial: {fileID: 7391683628296110520, guid: 7c1725e0a1a6dfd4ebc4e55fa870872d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -629,8 +630,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9bfb26db8248a384b2753f5fd7373b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _languageChangeTime: 3
   _textMeshPro: {fileID: 480561996}
+  _languageChangeTime: 1
+  _languageStayTime: 2
   _texts:
   - "\u0418\u043D\u0438\u0446\u0438\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u044F"
   - Initialization
