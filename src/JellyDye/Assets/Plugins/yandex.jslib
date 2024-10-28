@@ -40,14 +40,16 @@ const library = {
         yandexGames.appendBackgroundImage(sdk.environment.i18n.lang);
         if (sdk.deviceInfo.isDesktop()) {
           var container = document.querySelector("#unity-container");
-          container.style.position = "absolute";
+          container.style.display = "flex";
+          container.style.justifyContent = "center";
+          container.style.alignItems = "center";
           container.style.width = "100%";
           container.style.height = "100%";
+          
           var canvas = document.querySelector("#unity-canvas");
-          canvas.style.position = "absolute";
-          canvas.style.left = "33%";
-          canvas.style.width = "34%";
-          canvas.style.height = "100%";
+          canvas.style.width = "56.25vh";
+          canvas.style.height = "100vh";
+          canvas.style.maxWidth = "100%";
         }
         const playerAccountInitializationPromise = sdk.getPlayer().then(function (playerAccount) {
           if (playerAccount.getMode() !== 'lite') {
