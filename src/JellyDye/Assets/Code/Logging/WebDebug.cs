@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using UnityEngine;
 
 namespace Code.Logging
 {
@@ -11,6 +12,8 @@ namespace Code.Logging
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
       WebDebugLog(log);
+#else
+      Debug.Log(log);
 #endif
     }
   }

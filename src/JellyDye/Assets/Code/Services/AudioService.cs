@@ -1,6 +1,6 @@
 ﻿using System;
 using Code.Services.AssetManagement;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
 using UnityEngine.Audio;
 using Zenject;
 
@@ -11,7 +11,7 @@ namespace Code.Services
     private const string ParameterName = "MasterVolume";
 
     private readonly IAssetProvider _assetProvider;
-    
+
     private AudioMixer _audioMixer;
     private float _startVolume;
 
@@ -22,8 +22,13 @@ namespace Code.Services
     {
       _assetProvider = assetProvider;
     }
-    
-    public async void Initialize()
+
+    public void Initialize()
+    {
+      LoadAndInitializeAudioMixer().Forget();
+    }
+
+    private async UniTaskVoid LoadAndInitializeAudioMixer()
     {
       _audioMixer = await _assetProvider.Load<AudioMixer>(AssetKey.AudioMixer);
       _audioMixer.GetFloat(ParameterName, out _startVolume);
@@ -35,7 +40,7 @@ namespace Code.Services
       OnAudioStateChanged?.Invoke(!IsAudioMuted);
       _audioMixer.SetFloat(ParameterName, -80);
     }
-    
+
     public void UnMuteGame()
     {
       IsAudioMuted = false;

@@ -12,13 +12,13 @@ namespace Code.Services
     private const string LevelsDataPath = "StaticData/Levels";
     private const string TokensDataPath = "StaticData/CCDTokens";
     private const string GameSettingsPath = "StaticData/GameSettings";
-    
+
     private SkinsStaticData _skinsStaticData;
     private LevelsStaticData _levelsStaticData;
     private CCDTokensStaticData _tokensStaticData;
     private GameSettings _gameSettings;
 
-    public void LoadData()
+    public void Initialize()
     {
       _skinsStaticData = Resources.Load<SkinsStaticData>(SkinsDataPath);
       _levelsStaticData = Resources.Load<LevelsStaticData>(LevelsDataPath);

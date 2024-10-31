@@ -1,12 +1,5 @@
-/**
- * This loads the HTML SDK v2 and will act as a wrapper arround it.
- */
 mergeInto(LibraryManager.library, {
-  InitSDK: function (version, objectName) {
-    if (!window.Crazygames) {
-      return false;
-    }
-
+  InitSDK: function (version) {
     // to avoid warnings about Unity stringify beeing obsolete
     if (typeof UTF8ToString !== 'undefined') {
       window.unityStringify = UTF8ToString;
@@ -16,25 +9,7 @@ mergeInto(LibraryManager.library, {
 
     window.UnitySDK = {
       version: window.unityStringify(version),
-      objectName: window.unityStringify(objectName),
-      userObjectName: 'CrazyGames.CrazyUser',
-      isSdkLoaded: false,
-      waitingForLoad: [],
       pointerLockElement: undefined,
-      onSdkScriptLoaded: function () {
-        this.isSdkLoaded = true;
-        this.waitingForLoad.forEach(function (callback) {
-          callback();
-        });
-        this.waitingForLoad = [];
-      },
-      ensureLoaded: function (callback) {
-        if (this.isSdkLoaded) {
-          callback();
-        } else {
-          this.waitingForLoad.push(callback);
-        }
-      },
       unlockPointer: function () {
         this.pointerLockElement = document.pointerLockElement || null;
         if (this.pointerLockElement && document.exitPointerLock) {
@@ -48,54 +23,27 @@ mergeInto(LibraryManager.library, {
       }
     };
 
-    if (window.crazySdkInitOptions) {
-      window.crazySdkInitOptions.wrapper = {
+    var initOptions = {
+      wrapper: {
         engine: 'unity',
         sdkVersion: window.unityStringify(version)
-      };
-    } else {
-      window.crazySdkInitOptions = {
-        wrapper: {
-          engine: 'unity',
-          sdkVersion: window.unityStringify(version)
-        }
-      };
-    }
+      }
+    };
 
-    // load the HTML SDK v2
     var script = document.createElement('script');
-    script.src = 'https://sdk.crazygames.com/crazygames-sdk-v2.js';
+    script.src = 'https://sdk.crazygames.com/crazygames-sdk-v3.js';
     document.head.appendChild(script);
     script.addEventListener('load', function () {
-      window.UnitySDK.onSdkScriptLoaded();
-    });
-
-    // send the init reply to Unity after the JS sdk is loaded & initialized
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.addInitCallback(function (initObject) {
-        SendMessage(window.UnitySDK.objectName, 'InitCallback', JSON.stringify(initObject));
+      window.CrazyGames.SDK.init(initOptions).then(function () {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_Init');
+        window.CrazyGames.SDK.ad.hasAdblock().then(function (result) {
+          SendMessage('CrazySDKSingleton', 'JSLibCallback_AdblockDetectionResult', result ? 1 : 0);
+        });
+        window.CrazyGames.SDK.user.addAuthListener(function (user) {
+          SendMessage('CrazySDKSingleton', 'JSLibCallback_AuthListener', JSON.stringify({ userJson: JSON.stringify(user) }));
+        });
       });
     });
-
-    // check adblock status after the js sdk is loaded
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.ad.hasAdblock(function (error, result) {
-        if (error) {
-          console.error('Adblock usage error (callback)', error);
-        } else {
-          SendMessage(window.UnitySDK.objectName, result ? 'AdblockDetected' : 'AdblockNotDetected');
-        }
-      });
-    });
-
-    // register the auth listener. Only one auth listener is registered in the SDK itself. It will call the other auth listeners registered in game.
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.user.addAuthListener(function (user) {
-        SendMessage(window.UnitySDK.userObjectName, 'JSLibCallback_AuthListener', JSON.stringify({ userStr: JSON.stringify(user) }));
-      });
-    });
-
-    return true;
   },
 
   /** SDK.ad module */
@@ -104,107 +52,150 @@ mergeInto(LibraryManager.library, {
     var callbacks = {
       adStarted: function () {
         window.UnitySDK.unlockPointer();
-        SendMessage(window.UnitySDK.objectName, 'AdEvent', JSON.stringify({ name: 'adStarted' }));
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_AdStarted');
       },
       adFinished: function () {
         window.UnitySDK.lockPointer();
-        SendMessage(window.UnitySDK.objectName, 'AdEvent', JSON.stringify({ name: 'adFinished' }));
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_AdFinished');
       },
       adError: function (error) {
-        SendMessage(window.UnitySDK.objectName, 'AdEvent', JSON.stringify({ name: 'adError', error: error }));
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_AdError', JSON.stringify(error));
       }
     };
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.ad.requestAd(adTypeStr, callbacks);
-    });
+    window.CrazyGames.SDK.ad.requestAd(adTypeStr, callbacks);
   },
 
   /** SDK.banner module */
   RequestBannersSDK: function (bannersJSON) {
     var banners = JSON.parse(window.unityStringify(bannersJSON));
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.banner.requestOverlayBanners(banners, function (bannerId, message, error) {
-        // the callback is called for every banner in array
-        switch (message) {
-          case 'bannerRendered':
-            SendMessage(window.UnitySDK.objectName, 'AdEvent', JSON.stringify({ name: 'inGameBannerRendered', id: bannerId }));
-            break;
-          case 'bannerError':
-            SendMessage(window.UnitySDK.objectName, 'AdEvent', JSON.stringify({ name: 'inGameBannerError', id: bannerId, error: error }));
-            break;
-          default:
-            console.error('Unknown banner message in Jslib:', message);
-        }
-      });
-    });
+    window.CrazyGames.SDK.banner.requestOverlayBanners(banners, function (bannerId, message, error) {});
   },
 
   /** SDK.game module */
   HappyTimeSDK: function () {
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.game.happytime();
-    });
+    window.CrazyGames.SDK.game.happytime();
   },
   GameplayStartSDK: function () {
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.game.gameplayStart();
-    });
+    window.CrazyGames.SDK.game.gameplayStart();
   },
   GameplayStopSDK: function () {
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.game.gameplayStop();
-    });
+    window.CrazyGames.SDK.game.gameplayStop();
   },
-  RequestInviteUrlSDK: function (url) {
-    // url generation is already done in Unity so no need to call the sdk v2 method for this,
-    // so just call this method that will update the URL in browser.
-    window.UnitySDK.ensureLoaded(function () {
-      window.Crazygames.requestInviteUrl(window.unityStringify(url));
-    });
+  RequestInviteUrlSDK: function (paramsStr) {
+    var params = JSON.parse(window.unityStringify(paramsStr));
+    var url = window.CrazyGames.SDK.game.inviteLink(params);
+    var bufferSize = lengthBytesUTF8(url) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(url, buffer, bufferSize);
+    return buffer;
+  },
+  GetInviteLinkParamSDK: function (paramName) {
+    var urlParams = new URLSearchParams(window.location.search);
+    var paramValue = urlParams.get(window.unityStringify(paramName));
+    if (paramValue === null) {
+      paramValue = '';
+    }
+    var bufferSize = lengthBytesUTF8(paramValue) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(paramValue, buffer, bufferSize);
+    return buffer;
+  },
+  ShowInviteButtonSDK: function (paramsStr) {
+    var params = JSON.parse(window.unityStringify(paramsStr));
+    var url = window.CrazyGames.SDK.game.showInviteButton(params);
+    var bufferSize = lengthBytesUTF8(url) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(url, buffer, bufferSize);
+    return buffer;
+  },
+  HideInviteButtonSDK: function () {
+    window.CrazyGames.SDK.game.hideInviteButton();
   },
 
   /** SDK.user module */
+  IsUserAccountAvailableSDK: function () {
+    return window.CrazyGames.SDK.user.isUserAccountAvailable;
+  },
   ShowAuthPromptSDK: function () {
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.user.showAuthPrompt(function (error, user) {
-        SendMessage(window.UnitySDK.userObjectName, 'JSLibCallback_ShowAuthPrompt', JSON.stringify({ error: error, userStr: JSON.stringify(user) }));
+    window.CrazyGames.SDK.user
+      .showAuthPrompt()
+      .then(function (user) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_ShowAuthPrompt', JSON.stringify({ userJson: JSON.stringify(user) }));
+      })
+      .catch(function (error) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_ShowAuthPrompt', JSON.stringify({ errorJson: JSON.stringify(error) }));
       });
-    });
   },
   ShowAccountLinkPromptSDK: function () {
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.user.showAccountLinkPrompt(function (error, response) {
-        // response format { response: 'yes' | 'no'}
-        SendMessage(window.UnitySDK.userObjectName, 'JSLibCallback_ShowAccountLinkPrompt', JSON.stringify({ error: error, linkAccountResponseStr: JSON.stringify(response) }));
+    window.CrazyGames.SDK.user
+      .showAccountLinkPrompt()
+      .then(function (response) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_ShowAccountLinkPrompt', JSON.stringify({ linkAccountResponseStr: JSON.stringify(response) }));
+      })
+      .catch(function (error) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_ShowAccountLinkPrompt', JSON.stringify({ errorJson: JSON.stringify(error) }));
       });
-    });
   },
   GetUserSDK: function () {
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.user.getUser(function (error, user) {
-        SendMessage(window.UnitySDK.userObjectName, 'JSLibCallback_GetUser', JSON.stringify({ error: error, userStr: JSON.stringify(user) }));
+    window.CrazyGames.SDK.user
+      .getUser()
+      .then(function (user) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_GetUser', JSON.stringify({ userJson: JSON.stringify(user) }));
+      })
+      .catch(function (error) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_GetUser', JSON.stringify({ errorJson: JSON.stringify(error) }));
       });
-    });
   },
   GetUserTokenSDK: function () {
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.user.getUserToken(function (error, token) {
-        SendMessage(window.UnitySDK.userObjectName, 'JSLibCallback_GetUserToken', JSON.stringify({ error: error, token: token }));
+    window.CrazyGames.SDK.user
+      .getUserToken()
+      .then(function (token) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_GetUserToken', JSON.stringify({ token: token }));
+      })
+      .catch(function (error) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_GetUserToken', JSON.stringify({ errorJson: JSON.stringify(error) }));
       });
-    });
   },
   GetXsollaUserTokenSDK: function () {
-    window.UnitySDK.ensureLoaded(function () {
-      window.CrazyGames.SDK.user.getXsollaUserToken(function (error, token) {
-        SendMessage(window.UnitySDK.userObjectName, 'JSLibCallback_GetXsollaUserToken', JSON.stringify({ error: error, token: token }));
+    window.CrazyGames.SDK.user
+      .getXsollaUserToken()
+      .then(function (token) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_GetXsollaUserToken', JSON.stringify({ token: token }));
+      })
+      .catch(function (error) {
+        SendMessage('CrazySDKSingleton', 'JSLibCallback_GetXsollaUserToken', JSON.stringify({ errorJson: JSON.stringify(error) }));
       });
-    });
-  }, 
+  },
   AddUserScoreSDK: function (score) {
-    window.UnitySDK.ensureLoaded(function () {
-      var scoreToAdd = score;
-      window.CrazyGames.SDK.user.addScore(scoreToAdd);
-    });
+    window.CrazyGames.SDK.user.addScore(score);
+  },
+
+  /** SDK.data module */
+  DataClearSDK: function () {
+    window.CrazyGames.SDK.data.clear();
+  },
+  DataGetItemSDK: function (key) {
+    var data = window.CrazyGames.SDK.data.getItem(window.unityStringify(key));
+    // DataModule from Unity won't call this method if the key doesn't exist, it will return the default value
+    var bufferSize = lengthBytesUTF8(data + '') + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(data, buffer, bufferSize);
+    return buffer;
+  },
+  DataHasKeySDK: function (key) {
+    var data = window.CrazyGames.SDK.data.getItem(window.unityStringify(key));
+    return data !== null;
+  },
+  DataRemoveItemSDK: function (key) {
+    window.CrazyGames.SDK.data.removeItem(window.unityStringify(key));
+  },
+  DataSetItemSDK: function (key, value) {
+    window.CrazyGames.SDK.data.setItem(window.unityStringify(key), window.unityStringify(value));
+  },
+
+  /** SDK.analytics module */
+  AnalyticsTrackOrderSDK: function (provider, order) {
+    window.CrazyGames.SDK.analytics.trackOrder(window.unityStringify(provider), JSON.parse(window.unityStringify(order)));
   },
 
   /** other */
@@ -217,11 +208,24 @@ mergeInto(LibraryManager.library, {
     document.execCommand('copy');
     document.body.removeChild(elem);
   },
-  GetUrlParametersSDK: function () {
-    const urlParameters = window.location.search;
-    var bufferSize = lengthBytesUTF8(urlParameters) + 1;
+  SyncUnityGameDataSDK: function () {
+    window.CrazyGames.SDK.data.syncUnityGameData();
+  },
+  GetIsQaToolSDK: function () {
+    return window.CrazyGames.SDK.isQaTool;
+  },
+  GetEnvironmentSDK: function () {
+    var environment = window.CrazyGames.SDK.environment;
+    var bufferSize = lengthBytesUTF8(environment) + 1;
     var buffer = _malloc(bufferSize);
-    stringToUTF8(urlParameters, buffer, bufferSize);
+    stringToUTF8(environment, buffer, bufferSize);
+    return buffer;
+  },
+  GetSystemInfoSDK: function () {
+    var systemInfoJson = JSON.stringify(window.CrazyGames.SDK.user.systemInfo);
+    var bufferSize = lengthBytesUTF8(systemInfoJson) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(systemInfoJson, buffer, bufferSize);
     return buffer;
   }
 });

@@ -1,4 +1,5 @@
 ﻿using Code.Services.Factories.UI;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -9,7 +10,7 @@ namespace Code.Gameplay.UI.FinishWindow
   {
     [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private Button _menuButton;
-    
+
     private WindowFactory _windowFactory;
 
     [Inject]
@@ -17,15 +18,16 @@ namespace Code.Gameplay.UI.FinishWindow
     {
       _windowFactory = windowFactory;
     }
+
     private void Awake()
     {
-      _menuButton.onClick.AddListener(OpenMenu);
+      _menuButton.onClick.AddListener(UniTask.UnityAction(OpenMenu));
     }
-    
-    private void OpenMenu()
+
+    private async UniTaskVoid OpenMenu()
     {
       _uiAudio.PlayClick();
-      _windowFactory.CreateMainMenu();
+      await _windowFactory.CreateMainMenu();
     }
   }
 }

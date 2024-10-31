@@ -7,13 +7,13 @@ namespace Code.Services.Providers
   {
     public GameObject SyringeObject { get; private set; }
     public SyringeInjection SyringeInjection { get; private set; }
-    public SyringePaintColor SyringePaintColor { get; private set; }
+    public SyringeLiquidColor SyringeLiquidColor { get; private set; }
 
     public void Initialize(GameObject syringeObject)
     {
       SyringeObject = syringeObject;
       SyringeInjection = SyringeObject.GetComponent<SyringeInjection>();
-      SyringePaintColor = SyringeObject.GetComponent<SyringePaintColor>();
+      SyringeLiquidColor = SyringeObject.GetComponent<SyringeLiquidColor>();
     }
   }
 }

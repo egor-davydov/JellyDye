@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
+
 namespace Code.Infrastructure.States
 {
   public interface IPayloadState<TPayload> : IExitableState
   {
-    void Enter(TPayload levelIndex);
+    UniTaskVoid Enter(TPayload levelIndex);
   }
 }

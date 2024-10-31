@@ -1,39 +1,27 @@
-using System;
-using System.Collections;
-using Code.Gameplay.Logic;
-using Code.Infrastructure;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 namespace Code.Services
 {
   public class SceneLoader
   {
-    private readonly ICoroutineRunner _coroutineRunner;
-
     public float LoadProgress { get; private set; }
 
-    public SceneLoader(ICoroutineRunner coroutineRunner) => 
-      _coroutineRunner = coroutineRunner;
-
-    public void StartLoad(string loadId, Action onComplete = null)
+    public async UniTask<SceneInstance> Load(string loadId, LoadSceneMode loadMode = LoadSceneMode.Single)
     {
       LoadProgress = 0;
-      _coroutineRunner.StartCoroutine(SceneLoading(loadId, onComplete));
-    }
+      AsyncOperationHandle<SceneInstance> loadSceneAsync = Addressables.LoadSceneAsync(loadId, loadMode);
 
-    private IEnumerator SceneLoading(string loadId, Action onComplete = null)
-    {
-      AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(loadId);
-      loadSceneAsync.priority = 999;
-
-      while (!loadSceneAsync.isDone)
+      while (!loadSceneAsync.IsDone)
       {
-        LoadProgress = loadSceneAsync.progress;
-        yield return null;
+        LoadProgress = loadSceneAsync.PercentComplete;
+        await UniTask.NextFrame(PlayerLoopTiming.LastUpdate);
       }
 
-      onComplete?.Invoke();
+      return loadSceneAsync.Result;
     }
   }
 }

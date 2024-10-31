@@ -37,7 +37,8 @@ namespace Code.Infrastructure.Installers
       Container.Bind<WindowFactory>().AsSingle();
       Container.Bind<LevelButtonFactory>().AsSingle();
       Container.Bind<JelliesFactory>().AsSingle();
-      Container.Bind<GreenButtonFactory>().AsSingle();
+      Container.Bind<AnimatedButtonFactory>().AsSingle();
+      Container.Bind<EquipNewSkinButtonFactory>().AsSingle();
     }
 
     private void SetupStatesAndMoveToNextState()
@@ -55,11 +56,13 @@ namespace Code.Infrastructure.Installers
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<StaticDataService>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
+      Container.Bind<NewSkinSceneService>().AsSingle();
+      Container.Bind<InputService>().AsSingle();
+      Container.Bind<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AddressablesAssetProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
-      Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
       Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
     }
 

@@ -1,42 +1,38 @@
 ﻿using Code.Services;
 using Code.Services.AssetManagement;
+using Cysharp.Threading.Tasks;
 
 namespace Code.Infrastructure.States
 {
   public class InitializationState : IState
   {
-    private const string LoadSceneName = "Load";
-
     private readonly GameStateMachine _gameStateMachine;
     private readonly StaticDataService _staticDataService;
     private readonly PublishService _publishService;
-    private readonly SceneLoader _sceneLoader;
     private readonly IAssetProvider _assetProvider;
 
     public InitializationState(GameStateMachine gameStateMachine, StaticDataService staticDataService,
-      PublishService publishService, SceneLoader sceneLoader, IAssetProvider assetProvider)
+      PublishService publishService, IAssetProvider assetProvider)
     {
       _gameStateMachine = gameStateMachine;
       _staticDataService = staticDataService;
       _publishService = publishService;
-      _sceneLoader = sceneLoader;
       _assetProvider = assetProvider;
     }
 
-    public void Enter()
+    public UniTaskVoid Enter()
     {
-      _staticDataService.LoadData();
+      _staticDataService.Initialize();
       _assetProvider.Initialize();
       // WebDebug.Log($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       // WebDebug.Log($"Application.absoluteURL={Application.absoluteURL}");
-      if (_publishService.IsOnYandexGames())
-        _publishService.InitializeYandex(OnSdkInitialize, OnPlayerInitialized);
-      else
-        OnPlayerInitialized();
+      _publishService.Initialize(OnSdkInitialize, OnPlayerInitialized);
+      return default;
     }
 
-    public void Exit()
+    public UniTaskVoid Exit()
     {
+      return default;
     }
 
     private void OnPlayerInitialized()

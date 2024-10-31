@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
-using System.Threading.Tasks;
 using Code.Data;
 using Code.Services;
 using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -22,12 +21,13 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private RawImage _shouldBeImage;
     [SerializeField] private TextMeshProUGUI _percentageText;
     [SerializeField] private Transform _textTransform;
+    [SerializeField] private Transform _resultsTransform;
     [SerializeField] private float _appearanceAnimationDuration;
     [SerializeField] private float _percentageIncreaseTime;
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
 
-    private GreenButtonFactory _greenButtonFactory;
+    private AnimatedButtonFactory _animatedButtonFactory;
     private ProgressService _progressService;
     private StaticDataService _staticDataService;
     private ISaveLoadService _saveLoadService;
@@ -39,7 +39,7 @@ namespace Code.Gameplay.UI.FinishWindow
     private StringsService _stringsService;
 
     [Inject]
-    public void Construct(GreenButtonFactory greenButtonFactory, ProgressService progressService,
+    public void Construct(AnimatedButtonFactory animatedButtonFactory, ProgressService progressService,
       StaticDataService staticDataService, ISaveLoadService saveLoadService,
       PublishService publishService, AnalyticsService analyticsService, StringsService stringsService)
     {
@@ -49,14 +49,15 @@ namespace Code.Gameplay.UI.FinishWindow
       _saveLoadService = saveLoadService;
       _staticDataService = staticDataService;
       _progressService = progressService;
-      _greenButtonFactory = greenButtonFactory;
+      _animatedButtonFactory = animatedButtonFactory;
 
       _progressLevelData = _progressService.Progress.LevelData;
     }
 
     public void Initialize(Texture2D screenshot)
     {
-      _shouldBeImage.texture = _staticDataService.ForLevels().GetConfigByLevelId(_progressLevelData.CurrentLevelId).TargetTextureWithGround;
+      _shouldBeImage.texture = _staticDataService.ForLevels().GetConfigByLevelId(_progressLevelData.CurrentLevelId)
+        .TargetTextureWithGround;
       _yourResultImage.texture = screenshot;
     }
 
@@ -65,44 +66,51 @@ namespace Code.Gameplay.UI.FinishWindow
 
     public void AnimateWindowAppearance(Action onEnd)
     {
-      transform.localScale = Vector3.zero;
-      transform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
+      _resultsTransform.localScale = Vector3.zero;
+      _resultsTransform.DOScale(Vector3.one, _appearanceAnimationDuration).OnComplete(onEnd.Invoke);
     }
 
-    public void AnimatePercentageText(float percentage)
+    public async UniTaskVoid AnimatePercentageText(float percentage)
     {
+      float finalPercentage = RoundAndClampPercentage(percentage);
+      float skinProgressBarIncreaseAmount = _staticDataService.ForSkins().MinSkinProgress * (finalPercentage / 100);
+      if (_staticDataService.ForLevels().OpenNewSkin)
+      {
+        finalPercentage = 100;
+        skinProgressBarIncreaseAmount = 1;
+      }
+
+      UpdatePlayerProgress(finalPercentage, skinProgressBarIncreaseAmount);
       _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
-      StartCoroutine(PercentageIncrease(percentage));
-    }
-
-    private IEnumerator PercentageIncrease(float yourPercentage)
-    {
-      float finalPercentage = RoundAndClampPercentage(yourPercentage);
-      WriteToProgress(finalPercentage);
       _publishService.SetToLeaderboard(_progressLevelData.CompletedLevels.Sum(level => level.Percentage));
       OnLevelEnd(finalPercentage);
-      //Debug.Log($"yourPercentage= {yourPercentage}");
+      await PercentageIncrease(finalPercentage);
+      _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
+      await _skinProgressBar.IncreaseProgress(skinProgressBarIncreaseAmount);
+      CreateNextLevelButton().Forget();
+    }
+
+    private async UniTask PercentageIncrease(float percentage)
+    {
       float currentTime = 0;
       while (currentTime < _percentageIncreaseTime)
       {
         currentTime += Time.deltaTime;
-        float currentPercentage = Mathf.Lerp(0, finalPercentage, currentTime / _percentageIncreaseTime);
+        float currentPercentage = Mathf.Lerp(0, percentage, currentTime / _percentageIncreaseTime);
         SetPercentage(currentPercentage);
-        yield return null;
+        await UniTask.NextFrame(this.GetCancellationTokenOnDestroy());
       }
 
-      _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
-      _skinProgressBar.IncreaseProgress(finalPercentage);
-      SetPercentage(finalPercentage);
-      CreateNextLevelButton();
+      SetPercentage(percentage);
     }
 
-    private async void CreateNextLevelButton() =>
-      await _greenButtonFactory.CreateNextLevelButton(transform);
+    private async UniTaskVoid CreateNextLevelButton() =>
+      await _animatedButtonFactory.CreateNextLevelButton(transform);
 
     private void OnLevelEnd(float finalPercentage)
     {
-      _analyticsService.LevelEnd(_staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId), _progressLevelData.CurrentLevelId, (int)finalPercentage);
+      _analyticsService.LevelEnd(_staticDataService.ForLevels().GetLevelIndex(_progressLevelData.CurrentLevelId),
+        _progressLevelData.CurrentLevelId, (int)finalPercentage);
 
       if (_progressLevelData.CompletedLevels.Count >= 3)
         _publishService.RequestCanPLayerReviewOrNot(OnServerReviewResponse);
@@ -123,9 +131,10 @@ namespace Code.Gameplay.UI.FinishWindow
     private void OnPlayerReviewWindowAction(bool value) =>
       Time.timeScale = 1;
 
-    private void WriteToProgress(float finalPercentage)
+    private void UpdatePlayerProgress(float finalPercentage, float increaseAmount)
     {
       _progressLevelData.ManageCompletedLevel(_progressLevelData.CurrentLevelId, (int)finalPercentage);
+      _skinProgressBar.CalculateAndSetProgress(increaseAmount);
       _saveLoadService.SaveProgress();
     }
 

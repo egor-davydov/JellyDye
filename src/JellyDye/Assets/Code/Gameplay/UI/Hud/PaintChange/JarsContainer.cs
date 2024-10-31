@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Code.Services.Factories.UI;
 using Code.Services.Providers;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -25,7 +26,7 @@ namespace Code.Gameplay.UI.Hud.PaintChange
       _jarFactory = jarFactory;
     }
 
-    public async void Initialize(List<Color> allColors)
+    public async UniTaskVoid InitializeAndCreateJars(List<Color> allColors)
     {
       List<Color> shuffledColors = Shuffle(allColors);
       foreach (Color color in shuffledColors)
@@ -61,7 +62,7 @@ namespace Code.Gameplay.UI.Hud.PaintChange
 
     private void InitStartColor(List<Color> colors)
     {
-      _syringeProvider.SyringePaintColor.ChangeLiquidColor(colors[0]);
+      _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(colors[0]);
       OnColorChange(_colorChangers[0]);
     }
 

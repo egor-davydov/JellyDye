@@ -15,11 +15,12 @@ MonoBehaviour:
   whitelistedDomains:
   - app-257958.games.s3.yandex.net
   - html-classic.itch.zone
+  pauseGameDuringAd: 1
   accountAvailableResponse: 0
   linkAccountResponse: 0
   getUserResponse: 0
   authPromptResponse: 0
   getTokenResponse: 0
-  disableSdkLogs: 0
+  disableSdkLogs: 1
   disableAdPreviews: 1
-  deviceType: 2
+  deviceType: 0

@@ -14,7 +14,7 @@ namespace Code.Services.AssetManagement
 {
   public class AddressablesAssetProvider : IAssetProvider
   {
-    private Dictionary<object, AsyncOperationHandle> _completedCache;
+    private Dictionary<string, AsyncOperationHandle> _completedCache;
 
     private readonly StaticDataService _staticDataService;
     private Func<CCDTokenConfig, bool> _ccdTokensPredicate;
@@ -32,30 +32,14 @@ namespace Code.Services.AssetManagement
       Addressables.InitializeAsync();
       CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
       _ccdTokensPredicate = config => config.ProfileName == ccdTokensStaticData.ActiveProfileName;
-      if (default != ccdTokensStaticData.Configs.FirstOrDefault(config => config.ProfileName == ccdTokensStaticData.ActiveProfileName))
+      if (default != ccdTokensStaticData.Configs.FirstOrDefault(_ccdTokensPredicate))
         Addressables.WebRequestOverride += AddressablesWebRequestOverride;
     }
 
-    public bool TryGetAsyncOperationHandle(AssetReference assetReference, out AsyncOperationHandle handle)
-    {
-      if (_completedCache.TryGetValue(assetReference.RuntimeKey, out AsyncOperationHandle completedHandle)) ;
-      {
-        handle = completedHandle;
-        return true;
-      }
-    }
+    public async UniTask<T> Load<T>(AssetReference assetReference) where T : Object =>
+      await Load<T>(ConvertAssetReferenceToStringKey(assetReference));
 
-    public async UniTask<T> Load<T>(AssetReference assetReference) where T : Object
-    {
-      return await LoadByKey<T>(assetReference.RuntimeKey);
-    }
-
-    public async UniTask<T> Load<T>(string address) where T : Object
-    {
-      return await LoadByKey<T>(address);
-    }
-
-    private async UniTask<T> LoadByKey<T>(object key) where T : Object
+    public async UniTask<T> Load<T>(string key) where T : Object
     {
       if (_completedCache.TryGetValue(key, out AsyncOperationHandle completedHandle))
         return await completedHandle.Convert<T>();
@@ -80,11 +64,14 @@ namespace Code.Services.AssetManagement
       _completedCache.Clear();
     }
 
-    public AsyncOperationHandle GetHandle(AssetReference assetReference) =>
-      _completedCache[assetReference.RuntimeKey];
+    public AsyncOperationHandle WarmUpAsset<T>(AssetReference assetReference) where T : Object =>
+      WarmUpAsset<T>(ConvertAssetReferenceToStringKey(assetReference));
 
-    public AsyncOperationHandle GetHandle(string address) =>
-      _completedCache[address];
+    public AsyncOperationHandle WarmUpAsset<T>(string key) where T : Object
+    {
+      Load<T>(key).Forget();
+      return _completedCache[key];
+    }
 
     private void AddressablesWebRequestOverride(UnityWebRequest overrideWebRequest)
     {
@@ -99,5 +86,8 @@ namespace Code.Services.AssetManagement
       string authenticate = username + ":" + password;
       return Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(authenticate));
     }
+
+    private string ConvertAssetReferenceToStringKey(AssetReference assetReference) =>
+      (string)assetReference.RuntimeKey;
   }
 }
