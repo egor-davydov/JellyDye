@@ -37,7 +37,7 @@ namespace Code.Gameplay.UI.Hud.PaintChange
 
     private void ChangeColorClick()
     {
-      _syringeProvider.SyringeInjection.SyringeReset();
+      _syringeProvider.SyringePistonAndLiquid.ResetEither().Forget();
       _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(_color);
       OnColorChange?.Invoke(this);
     }

@@ -39,7 +39,7 @@ namespace Code.Services.Factories
         syringeBasePrefab.transform.rotation, parent);
 
       SyringeMesh syringeMesh = await CreateMesh(skinType, syringeBaseObject.transform);
-      syringeBaseObject.GetComponent<SyringeInjection>().WireUp(syringeMesh.PistonTransform, syringeMesh.LiquidTransform);
+      syringeBaseObject.GetComponent<SyringePistonAndLiquid>().WireUp(syringeMesh.PistonTransform, syringeMesh.LiquidTransform);
       syringeBaseObject.GetComponent<SyringeLiquidColor>().WireUp(syringeMesh.LiquidRenderer);
 
       return syringeBaseObject;

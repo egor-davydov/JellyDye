@@ -56,10 +56,10 @@ namespace Code.Gameplay.UI.MainMenu
         Destroy(_syringeProvider.SyringeObject);
         _syringeProvider.Initialize(syringeObject);
 
-        _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
+        _syringeProvider.Syringe.Initialize(_hudProvider.InjectionButton);
         Color currentSelectedColor = _hudProvider.JarsContainer.CurrentSelectedColor;
         _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(currentSelectedColor);
-        _syringeProvider.SyringeInjection.SyringeReset();
+        _syringeProvider.SyringePistonAndLiquid.ResetEither().Forget();
       }
     }
 

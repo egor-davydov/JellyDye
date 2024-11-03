@@ -303,11 +303,11 @@ MonoBehaviour:
     - {r: 0.09587097, g: 0.149, b: 0.7741368, a: 1}
     - {r: 0.74967563, g: 0.23030901, b: 0.36, a: 1}
     AllColorsCached:
-    - {r: 0, g: 0.69803923, b: 1, a: 1}
-    - {r: 1, g: 1, b: 1, a: 1}
     - {r: 1, g: 0, b: 0.8862745, a: 1}
     - {r: 0.09587097, g: 0.149, b: 0.7741368, a: 1}
     - {r: 0.74967563, g: 0.23030901, b: 0.36, a: 1}
+    - {r: 0, g: 0.69803923, b: 1, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
     TargetTexture: {fileID: 2800000, guid: 9b65d8ab4a8e13947881be375a7ff4f2, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 618b8f9cd37e5464ea4cae1934ea3636, type: 3}
   - Id: hat

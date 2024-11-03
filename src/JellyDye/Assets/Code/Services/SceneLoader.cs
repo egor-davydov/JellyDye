@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -23,5 +24,12 @@ namespace Code.Services
 
       return loadSceneAsync.Result;
     }
+  }
+}
+
+class MyClass : IProgress<float>
+{
+  public void Report(float value)
+  {
   }
 }

@@ -7,8 +7,9 @@ namespace Code.Gameplay.Syringe
   {
     [SerializeField] private SyringeAudio _syringeAudio;
     [SerializeField] private FluxyTarget _fluxyTarget;
-    [SerializeField] private MeshRenderer _liquidRenderer;
     [SerializeField] private Shader _shader;
+
+    private MeshRenderer _liquidRenderer;
 
     private static readonly int LiquidColorId = Shader.PropertyToID("_Color");
     private static readonly int LiquidHColorId = Shader.PropertyToID("_HColor");

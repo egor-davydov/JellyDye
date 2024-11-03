@@ -86,8 +86,8 @@ namespace Code.Infrastructure.States
         _saveLoadService.SaveProgress();
       }
 
-      bool isLevelReloaded = sameLevelAsInProgress && !_isFirstLoad;
-      if (!isLevelReloaded)
+      bool isLevelRestarted = sameLevelAsInProgress && !_isFirstLoad;
+      if (!isLevelRestarted)
       {
         _levelIndex = LevelsStaticData.GetLevelIndex(_levelId);
         _levelConfig = LevelsStaticData.GetConfigByLevelId(_levelId);
@@ -133,7 +133,7 @@ namespace Code.Infrastructure.States
 
       await InitHud(_levelConfig);
 
-      _syringeProvider.SyringeInjection.Initialize(_hudProvider.InjectionButton);
+      _syringeProvider.Syringe.Initialize(_hudProvider.InjectionButton);
 
       _finishLevelService.Initialize();
       if (LevelsStaticData.FinishLevelImmediately)
@@ -153,7 +153,7 @@ namespace Code.Infrastructure.States
       GameObject syringeObject = await _syringeFactory.Create(equippedSkin, _parentsProvider.ParentForGameplay);
       syringeObject.transform.position = Vector3.up * 0.14f;
       _syringeProvider.Initialize(syringeObject);
-      _syringeProvider.SyringeInjection.SyringeReset();
+      _syringeProvider.SyringePistonAndLiquid.ResetEither().Forget();
     }
 
     private async UniTask InitHud(LevelConfig levelConfig)
