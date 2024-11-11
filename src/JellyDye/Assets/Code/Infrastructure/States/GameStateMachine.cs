@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Code.Infrastructure.States.Interfaces;
 using Code.Services.Factories;
 
 namespace Code.Infrastructure.States
@@ -8,10 +9,10 @@ namespace Code.Infrastructure.States
   {
     private readonly GameStateFactory _gameStateFactory;
     private Dictionary<Type, IExitableState> _states;
-    
+
     private IExitableState _currentState;
 
-    public GameStateMachine(GameStateFactory gameStateFactory) => 
+    public GameStateMachine(GameStateFactory gameStateFactory) =>
       _gameStateFactory = gameStateFactory;
 
     public void SetupStates()
@@ -23,6 +24,7 @@ namespace Code.Infrastructure.States
         [typeof(WarmUpState)] = _gameStateFactory.Create<WarmUpState>(),
         [typeof(LoadLevelState)] = _gameStateFactory.Create<LoadLevelState>(),
         [typeof(GameLoopState)] = _gameStateFactory.Create<GameLoopState>(),
+        [typeof(FinishLevelState)] = _gameStateFactory.Create<FinishLevelState>(),
       };
     }
 
@@ -43,7 +45,7 @@ namespace Code.Infrastructure.States
       _currentState?.Exit();
       TState state = (TState)_states[typeof(TState)];
       _currentState = state;
-      
+
       return state;
     }
   }

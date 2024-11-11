@@ -4,6 +4,7 @@ using Code.Constants;
 using Code.Data;
 using Code.Gameplay.UI.Hud;
 using Code.Gameplay.UI.MainMenu.Skins;
+using Code.Infrastructure.States.Interfaces;
 using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
@@ -32,7 +33,7 @@ namespace Code.Infrastructure.States
     private readonly ProgressService _progressService;
     private readonly StaticDataService _staticDataService;
     private readonly PaintCountCalculationService _paintCountCalculationService;
-    private readonly FinishLevelService _finishLevelService;
+    private readonly FinishButtonService _finishButtonService;
     private readonly ISaveLoadService _saveLoadService;
     private readonly AnalyticsService _analyticsService;
     private readonly PublishService _publishService;
@@ -49,7 +50,7 @@ namespace Code.Infrastructure.States
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
       IAssetProvider assetProvider, ProgressService progressService, StaticDataService staticDataService,
-      PaintCountCalculationService paintCountCalculationService, FinishLevelService finishLevelService,
+      PaintCountCalculationService paintCountCalculationService, FinishButtonService finishButtonService,
       ISaveLoadService saveLoadService, AnalyticsService analyticsService, PublishService publishService,
       SyringeProvider syringeProvider, HudProvider hudProvider, LevelLoadingFillProvider levelLoadingFillProvider,
       ParentsProvider parentsProvider)
@@ -63,7 +64,7 @@ namespace Code.Infrastructure.States
       _progressService = progressService;
       _staticDataService = staticDataService;
       _paintCountCalculationService = paintCountCalculationService;
-      _finishLevelService = finishLevelService;
+      _finishButtonService = finishButtonService;
       _saveLoadService = saveLoadService;
       _analyticsService = analyticsService;
       _publishService = publishService;
@@ -135,10 +136,10 @@ namespace Code.Infrastructure.States
 
       _syringeProvider.Syringe.Initialize(_hudProvider.InjectionButton);
 
-      _finishLevelService.Initialize();
-      if (LevelsStaticData.FinishLevelImmediately)
-        _finishLevelService.FinishLevel().Forget();
+      _finishButtonService.Initialize();
       _gameStateMachine.Enter<GameLoopState>();
+      if (LevelsStaticData.FinishLevelImmediately)
+        _gameStateMachine.Enter<FinishLevelState>();
     }
 
     private async UniTask<GameObject> InitJellies(LevelConfig levelConfig)

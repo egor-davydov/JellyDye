@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Code.Gameplay.UI.MainMenu.Skins;
-using Code.Services;
+﻿using Code.Data;
 using Code.Services.Progress;
 using Code.StaticData.Skins;
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,125 +15,56 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private GameObject[] _objectsToDisableIfPlayerHaveAllSkins;
     [SerializeField] private Image _nextSkinImage;
     [SerializeField] private Image _progressImage;
-    [SerializeField] private float _progressMoveTime = 1f;
+    [field: SerializeField] public float ProgressMoveTime { get; private set; }
+
+    private Tween _fillTween;
 
     private ProgressService _progressService;
-    private StaticDataService _staticDataService;
-
-    private float _finalFillAmount;
-    private Tween _fillTween;
-    private List<SkinType> _openedSkinTypes;
-    private UnlockableSkinConfig _nextSkinConfig;
-    private NewSkinSceneService _newSkinSceneService;
-    private bool _isAllSkinsUnlockedOnStart;
 
     [Inject]
-    public void Construct(ProgressService progressService,
-      StaticDataService staticDataService, NewSkinSceneService newSkinSceneService)
+    public void Construct(ProgressService progressService)
     {
-      _newSkinSceneService = newSkinSceneService;
-      _staticDataService = staticDataService;
       _progressService = progressService;
-
-      _openedSkinTypes = _progressService.Progress.SkinData.OpenedSkins;
     }
 
-    private void Awake()
-    {
-      _isAllSkinsUnlockedOnStart = AllSkinsUnlocked();
+    private SkinData SkinData => _progressService.Progress.SkinData;
 
-      if (_isAllSkinsUnlockedOnStart)
+    public void Initialize(bool isAllSkinsUnlockedBeforeSave, UnlockableSkinConfig nextSkinConfigBeforeSave)
+    {
+      if (isAllSkinsUnlockedBeforeSave)
         HideSkinObjects();
       else
-      {
-        SetNextSkinSprite();
-        _progressImage.fillAmount = _progressService.Progress.SkinData.NextSkinProgress;
-      }
-    }
-
-    private bool AllSkinsUnlocked()
-    {
-      return _staticDataService.ForSkins().UnlockableSkins
-        .All(unlockableSkinConfig => PlayerHaveSkin(unlockableSkinConfig.SkinType));
+        SetSkinIconAndFillAmount(nextSkinConfigBeforeSave.Icon, SkinData.NextSkinProgress);
     }
 
     private void OnDestroy() =>
       _fillTween.Kill();
 
-    public async UniTask IncreaseProgress(float increaseAmount)
+    public void AnimateFill()
     {
-      if (increaseAmount == 0 || _isAllSkinsUnlockedOnStart)
-        return;
-
-      await PlayAnimations(increaseAmount);
+      _fillTween = _progressImage.DOFillAmount(SkinData.NextSkinProgress, ProgressMoveTime).SetEase(FillTweenEase);
     }
 
-    private async UniTask PlayAnimations(float increaseAmount)
+    public Tween AnimateFillBeforeNewSkin(float fillDuration)
     {
-      if (!ProgressImageWillBeFilled(increaseAmount))
+      _fillTween = _progressImage.DOFillAmount(1, fillDuration)
+        .SetEase(FillTweenEase);
+      return _fillTween;
+    }
+
+    public void AnimateLastPartOrHideSkinObjects(bool isAllSkinsUnlockedAfterSave, float firstPartDuration, UnlockableSkinConfig nextSkinConfigAfterSave)
+    {
+      if (!isAllSkinsUnlockedAfterSave)
       {
-        _fillTween = _progressImage.DOFillAmount(_finalFillAmount, _progressMoveTime).SetEase(FillTweenEase);
+        SetSkinIconAndFillAmount(nextSkinConfigAfterSave.Icon, 0);
+        float lastPartDuration = ProgressMoveTime - firstPartDuration;
+        _fillTween = _progressImage.DOFillAmount(SkinData.NextSkinProgress, lastPartDuration).SetEase(FillTweenEase);
       }
       else
       {
-        bool allSkinsUnlocked = AllSkinsUnlocked();
-        float fillDuration = allSkinsUnlocked
-          ? _progressMoveTime
-          : _progressMoveTime * ((1 - _progressImage.fillAmount) / increaseAmount);
-        _fillTween = _progressImage.DOFillAmount(1, fillDuration)
-          .SetEase(FillTweenEase);
-        await _fillTween;
-
-        await _newSkinSceneService.ShowSkinScene(_nextSkinConfig.SkinType);
-        await _newSkinSceneService.HideSkinScene();
-        if (!allSkinsUnlocked)
-        {
-          SetNextSkinSprite();
-          _progressImage.fillAmount = 0;
-          float lastPartDuration = _progressMoveTime - fillDuration;
-          _fillTween = _progressImage.DOFillAmount(_finalFillAmount, lastPartDuration).SetEase(FillTweenEase);
-        }
-        else
-        {
-          HideSkinObjects();
-        }
+        HideSkinObjects();
       }
     }
-
-    public void CalculateAndSetProgress(float increaseAmount)
-    {
-      if (increaseAmount == 0 || _isAllSkinsUnlockedOnStart)
-        return;
-
-      if (!ProgressImageWillBeFilled(increaseAmount))
-      {
-        _finalFillAmount = _progressImage.fillAmount + increaseAmount;
-      }
-      else
-      {
-        _finalFillAmount = _progressImage.fillAmount + increaseAmount - 1;
-        _progressService.Progress.SkinData.OpenedSkins.Add(_nextSkinConfig.SkinType);
-      }
-
-      _progressService.Progress.SkinData.NextSkinProgress = _finalFillAmount;
-    }
-
-    private bool ProgressImageWillBeFilled(float increaseAmount) =>
-      _progressImage.fillAmount + increaseAmount >= 1;
-
-    private UnlockableSkinConfig FindOutNextSkin()
-    {
-      foreach (UnlockableSkinConfig unlockableSkinConfig in _staticDataService.ForSkins().UnlockableSkins)
-      {
-        if (!PlayerHaveSkin(unlockableSkinConfig.SkinType))
-          return unlockableSkinConfig;
-      }
-
-      throw new Exception("Cant find next skin config");
-    }
-
-    private bool PlayerHaveSkin(SkinType observableSkinType) =>
-      _openedSkinTypes.FirstOrDefault(skinType => skinType == observableSkinType) != default;
 
     private void HideSkinObjects()
     {
@@ -146,10 +72,10 @@ namespace Code.Gameplay.UI.FinishWindow
         objectToDisableIfPlayerHaveAllSkin.SetActive(false);
     }
 
-    private void SetNextSkinSprite()
+    private void SetSkinIconAndFillAmount(Sprite nextSkinIcon, float fillAmount)
     {
-      _nextSkinConfig = FindOutNextSkin();
-      _nextSkinImage.sprite = _nextSkinConfig.Icon;
+      _nextSkinImage.sprite = nextSkinIcon;
+      _progressImage.fillAmount = fillAmount;
     }
   }
 }

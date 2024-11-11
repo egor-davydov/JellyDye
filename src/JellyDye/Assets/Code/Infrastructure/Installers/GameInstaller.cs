@@ -63,7 +63,7 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
-      Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<FinishButtonService>().AsSingle();
     }
 
     private void BindProviders()
@@ -88,9 +88,10 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
       Container.Bind<InitializationState>().AsSingle();
       Container.Bind<LoadProgressState>().AsSingle();
-      Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<WarmUpState>().AsSingle();
+      Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<GameLoopState>().AsSingle();
+      Container.Bind<FinishLevelState>().AsSingle();
     }
   }
 }

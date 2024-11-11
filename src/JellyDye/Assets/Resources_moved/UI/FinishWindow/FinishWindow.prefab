@@ -394,7 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4434683f3d6443388d2ca4a6526df96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skinProgressBar: {fileID: 129504259301887031}
+  <SkinProgressBar>k__BackingField: {fileID: 129504259301887031}
   _yourResultImage: {fileID: 6353468499244395900}
   _shouldBeImage: {fileID: 4970889508480495939}
   _percentageText: {fileID: 645669028295108151}
@@ -420,7 +420,7 @@ MonoBehaviour:
   - {fileID: 9176237901648258519}
   _nextSkinImage: {fileID: 2768066064333836018}
   _progressImage: {fileID: 1413985459183875306}
-  _progressMoveTime: 2
+  <ProgressMoveTime>k__BackingField: 2
 --- !u!1 &1907030320903734844
 GameObject:
   m_ObjectHideFlags: 0

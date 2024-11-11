@@ -70,7 +70,7 @@ namespace Code.Helpers
         await ReplaceJellyBy(levelId);
         await UniTask.WaitForEndOfFrame();
         await UniTask.WaitForEndOfFrame();
-        Texture2D screenshot = await _screenshotService.TakeScreenshot();
+        Texture2D screenshot = await _screenshotService.TakeScreenshotAsync();
         await WriteScreenshotOnDisk(screenshot, levelId);
       }
 

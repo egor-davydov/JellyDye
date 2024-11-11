@@ -17,7 +17,7 @@ namespace Code.Services
       _platformBounds = mesh.bounds;
     }
 
-    public async UniTask<Texture2D> TakeScreenshot()
+    public async UniTask<Texture2D> TakeScreenshotAsync()
     {
       await UniTask.WaitForEndOfFrame();
       Texture2D screenshotTexture = ScreenshotFromRegion();

@@ -25,11 +25,11 @@ namespace Code.Services
       return loadSceneAsync.Result;
     }
   }
-}
 
-class MyClass : IProgress<float>
-{
-  public void Report(float value)
+  class MyClass : IProgress<float>
   {
+    public void Report(float value)
+    {
+    }
   }
 }

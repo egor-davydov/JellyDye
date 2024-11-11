@@ -141,7 +141,7 @@ namespace Code.Services
         GameReadyToPlayYandex();
     }
 
-    public void RequestCanPLayerReviewOrNot(Action<bool> isCanReviewResponse)
+    public void RequestCanPlayerReviewOrNot(Action<bool> isCanReviewResponse)
     {
       if (!IsOnYandexGames())
         return;

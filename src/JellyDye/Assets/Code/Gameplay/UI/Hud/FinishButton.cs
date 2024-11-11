@@ -1,4 +1,4 @@
-﻿using Code.Services;
+﻿using Code.Infrastructure.States;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -9,16 +9,18 @@ namespace Code.Gameplay.UI.Hud
   {
     [SerializeField] private Button _finishButton;
 
-    private FinishLevelService _finishLevelService;
+    private GameStateMachine _gameStateMachine;
 
     [Inject]
-    public void Construct(FinishLevelService finishLevelService) =>
-      _finishLevelService = finishLevelService;
+    public void Construct(GameStateMachine gameStateMachine)
+    {
+      _gameStateMachine = gameStateMachine;
+    }
 
     private void Awake() =>
       _finishButton.onClick.AddListener(FinishLevel);
 
     private void FinishLevel() =>
-      _finishLevelService.FinishLevel().Forget();
+      _gameStateMachine.Enter<FinishLevelState>();
   }
 }

@@ -4,6 +4,7 @@ using Code.Helpers;
 using Code.Services.Progress;
 using Code.StaticData;
 using Code.StaticData.Level;
+using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -15,7 +16,7 @@ namespace Code.Services
   {
     private readonly StaticDataService _staticDataService;
     private readonly ProgressService _progressService;
-    
+
     private FluxySolver _fluxySolver;
     private FluxyContainer[] _fluxyContainers;
 
@@ -39,7 +40,7 @@ namespace Code.Services
       _fluxyContainers = fluxyContainers;
       Object.Destroy(_densityReadbackTexture);
       _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat.RGBAHalf, false);
-      
+
       string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
       _currentLevelConfig = _staticDataService.ForLevels().GetConfigByLevelId(currentLevelId);
     }
@@ -55,25 +56,24 @@ namespace Code.Services
       return true;
     }
 
-    public void AsyncCalculatePaintPercentage(Action<float> callback)
+    public async UniTask<float> CalculatePaintPercentageAsync()
     {
-      RequestDensityTexture(() =>
+      await RequestDensityTextureAsync();
+      int paintedPixelsCount = 0;
+      int countPixelsShouldPaint = 0;
+      foreach (FluxyContainer fluxyContainer in _fluxyContainers)
       {
-        int paintedPixelsCount = 0;
-        int countPixelsShouldPaint = 0;
-        foreach (FluxyContainer fluxyContainer in _fluxyContainers)
-        {
-          JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
-          Vector2Int pixelsCount = CalculateJellyPaintedPixelsCount(jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
-          paintedPixelsCount += pixelsCount.x;
-          countPixelsShouldPaint += pixelsCount.y;
-        }
+        JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
+        (int jellyPaintedPixelsCount, int jellyCountPixelsShouldPaint) = CalculateJellyPaintedPixelsCount(jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
+        paintedPixelsCount += jellyPaintedPixelsCount;
+        countPixelsShouldPaint += jellyCountPixelsShouldPaint;
+      }
 
-        callback.Invoke((float)paintedPixelsCount / countPixelsShouldPaint * 100);
-      });
+      float percentage = (float)paintedPixelsCount / countPixelsShouldPaint * 100;
+      return percentage;
     }
 
-    private Vector2Int CalculateJellyPaintedPixelsCount(JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
+    private (int, int) CalculateJellyPaintedPixelsCount(JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
     {
       int paintedPixelsCount = 0;
       int shouldPaintedPixelsCount = jellyMeshConfig.Mesh.uv.Length;
@@ -99,7 +99,7 @@ namespace Code.Services
           else
             _colors[pixelColor]++;
 #endif
-          
+
           if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticDataService.ForLevels().ColorCompareEpsilon))
             paintedPixelsCount++;
         }
@@ -117,29 +117,24 @@ namespace Code.Services
           maxColorsCountColor = keyValuePair.Key;
         }
       }
+
       _colors.Clear();
 
       Debug.Log($"name={jellyMeshConfig.Mesh.name}; percentage= {(float)paintedPixelsCount / shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
       Debug.Log($"maxColorsCountColor={maxColorsCountColor};TargetColor={jellyMeshConfig.TargetColor}; maxColorsCount= {maxColorsCount};");
 #endif
 
-      return new Vector2Int(paintedPixelsCount, shouldPaintedPixelsCount);
+      return (paintedPixelsCount, shouldPaintedPixelsCount);
     }
-    
-    private void RequestDensityTexture(Action callback)
+
+    private async UniTask RequestDensityTextureAsync()
     {
-      if (_densityReadbackTexture != null)
-        AsyncGPUReadback.Request(DensityRenderTexture, 0, TextureFormat.RGBAHalf, (AsyncGPUReadbackRequest request) =>
-        {
-          if (request.hasError)
-            Debug.LogError("GPU readback error.");
-          else
-          {
-            _densityReadbackTexture.LoadRawTextureData(request.GetData<float>());
-            _densityReadbackTexture.Apply();
-            callback?.Invoke();
-          }
-        });
+      AsyncGPUReadbackRequest request = await AsyncGPUReadback.Request(DensityRenderTexture, 0, TextureFormat.RGBAHalf);
+      if (request.hasError)
+        throw new Exception("GPU readback error.");
+
+      _densityReadbackTexture.LoadRawTextureData(request.GetData<float>());
+      _densityReadbackTexture.Apply();
     }
   }
 }

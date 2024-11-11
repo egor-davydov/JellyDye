@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Code.Gameplay.UI.MainMenu.Skins;
 
 namespace Code.Data
@@ -11,6 +12,8 @@ namespace Code.Data
     public float NextSkinProgress;
     public List<SkinType> OpenedSkins;
 
+    public event Action Changed;
+
     public SkinData(int countOfSkins)
     {
       OpenedSkins = new List<SkinType>(countOfSkins)
@@ -19,7 +22,21 @@ namespace Code.Data
       };
     }
 
-    public event Action Changed;
+    public void UpdateNextSkinProgress(bool isProgressBarFilled, float increaseAmount)
+    {
+      if (!isProgressBarFilled)
+        NextSkinProgress += increaseAmount;
+      else
+      {
+        NextSkinProgress += increaseAmount - 1;
+      }
+    }
+
+    public void OpenSkin(SkinType nextSkinType) =>
+      OpenedSkins.Add(nextSkinType);
+
+    public bool IsPlayerHaveSkin(SkinType observableSkinType) =>
+      OpenedSkins.FirstOrDefault(skinType => skinType == observableSkinType) != default;
 
     public void EquipSkin(SkinType skinType)
     {

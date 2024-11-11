@@ -24,13 +24,13 @@ namespace Code.Gameplay.Syringe
     private int _injectableLayer;
     private Vector3 _currentForceDirection;
 
-    private FinishLevelService _finishLevelService;
+    private FinishButtonService _finishButtonService;
     private InjectionButton _injectionButton;
 
     [Inject]
-    public void Construct(FinishLevelService finishLevelService)
+    public void Construct(FinishButtonService finishButtonService)
     {
-      _finishLevelService = finishLevelService;
+      _finishButtonService = finishButtonService;
     }
 
     public void Initialize(InjectionButton injectionButton)
@@ -71,10 +71,10 @@ namespace Code.Gameplay.Syringe
       _currentContainer.targets.Add(_fluxyTarget);
       _fluxyTarget.enabled = true;
 
-      Paint().Forget();
+      PaintAsync().Forget();
       _currentContainer.HasPaint = true;
-      if (!_finishLevelService.CanFinish)
-        _finishLevelService.CheckPaint();
+      if (!_finishButtonService.FinishButtonCreated)
+        _finishButtonService.CreateFinishButtonIfAllMeshesPainted();
     }
 
     private void StopPainting()
@@ -87,7 +87,7 @@ namespace Code.Gameplay.Syringe
       _fluxyTarget.enabled = false;
     }
 
-    private async UniTask Paint()
+    private async UniTask PaintAsync()
     {
       float additionalIncreaseSpeed = _currentContainer.AdditionalPaintIncreaseSpeed;
       float forcePlusAdditional = _targetForcePower + additionalIncreaseSpeed;
