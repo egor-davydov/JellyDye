@@ -15,11 +15,13 @@ namespace Code.Services
     private const string LevelsDataPath = "StaticData/Levels";
     private const string TokensDataPath = "StaticData/CCDTokens";
     private const string GameSettingsPath = "StaticData/GameSettings";
+    private const string DevelopHelpersDataPath = "StaticData/DevelopHelpers";
 
     private Dictionary<SkinType, SkinConfig> _skinsStaticData;
     private Dictionary<string, LevelConfig> _levelsStaticData;
     private Dictionary<string, CcdTokenConfig> _tokensStaticData;
 
+    public DevelopHelpersStaticData ForDevelopHelpers { get; private set; }
     public GameSettings ForGameSettings { get; private set; }
     public CcdTokensStaticData ForCcdTokens { get; private set; }
     public SkinsStaticData ForSkins { get; private set; }
@@ -31,6 +33,7 @@ namespace Code.Services
       ForLevels = Resources.Load<LevelsStaticData>(LevelsDataPath);
       ForCcdTokens = Resources.Load<CcdTokensStaticData>(TokensDataPath);
       ForGameSettings = Resources.Load<GameSettings>(GameSettingsPath);
+      ForDevelopHelpers = Resources.Load<DevelopHelpersStaticData>(DevelopHelpersDataPath);
 
       _skinsStaticData = ForSkins.SkinConfigs.ToDictionary(x => x.SkinType);
       _levelsStaticData = ForLevels.LevelConfigs.ToDictionary(x => x.Id);

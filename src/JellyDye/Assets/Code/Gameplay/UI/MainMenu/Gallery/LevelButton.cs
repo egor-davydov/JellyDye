@@ -55,7 +55,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         UnCompletedTurnOn(true);
         NotFullCompletedTurnOn(false);
         FullCompletedTurnOn(false);
-        _levelNumber.text = levelsStaticData.IsShowingNames
+        _levelNumber.text = _staticData.ForDevelopHelpers.IsShowingNames
           ? levelId
           : _stringsService.Numbers[levelIndex + 1];
       }

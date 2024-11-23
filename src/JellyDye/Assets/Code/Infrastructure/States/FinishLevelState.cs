@@ -59,7 +59,7 @@ namespace Code.Infrastructure.States
       int roundedPercentage = Mathf.RoundToInt(await calculatePaintPercentageTask);
       float increaseAmount = _staticData.ForSkins.MinSkinProgress * ((float)roundedPercentage / 100);
       float currentAmount = _progress.ForSkins.NextSkinProgress;
-      if (_staticData.ForLevels.OpenNewSkin)
+      if (_staticData.ForDevelopHelpers.OpenNewSkin)
       {
         roundedPercentage = 100;
         increaseAmount = 1;

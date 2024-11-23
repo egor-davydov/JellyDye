@@ -134,7 +134,7 @@ namespace Code.Infrastructure.States
 
       _finishButtonService.Initialize();
       _gameStateMachine.Enter<GameLoopState>();
-      if (_staticData.ForLevels.FinishLevelImmediately)
+      if (_staticData.ForDevelopHelpers.FinishLevelImmediately)
         _gameStateMachine.Enter<FinishLevelState>();
     }
 
