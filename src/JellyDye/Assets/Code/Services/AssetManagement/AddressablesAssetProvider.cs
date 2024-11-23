@@ -24,13 +24,13 @@ namespace Code.Services.AssetManagement
 
     public void Initialize()
     {
-      int levelPrefabsCount = _staticData.Levels.LevelConfigs.Length;
-      int jellyMeshesCount = _staticData.Levels.LevelConfigs.Sum(x => x.JellyMeshConfigs.Count);
-      int skinsCount = _staticData.Skins.SkinConfigs.Length;
+      int levelPrefabsCount = _staticData.ForLevels.LevelConfigs.Length;
+      int jellyMeshesCount = _staticData.ForLevels.LevelConfigs.Sum(x => x.JellyMeshConfigs.Count);
+      int skinsCount = _staticData.ForSkins.SkinConfigs.Length;
       int assetsCount = levelPrefabsCount + jellyMeshesCount + skinsCount + 10;
       _completedCache = new(assetsCount);
       Addressables.InitializeAsync();
-      _ccdTokenConfig = _staticData.ForCcdToken(_staticData.CcdTokens.ActiveProfileName);
+      _ccdTokenConfig = _staticData.ForCcdToken(_staticData.ForCcdTokens.ActiveProfileName);
       if (_ccdTokenConfig != null)
         Addressables.WebRequestOverride += AddressablesWebRequestOverride;
     }

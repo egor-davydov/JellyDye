@@ -12,14 +12,14 @@ namespace Code.Services.Factories
   {
     private readonly IInstantiator _instantiator;
     private readonly IAssetProvider _assetProvider;
-    private readonly StaticDataService _staticDataService;
+    private readonly StaticDataService _staticData;
 
-    public SyringeFactory(IInstantiator instantiator, IAssetProvider assetProvider, StaticDataService staticDataService
+    public SyringeFactory(IInstantiator instantiator, IAssetProvider assetProvider, StaticDataService staticData
     )
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
-      _staticDataService = staticDataService;
+      _staticData = staticData;
     }
 
     public async UniTask<GameObject> Create(SkinType skinType, Vector3 at, Quaternion rotation, Transform parent)
@@ -32,7 +32,7 @@ namespace Code.Services.Factories
 
     public async UniTask<GameObject> Create(SkinType skinType, Transform parent)
     {
-      AssetReference syringeBaseReference = _staticDataService.Skins.SyringeBaseReference;
+      AssetReference syringeBaseReference = _staticData.ForSkins.SyringeBaseReference;
       GameObject syringeBasePrefab = await _assetProvider.Load<GameObject>(syringeBaseReference);
       GameObject syringeBaseObject = _instantiator.InstantiatePrefab(syringeBasePrefab,
         syringeBasePrefab.transform.position,
@@ -47,7 +47,7 @@ namespace Code.Services.Factories
 
     public async UniTask<SyringeMesh> CreateMesh(SkinType skinType, Transform parent)
     {
-      AssetReference skinReference = _staticDataService.ForSkin(skinType).SkinReference;
+      AssetReference skinReference = _staticData.ForSkin(skinType).SkinReference;
       GameObject syringeMeshPrefab = await _assetProvider.Load<GameObject>(skinReference);
       SyringeMesh syringeMesh = _instantiator.InstantiatePrefabForComponent<SyringeMesh>(syringeMeshPrefab, parent);
       return syringeMesh;

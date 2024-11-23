@@ -19,7 +19,7 @@ namespace Code.Gameplay.UI.NewSkin
 
     private AnimatedButtonFactory _animatedButtonFactory;
     private EquipNewSkinButtonFactory _equipNewSkinButtonFactory;
-    private StaticDataService _staticDataService;
+    private StaticDataService _staticData;
     private PublishService _publishService;
 
     [Inject]
@@ -27,12 +27,12 @@ namespace Code.Gameplay.UI.NewSkin
       StaticDataService staticDataService, PublishService publishService)
     {
       _publishService = publishService;
-      _staticDataService = staticDataService;
+      _staticData = staticDataService;
       _equipNewSkinButtonFactory = equipNewSkinButtonFactory;
       _animatedButtonFactory = animatedButtonFactory;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.Skins.NewSkinSceneConfig;
+    private NewSkinSceneConfig NewSkinSceneConfig => _staticData.ForSkins.NewSkinSceneConfig;
     public ButtonClickedEvent CloseSkinButtonClick { get; private set; }
 
     public async UniTask InitializeAsync(SkinType skinType)
@@ -40,7 +40,7 @@ namespace Code.Gameplay.UI.NewSkin
       string localizedSkinName = _publishService.GetPlayerLanguage() switch
       {
         LanguageType.English => skinType.ToString(),
-        LanguageType.Russian => _staticDataService.ForSkin(skinType).RuName,
+        LanguageType.Russian => _staticData.ForSkin(skinType).RuName,
         _ => throw new ArgumentOutOfRangeException()
       };
 

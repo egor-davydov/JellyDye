@@ -32,8 +32,8 @@ namespace Code.Data
       }
     }
 
-    public void OpenSkin(SkinType nextSkinType) =>
-      OpenedSkins.Add(nextSkinType);
+    public void OpenSkin(SkinType skinType) =>
+      OpenedSkins.Add(skinType);
 
     public bool IsPlayerHaveSkin(SkinType observableSkinType) =>
       OpenedSkins.FirstOrDefault(skinType => skinType == observableSkinType) != default;

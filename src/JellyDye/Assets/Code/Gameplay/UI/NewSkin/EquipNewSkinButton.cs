@@ -16,13 +16,13 @@ namespace Code.Gameplay.UI.NewSkin
     [SerializeField] private float _fadeDelay;
     [SerializeField] private float _fadeTime;
 
-    private ProgressService _progressService;
+    private ProgressService _progress;
     private SkinType _skinType;
 
     [Inject]
     public void Construct(ProgressService progressService)
     {
-      _progressService = progressService;
+      _progress = progressService;
     }
 
     public void Initialize(SkinType skinType)
@@ -38,7 +38,7 @@ namespace Code.Gameplay.UI.NewSkin
     private async UniTaskVoid OnEquipNewSkinButtonClick()
     {
       _uiAudio.PlayClick();
-      _progressService.Progress.SkinData.EquipSkin(_skinType);
+      _progress.ForSkins.EquipSkin(_skinType);
       _button.gameObject.SetActive(false);
       await UniTask.WaitForSeconds(_fadeDelay).AttachExternalCancellation(destroyCancellationToken);
       await _skinEquippedImage.DOFade(0, _fadeTime).WithCancellation(destroyCancellationToken);

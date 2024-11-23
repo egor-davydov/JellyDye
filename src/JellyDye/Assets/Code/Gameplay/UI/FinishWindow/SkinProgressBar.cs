@@ -1,5 +1,4 @@
-﻿using Code.Data;
-using Code.Services.Progress;
+﻿using Code.Services.Progress;
 using Code.StaticData.Skins;
 using DG.Tweening;
 using UnityEngine;
@@ -19,22 +18,20 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private Tween _fillTween;
 
-    private ProgressService _progressService;
+    private ProgressService _progress;
 
     [Inject]
     public void Construct(ProgressService progressService)
     {
-      _progressService = progressService;
+      _progress = progressService;
     }
-
-    private SkinData SkinData => _progressService.Progress.SkinData;
 
     public void Initialize(bool isAllSkinsUnlockedBeforeSave, UnlockableSkinConfig nextSkinConfigBeforeSave)
     {
       if (isAllSkinsUnlockedBeforeSave)
         HideSkinObjects();
       else
-        SetSkinIconAndFillAmount(nextSkinConfigBeforeSave.Icon, SkinData.NextSkinProgress);
+        SetSkinIconAndFillAmount(nextSkinConfigBeforeSave.Icon, _progress.ForSkins.NextSkinProgress);
     }
 
     private void OnDestroy() =>
@@ -42,12 +39,15 @@ namespace Code.Gameplay.UI.FinishWindow
 
     public void AnimateFill()
     {
-      _fillTween = _progressImage.DOFillAmount(SkinData.NextSkinProgress, ProgressMoveTime).SetEase(FillTweenEase);
+      _fillTween = _progressImage
+        .DOFillAmount(_progress.ForSkins.NextSkinProgress, ProgressMoveTime)
+        .SetEase(FillTweenEase);
     }
 
     public Tween AnimateFillBeforeNewSkin(float fillDuration)
     {
-      _fillTween = _progressImage.DOFillAmount(1, fillDuration)
+      _fillTween = _progressImage
+        .DOFillAmount(1, fillDuration)
         .SetEase(FillTweenEase);
       return _fillTween;
     }
@@ -58,7 +58,7 @@ namespace Code.Gameplay.UI.FinishWindow
       {
         SetSkinIconAndFillAmount(nextSkinConfigAfterSave.Icon, 0);
         float lastPartDuration = ProgressMoveTime - firstPartDuration;
-        _fillTween = _progressImage.DOFillAmount(SkinData.NextSkinProgress, lastPartDuration).SetEase(FillTweenEase);
+        _fillTween = _progressImage.DOFillAmount(_progress.ForSkins.NextSkinProgress, lastPartDuration).SetEase(FillTweenEase);
       }
       else
       {

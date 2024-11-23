@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Code.Data;
 using Code.Gameplay.UI.FinishWindow;
 using Code.Infrastructure.States.Interfaces;
 using Code.Services;
@@ -22,18 +21,18 @@ namespace Code.Infrastructure.States
     private readonly WindowFactory _windowFactory;
     private readonly SyringeProvider _syringeProvider;
     private readonly HudProvider _hudProvider;
-    private readonly StaticDataService _staticDataService;
+    private readonly StaticDataService _staticData;
     private readonly PublishService _publishService;
     private readonly AnalyticsService _analyticsService;
-    private readonly ProgressService _progressService;
+    private readonly ProgressService _progress;
     private readonly ISaveLoadService _saveLoadService;
     private readonly NewSkinSceneService _newSkinSceneService;
 
     public FinishLevelState(PaintCountCalculationService paintCountCalculationService,
       AnimatedButtonFactory animatedButtonFactory, CameraService cameraService, ScreenshotService screenshotService,
       WindowFactory windowFactory, SyringeProvider syringeProvider, HudProvider hudProvider,
-      StaticDataService staticDataService, PublishService publishService, AnalyticsService analyticsService,
-      ProgressService progressService, ISaveLoadService saveLoadService, NewSkinSceneService newSkinSceneService)
+      StaticDataService staticData, PublishService publishService, AnalyticsService analyticsService,
+      ProgressService progress, ISaveLoadService saveLoadService, NewSkinSceneService newSkinSceneService)
     {
       _paintCountCalculationService = paintCountCalculationService;
       _animatedButtonFactory = animatedButtonFactory;
@@ -42,16 +41,13 @@ namespace Code.Infrastructure.States
       _windowFactory = windowFactory;
       _syringeProvider = syringeProvider;
       _hudProvider = hudProvider;
-      _staticDataService = staticDataService;
+      _staticData = staticData;
       _publishService = publishService;
       _analyticsService = analyticsService;
-      _progressService = progressService;
+      _progress = progress;
       _saveLoadService = saveLoadService;
       _newSkinSceneService = newSkinSceneService;
     }
-
-    private LevelData LevelData => _progressService.Progress.LevelData;
-    private SkinData SkinData => _progressService.Progress.SkinData;
 
     public async UniTaskVoid Enter()
     {
@@ -61,9 +57,9 @@ namespace Code.Infrastructure.States
       await AnimateAndShowCameraFlash();
 
       int roundedPercentage = Mathf.RoundToInt(await calculatePaintPercentageTask);
-      float increaseAmount = _staticDataService.Skins.MinSkinProgress * ((float)roundedPercentage / 100);
-      float currentAmount = SkinData.NextSkinProgress;
-      if (_staticDataService.Levels.OpenNewSkin)
+      float increaseAmount = _staticData.ForSkins.MinSkinProgress * ((float)roundedPercentage / 100);
+      float currentAmount = _progress.ForSkins.NextSkinProgress;
+      if (_staticData.ForLevels.OpenNewSkin)
       {
         roundedPercentage = 100;
         increaseAmount = 1;
@@ -123,12 +119,12 @@ namespace Code.Infrastructure.States
     private void SetAndSaveProgress(int roundedPercentage, bool isSkinProgressChanged, bool isProgressWillBeFilled,
       float increaseAmount, UnlockableSkinConfig nextSkinConfigBeforeSave)
     {
-      LevelData.ManageCompletedLevel(LevelData.CurrentLevelId, roundedPercentage);
+      _progress.ForLevels.ManageCompletedLevel(_progress.ForLevels.CurrentLevelId, roundedPercentage);
       if (isSkinProgressChanged)
       {
-        SkinData.UpdateNextSkinProgress(isProgressWillBeFilled, increaseAmount);
+        _progress.ForSkins.UpdateNextSkinProgress(isProgressWillBeFilled, increaseAmount);
         if (isProgressWillBeFilled)
-          SkinData.OpenSkin(nextSkinConfigBeforeSave.SkinType);
+          _progress.ForSkins.OpenSkin(nextSkinConfigBeforeSave.SkinType);
       }
 
       _saveLoadService.SaveProgress();
@@ -136,10 +132,10 @@ namespace Code.Infrastructure.States
 
     private void SendAnalyticsSetLeaderboardRequestReview(int roundedPercentage)
     {
-      int levelIndex = _staticDataService.Levels.GetLevelIndex(LevelData.CurrentLevelId);
-      _analyticsService.LevelEnd(levelIndex, LevelData.CurrentLevelId, roundedPercentage);
-      _publishService.SetToLeaderboard(LevelData.CompletedLevels.Sum(level => level.Percentage));
-      if (LevelData.CompletedLevels.Count >= 3)
+      int levelIndex = _staticData.ForLevels.GetLevelIndex(_progress.ForLevels.CurrentLevelId);
+      _analyticsService.LevelEnd(levelIndex, _progress.ForLevels.CurrentLevelId, roundedPercentage);
+      _publishService.SetToLeaderboard(_progress.ForLevels.CompletedLevels.Sum(level => level.Percentage));
+      if (_progress.ForLevels.CompletedLevels.Count >= 3)
         _publishService.RequestCanPlayerReviewOrNot(OnServerReviewResponse);
     }
 
@@ -160,8 +156,8 @@ namespace Code.Infrastructure.States
 
     public bool IsAllSkinsUnlocked()
     {
-      return _staticDataService.Skins.UnlockableSkins
-        .All(unlockableSkinConfig => SkinData.IsPlayerHaveSkin(unlockableSkinConfig.SkinType));
+      return _staticData.ForSkins.UnlockableSkins
+        .All(unlockableSkinConfig => _progress.ForSkins.IsPlayerHaveSkin(unlockableSkinConfig.SkinType));
     }
 
     public bool IsProgressBarWillBeFilled(float currentAmount, float increaseAmount) =>
@@ -183,6 +179,6 @@ namespace Code.Infrastructure.States
       Time.timeScale = 1;
 
     private UnlockableSkinConfig GetNextSkinConfig() =>
-      _staticDataService.Skins.UnlockableSkins.First(config => !SkinData.IsPlayerHaveSkin(config.SkinType));
+      _staticData.ForSkins.UnlockableSkins.First(config => !_progress.ForSkins.IsPlayerHaveSkin(config.SkinType));
   }
 }

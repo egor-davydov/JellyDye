@@ -14,8 +14,8 @@ namespace Code.Services
 {
   public class PaintCountCalculationService
   {
-    private readonly StaticDataService _staticDataService;
-    private readonly ProgressService _progressService;
+    private readonly StaticDataService _staticData;
+    private readonly ProgressService _progress;
 
     private FluxySolver _fluxySolver;
     private FluxyContainer[] _fluxyContainers;
@@ -28,10 +28,10 @@ namespace Code.Services
     private Texture2D _densityReadbackTexture;
     private RenderTexture DensityRenderTexture => _fluxySolver.framebuffer.stateA;
 
-    private PaintCountCalculationService(StaticDataService staticDataService, ProgressService progressService)
+    private PaintCountCalculationService(StaticDataService staticData, ProgressService progress)
     {
-      _progressService = progressService;
-      _staticDataService = staticDataService;
+      _progress = progress;
+      _staticData = staticData;
     }
 
     public void InitializeOnSceneLoad(FluxySolver fluxySolver, FluxyContainer[] fluxyContainers)
@@ -41,8 +41,8 @@ namespace Code.Services
       Object.Destroy(_densityReadbackTexture);
       _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat.RGBAHalf, false);
 
-      string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
-      _currentLevelConfig = _staticDataService.ForLevel(currentLevelId);
+      string currentLevelId = _progress.ForLevels.CurrentLevelId;
+      _currentLevelConfig = _staticData.ForLevel(currentLevelId);
     }
 
     public bool HasPaintOnAllMeshes()
@@ -100,7 +100,7 @@ namespace Code.Services
             _colors[pixelColor]++;
 #endif
 
-          if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticDataService.Levels.ColorCompareEpsilon))
+          if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticData.ForLevels.ColorCompareEpsilon))
             paintedPixelsCount++;
         }
       }

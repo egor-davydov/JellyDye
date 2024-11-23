@@ -39,12 +39,14 @@ namespace Code.Editor
       var staticDataService = new StaticDataService();
       staticDataService.Initialize();
       var progressService = new ProgressService(staticDataService);
-      PlayerProgress playerProgress = progressService.NewProgress();
-      foreach (LevelConfig levelConfig in staticDataService.Levels.LevelConfigs)
+      progressService.CreateAndSetStartProgress();
+
+      PlayerProgress playerProgress = progressService.Whole;
+      foreach (LevelConfig levelConfig in staticDataService.ForLevels.LevelConfigs)
         playerProgress.LevelData.ManageCompletedLevel(levelConfig.Id, 100);
       foreach (SkinType skinType in Enum.GetValues(typeof(SkinType)))
-        playerProgress.SkinData.OpenedSkins.Add(skinType);
-      progressService.SetProgress(playerProgress);
+        playerProgress.SkinData.OpenSkin(skinType);
+
       ISaveLoadService saveLoadService = new FileSyncSaveLoadService(progressService);
       saveLoadService.SaveProgress();
     }

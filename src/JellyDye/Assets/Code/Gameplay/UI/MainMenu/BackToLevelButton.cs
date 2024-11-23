@@ -15,7 +15,7 @@ namespace Code.Gameplay.UI.MainMenu
     [SerializeField] private Button _backButton;
 
     private SyringeFactory _syringeFactory;
-    private ProgressService _progressService;
+    private ProgressService _progress;
     private SyringeProvider _syringeProvider;
     private HudProvider _hudProvider;
     private SkinType _equippedSkinOnOpen;
@@ -26,14 +26,14 @@ namespace Code.Gameplay.UI.MainMenu
     {
       _hudProvider = hudProvider;
       _syringeProvider = syringeProvider;
-      _progressService = progressService;
+      _progress = progressService;
       _syringeFactory = syringeFactory;
     }
 
     private void Awake()
     {
       _backButton.onClick.AddListener(UniTask.UnityAction(CloseMenu));
-      _equippedSkinOnOpen = _progressService.Progress.SkinData.EquippedSkin;
+      _equippedSkinOnOpen = _progress.ForSkins.EquippedSkin;
     }
 
     private async UniTaskVoid CloseMenu()
@@ -44,7 +44,7 @@ namespace Code.Gameplay.UI.MainMenu
 
     private async UniTask ChangeSkinIfNeeded()
     {
-      SkinType equippedSkinOnClose = _progressService.Progress.SkinData.EquippedSkin;
+      SkinType equippedSkinOnClose = _progress.ForSkins.EquippedSkin;
       if (equippedSkinOnClose != _equippedSkinOnOpen && !SyringeAlreadyDestroyed())
       {
         Transform previousSyringeTransform = _syringeProvider.SyringeObject.transform;

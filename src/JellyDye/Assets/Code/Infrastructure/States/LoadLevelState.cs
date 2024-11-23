@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Code.Constants;
-using Code.Data;
 using Code.Gameplay.UI.Hud;
 using Code.Gameplay.UI.MainMenu.Skins;
 using Code.Infrastructure.States.Interfaces;
@@ -30,8 +29,8 @@ namespace Code.Infrastructure.States
     private readonly SyringeFactory _syringeFactory;
     private readonly JelliesFactory _jelliesFactory;
     private readonly IAssetProvider _assetProvider;
-    private readonly ProgressService _progressService;
-    private readonly StaticDataService _staticDataService;
+    private readonly ProgressService _progress;
+    private readonly StaticDataService _staticData;
     private readonly PaintCountCalculationService _paintCountCalculationService;
     private readonly FinishButtonService _finishButtonService;
     private readonly ISaveLoadService _saveLoadService;
@@ -49,7 +48,7 @@ namespace Code.Infrastructure.States
 
     public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
       HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
-      IAssetProvider assetProvider, ProgressService progressService, StaticDataService staticDataService,
+      IAssetProvider assetProvider, ProgressService progress, StaticDataService staticData,
       PaintCountCalculationService paintCountCalculationService, FinishButtonService finishButtonService,
       ISaveLoadService saveLoadService, AnalyticsService analyticsService, PublishService publishService,
       SyringeProvider syringeProvider, HudProvider hudProvider, LevelLoadingFillProvider levelLoadingFillProvider,
@@ -61,8 +60,8 @@ namespace Code.Infrastructure.States
       _syringeFactory = syringeFactory;
       _jelliesFactory = jelliesFactory;
       _assetProvider = assetProvider;
-      _progressService = progressService;
-      _staticDataService = staticDataService;
+      _progress = progress;
+      _staticData = staticData;
       _paintCountCalculationService = paintCountCalculationService;
       _finishButtonService = finishButtonService;
       _saveLoadService = saveLoadService;
@@ -74,24 +73,21 @@ namespace Code.Infrastructure.States
       _parentsProvider = parentsProvider;
     }
 
-    private LevelsStaticData LevelsStaticData => _staticDataService.Levels;
-    private LevelData ProgressLevelData => _progressService.Progress.LevelData;
-
     public async UniTaskVoid Enter(string levelId)
     {
       _levelId = levelId;
-      bool sameLevelAsInProgress = _levelId == ProgressLevelData.CurrentLevelId;
+      bool sameLevelAsInProgress = _levelId == _progress.ForLevels.CurrentLevelId;
       if (!sameLevelAsInProgress)
       {
-        ProgressLevelData.CurrentLevelId = _levelId;
+        _progress.ForLevels.CurrentLevelId = _levelId;
         _saveLoadService.SaveProgress();
       }
 
       bool isLevelRestarted = sameLevelAsInProgress && !_isFirstLoad;
       if (!isLevelRestarted)
       {
-        _levelIndex = LevelsStaticData.GetLevelIndex(_levelId);
-        _levelConfig = _staticDataService.ForLevel(_levelId);
+        _levelIndex = _staticData.ForLevels.GetLevelIndex(_levelId);
+        _levelConfig = _staticData.ForLevel(_levelId);
 
         List<AsyncOperationHandle> loadingOperations = GetLevelLoadOperations();
         if (!loadingOperations.All(x => x.IsDone))
@@ -138,7 +134,7 @@ namespace Code.Infrastructure.States
 
       _finishButtonService.Initialize();
       _gameStateMachine.Enter<GameLoopState>();
-      if (LevelsStaticData.FinishLevelImmediately)
+      if (_staticData.ForLevels.FinishLevelImmediately)
         _gameStateMachine.Enter<FinishLevelState>();
     }
 
@@ -150,7 +146,7 @@ namespace Code.Infrastructure.States
 
     private async UniTask InitSyringe()
     {
-      SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
+      SkinType equippedSkin = _progress.ForSkins.EquippedSkin;
       GameObject syringeObject = await _syringeFactory.Create(equippedSkin, _parentsProvider.ParentForGameplay);
       syringeObject.transform.position = Vector3.up * 0.14f;
       _syringeProvider.Initialize(syringeObject);
@@ -178,7 +174,7 @@ namespace Code.Infrastructure.States
       if (_isFirstLoad)
         handles.Add(_assetProvider.WarmUpAsset<GameObject>(AssetKey.Hud));
 
-      AssetReference syringeSkinReference = _staticDataService.ForSkin(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
+      AssetReference syringeSkinReference = _staticData.ForSkin(_progress.ForSkins.EquippedSkin).SkinReference;
       handles.Add(_assetProvider.WarmUpAsset<GameObject>(syringeSkinReference));
 
       return handles;

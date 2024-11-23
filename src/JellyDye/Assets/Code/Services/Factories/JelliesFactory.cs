@@ -12,19 +12,19 @@ namespace Code.Services.Factories
     private readonly IInstantiator _instantiator;
     private readonly IAssetProvider _assetProvider;
     private readonly ParentsProvider _parentsProvider;
-    private readonly StaticDataService _staticDataService;
+    private readonly StaticDataService _staticData;
 
-    public JelliesFactory(IInstantiator instantiator, IAssetProvider assetProvider, ParentsProvider parentsProvider, StaticDataService staticDataService)
+    public JelliesFactory(IInstantiator instantiator, IAssetProvider assetProvider, ParentsProvider parentsProvider, StaticDataService staticData)
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
       _parentsProvider = parentsProvider;
-      _staticDataService = staticDataService;
+      _staticData = staticData;
     }
 
     public async UniTask<GameObject> CreateJelly(string id)
     {
-      AssetReference jelliesPrefabReference = _staticDataService.ForLevel(id).JelliesPrefabReference;
+      AssetReference jelliesPrefabReference = _staticData.ForLevel(id).JelliesPrefabReference;
       GameObject jelliesPrefab = await _assetProvider.Load<GameObject>(jelliesPrefabReference);
       GameObject jelliesObject = _instantiator.InstantiatePrefab(jelliesPrefab, _parentsProvider.ParentForGameplay);
       return jelliesObject;

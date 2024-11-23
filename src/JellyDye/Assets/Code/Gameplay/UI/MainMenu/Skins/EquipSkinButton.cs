@@ -17,53 +17,52 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     [SerializeField] private Sprite _skinEquippedSprite;
     [SerializeField] private Button _equipSkinButton;
     [SerializeField] private float _unScaleDuration;
-    
-    private Sprite _skinUnequippedSprite;
 
-    private ProgressService _progressService;
-    private SkinData _progressSkinData;
-    private ISaveLoadService _saveLoadService;
+    private Sprite _skinUnequippedSprite;
     private Tween _unScaleTween;
-    
+
+    private ProgressService _progress;
+    private ISaveLoadService _saveLoadService;
+
     [Inject]
     public void Construct(ProgressService progressService, ISaveLoadService saveLoadService)
     {
       _saveLoadService = saveLoadService;
-      _progressService = progressService;
-      _progressSkinData = _progressService.Progress.SkinData;
+      _progress = progressService;
     }
 
     private void Awake()
     {
       _skinUnequippedSprite = _skinButtonImage.sprite;
-      CheckEquipped();
+      CheckIsEquipped();
 
       _equipSkinButton.onClick.AddListener(EquipSkin);
-      _progressSkinData.Changed += CheckEquipped;
+      _progress.ForSkins.Changed += CheckIsEquipped;
     }
 
     private void OnDestroy()
     {
       _unScaleTween.Kill();
-      _progressSkinData.Changed -= CheckEquipped;
+      _progress.ForSkins.Changed -= CheckIsEquipped;
     }
 
     private void EquipSkin()
     {
-      if (_lockSkin.SkinLocked || _progressSkinData.EquippedSkin == SkinType)
+      SkinData skinsProgress = _progress.ForSkins;
+      if (_lockSkin.SkinLocked || skinsProgress.EquippedSkin == SkinType)
         return;
 
       _uiAudio.PlayClick();
-      _progressSkinData.EquipSkin(SkinType);
+      skinsProgress.EquipSkin(SkinType);
       _saveLoadService.SaveProgress();
       _skinButtonImage.sprite = _skinEquippedSprite;
-      _skinButtonImage.transform.localScale = Vector3.one* 1.1f;
+      _skinButtonImage.transform.localScale = Vector3.one * 1.1f;
       _unScaleTween = _skinButtonImage.transform.DOScale(Vector3.one, _unScaleDuration);
     }
 
-    private void CheckEquipped()
+    private void CheckIsEquipped()
     {
-      _skinButtonImage.sprite = SkinType == _progressSkinData.EquippedSkin
+      _skinButtonImage.sprite = SkinType == _progress.ForSkins.EquippedSkin
         ? _skinEquippedSprite
         : _skinUnequippedSprite;
     }

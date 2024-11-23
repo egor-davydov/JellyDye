@@ -16,14 +16,14 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     [SerializeField] private float _screenSize;
 
     private LevelButtonFactory _levelButtonFactory;
-    private StaticDataService _staticDataService;
-    private ProgressService _progressService;
+    private StaticDataService _staticData;
+    private ProgressService _progress;
 
     [Inject]
     public void Construct(LevelButtonFactory levelButtonFactory, StaticDataService staticDataService, ProgressService progressService)
     {
-      _progressService = progressService;
-      _staticDataService = staticDataService;
+      _progress = progressService;
+      _staticData = staticDataService;
       _levelButtonFactory = levelButtonFactory;
     }
 
@@ -34,7 +34,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
 
     private async UniTaskVoid InitLevelsGrid()
     {
-      LevelConfig[] levelConfigs = _staticDataService.Levels.LevelConfigs;
+      LevelConfig[] levelConfigs = _staticData.ForLevels.LevelConfigs;
       for (int i = 0; i < levelConfigs.Length; i++)
       {
         LevelButton levelButton = await _levelButtonFactory.CreateLevelButton(transform);
@@ -46,8 +46,8 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
 
     private void MoveScrollToCurrentLevel(int levelsCount)
     {
-      string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
-      int levelRow = _staticDataService.Levels.GetLevelIndex(currentLevelId) / 2;
+      string currentLevelId = _progress.ForLevels.CurrentLevelId;
+      int levelRow = _staticData.ForLevels.GetLevelIndex(currentLevelId) / 2;
       float sizeOfLevelButtonWithSpacing = _gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y;
       int rowsCount = Mathf.RoundToInt((float)levelsCount / 2);
       float scrollHeight = sizeOfLevelButtonWithSpacing * rowsCount;

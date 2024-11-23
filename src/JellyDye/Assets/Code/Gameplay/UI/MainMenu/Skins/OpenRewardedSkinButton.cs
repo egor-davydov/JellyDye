@@ -13,23 +13,23 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     [SerializeField] private EquipSkinButton _equipSkinButton;
     [SerializeField] private LockSkin _lockSkin;
 
-    private ProgressService _progressService;
+    private ProgressService _progress;
     private ISaveLoadService _saveLoadService;
     private PublishService _publishService;
-    
+
     [Inject]
     public void Construct(ProgressService progressService, ISaveLoadService saveLoadService, PublishService publishService)
     {
       _publishService = publishService;
       _saveLoadService = saveLoadService;
-      _progressService = progressService;
+      _progress = progressService;
     }
 
     private void Awake()
     {
       _openButton.onClick.AddListener(ShowRewardedVideoClick);
     }
-    
+
     private void ShowRewardedVideoClick()
     {
       _publishService.ShowRewardedVideo(OpenRewardedSkin);
@@ -37,7 +37,7 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 
     private void OpenRewardedSkin()
     {
-      _progressService.Progress.SkinData.OpenedSkins.Add(_equipSkinButton.SkinType);
+      _progress.ForSkins.OpenSkin(_equipSkinButton.SkinType);
       _saveLoadService.SaveProgress();
       _lockSkin.UnlockSkin();
     }

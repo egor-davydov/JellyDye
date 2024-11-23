@@ -22,7 +22,7 @@ namespace Code.Services
     private static bool _gameWasMuted;
 
     private static AudioService _audioService;
-    private readonly StaticDataService _staticDataService;
+    private readonly StaticDataService _staticData;
 
     private readonly bool _isOnCrazyGames = CrazySDK.IsAvailable && Application.platform != RuntimePlatform.WindowsPlayer;
 
@@ -37,9 +37,9 @@ namespace Code.Services
       }
     }
 
-    public PublishService(AudioService audioService, StaticDataService staticDataService)
+    public PublishService(AudioService audioService, StaticDataService staticData)
     {
-      _staticDataService = staticDataService;
+      _staticData = staticData;
       _audioService = audioService;
     }
 
@@ -109,7 +109,7 @@ namespace Code.Services
     public LanguageType GetPlayerLanguage()
     {
       if (!IsOnYandexGames())
-        return _staticDataService.GameSettings.DefaultLanguage;
+        return _staticData.ForGameSettings.DefaultLanguage;
 
       string yandexLanguage = GetYandexLanguage();
       return yandexLanguage switch

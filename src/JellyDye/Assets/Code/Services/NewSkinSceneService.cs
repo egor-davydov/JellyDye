@@ -20,7 +20,7 @@ namespace Code.Services
     private readonly ParentsProvider _parentsProvider;
     private readonly SyringeFactory _syringeFactory;
     private readonly InputService _inputService;
-    private readonly StaticDataService _staticDataService;
+    private readonly StaticDataService _staticData;
 
     private Transform _newSkinStandTransform;
     private Vector3 _skinRotationPoint;
@@ -36,11 +36,11 @@ namespace Code.Services
       _parentsProvider = parentsProvider;
       _syringeFactory = syringeFactory;
       _inputService = inputService;
-      _staticDataService = staticDataService;
+      _staticData = staticDataService;
       _cameraService = cameraService;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.Skins.NewSkinSceneConfig;
+    private NewSkinSceneConfig NewSkinSceneConfig => _staticData.ForSkins.NewSkinSceneConfig;
 
     public void Initialize(Transform newSkinStandTransform, Vector3 skinRotationPoint, NewSkinHud newSkinHud, AudioSource audioSource)
     {
@@ -59,7 +59,7 @@ namespace Code.Services
       SyringeMesh syringeMesh = await _syringeFactory.CreateMesh(skinType, _newSkinStandTransform);
       syringeMesh.transform.localScale = Vector3.one;
       SyringeRotation syringeRotation = syringeMesh.gameObject.AddComponent<SyringeRotation>();
-      syringeRotation.Construct(_inputService, _staticDataService);
+      syringeRotation.Construct(_inputService, _staticData);
       syringeRotation.Initialize(_skinRotationPoint);
       await hudInitTask;
       await _newSkinHud.CloseSkinButtonClick;

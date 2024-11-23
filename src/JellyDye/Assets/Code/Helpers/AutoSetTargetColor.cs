@@ -9,18 +9,18 @@ namespace Code.Helpers
   public class AutoSetTargetColor : MonoBehaviour
   {
 #if UNITY_EDITOR
-    private StaticDataService _staticDataService;
+    private StaticDataService _staticData;
 
     [Inject]
     public void Construct(StaticDataService staticDataService)
     {
-      _staticDataService = staticDataService;
+      _staticData = staticDataService;
     }
 
     private void Awake()
     {
       FluxyContainer fluxyContainer = GetComponent<FluxyContainer>();
-      JellyMeshConfig jellyMeshConfig = _staticDataService.Levels.GetJellyConfigByMesh(fluxyContainer.customMesh);
+      JellyMeshConfig jellyMeshConfig = _staticData.ForLevels.GetJellyConfigByMesh(fluxyContainer.customMesh);
       FluxyTarget fluxyTarget = GetComponentInChildren<FluxyTarget>();
       fluxyTarget.color = jellyMeshConfig.TargetColor;
     }

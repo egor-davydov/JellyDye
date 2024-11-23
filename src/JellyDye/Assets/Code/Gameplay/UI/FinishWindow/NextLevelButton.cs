@@ -16,21 +16,18 @@ namespace Code.Gameplay.UI.FinishWindow
   {
     [SerializeField] private Button _nextLevelButton;
     private GameStateMachine _gameStateMachine;
-    private StaticDataService _staticDataService;
-    private ProgressService _progressService;
+    private StaticDataService _staticData;
+    private ProgressService _progress;
     private WindowFactory _windowFactory;
-    private LevelData _progressLevelData;
 
     [Inject]
     public void Construct(GameStateMachine gameStateMachine, StaticDataService staticDataService,
       ProgressService progressService, WindowFactory windowFactory)
     {
       _windowFactory = windowFactory;
-      _progressService = progressService;
-      _staticDataService = staticDataService;
+      _progress = progressService;
+      _staticData = staticDataService;
       _gameStateMachine = gameStateMachine;
-
-      _progressLevelData = _progressService.Progress.LevelData;
     }
 
     private void Awake() =>
@@ -38,27 +35,26 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void OnNextLevelButtonClick()
     {
-      LevelsStaticData levelsStaticData = _staticDataService.Levels;
-      int currentLevelIndex = levelsStaticData.GetLevelIndex(_progressLevelData.CurrentLevelId);
+      int currentLevelIndex = _staticData.ForLevels.GetLevelIndex(_progress.ForLevels.CurrentLevelId);
       int? nextLevelIndex = GetNextLevelIndex(currentLevelIndex);
-      int lastLevelIndex = levelsStaticData.LevelConfigs.Length - 1;
+      int lastLevelIndex = _staticData.ForLevels.LevelConfigs.Length - 1;
       if (nextLevelIndex == null)
       {
         if (currentLevelIndex == lastLevelIndex)
           _windowFactory.CreateMainMenu().Forget();
         else
-          LoadLevel(currentLevelIndex + 1, levelsStaticData);
+          LoadLevel(currentLevelIndex + 1);
       }
       else
-        LoadLevel(nextLevelIndex.Value, levelsStaticData);
+        LoadLevel(nextLevelIndex.Value);
     }
 
-    private void LoadLevel(int levelIndex, LevelsStaticData levelsStaticData) =>
-      _gameStateMachine.Enter<LoadLevelState, string>(levelsStaticData.LevelConfigs[levelIndex].Id);
+    private void LoadLevel(int levelIndex) =>
+      _gameStateMachine.Enter<LoadLevelState, string>(_staticData.ForLevels.LevelConfigs[levelIndex].Id);
 
     private int? GetNextLevelIndex(int currentLevelIndex)
     {
-      LevelConfig[] levelConfigs = _staticDataService.Levels.LevelConfigs;
+      LevelConfig[] levelConfigs = _staticData.ForLevels.LevelConfigs;
       int? futureLevelIndex = FindUnCompletedLevelIndex(currentLevelIndex + 1, levelConfigs.Length, levelConfigs);
       if (futureLevelIndex != null)
         return futureLevelIndex.Value;
@@ -75,7 +71,7 @@ namespace Code.Gameplay.UI.FinishWindow
       for (int i = from; i < to; i++)
       {
         LevelConfig levelConfig = levelConfigs[i];
-        CompletedLevel completedLevel = _progressLevelData.CompletedLevels.FirstOrDefault(level => level.Id == levelConfig.Id);
+        CompletedLevel completedLevel = _progress.ForLevels.CompletedLevels.FirstOrDefault(level => level.Id == levelConfig.Id);
         if (completedLevel == default)
           return i;
         if (completedLevel.Percentage == 100)

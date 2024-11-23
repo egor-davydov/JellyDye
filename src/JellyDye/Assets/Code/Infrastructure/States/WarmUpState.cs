@@ -14,20 +14,20 @@ namespace Code.Infrastructure.States
 {
   public class WarmUpState : IState
   {
-    private readonly StaticDataService _staticDataService;
+    private readonly StaticDataService _staticData;
     private readonly GameStateMachine _gameStateMachine;
     private readonly IAssetProvider _assetProvider;
-    private readonly ProgressService _progressService;
+    private readonly ProgressService _progress;
 
-    private string CurrentLevelId => _progressService.Progress.LevelData.CurrentLevelId;
+    private string CurrentLevelId => _progress.ForLevels.CurrentLevelId;
 
     public WarmUpState(GameStateMachine gameStateMachine, IAssetProvider assetProvider,
-      StaticDataService staticDataService, ProgressService progressService)
+      StaticDataService staticData, ProgressService progress)
     {
       _gameStateMachine = gameStateMachine;
       _assetProvider = assetProvider;
-      _staticDataService = staticDataService;
-      _progressService = progressService;
+      _staticData = staticData;
+      _progress = progress;
     }
 
     public UniTaskVoid Enter()
@@ -45,9 +45,9 @@ namespace Code.Infrastructure.States
 
     private void WarmUpCurrentAssets()
     {
-      SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      WarmUpSyringeSkin(_staticDataService.ForSkin(equippedSkin)).Forget();
-      WarmUpLevel(_staticDataService.ForLevel(CurrentLevelId)).Forget();
+      SkinType equippedSkin = _progress.ForSkins.EquippedSkin;
+      WarmUpSyringeSkin(_staticData.ForSkin(equippedSkin)).Forget();
+      WarmUpLevel(_staticData.ForLevel(CurrentLevelId)).Forget();
     }
 
     private void WarmUpOtherAssets()
@@ -59,13 +59,13 @@ namespace Code.Infrastructure.States
 
     private async UniTaskVoid WarmUpLevelsQueued()
     {
-      foreach (LevelConfig levelConfig in _staticDataService.Levels.LevelConfigs)
+      foreach (LevelConfig levelConfig in _staticData.ForLevels.LevelConfigs)
         await WarmUpLevel(levelConfig);
     }
 
     private async UniTaskVoid WarmUpSyringesQueued()
     {
-      foreach (SkinConfig skinConfig in _staticDataService.Skins.SkinConfigs)
+      foreach (SkinConfig skinConfig in _staticData.ForSkins.SkinConfigs)
         await WarmUpSyringeSkin(skinConfig);
     }
 

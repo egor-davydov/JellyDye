@@ -31,8 +31,8 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
 
     private GameStateMachine _gameStateMachine;
     private string _levelId;
-    private ProgressService _progressService;
-    private StaticDataService _staticDataService;
+    private ProgressService _progress;
+    private StaticDataService _staticData;
     private StringsService _stringsService;
 
     [Inject]
@@ -40,16 +40,16 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       StaticDataService staticDataService, StringsService stringsService)
     {
       _stringsService = stringsService;
-      _staticDataService = staticDataService;
-      _progressService = progressService;
+      _staticData = staticDataService;
+      _progress = progressService;
       _gameStateMachine = gameStateMachine;
     }
 
     public void Initialize(string levelId, int levelIndex)
     {
       _levelId = levelId;
-      LevelData progressLevelData = _progressService.Progress.LevelData;
-      LevelsStaticData levelsStaticData = _staticDataService.Levels;
+      LevelData progressLevelData = _progress.ForLevels;
+      LevelsStaticData levelsStaticData = _staticData.ForLevels;
       if (!progressLevelData.IsLevelCompleted(_levelId))
       {
         UnCompletedTurnOn(true);

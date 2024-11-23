@@ -1,5 +1,4 @@
-﻿using Code.Data;
-using Code.Services;
+﻿using Code.Services;
 using Code.Services.Progress;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -24,26 +23,26 @@ namespace Code.Gameplay.UI.FinishWindow
     [SerializeField] private float _scalingTime;
 
 
-    private LevelData _progressLevelData;
     private Tween _scaleTween;
 
     private StringsService _stringsService;
-    private ProgressService _progressService;
-    private StaticDataService _staticDataService;
+    private ProgressService _progress;
+    private StaticDataService _staticData;
 
     [Inject]
     public void Construct(ProgressService progressService, StaticDataService staticDataService,
       StringsService stringsService)
     {
       _stringsService = stringsService;
-      _staticDataService = staticDataService;
-      _progressService = progressService;
-      _progressLevelData = _progressService.Progress.LevelData;
+      _staticData = staticDataService;
+      _progress = progressService;
     }
 
     public void Initialize(Texture2D screenshot)
     {
-      _shouldBeImage.texture = _staticDataService.ForLevel(_progressLevelData.CurrentLevelId).TargetTextureWithGround;
+      _shouldBeImage.texture = _staticData
+        .ForLevel(_progress.ForLevels.CurrentLevelId)
+        .TargetTextureWithGround;
       _yourResultImage.texture = screenshot;
     }
 
