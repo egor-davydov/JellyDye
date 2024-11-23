@@ -34,7 +34,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
 
     private async UniTaskVoid InitLevelsGrid()
     {
-      LevelConfig[] levelConfigs = _staticDataService.ForLevels().LevelConfigs;
+      LevelConfig[] levelConfigs = _staticDataService.Levels.LevelConfigs;
       for (int i = 0; i < levelConfigs.Length; i++)
       {
         LevelButton levelButton = await _levelButtonFactory.CreateLevelButton(transform);
@@ -47,7 +47,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     private void MoveScrollToCurrentLevel(int levelsCount)
     {
       string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
-      int levelRow = _staticDataService.ForLevels().GetLevelIndex(currentLevelId) / 2;
+      int levelRow = _staticDataService.Levels.GetLevelIndex(currentLevelId) / 2;
       float sizeOfLevelButtonWithSpacing = _gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y;
       int rowsCount = Mathf.RoundToInt((float)levelsCount / 2);
       float scrollHeight = sizeOfLevelButtonWithSpacing * rowsCount;

@@ -40,7 +40,7 @@ namespace Code.Editor
       staticDataService.Initialize();
       var progressService = new ProgressService(staticDataService);
       PlayerProgress playerProgress = progressService.NewProgress();
-      foreach (LevelConfig levelConfig in staticDataService.ForLevels().LevelConfigs)
+      foreach (LevelConfig levelConfig in staticDataService.Levels.LevelConfigs)
         playerProgress.LevelData.ManageCompletedLevel(levelConfig.Id, 100);
       foreach (SkinType skinType in Enum.GetValues(typeof(SkinType)))
         playerProgress.SkinData.OpenedSkins.Add(skinType);

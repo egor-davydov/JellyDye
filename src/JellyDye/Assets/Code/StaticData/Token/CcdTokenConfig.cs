@@ -3,12 +3,12 @@
 namespace Code.StaticData.Token
 {
   [Serializable]
-  public class CCDTokenConfig
+  public class CcdTokenConfig
   {
     public string ProfileName;
     public string Token;
 
-    public CCDTokenConfig(string profileName)
+    public CcdTokenConfig(string profileName)
     {
       ProfileName = profileName;
     }

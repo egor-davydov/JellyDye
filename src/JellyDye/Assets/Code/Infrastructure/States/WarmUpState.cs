@@ -46,8 +46,8 @@ namespace Code.Infrastructure.States
     private void WarmUpCurrentAssets()
     {
       SkinType equippedSkin = _progressService.Progress.SkinData.EquippedSkin;
-      WarmUpSyringeSkin(_staticDataService.ForSkins().GetSkinByType(equippedSkin)).Forget();
-      WarmUpLevel(_staticDataService.ForLevels().GetConfigByLevelId(CurrentLevelId)).Forget();
+      WarmUpSyringeSkin(_staticDataService.ForSkin(equippedSkin)).Forget();
+      WarmUpLevel(_staticDataService.ForLevel(CurrentLevelId)).Forget();
     }
 
     private void WarmUpOtherAssets()
@@ -59,13 +59,13 @@ namespace Code.Infrastructure.States
 
     private async UniTaskVoid WarmUpLevelsQueued()
     {
-      foreach (LevelConfig levelConfig in _staticDataService.ForLevels().LevelConfigs)
+      foreach (LevelConfig levelConfig in _staticDataService.Levels.LevelConfigs)
         await WarmUpLevel(levelConfig);
     }
 
     private async UniTaskVoid WarmUpSyringesQueued()
     {
-      foreach (SkinConfig skinConfig in _staticDataService.ForSkins().SkinConfigs)
+      foreach (SkinConfig skinConfig in _staticDataService.Skins.SkinConfigs)
         await WarmUpSyringeSkin(skinConfig);
     }
 

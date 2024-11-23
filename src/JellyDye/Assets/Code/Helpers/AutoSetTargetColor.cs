@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Code.Services;
-using Code.Services.Progress;
+﻿using Code.Services;
 using Code.StaticData;
 using Fluxy;
 using UnityEngine;
@@ -18,11 +16,11 @@ namespace Code.Helpers
     {
       _staticDataService = staticDataService;
     }
-    
+
     private void Awake()
     {
       FluxyContainer fluxyContainer = GetComponent<FluxyContainer>();
-      JellyMeshConfig jellyMeshConfig = _staticDataService.ForLevels().GetJellyConfigByMesh(fluxyContainer.customMesh);
+      JellyMeshConfig jellyMeshConfig = _staticDataService.Levels.GetJellyConfigByMesh(fluxyContainer.customMesh);
       FluxyTarget fluxyTarget = GetComponentInChildren<FluxyTarget>();
       fluxyTarget.color = jellyMeshConfig.TargetColor;
     }

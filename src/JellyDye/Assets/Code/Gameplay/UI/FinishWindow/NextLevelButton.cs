@@ -38,7 +38,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private void OnNextLevelButtonClick()
     {
-      LevelsStaticData levelsStaticData = _staticDataService.ForLevels();
+      LevelsStaticData levelsStaticData = _staticDataService.Levels;
       int currentLevelIndex = levelsStaticData.GetLevelIndex(_progressLevelData.CurrentLevelId);
       int? nextLevelIndex = GetNextLevelIndex(currentLevelIndex);
       int lastLevelIndex = levelsStaticData.LevelConfigs.Length - 1;
@@ -58,7 +58,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     private int? GetNextLevelIndex(int currentLevelIndex)
     {
-      LevelConfig[] levelConfigs = _staticDataService.ForLevels().LevelConfigs;
+      LevelConfig[] levelConfigs = _staticDataService.Levels.LevelConfigs;
       int? futureLevelIndex = FindUnCompletedLevelIndex(currentLevelIndex + 1, levelConfigs.Length, levelConfigs);
       if (futureLevelIndex != null)
         return futureLevelIndex.Value;

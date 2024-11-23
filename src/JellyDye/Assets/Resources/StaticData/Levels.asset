@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Levels
   m_EditorClassIdentifier: 
   ColorCompareEpsilon: 0.4
-  <FinishLevelImmediately>k__BackingField: 1
-  <OpenNewSkin>k__BackingField: 1
+  <FinishLevelImmediately>k__BackingField: 0
+  <OpenNewSkin>k__BackingField: 0
   <IsShowingNames>k__BackingField: 0
   <MinGeneratedResolution>k__BackingField: 9
   <MaxGeneratedResolution>k__BackingField: 16
@@ -48,10 +48,10 @@ MonoBehaviour:
     - {r: 1, g: 0, b: 0, a: 1}
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
     AllColorsCached:
-    - {r: 1, g: 0, b: 0, a: 1}
-    - {r: 1, g: 0.9695432, b: 0, a: 1}
-    - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
     - {r: 0.21942872, g: 1, b: 0.21383637, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0.95608187, g: 0.25157225, b: 1, a: 1}
+    - {r: 1, g: 0.9695432, b: 0, a: 1}
     TargetTexture: {fileID: 2800000, guid: bbdff5b0574b8b445b8b3f3b57db6761, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: c9145b5692f54c843a0caf481a8afce0, type: 3}
   - Id: cherries

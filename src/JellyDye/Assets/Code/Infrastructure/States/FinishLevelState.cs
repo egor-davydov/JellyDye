@@ -61,9 +61,9 @@ namespace Code.Infrastructure.States
       await AnimateAndShowCameraFlash();
 
       int roundedPercentage = Mathf.RoundToInt(await calculatePaintPercentageTask);
-      float increaseAmount = _staticDataService.ForSkins().MinSkinProgress * ((float)roundedPercentage / 100);
+      float increaseAmount = _staticDataService.Skins.MinSkinProgress * ((float)roundedPercentage / 100);
       float currentAmount = SkinData.NextSkinProgress;
-      if (_staticDataService.ForLevels().OpenNewSkin)
+      if (_staticDataService.Levels.OpenNewSkin)
       {
         roundedPercentage = 100;
         increaseAmount = 1;
@@ -136,7 +136,7 @@ namespace Code.Infrastructure.States
 
     private void SendAnalyticsSetLeaderboardRequestReview(int roundedPercentage)
     {
-      int levelIndex = _staticDataService.ForLevels().GetLevelIndex(LevelData.CurrentLevelId);
+      int levelIndex = _staticDataService.Levels.GetLevelIndex(LevelData.CurrentLevelId);
       _analyticsService.LevelEnd(levelIndex, LevelData.CurrentLevelId, roundedPercentage);
       _publishService.SetToLeaderboard(LevelData.CompletedLevels.Sum(level => level.Percentage));
       if (LevelData.CompletedLevels.Count >= 3)
@@ -160,7 +160,7 @@ namespace Code.Infrastructure.States
 
     public bool IsAllSkinsUnlocked()
     {
-      return _staticDataService.ForSkins().UnlockableSkins
+      return _staticDataService.Skins.UnlockableSkins
         .All(unlockableSkinConfig => SkinData.IsPlayerHaveSkin(unlockableSkinConfig.SkinType));
     }
 
@@ -183,6 +183,6 @@ namespace Code.Infrastructure.States
       Time.timeScale = 1;
 
     private UnlockableSkinConfig GetNextSkinConfig() =>
-      _staticDataService.ForSkins().UnlockableSkins.First(config => !SkinData.IsPlayerHaveSkin(config.SkinType));
+      _staticDataService.Skins.UnlockableSkins.First(config => !SkinData.IsPlayerHaveSkin(config.SkinType));
   }
 }

@@ -40,7 +40,7 @@ namespace Code.Services
       _cameraService = cameraService;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.ForSkins().NewSkinSceneConfig;
+    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.Skins.NewSkinSceneConfig;
 
     public void Initialize(Transform newSkinStandTransform, Vector3 skinRotationPoint, NewSkinHud newSkinHud, AudioSource audioSource)
     {

@@ -29,7 +29,7 @@ namespace Code.Gameplay.Syringe
       _skinRotationPoint = skinRotationPoint;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.ForSkins().NewSkinSceneConfig;
+    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.Skins.NewSkinSceneConfig;
 
     private void Update()
     {

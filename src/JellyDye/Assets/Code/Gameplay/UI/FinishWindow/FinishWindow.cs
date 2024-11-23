@@ -43,8 +43,7 @@ namespace Code.Gameplay.UI.FinishWindow
 
     public void Initialize(Texture2D screenshot)
     {
-      _shouldBeImage.texture = _staticDataService.ForLevels().GetConfigByLevelId(_progressLevelData.CurrentLevelId)
-        .TargetTextureWithGround;
+      _shouldBeImage.texture = _staticDataService.ForLevel(_progressLevelData.CurrentLevelId).TargetTextureWithGround;
       _yourResultImage.texture = screenshot;
     }
 

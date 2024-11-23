@@ -76,16 +76,6 @@ namespace Code.StaticData.Level
       throw new Exception($"Can't find level index of id \"{id}\"");
     }
 
-    public LevelConfig GetConfigByLevelId(string levelId)
-    {
-      foreach (LevelConfig levelConfig in LevelConfigs)
-      {
-        if (levelConfig.Id == levelId)
-          return levelConfig;
-      }
-
-      throw new Exception($"Can't find config by id= \"{levelId}\"");
-    }
 #if UNITY_EDITOR
     public JellyMeshConfig GetJellyConfigByMesh(Mesh mesh) //use only in editor, use LevelConfig
     {

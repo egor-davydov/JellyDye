@@ -42,7 +42,7 @@ namespace Code.Services
       _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat.RGBAHalf, false);
 
       string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
-      _currentLevelConfig = _staticDataService.ForLevels().GetConfigByLevelId(currentLevelId);
+      _currentLevelConfig = _staticDataService.ForLevel(currentLevelId);
     }
 
     public bool HasPaintOnAllMeshes()
@@ -100,7 +100,7 @@ namespace Code.Services
             _colors[pixelColor]++;
 #endif
 
-          if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticDataService.ForLevels().ColorCompareEpsilon))
+          if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticDataService.Levels.ColorCompareEpsilon))
             paintedPixelsCount++;
         }
       }

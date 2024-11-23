@@ -14,18 +14,18 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
   {
     [SerializeField] private Button _loadLevelButton;
     [SerializeField] private Image _backgroundImage;
-    
+
     [SerializeField] private TextMeshProUGUI _levelNumber;
-    
+
     [SerializeField] private TextMeshProUGUI _levelNumberWithPercentage;
     [SerializeField] private TextMeshProUGUI _levelPercentage;
     [SerializeField] private Sprite _backgroundNotFullCompleted;
     [SerializeField, Range(0, 100)] private int _yellowPercentage;
     [SerializeField, Range(0, 100)] private int _redPercentage;
-    [SerializeField] private Color _greenPercentageColor; 
+    [SerializeField] private Color _greenPercentageColor;
     [SerializeField] private Color _yellowPercentageColor;
     [SerializeField] private Color _redPercentageColor;
-    
+
     [SerializeField] private RawImage _levelJellyTexture;
     [SerializeField] private Sprite _backgroundFullCompleted;
 
@@ -49,7 +49,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     {
       _levelId = levelId;
       LevelData progressLevelData = _progressService.Progress.LevelData;
-      LevelsStaticData levelsStaticData = _staticDataService.ForLevels();
+      LevelsStaticData levelsStaticData = _staticDataService.Levels;
       if (!progressLevelData.IsLevelCompleted(_levelId))
       {
         UnCompletedTurnOn(true);
@@ -57,7 +57,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         FullCompletedTurnOn(false);
         _levelNumber.text = levelsStaticData.IsShowingNames
           ? levelId
-          : _stringsService.Numbers[levelIndex+1];
+          : _stringsService.Numbers[levelIndex + 1];
       }
       else
       {
@@ -77,17 +77,17 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
         NotFullCompletedTurnOn(true);
         FullCompletedTurnOn(false);
         _levelPercentage.text = _stringsService.PercentagesWithNewLine[percentage];
-        _levelNumberWithPercentage.text = _stringsService.Numbers[levelIndex+1];
+        _levelNumberWithPercentage.text = _stringsService.Numbers[levelIndex + 1];
         Color levelPercentageColor = PercentageColor(percentage);
 
         _levelPercentage.color = levelPercentageColor;
       }
     }
 
-    private void SetBackground(Sprite backgroundSprite) => 
+    private void SetBackground(Sprite backgroundSprite) =>
       _backgroundImage.sprite = backgroundSprite;
 
-    private void UnCompletedTurnOn(bool value) => 
+    private void UnCompletedTurnOn(bool value) =>
       _levelNumber.gameObject.SetActive(value);
 
     private void NotFullCompletedTurnOn(bool value)
@@ -96,7 +96,7 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
       _levelNumberWithPercentage.gameObject.SetActive(value);
     }
 
-    private void FullCompletedTurnOn(bool value) => 
+    private void FullCompletedTurnOn(bool value) =>
       _levelJellyTexture.gameObject.SetActive(value);
 
     private Color PercentageColor(int percentage)
@@ -119,10 +119,10 @@ namespace Code.Gameplay.UI.MainMenu.Gallery
     private void Awake() =>
       _loadLevelButton.onClick.AddListener(LoadLevelClick);
 
-    private bool LevelCompleted(CompletedLevel observableLevel) => 
+    private bool LevelCompleted(CompletedLevel observableLevel) =>
       observableLevel != default;
 
-    private void LoadLevelClick() => 
+    private void LoadLevelClick() =>
       _gameStateMachine.Enter<LoadLevelState, string>(_levelId);
   }
 }

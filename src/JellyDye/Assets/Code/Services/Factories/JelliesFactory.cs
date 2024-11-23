@@ -24,7 +24,7 @@ namespace Code.Services.Factories
 
     public async UniTask<GameObject> CreateJelly(string id)
     {
-      AssetReference jelliesPrefabReference = _staticDataService.ForLevels().GetConfigByLevelId(id).JelliesPrefabReference;
+      AssetReference jelliesPrefabReference = _staticDataService.ForLevel(id).JelliesPrefabReference;
       GameObject jelliesPrefab = await _assetProvider.Load<GameObject>(jelliesPrefabReference);
       GameObject jelliesObject = _instantiator.InstantiatePrefab(jelliesPrefab, _parentsProvider.ParentForGameplay);
       return jelliesObject;

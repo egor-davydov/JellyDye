@@ -32,7 +32,7 @@ namespace Code.Services.Factories
 
     public async UniTask<GameObject> Create(SkinType skinType, Transform parent)
     {
-      AssetReference syringeBaseReference = _staticDataService.ForSkins().SyringeBaseReference;
+      AssetReference syringeBaseReference = _staticDataService.Skins.SyringeBaseReference;
       GameObject syringeBasePrefab = await _assetProvider.Load<GameObject>(syringeBaseReference);
       GameObject syringeBaseObject = _instantiator.InstantiatePrefab(syringeBasePrefab,
         syringeBasePrefab.transform.position,
@@ -47,7 +47,7 @@ namespace Code.Services.Factories
 
     public async UniTask<SyringeMesh> CreateMesh(SkinType skinType, Transform parent)
     {
-      AssetReference skinReference = _staticDataService.ForSkins().GetSkinByType(skinType).SkinReference;
+      AssetReference skinReference = _staticDataService.ForSkin(skinType).SkinReference;
       GameObject syringeMeshPrefab = await _assetProvider.Load<GameObject>(skinReference);
       SyringeMesh syringeMesh = _instantiator.InstantiatePrefabForComponent<SyringeMesh>(syringeMeshPrefab, parent);
       return syringeMesh;

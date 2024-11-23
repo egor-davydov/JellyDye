@@ -32,7 +32,7 @@ namespace Code.Helpers
     private SyringeProvider _syringeProvider;
     private LevelData ProgressLevelData => _progressService.Progress.LevelData;
 
-    private LevelConfig[] LevelsConfigs => _staticDataService.ForLevels().LevelConfigs;
+    private LevelConfig[] LevelsConfigs => _staticDataService.Levels.LevelConfigs;
 
     [Inject]
     public void Construct(ProgressService progressService, StaticDataService staticDataService,
@@ -62,8 +62,8 @@ namespace Code.Helpers
       SetupAll();
       if (!Directory.Exists(_directionPath))
         Directory.CreateDirectory(_directionPath);
-      int startLevelIndex = _staticDataService.ForLevels().GetLevelIndex(ProgressLevelData.CurrentLevelId);
-      for (int i = startLevelIndex; i < _staticDataService.ForLevels().LevelConfigs.Length; i++)
+      int startLevelIndex = _staticDataService.Levels.GetLevelIndex(ProgressLevelData.CurrentLevelId);
+      for (int i = startLevelIndex; i < _staticDataService.Levels.LevelConfigs.Length; i++)
       {
         string levelId = LevelsConfigs[i].Id;
 

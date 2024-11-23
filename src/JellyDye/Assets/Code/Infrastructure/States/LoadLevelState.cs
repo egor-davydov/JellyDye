@@ -74,7 +74,7 @@ namespace Code.Infrastructure.States
       _parentsProvider = parentsProvider;
     }
 
-    private LevelsStaticData LevelsStaticData => _staticDataService.ForLevels();
+    private LevelsStaticData LevelsStaticData => _staticDataService.Levels;
     private LevelData ProgressLevelData => _progressService.Progress.LevelData;
 
     public async UniTaskVoid Enter(string levelId)
@@ -91,7 +91,7 @@ namespace Code.Infrastructure.States
       if (!isLevelRestarted)
       {
         _levelIndex = LevelsStaticData.GetLevelIndex(_levelId);
-        _levelConfig = LevelsStaticData.GetConfigByLevelId(_levelId);
+        _levelConfig = _staticDataService.ForLevel(_levelId);
 
         List<AsyncOperationHandle> loadingOperations = GetLevelLoadOperations();
         if (!loadingOperations.All(x => x.IsDone))
@@ -178,8 +178,7 @@ namespace Code.Infrastructure.States
       if (_isFirstLoad)
         handles.Add(_assetProvider.WarmUpAsset<GameObject>(AssetKey.Hud));
 
-      AssetReference syringeSkinReference = _staticDataService.ForSkins()
-        .GetSkinByType(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
+      AssetReference syringeSkinReference = _staticDataService.ForSkin(_progressService.Progress.SkinData.EquippedSkin).SkinReference;
       handles.Add(_assetProvider.WarmUpAsset<GameObject>(syringeSkinReference));
 
       return handles;

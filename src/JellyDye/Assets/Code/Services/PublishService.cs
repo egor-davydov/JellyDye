@@ -109,7 +109,7 @@ namespace Code.Services
     public LanguageType GetPlayerLanguage()
     {
       if (!IsOnYandexGames())
-        return _staticDataService.ForGameSettings().DefaultLanguage;
+        return _staticDataService.GameSettings.DefaultLanguage;
 
       string yandexLanguage = GetYandexLanguage();
       return yandexLanguage switch

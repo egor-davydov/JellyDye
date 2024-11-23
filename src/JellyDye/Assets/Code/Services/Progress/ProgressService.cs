@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Code.Data;
 using Code.Gameplay.UI.MainMenu.Skins;
 
@@ -27,7 +28,7 @@ namespace Code.Services.Progress
 
     public PlayerProgress NewProgress()
     {
-      return new PlayerProgress(_staticDataService.ForLevels().LevelConfigs[0].Id, Enum.GetValues(typeof(SkinType)).Length);
+      return new PlayerProgress(_staticDataService.Levels.LevelConfigs.First().Id, Enum.GetValues(typeof(SkinType)).Length);
     }
   }
 }

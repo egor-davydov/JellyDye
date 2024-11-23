@@ -32,7 +32,7 @@ namespace Code.Gameplay.UI.NewSkin
       _animatedButtonFactory = animatedButtonFactory;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.ForSkins().NewSkinSceneConfig;
+    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.Skins.NewSkinSceneConfig;
     public ButtonClickedEvent CloseSkinButtonClick { get; private set; }
 
     public async UniTask InitializeAsync(SkinType skinType)
@@ -40,7 +40,7 @@ namespace Code.Gameplay.UI.NewSkin
       string localizedSkinName = _publishService.GetPlayerLanguage() switch
       {
         LanguageType.English => skinType.ToString(),
-        LanguageType.Russian => _staticDataService.ForSkins().GetSkinByType(skinType).RuName,
+        LanguageType.Russian => _staticDataService.ForSkin(skinType).RuName,
         _ => throw new ArgumentOutOfRangeException()
       };
 
