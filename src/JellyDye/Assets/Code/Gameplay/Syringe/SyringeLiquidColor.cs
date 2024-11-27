@@ -25,7 +25,7 @@ namespace Code.Gameplay.Syringe
       _syringeAudio.PlayReset();
       _fluxyTarget.color = newColor;
       _liquidRenderer.sharedMaterial.SetColor(LiquidColorId, newColor);
-      _liquidRenderer.sharedMaterial.SetColor(LiquidHColorId, newColor);
+      _liquidRenderer.sharedMaterial.SetColor(LiquidHColorId, Color.white);
     }
   }
 }

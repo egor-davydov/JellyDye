@@ -14,6 +14,8 @@ namespace Code.Services
 {
   public class PaintCountCalculationService
   {
+    private const TextureFormat TextureFormat = UnityEngine.TextureFormat.RGBA32;
+
     private readonly StaticDataService _staticData;
     private readonly ProgressService _progress;
 
@@ -39,7 +41,7 @@ namespace Code.Services
       _fluxySolver = fluxySolver;
       _fluxyContainers = fluxyContainers;
       Object.Destroy(_densityReadbackTexture);
-      _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat.RGBAHalf, false);
+      _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat, false);
 
       string currentLevelId = _progress.ForLevels.CurrentLevelId;
       _currentLevelConfig = _staticData.ForLevel(currentLevelId);
@@ -80,17 +82,20 @@ namespace Code.Services
       Texture2D maskTexture = jellyMeshConfig.MaskTexture;
       foreach (Vector2 uvCoordinates in jellyMeshConfig.Mesh.uv)
       {
-        float uvFluxyCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
-        float uvFluxyCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
-        int x = (int)(uvFluxyCoordinatesX * _densityReadbackTexture.width);
-        int y = (int)(uvFluxyCoordinatesY * _densityReadbackTexture.height);
-        if (maskTexture.GetPixel((int)(uvCoordinates.x * maskTexture.width), (int)(uvCoordinates.y * maskTexture.height)).r != 0)
+        int maskX = (int)(uvCoordinates.x * maskTexture.width);
+        int maskY = (int)(uvCoordinates.y * maskTexture.height);
+        Color maskPixelColor = maskTexture.GetPixel(maskX, maskY);
+        if (maskPixelColor.r != 0)
         {
           shouldPaintedPixelsCount--;
           continue;
         }
 
-        Color pixelColor = _densityReadbackTexture.GetPixel(x, y);
+        float uvFluxyCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
+        float uvFluxyCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
+        int x = (int)(uvFluxyCoordinatesX * _densityReadbackTexture.width);
+        int y = (int)(uvFluxyCoordinatesY * _densityReadbackTexture.height);
+        Color pixelColor = _densityReadbackTexture.GetPixel(x, y).gamma;
         if (pixelColor != Color.clear)
         {
 #if UNITY_EDITOR
@@ -129,11 +134,11 @@ namespace Code.Services
 
     private async UniTask RequestDensityTextureAsync()
     {
-      AsyncGPUReadbackRequest request = await AsyncGPUReadback.Request(DensityRenderTexture, 0, TextureFormat.RGBAHalf);
+      AsyncGPUReadbackRequest request = await AsyncGPUReadback.Request(DensityRenderTexture, 0, TextureFormat);
       if (request.hasError)
         throw new Exception("GPU readback error.");
 
-      _densityReadbackTexture.LoadRawTextureData(request.GetData<float>());
+      _densityReadbackTexture.LoadRawTextureData(request.GetData<byte>());
       _densityReadbackTexture.Apply();
     }
   }

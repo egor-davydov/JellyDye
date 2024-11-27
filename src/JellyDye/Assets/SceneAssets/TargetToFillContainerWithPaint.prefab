@@ -66,7 +66,7 @@ MonoBehaviour:
   angularVelocityScale: 1
   force: {x: 0, y: 0, z: 0}
   torque: 0
-  densityWeight: 0.8
+  densityWeight: 1
   densityTexture: {fileID: 2800000, guid: b1d8d3dfd80d84869bd42f3022d699d0, type: 3}
   srcBlend: 5
   dstBlend: 10
