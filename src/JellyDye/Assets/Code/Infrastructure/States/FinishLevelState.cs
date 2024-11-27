@@ -76,7 +76,7 @@ namespace Code.Infrastructure.States
       Texture2D screenshot = await _screenshotService.TakeScreenshotAsync();
       FinishWindow finishWindow = await CreateFinishWindow(screenshot);
       SkinProgressBar skinProgressBar = finishWindow.SkinProgressBar;
-      skinProgressBar.Initialize(isAllSkinsUnlockedBeforeSave, nextSkinConfigBeforeSave);
+      skinProgressBar.Initialize(isAllSkinsUnlockedBeforeSave, nextSkinConfigBeforeSave, currentAmount);
 
       await AnimateFinishWindow(finishWindow, roundedPercentage);
       if (isSkinProgressChanged)

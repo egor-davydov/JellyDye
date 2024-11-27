@@ -26,12 +26,12 @@ namespace Code.Gameplay.UI.FinishWindow
       _progress = progressService;
     }
 
-    public void Initialize(bool isAllSkinsUnlockedBeforeSave, UnlockableSkinConfig nextSkinConfigBeforeSave)
+    public void Initialize(bool isAllSkinsUnlockedBeforeSave, UnlockableSkinConfig nextSkinConfigBeforeSave, float currentAmount)
     {
       if (isAllSkinsUnlockedBeforeSave)
         HideSkinObjects();
       else
-        SetSkinIconAndFillAmount(nextSkinConfigBeforeSave.Icon, _progress.ForSkins.NextSkinProgress);
+        SetSkinIconAndFillAmount(nextSkinConfigBeforeSave.Icon, currentAmount);
     }
 
     private void OnDestroy() =>

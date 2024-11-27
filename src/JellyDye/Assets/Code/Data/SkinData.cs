@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Code.Gameplay.UI.MainMenu.Skins;
 
 namespace Code.Data
@@ -36,7 +35,7 @@ namespace Code.Data
       OpenedSkins.Add(skinType);
 
     public bool IsPlayerHaveSkin(SkinType observableSkinType) =>
-      OpenedSkins.FirstOrDefault(skinType => skinType == observableSkinType) != default;
+      OpenedSkins.Contains(observableSkinType);
 
     public void EquipSkin(SkinType skinType)
     {
