@@ -1,45 +1,60 @@
-﻿using System;
-using Code.Services.Providers;
+﻿using Code.Services.Providers;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Code.Gameplay.UI.Hud.PaintChange
 {
   public class Jar : MonoBehaviour
   {
-    [SerializeField] private Image _colorContainerContentImage;
-    [SerializeField] private Button _colorChangeButton;
+    [SerializeField] private Image _jarPaintImage;
+    [SerializeField] private Button _jarButton;
     [SerializeField] private float _selectedScale;
     [SerializeField] private float _scalingTime;
 
-    public float SelectedScale => _selectedScale;
-    public float ScalingTime => _scalingTime;
-    public Color Color => _color;
-    public Vector2 StartScale { get; private set; }
-
-    private Color _color;
     private SyringeProvider _syringeProvider;
+    private Tween _scaleTween;
+    private JarsContainer _jarsContainer;
+    private Tween _unscaleTween;
 
-    public event Action<Jar> OnColorChange;
-
-    public void Initialize(SyringeProvider syringeProvider, Color color)
+    [Inject]
+    public void Construct(SyringeProvider syringeProvider)
     {
       _syringeProvider = syringeProvider;
-      _color = color;
-      _colorContainerContentImage.color = _color;
     }
 
-    private void Start()
+    public Color Color { get; private set; }
+
+    public void Initialize(Color color, JarsContainer jarsContainer)
     {
-      StartScale = transform.localScale;
-      _colorChangeButton.onClick.AddListener(ChangeColorClick);
+      _jarsContainer = jarsContainer;
+      Color = color;
+      _jarPaintImage.color = Color;
     }
 
-    private void ChangeColorClick()
+    private void Awake()
     {
+      _jarButton.onClick.AddListener(Select);
+      _scaleTween = transform.DOScale(_selectedScale, _scalingTime)
+        .SetLink(gameObject).SetAutoKill(false);
+      _unscaleTween = transform.DOScale(transform.localScale, _scalingTime)
+        .SetLink(gameObject).SetAutoKill(false);
+    }
+
+    public void Select()
+    {
+      _jarButton.interactable = false;
+      _scaleTween.Restart();
       _syringeProvider.SyringePistonAndLiquid.ResetEither().Forget();
-      _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(_color);
-      OnColorChange?.Invoke(this);
+      _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(Color);
+      _jarsContainer.DeselectPreviousJar(this);
+    }
+
+    public void Deselect()
+    {
+      _jarButton.interactable = true;
+      _unscaleTween.Restart();
     }
   }
 }

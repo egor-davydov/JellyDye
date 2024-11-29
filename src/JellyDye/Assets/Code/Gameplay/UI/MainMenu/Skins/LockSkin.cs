@@ -12,8 +12,6 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 
     private ProgressService _progress;
 
-    public bool SkinLocked { get; private set; } = true;
-
     [Inject]
     public void Construct(ProgressService progressService)
     {
@@ -30,7 +28,6 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     {
       _iconObject.SetActive(true);
       _lockedObject.SetActive(false);
-      SkinLocked = false;
     }
   }
 }

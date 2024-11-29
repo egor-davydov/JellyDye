@@ -14,7 +14,7 @@ namespace Code.Gameplay.UI
       _rectTransform = ((RectTransform)transform);
 
     public void Animate() =>
-      _tween = _rectTransform.DOAnchorPos(Vector2.zero, _moveTime).SetEase(Ease.OutQuad);
+      _tween = _rectTransform.DOAnchorPos(Vector2.zero, _moveTime).SetEase(Ease.OutQuad).Play();
 
     public void SetFinishPosition() =>
       _rectTransform.anchoredPosition = Vector2.zero;

@@ -34,14 +34,14 @@ namespace Code.Gameplay.Syringe
       Tween injectionAnimation = DOTween.Sequence()
         .Append(moveCloserTween)
         .Append(transform.DOMove(moveCloserTween.endValue - _movingCloserDirection * _movingLittleBackDistance,
-          _movingLittleBackTime).SetEase(_moveLittleBackEase)).OnComplete(onComplete);
+          _movingLittleBackTime).SetEase(_moveLittleBackEase)).OnComplete(onComplete).Play();
       _moveTween = injectionAnimation;
     }
 
     public void AnimateMovingBack(Vector3 injectionStartPosition)
     {
       IsPlaying = true;
-      _moveTween = transform.DOMove(injectionStartPosition, _movingBackTime).OnComplete(() => IsPlaying = false);
+      _moveTween = transform.DOMove(injectionStartPosition, _movingBackTime).Play().OnComplete(() => IsPlaying = false);
     }
   }
 }

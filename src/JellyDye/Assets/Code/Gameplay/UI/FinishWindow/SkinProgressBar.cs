@@ -41,24 +41,24 @@ namespace Code.Gameplay.UI.FinishWindow
     {
       _fillTween = _progressImage
         .DOFillAmount(_progress.ForSkins.NextSkinProgress, ProgressMoveTime)
-        .SetEase(FillTweenEase);
+        .SetEase(FillTweenEase).Play();
     }
 
     public Tween AnimateFillBeforeNewSkin(float fillDuration)
     {
-      _fillTween = _progressImage
-        .DOFillAmount(1, fillDuration)
-        .SetEase(FillTweenEase);
+      _fillTween = _progressImage.DOFillAmount(1, fillDuration).SetEase(FillTweenEase).Play();
       return _fillTween;
     }
 
-    public void AnimateLastPartOrHideSkinObjects(bool isAllSkinsUnlockedAfterSave, float firstPartDuration, UnlockableSkinConfig nextSkinConfigAfterSave)
+    public void AnimateLastPartOrHideSkinObjects(bool isAllSkinsUnlockedAfterSave, float firstPartDuration,
+      UnlockableSkinConfig nextSkinConfigAfterSave)
     {
       if (!isAllSkinsUnlockedAfterSave)
       {
         SetSkinIconAndFillAmount(nextSkinConfigAfterSave.Icon, 0);
         float lastPartDuration = ProgressMoveTime - firstPartDuration;
-        _fillTween = _progressImage.DOFillAmount(_progress.ForSkins.NextSkinProgress, lastPartDuration).SetEase(FillTweenEase);
+        _fillTween = _progressImage.DOFillAmount(_progress.ForSkins.NextSkinProgress, lastPartDuration)
+          .SetEase(FillTweenEase).Play();
       }
       else
       {

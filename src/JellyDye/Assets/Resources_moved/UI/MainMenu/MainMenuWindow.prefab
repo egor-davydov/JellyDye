@@ -1424,6 +1424,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4852220441276116555, guid: e85d5b223be8f74448ea664e6c4a5418, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 910cc7320f304fb48923a511755a8501, type: 3}
     - target: {fileID: 6277881146239411496, guid: e85d5b223be8f74448ea664e6c4a5418, type: 3}
       propertyPath: m_Name
       value: Butterfly
@@ -1526,6 +1530,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4852220441276116555, guid: e85d5b223be8f74448ea664e6c4a5418, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 75efc8f88163407d9778038b2f75a252, type: 3}
     - target: {fileID: 6277881146239411496, guid: e85d5b223be8f74448ea664e6c4a5418, type: 3}
       propertyPath: m_Name
       value: Crown
@@ -2166,6 +2174,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4852220441276116555, guid: e85d5b223be8f74448ea664e6c4a5418, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0e7dc596116f464798d40436c8ec2368, type: 3}
     - target: {fileID: 6277881146239411496, guid: e85d5b223be8f74448ea664e6c4a5418, type: 3}
       propertyPath: m_Name
       value: Unicorn
@@ -2398,6 +2410,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4852220441276116555, guid: e85d5b223be8f74448ea664e6c4a5418, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 81b98a3093c646f9b9c84e2688d6cf6b, type: 3}
     - target: {fileID: 6277881146239411496, guid: e85d5b223be8f74448ea664e6c4a5418, type: 3}
       propertyPath: m_Name
       value: Disco

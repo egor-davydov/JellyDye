@@ -52,14 +52,14 @@ namespace Code.Gameplay.UI.FinishWindow
     public async UniTask AnimateWindowAppearanceAsync()
     {
       _resultsTransform.localScale = Vector3.zero;
-      await _resultsTransform.DOScale(Vector3.one, _appearanceAnimationDuration);
+      await _resultsTransform.DOScale(Vector3.one, _appearanceAnimationDuration).Play();
     }
 
     public async UniTask AnimatePercentageTextAsync(int percentage)
     {
-      _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime);
+      _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime).Play();
       await PercentageIncrease(percentage);
-      _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime);
+      _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime).Play();
     }
 
     private async UniTask PercentageIncrease(float percentage)

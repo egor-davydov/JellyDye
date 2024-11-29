@@ -41,7 +41,7 @@ namespace Code.Gameplay.UI.NewSkin
       _progress.ForSkins.EquipSkin(_skinType);
       _button.gameObject.SetActive(false);
       await UniTask.WaitForSeconds(_fadeDelay).AttachExternalCancellation(destroyCancellationToken);
-      await _skinEquippedImage.DOFade(0, _fadeTime).WithCancellation(destroyCancellationToken);
+      await _skinEquippedImage.DOFade(0, _fadeTime).Play().WithCancellation(destroyCancellationToken);
       Destroy(gameObject);
     }
   }

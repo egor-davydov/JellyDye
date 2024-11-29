@@ -6,22 +6,18 @@ namespace Code.Gameplay.Logic
 {
   public class LevelCamera : MonoBehaviour
   {
-    private const Ease MoveEase = Ease.OutQuad;
+    private const Ease MoveEase = Ease.Linear;
+
     [field: SerializeField] public float FlashDuration { get; private set; }
     [field: SerializeField] public Light FlashLight { get; private set; }
-    [SerializeField] private Camera _camera;
-    [SerializeField] private Vector3 _finishPosition;
-    [SerializeField] private Vector3 _finishRotation;
-    [SerializeField] private float _movingTime;
-    [SerializeField] private float _targetSize;
+    [field: SerializeField] public Camera Camera { get; private set; }
+    [field: SerializeField] public Vector3 FinishPosition { get; private set; }
+    [field: SerializeField] public Vector3 FinishRotation { get; private set; }
+    [field: SerializeField] public float MovingTime { get; private set; }
+    [field: SerializeField] public float TargetSize { get; private set; }
     [SerializeField] private AudioSource _photoAudioSource;
     [SerializeField] private AudioClip _photoSound;
 
-    public float TargetSize => _targetSize;
-    public Camera Camera => _camera;
-    public float MovingTime => _movingTime;
-    public Vector3 FinishPosition => _finishPosition;
-    public Vector3 FinishRotation => _finishRotation;
     private Tween _moveTween;
     private Tween _rotateTween;
     private Tween _orthoSizeTween;
@@ -35,9 +31,9 @@ namespace Code.Gameplay.Logic
 
     public async UniTask MoveToFinish()
     {
-      _moveTween = transform.DOMove(FinishPosition, _movingTime).SetEase(MoveEase);
-      _rotateTween = transform.DORotate(FinishRotation, _movingTime).SetEase(MoveEase);
-      _orthoSizeTween = Camera.DOOrthoSize(TargetSize, _movingTime).SetEase(MoveEase);
+      _moveTween = transform.DOMove(FinishPosition, MovingTime).SetEase(MoveEase).Play();
+      _rotateTween = transform.DORotate(FinishRotation, MovingTime).SetEase(MoveEase).Play();
+      _orthoSizeTween = Camera.DOOrthoSize(TargetSize, MovingTime).SetEase(MoveEase).Play();
       await _orthoSizeTween;
     }
 

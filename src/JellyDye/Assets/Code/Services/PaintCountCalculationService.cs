@@ -6,6 +6,7 @@ using Code.StaticData;
 using Code.StaticData.Level;
 using Cysharp.Threading.Tasks;
 using Fluxy;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
@@ -14,7 +15,7 @@ namespace Code.Services
 {
   public class PaintCountCalculationService
   {
-    private const TextureFormat TextureFormat = UnityEngine.TextureFormat.RGBA32;
+    private const TextureFormat DensityTextureFormat = TextureFormat.RGBA32;
 
     private readonly StaticDataService _staticData;
     private readonly ProgressService _progress;
@@ -41,7 +42,7 @@ namespace Code.Services
       _fluxySolver = fluxySolver;
       _fluxyContainers = fluxyContainers;
       Object.Destroy(_densityReadbackTexture);
-      _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat, false);
+      _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, DensityTextureFormat, false);
 
       string currentLevelId = _progress.ForLevels.CurrentLevelId;
       _currentLevelConfig = _staticData.ForLevel(currentLevelId);
@@ -134,11 +135,19 @@ namespace Code.Services
 
     private async UniTask RequestDensityTextureAsync()
     {
-      AsyncGPUReadbackRequest request = await AsyncGPUReadback.Request(DensityRenderTexture, 0, TextureFormat);
+      AsyncGPUReadbackRequest request = await AsyncGPUReadback.Request(DensityRenderTexture, 0, DensityTextureFormat);
       if (request.hasError)
         throw new Exception("GPU readback error.");
 
-      _densityReadbackTexture.LoadRawTextureData(request.GetData<byte>());
+      int expectedSize = _densityReadbackTexture.width * _densityReadbackTexture.height * 4;
+      NativeArray<byte> requestData = request.GetData<byte>();
+      if (requestData.Length != expectedSize)
+      {
+        Debug.LogError($"Data size mismatch: expected {expectedSize}, but got {requestData.Length}");
+        return;
+      }
+
+      _densityReadbackTexture.LoadRawTextureData(requestData);
       _densityReadbackTexture.Apply();
     }
   }
