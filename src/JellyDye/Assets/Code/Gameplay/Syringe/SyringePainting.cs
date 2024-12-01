@@ -69,11 +69,11 @@ namespace Code.Gameplay.Syringe
     {
       _syringeAudio.PlayFill();
       _currentContainer.targets.Add(_fluxyTarget);
-      _fluxyTarget.enabled = true;
+      SetActiveTarget(true);
 
       PaintAsync().Forget();
       _currentContainer.HasPaint = true;
-      if (!_finishButtonService.FinishButtonCreated)
+      if (!_finishButtonService.FinishButtonAnimated)
         _finishButtonService.CreateFinishButtonIfAllMeshesPainted();
     }
 
@@ -84,7 +84,7 @@ namespace Code.Gameplay.Syringe
       _currentContainer = null;
       _fluxyTarget.scale = _startTargetScale;
       _fluxyTarget.force = _currentForceDirection * _targetForcePower;
-      _fluxyTarget.enabled = false;
+      SetActiveTarget(false);
     }
 
     private async UniTask PaintAsync()
@@ -132,5 +132,8 @@ namespace Code.Gameplay.Syringe
 
       return true;
     }
+
+    private void SetActiveTarget(bool isActive) =>
+      _fluxyTarget.gameObject.SetActive(isActive);
   }
 }

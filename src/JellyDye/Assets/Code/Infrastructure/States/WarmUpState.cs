@@ -21,8 +21,8 @@ namespace Code.Infrastructure.States
 
     private string CurrentLevelId => _progress.ForLevels.CurrentLevelId;
 
-    public WarmUpState(GameStateMachine gameStateMachine, IAssetProvider assetProvider,
-      StaticDataService staticData, ProgressService progress)
+    public WarmUpState(GameStateMachine gameStateMachine, IAssetProvider assetProvider, StaticDataService staticData,
+      ProgressService progress)
     {
       _gameStateMachine = gameStateMachine;
       _assetProvider = assetProvider;

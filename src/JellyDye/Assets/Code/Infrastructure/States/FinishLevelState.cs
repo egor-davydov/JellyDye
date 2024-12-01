@@ -16,7 +16,7 @@ namespace Code.Infrastructure.States
   {
     private readonly PaintCountCalculationService _paintCountCalculationService;
     private readonly AnimatedButtonFactory _animatedButtonFactory;
-    private readonly CameraService _cameraService;
+    private readonly CameraProvider _cameraProvider;
     private readonly ScreenshotService _screenshotService;
     private readonly WindowFactory _windowFactory;
     private readonly SyringeProvider _syringeProvider;
@@ -27,16 +27,18 @@ namespace Code.Infrastructure.States
     private readonly ProgressService _progress;
     private readonly ISaveLoadService _saveLoadService;
     private readonly NewSkinSceneService _newSkinSceneService;
+    private readonly WindowsProvider _windowsProvider;
 
     public FinishLevelState(PaintCountCalculationService paintCountCalculationService,
-      AnimatedButtonFactory animatedButtonFactory, CameraService cameraService, ScreenshotService screenshotService,
+      AnimatedButtonFactory animatedButtonFactory, CameraProvider cameraProvider, ScreenshotService screenshotService,
       WindowFactory windowFactory, SyringeProvider syringeProvider, HudProvider hudProvider,
       StaticDataService staticData, PublishService publishService, AnalyticsService analyticsService,
-      ProgressService progress, ISaveLoadService saveLoadService, NewSkinSceneService newSkinSceneService)
+      ProgressService progress, ISaveLoadService saveLoadService, NewSkinSceneService newSkinSceneService,
+      WindowsProvider windowsProvider)
     {
       _paintCountCalculationService = paintCountCalculationService;
       _animatedButtonFactory = animatedButtonFactory;
-      _cameraService = cameraService;
+      _cameraProvider = cameraProvider;
       _screenshotService = screenshotService;
       _windowFactory = windowFactory;
       _syringeProvider = syringeProvider;
@@ -47,13 +49,14 @@ namespace Code.Infrastructure.States
       _progress = progress;
       _saveLoadService = saveLoadService;
       _newSkinSceneService = newSkinSceneService;
+      _windowsProvider = windowsProvider;
     }
 
     public async UniTaskVoid Enter()
     {
       UniTask<float> calculatePaintPercentageTask = _paintCountCalculationService.CalculatePaintPercentageAsync();
-      Object.Destroy(_hudProvider.HudObject);
-      Object.Destroy(_syringeProvider.SyringeObject);
+      _hudProvider.HudObject.SetActive(false);
+      _syringeProvider.SyringeObject.SetActive(false);
       await AnimateAndShowCameraFlash();
 
       int roundedPercentage = Mathf.RoundToInt(await calculatePaintPercentageTask);
@@ -75,6 +78,7 @@ namespace Code.Infrastructure.States
 
       Texture2D screenshot = await _screenshotService.TakeScreenshotAsync();
       FinishWindow finishWindow = await CreateFinishWindow(screenshot);
+      _windowsProvider.FinishWindow = finishWindow;
       SkinProgressBar skinProgressBar = finishWindow.SkinProgressBar;
       skinProgressBar.Initialize(isAllSkinsUnlockedBeforeSave, nextSkinConfigBeforeSave, currentAmount);
 
@@ -141,15 +145,14 @@ namespace Code.Infrastructure.States
 
     private async UniTask AnimateAndShowCameraFlash()
     {
-      await _cameraService.MoveToFinish();
-      await UniTask.WaitForSeconds(1 - _cameraService.LevelCamera.MovingTime);
-      await _cameraService.ShowPhotoFlash();
+      await _cameraProvider.LevelCamera.MoveToFinishAsync();
+      await UniTask.WaitForSeconds(1 - _cameraProvider.LevelCamera.MovingTime);
+      await _cameraProvider.LevelCamera.ShowPhotoFlash();
     }
 
     private async UniTask<FinishWindow> CreateFinishWindow(Texture2D screenshot)
     {
-      GameObject finishWindowObject = await _windowFactory.CreateFinishWindow();
-      FinishWindow finishWindow = finishWindowObject.GetComponent<FinishWindow>();
+      FinishWindow finishWindow = await _windowFactory.CreateFinishWindow();
       finishWindow.Initialize(screenshot);
       return finishWindow;
     }

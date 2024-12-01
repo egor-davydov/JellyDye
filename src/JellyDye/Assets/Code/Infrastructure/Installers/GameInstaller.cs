@@ -50,6 +50,7 @@ namespace Code.Infrastructure.Installers
 
     private void BindServices()
     {
+      Container.Bind<RestartService>().AsSingle();
       Container.Bind<StringsService>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<PublishService>().AsSingle();
@@ -58,7 +59,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<ProgressService>().AsSingle();
       Container.Bind<NewSkinSceneService>().AsSingle();
       Container.Bind<InputService>().AsSingle();
-      Container.Bind<CameraService>().AsSingle();
+      Container.Bind<CameraProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AddressablesAssetProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
@@ -68,6 +69,7 @@ namespace Code.Infrastructure.Installers
 
     private void BindProviders()
     {
+      Container.Bind<WindowsProvider>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
       Container.Bind<SyringeProvider>().AsSingle();
       Container.Bind<HudProvider>().AsSingle();

@@ -1,28 +1,23 @@
-﻿using Code.Services.Factories.UI;
-using Code.Services.Providers;
-using Cysharp.Threading.Tasks;
+﻿using Code.Services.Providers;
 
 namespace Code.Services
 {
   public class FinishButtonService
   {
     private readonly PaintCountCalculationService _paintCountCalculationService;
-    private readonly AnimatedButtonFactory _animatedButtonFactory;
     private readonly HudProvider _hudProvider;
 
-    public bool FinishButtonCreated { get; private set; }
+    public bool FinishButtonAnimated { get; private set; }
 
-    public FinishButtonService(PaintCountCalculationService paintCountCalculationService,
-      AnimatedButtonFactory animatedButtonFactory, HudProvider hudProvider)
+    public FinishButtonService(PaintCountCalculationService paintCountCalculationService, HudProvider hudProvider)
     {
       _paintCountCalculationService = paintCountCalculationService;
-      _animatedButtonFactory = animatedButtonFactory;
       _hudProvider = hudProvider;
     }
 
-    public void Initialize()
+    public void Reset()
     {
-      FinishButtonCreated = false;
+      FinishButtonAnimated = false;
     }
 
     public void CreateFinishButtonIfAllMeshesPainted()
@@ -30,8 +25,8 @@ namespace Code.Services
       if (!_paintCountCalculationService.HasPaintOnAllMeshes())
         return;
 
-      FinishButtonCreated = true;
-      _animatedButtonFactory.CreateFinishButton(_hudProvider.HudObject.transform).Forget();
+      FinishButtonAnimated = true;
+      _hudProvider.FinishButton.Animate();
     }
   }
 }

@@ -138,7 +138,7 @@ namespace Code.Editor
       Object.DestroyImmediate(fluxyContainer.gameObject.GetComponent<AutoSetTargetColor>());
       FluxyTarget fluxyTarget = softbodyPrefabContents.GetComponentInChildren<FluxyTarget>();
 
-      fluxyContainer.targets.Clear();
+      fluxyContainer.targets.Remove(fluxyTarget);
       Object.DestroyImmediate(fluxyTarget.gameObject);
       PrefabUtility.SaveAsPrefabAsset(softbodyPrefabContents, AssetDatabase.GetAssetPath(softbodyPrefab));
       SetDirtyCurrentScene();

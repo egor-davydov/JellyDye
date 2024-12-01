@@ -76,9 +76,7 @@ namespace Code.Helpers
     public void MoveCamera()
     {
       LevelCamera levelCamera = FindAnyObjectByType<LevelCamera>();
-      levelCamera.Camera.orthographicSize = levelCamera.TargetSize;
-      levelCamera.transform.eulerAngles = levelCamera.FinishRotation;
-      levelCamera.transform.position = levelCamera.FinishPosition;
+      levelCamera.MoveToFinish();
     }
 
     private void SetupAll()

@@ -14,23 +14,23 @@ namespace Code.Infrastructure.Installers
     [SerializeField] private Transform _gameplayParent;
     [SerializeField] private Transform _uiParent;
 
-    private CameraService _cameraService;
+    private CameraProvider _cameraProvider;
     private ScreenshotService _screenshotService;
     private ParentsProvider _parentsProvider;
 
     [Inject]
-    public void Construct(CameraService cameraService, ScreenshotService screenshotService,
+    public void Construct(CameraProvider cameraProvider, ScreenshotService screenshotService,
       ParentsProvider parentsProvider)
     {
       _parentsProvider = parentsProvider;
       _screenshotService = screenshotService;
-      _cameraService = cameraService;
+      _cameraProvider = cameraProvider;
     }
 
     public void Awake()
     {
       _screenshotService.Initialize(_meshFilter.sharedMesh, _levelCamera.Camera);
-      _cameraService.Initialize(_levelCamera);
+      _cameraProvider.LevelCamera = _levelCamera;
       _parentsProvider.Initialize(_otherParent, _gameplayParent, _uiParent);
     }
 

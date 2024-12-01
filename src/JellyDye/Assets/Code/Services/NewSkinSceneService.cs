@@ -15,7 +15,7 @@ namespace Code.Services
 {
   public class NewSkinSceneService
   {
-    private readonly CameraService _cameraService;
+    private readonly CameraProvider _cameraProvider;
     private readonly SceneLoader _sceneLoader;
     private readonly ParentsProvider _parentsProvider;
     private readonly SyringeFactory _syringeFactory;
@@ -29,7 +29,7 @@ namespace Code.Services
 
     private SceneInstance _sceneInstance;
 
-    public NewSkinSceneService(SceneLoader sceneLoader, CameraService cameraService, ParentsProvider parentsProvider,
+    public NewSkinSceneService(SceneLoader sceneLoader, CameraProvider cameraProvider, ParentsProvider parentsProvider,
       SyringeFactory syringeFactory, InputService inputService, StaticDataService staticDataService)
     {
       _sceneLoader = sceneLoader;
@@ -37,7 +37,7 @@ namespace Code.Services
       _syringeFactory = syringeFactory;
       _inputService = inputService;
       _staticData = staticDataService;
-      _cameraService = cameraService;
+      _cameraProvider = cameraProvider;
     }
 
     private NewSkinSceneConfig NewSkinSceneConfig => _staticData.ForSkins.NewSkinSceneConfig;
@@ -80,7 +80,7 @@ namespace Code.Services
 
     private void MainSceneRenderersSetActive(bool active)
     {
-      _cameraService.LevelCamera.gameObject.SetActive(active);
+      _cameraProvider.LevelCamera.gameObject.SetActive(active);
       _parentsProvider.ParentForOther.gameObject.SetActive(active);
       _parentsProvider.ParentForUI.gameObject.SetActive(active);
       _parentsProvider.ParentForGameplay.gameObject.SetActive(active);

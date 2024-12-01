@@ -9,7 +9,8 @@ namespace Code.StaticData.Level
   {
     private const int RangeMinResolution = 6;
     private const int RangeMaxResolution = 19;
-    public float ColorCompareEpsilon = 0.4f;
+    public float ColorCompareEpsilon;
+    [field: SerializeField] public Vector3 SyringeStartPosition { get; private set; }
 
     [field: SerializeField, Range(RangeMinResolution, RangeMaxResolution)]
     public int MinGeneratedResolution { get; private set; }

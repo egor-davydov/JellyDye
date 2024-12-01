@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Levels
   m_EditorClassIdentifier: 
   ColorCompareEpsilon: 0.1
+  <SyringeStartPosition>k__BackingField: {x: 0, y: 0.14, z: 0}
   <MinGeneratedResolution>k__BackingField: 9
   <MaxGeneratedResolution>k__BackingField: 16
   <VerticesCountToGenerateOneObiParticle>k__BackingField: 200
@@ -907,10 +908,10 @@ MonoBehaviour:
     - {r: 0.8631289, g: 0.45991677, b: 0.32901293, a: 1}
     - {r: 0.4387141, g: 0.0408777, b: 0.23894072, a: 1}
     AllColorsCached:
-    - {r: 1, g: 0.8862746, b: 0.77647066, a: 1}
-    - {r: 0.4387141, g: 0.0408777, b: 0.23894072, a: 1}
     - {r: 0.8631289, g: 0.45991677, b: 0.32901293, a: 1}
     - {r: 1, g: 0.8862745, b: 0.191, a: 1}
+    - {r: 0.4387141, g: 0.0408777, b: 0.23894072, a: 1}
+    - {r: 1, g: 0.8862746, b: 0.77647066, a: 1}
     TargetTexture: {fileID: 2800000, guid: 099462fcb01b0164a9c1e33c0cfa9ab1, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 82e9347fb28481742a8be50caba76b8e, type: 3}
   - Id: ballet_shoe
@@ -941,10 +942,10 @@ MonoBehaviour:
     - {r: 0.14854622, g: 0.6982336, b: 0.02054596, a: 1}
     - {r: 0.859663, g: 0.2377789, b: 0.134, a: 1}
     AllColorsCached:
+    - {r: 0.859663, g: 0.2377789, b: 0.134, a: 1}
     - {r: 0.9150943, g: 0.8345199, b: 0.8345199, a: 1}
     - {r: 1, g: 0.49685526, b: 0.727906, a: 1}
     - {r: 0.14854622, g: 0.6982336, b: 0.02054596, a: 1}
-    - {r: 0.859663, g: 0.2377789, b: 0.134, a: 1}
     TargetTexture: {fileID: 2800000, guid: 83ddc211c2c1467479873c61765389cd, type: 3}
     TargetTextureWithGround: {fileID: 2800000, guid: 86ddae3a2e7a78745b4dacec25813c51, type: 3}
   - Id: squirrel

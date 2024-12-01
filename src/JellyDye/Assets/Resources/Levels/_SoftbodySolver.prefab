@@ -1,5 +1,84 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2921774856885280555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8440347633837318771}
+  - component: {fileID: 8556212005455439175}
+  m_Layer: 0
+  m_Name: ClearTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8440347633837318771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921774856885280555}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6469565776732938261}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8556212005455439175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921774856885280555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3027f475235a4f7ab39c90b4bbf8567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splatMaterial: {fileID: 2100000, guid: 644c5fbe7e0624b239c5c09b7d1613ae, type: 2}
+  rateOverSteps: 1
+  rateOverTime: 0
+  rateOverDistance: 0
+  overridePosition: 0
+  position: {x: 0, y: 0}
+  positionRandomness: 0
+  overrideRotation: 1
+  rotation: 0
+  rotationRandomness: 0
+  scaleWithDistance: 1
+  scaleWithTransform: 0
+  scale: {x: 100, y: 100}
+  scaleRandomness: 0
+  velocityWeight: 1
+  velocityTexture: {fileID: 0}
+  maxRelativeVelocity: 8
+  velocityScale: {x: 1, y: 1, z: 1}
+  maxRelativeAngularVelocity: 12
+  angularVelocityScale: 1
+  force: {x: 0, y: 0, z: 0}
+  torque: 0
+  densityWeight: 1
+  densityTexture: {fileID: 0}
+  srcBlend: 5
+  dstBlend: 10
+  blendOp: 2
+  color: {r: 1, g: 1, b: 1, a: 1}
+  noiseTexture: {fileID: 2800000, guid: ff70acd9d6132428b8cbea06fbf16801, type: 3}
+  densityNoise: 0
+  densityNoiseOffset: 0
+  densityNoiseTiling: 1
+  velocityNoise: 0
+  velocityNoiseOffset: 0
+  velocityNoiseTiling: 1
 --- !u!1 &6469565775657713345
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +363,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8440347633837318771}
   m_Father: {fileID: 6469565776794862769}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6469565776732938264
@@ -329,7 +409,8 @@ MonoBehaviour:
   gravity: {x: 0, y: 0, z: 0}
   externalForce: {x: 0, y: 0, z: 0}
   lightSource: {fileID: 0}
-  targets: []
+  targets:
+  - {fileID: 8556212005455439175}
   pressure: 1
   viscosity: 0.9
   turbulence: 40
