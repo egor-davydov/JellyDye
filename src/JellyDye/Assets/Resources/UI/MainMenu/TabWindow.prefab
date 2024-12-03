@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 16799322846083616}
   - component: {fileID: 16799322846083621}
+  - component: {fileID: 16799322846083620}
   - component: {fileID: 7689423014757640042}
   - component: {fileID: 16799322846083622}
   - component: {fileID: 16799322846083623}
-  - component: {fileID: 16799322846083620}
   m_Layer: 5
-  m_Name: Skins_button
+  m_Name: Tab_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,6 +48,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16799322846083617}
   m_CullTransparentMesh: 1
+--- !u!114 &16799322846083620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16799322846083617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1824869df819414fbd360153597bfe50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 0
+  _uiAudio: {fileID: 0}
+  _openTabButton: {fileID: 16799322846083623}
+  _tabObject: {fileID: 0}
 --- !u!114 &7689423014757640042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,22 +153,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &16799322846083620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 16799322846083617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1824869df819414fbd360153597bfe50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _uiAudio: {fileID: 0}
-  _openTabButton: {fileID: 16799322846083623}
-  _tabToOpen: {fileID: 0}
-  _tabToClose: {fileID: 0}
 --- !u!1 &16799323723460222
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 8715460481339994410}
   - component: {fileID: 16799323968525812}
   m_Layer: 5
-  m_Name: Gallery_title
+  m_Name: OtherTab_title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
