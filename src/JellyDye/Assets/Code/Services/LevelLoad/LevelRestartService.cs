@@ -1,5 +1,4 @@
 ﻿using Code.Services.Providers;
-using Code.UI.FinishWindow;
 using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEngine;
@@ -14,12 +13,14 @@ namespace Code.Services.LevelLoad
     private readonly CameraProvider _cameraProvider;
     private readonly FinishButtonService _finishButtonService;
     private readonly SyringeService _syringeService;
+    private readonly WindowsService _windowsService;
 
     private FluxyTarget[] _clearTargets;
     private FluxyContainer[] _fluxyContainers;
 
     public LevelRestartService(WindowsProvider windowsProvider, SyringeProvider syringeProvider, HudProvider hudProvider,
-      CameraProvider cameraProvider, FinishButtonService finishButtonService, SyringeService syringeService)
+      CameraProvider cameraProvider, FinishButtonService finishButtonService, SyringeService syringeService,
+      WindowsService windowsService)
     {
       _windowsProvider = windowsProvider;
       _syringeProvider = syringeProvider;
@@ -27,7 +28,10 @@ namespace Code.Services.LevelLoad
       _cameraProvider = cameraProvider;
       _finishButtonService = finishButtonService;
       _syringeService = syringeService;
+      _windowsService = windowsService;
     }
+
+    private bool IsFinishState => _windowsProvider.FinishWindow.IsOpen;
 
     public void Initialize(GameObject jelliesObject)
     {
@@ -37,18 +41,8 @@ namespace Code.Services.LevelLoad
 
     public async UniTask RestartCurrentLevel()
     {
-      GameObject mainMenu = _windowsProvider.MainMenu;
-      if (mainMenu != null)
-        Object.Destroy(mainMenu.gameObject);
-
-      FinishWindow finishWindow = _windowsProvider.FinishWindow;
-      if (finishWindow != null)
-      {
-        Object.Destroy(finishWindow.gameObject);
-        _cameraProvider.LevelCamera.MoveToStart();
-        _hudProvider.HudObject.SetActive(true);
-        _syringeProvider.SyringeObject.SetActive(true);
-      }
+      ResetFinishObjectsIfFinished();
+      _windowsService.CloseWindowsIfOpened();
 
       await _syringeService.SwapSkinIfChanged();
       _syringeService.ResetSyringe();
@@ -56,6 +50,16 @@ namespace Code.Services.LevelLoad
 
       await ClearJelliesAsync();
       _finishButtonService.Reset();
+    }
+
+    public void ResetFinishObjectsIfFinished()
+    {
+      if (!IsFinishState)
+        return;
+
+      _cameraProvider.LevelCamera.MoveToStart();
+      _hudProvider.HudObject.SetActive(true);
+      _syringeProvider.SyringeObject.SetActive(true);
     }
 
     private void ReShuffleJars()

@@ -8,23 +8,31 @@ namespace Code.Data
   {
     public string CurrentLevelId;
     public List<CompletedLevel> CompletedLevels;
-    
+
     public LevelData(string startLevelId)
     {
       CurrentLevelId = startLevelId;
       CompletedLevels = new List<CompletedLevel>();
     }
 
+    public event Action<string> CompletedLevelsChanged;
+
     public void ManageCompletedLevel(string levelId, int percentage)
     {
-      if(IsLevelCompleted(levelId))
+      if (IsLevelAlreadyInProgress(levelId))
       {
         CompletedLevel previousData = CompletedLevel(levelId);
         if (previousData.Percentage < percentage)
+        {
           previousData.Percentage = percentage;
+          CompletedLevelsChanged?.Invoke(levelId);
+        }
       }
       else
+      {
         CompletedLevels.Add(new CompletedLevel(levelId, percentage));
+        CompletedLevelsChanged?.Invoke(levelId);
+      }
     }
 
     public CompletedLevel CompletedLevel(string levelId)
@@ -38,7 +46,7 @@ namespace Code.Data
       throw new Exception($"Can't find completed level id=\"{levelId}\"");
     }
 
-    public bool IsLevelCompleted(string levelId)
+    public bool IsLevelAlreadyInProgress(string levelId)
     {
       foreach (CompletedLevel completedLevel in CompletedLevels)
       {

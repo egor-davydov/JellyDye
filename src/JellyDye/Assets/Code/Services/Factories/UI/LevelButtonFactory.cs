@@ -1,5 +1,5 @@
 ﻿using Code.Services.AssetManagement;
-using Code.UI.MainMenu.Gallery;
+using Code.UI.MainMenuWindow.Gallery;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;

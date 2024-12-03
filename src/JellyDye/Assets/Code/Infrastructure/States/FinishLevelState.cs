@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Code.Infrastructure.States.Interfaces;
 using Code.Services;
-using Code.Services.Factories.UI;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.Services.Providers;
@@ -15,10 +14,8 @@ namespace Code.Infrastructure.States
   public class FinishLevelState : IState
   {
     private readonly PaintCountCalculationService _paintCountCalculationService;
-    private readonly AnimatedButtonFactory _animatedButtonFactory;
     private readonly CameraProvider _cameraProvider;
     private readonly ScreenshotService _screenshotService;
-    private readonly WindowFactory _windowFactory;
     private readonly SyringeProvider _syringeProvider;
     private readonly HudProvider _hudProvider;
     private readonly StaticDataService _staticData;
@@ -29,18 +26,14 @@ namespace Code.Infrastructure.States
     private readonly NewSkinSceneService _newSkinSceneService;
     private readonly WindowsProvider _windowsProvider;
 
-    public FinishLevelState(PaintCountCalculationService paintCountCalculationService,
-      AnimatedButtonFactory animatedButtonFactory, CameraProvider cameraProvider, ScreenshotService screenshotService,
-      WindowFactory windowFactory, SyringeProvider syringeProvider, HudProvider hudProvider,
-      StaticDataService staticData, PublishService publishService, AnalyticsService analyticsService,
-      ProgressService progress, ISaveLoadService saveLoadService, NewSkinSceneService newSkinSceneService,
-      WindowsProvider windowsProvider)
+    public FinishLevelState(PaintCountCalculationService paintCountCalculationService, CameraProvider cameraProvider,
+      SyringeProvider syringeProvider, HudProvider hudProvider, WindowsProvider windowsProvider, StaticDataService staticData,
+      PublishService publishService, AnalyticsService analyticsService, ProgressService progress,
+      ISaveLoadService saveLoadService, NewSkinSceneService newSkinSceneService, ScreenshotService screenshotService)
     {
       _paintCountCalculationService = paintCountCalculationService;
-      _animatedButtonFactory = animatedButtonFactory;
       _cameraProvider = cameraProvider;
       _screenshotService = screenshotService;
-      _windowFactory = windowFactory;
       _syringeProvider = syringeProvider;
       _hudProvider = hudProvider;
       _staticData = staticData;
@@ -56,7 +49,6 @@ namespace Code.Infrastructure.States
     {
       UniTask<float> calculatePaintPercentageTask = _paintCountCalculationService.CalculatePaintPercentageAsync();
       _hudProvider.HudObject.SetActive(false);
-
       _syringeProvider.SyringeObject.SetActive(false);
       await AnimateAndShowCameraFlash();
 
@@ -78,8 +70,7 @@ namespace Code.Infrastructure.States
       SendAnalyticsSetLeaderboardRequestReview(roundedPercentage);
 
       Texture2D screenshot = await _screenshotService.TakeScreenshotAsync();
-      FinishWindow finishWindow = await CreateFinishWindow(screenshot);
-      _windowsProvider.FinishWindow = finishWindow;
+      FinishWindow finishWindow = OpenFinishWindow(screenshot);
       SkinProgressBar skinProgressBar = finishWindow.SkinProgressBar;
       skinProgressBar.Initialize(isAllSkinsUnlockedBeforeSave, nextSkinConfigBeforeSave, currentAmount);
 
@@ -87,7 +78,7 @@ namespace Code.Infrastructure.States
       if (isSkinProgressChanged)
         await AnimateSkinProgressBarAsync(isProgressBarWillBeFilled, skinProgressBar, currentAmount, increaseAmount, nextSkinConfigBeforeSave);
 
-      _animatedButtonFactory.CreateNextLevelButton(finishWindow.transform).Forget();
+      finishWindow.AnimateNextLevelButton();
     }
 
     public UniTaskVoid Exit() =>
@@ -150,10 +141,11 @@ namespace Code.Infrastructure.States
       await _cameraProvider.LevelCamera.ShowPhotoFlash();
     }
 
-    private async UniTask<FinishWindow> CreateFinishWindow(Texture2D screenshot)
+    private FinishWindow OpenFinishWindow(Texture2D screenshot)
     {
-      FinishWindow finishWindow = await _windowFactory.CreateFinishWindow();
+      FinishWindow finishWindow = _windowsProvider.FinishWindow;
       finishWindow.Initialize(screenshot);
+      finishWindow.OpenWindow();
       return finishWindow;
     }
 

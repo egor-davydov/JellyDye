@@ -12,6 +12,7 @@ namespace Code.Data
     public List<SkinType> OpenedSkins;
 
     public event Action Changed;
+    public event Action<SkinType> Opened;
 
     public SkinData(int countOfSkins)
     {
@@ -31,8 +32,11 @@ namespace Code.Data
       }
     }
 
-    public void OpenSkin(SkinType skinType) =>
+    public void OpenSkin(SkinType skinType)
+    {
       OpenedSkins.Add(skinType);
+      Opened?.Invoke(skinType);
+    }
 
     public bool IsPlayerHaveSkin(SkinType observableSkinType) =>
       OpenedSkins.Contains(observableSkinType);

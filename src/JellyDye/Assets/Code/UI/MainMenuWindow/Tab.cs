@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.UI.MainMenu
+namespace Code.UI.MainMenuWindow
 {
   public class Tab : MonoBehaviour
   {

@@ -18,24 +18,6 @@ namespace Code.Services.Factories.UI
       _assetProvider = assetProvider;
     }
 
-    public async UniTask<AnimatedButton> CreateFinishButton(Transform parent)
-    {
-      GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetKey.FinishButton);
-      AnimatedButton animatedButton = _instantiator.InstantiatePrefabForComponent<AnimatedButton>(buttonPrefab, parent);
-      animatedButton.Animate();
-
-      return animatedButton;
-    }
-
-    public async UniTask<AnimatedButton> CreateNextLevelButton(Transform parent)
-    {
-      GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetKey.NextLevelButton);
-      AnimatedButton animatedButton = _instantiator.InstantiatePrefabForComponent<AnimatedButton>(buttonPrefab, parent);
-      animatedButton.Animate();
-
-      return animatedButton;
-    }
-
     public async UniTask<CloseSkinButton> CreateCloseSkinButton(Transform parent, bool animate = true)
     {
       GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetKey.CloseSkinButton);

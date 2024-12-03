@@ -52,7 +52,7 @@ namespace Code.UI.Hud.PaintChange
         Jars[index].transform.SetSiblingIndex(index);
     }
 
-    public void ClearFromJars()
+    public void DestroyJars()
     {
       foreach (Jar jar in Jars)
         Destroy(jar.gameObject);

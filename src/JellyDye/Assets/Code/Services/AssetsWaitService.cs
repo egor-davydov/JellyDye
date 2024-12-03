@@ -17,8 +17,7 @@ namespace Code.Services
 {
   public class AssetsWaitService
   {
-    private const int LevelNecessaryAssetsCount = 2;
-    private const int InitializationNecessaryAssetsCount = 1;
+    private const int InitializationNecessaryAssetsCount = 4;
 
     private readonly IAssetProvider _assetProvider;
     private readonly StaticDataService _staticData;
@@ -38,6 +37,7 @@ namespace Code.Services
 
     private bool IsSimulateLoadingTime => _staticData.ForDevelopHelpers.SimulateLoadingTime > 0;
     private LevelConfig CurrentLevelConfig => _staticData.ForLevel(_progress.ForLevels.CurrentLevelId);
+    private int LevelNecessaryAssetsCount => 2 + CurrentLevelConfig.JellyMeshConfigs.Count; // 2 - JellyPrefab and SyringeSkin
 
     public async UniTask WaitFirstLevelAssetsAsync()
     {
@@ -81,17 +81,19 @@ namespace Code.Services
 
     private List<AsyncOperationHandle> GetFirstLevelOperations()
     {
-      List<AsyncOperationHandle> operations = new(
-        LevelNecessaryAssetsCount + InitializationNecessaryAssetsCount + CurrentLevelConfig.JellyMeshConfigs.Count);
+      List<AsyncOperationHandle> operations = new(InitializationNecessaryAssetsCount + LevelNecessaryAssetsCount);
       AddNecessaryLevelAssets(operations);
 
+      operations.Add(_assetProvider.WarmUpAsset<GameObject>(AssetKey.Jar));
       operations.Add(_assetProvider.WarmUpAsset<GameObject>(AssetKey.Hud));
+      operations.Add(_assetProvider.WarmUpAsset<GameObject>(AssetKey.MainMenu));
+      operations.Add(_assetProvider.WarmUpAsset<GameObject>(AssetKey.FinishWindow));
       return operations;
     }
 
     private List<AsyncOperationHandle> GetLevelChangeOperations()
     {
-      List<AsyncOperationHandle> operations = new(LevelNecessaryAssetsCount + CurrentLevelConfig.JellyMeshConfigs.Count);
+      List<AsyncOperationHandle> operations = new(LevelNecessaryAssetsCount);
       AddNecessaryLevelAssets(operations);
 
       return operations;

@@ -1,5 +1,5 @@
-﻿using Code.Services.Factories.UI;
-using Cysharp.Threading.Tasks;
+﻿using Code.Enums;
+using Code.Services.Providers;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -11,11 +11,11 @@ namespace Code.UI
     [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private Button _openMenuButton;
 
-    private WindowFactory _windowFactory;
+    private WindowsProvider _windowsProvider;
 
     [Inject]
-    public void Construct(WindowFactory windowFactory) =>
-      _windowFactory = windowFactory;
+    public void Construct(WindowsProvider windowsProvider) =>
+      _windowsProvider = windowsProvider;
 
     private void Awake() =>
       _openMenuButton.onClick.AddListener(OpenMenuClick);
@@ -23,7 +23,8 @@ namespace Code.UI
     private void OpenMenuClick()
     {
       _uiAudio.PlayClick();
-      _windowFactory.CreateMainMenu().Forget();
+      _windowsProvider.MainMenuWindow.OpenWindow();
+      _windowsProvider.MainMenuWindow.OpenTab(TabType.Gallery);
     }
   }
 }

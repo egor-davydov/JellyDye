@@ -23,12 +23,13 @@ namespace Code.Services.LevelLoad
     private readonly LevelRestartService _levelRestartService;
     private readonly SyringeService _syringeService;
     private readonly LevelChangeService _levelChangeService;
+    private readonly WindowsService _windowsService;
     private readonly ProgressService _progress;
 
     public LevelInitializationService(HudFactory hudFactory, SyringeFactory syringeFactory, JelliesFactory jelliesFactory,
       ProgressService progress, PaintCountCalculationService paintCountCalculationService, SyringeProvider syringeProvider,
       HudProvider hudProvider, ParentsProvider parentsProvider, LevelRestartService levelRestartService,
-      SyringeService syringeService, LevelChangeService levelChangeService)
+      SyringeService syringeService, LevelChangeService levelChangeService, WindowsService windowsService)
     {
       _hudFactory = hudFactory;
       _syringeFactory = syringeFactory;
@@ -41,27 +42,24 @@ namespace Code.Services.LevelLoad
       _levelRestartService = levelRestartService;
       _syringeService = syringeService;
       _levelChangeService = levelChangeService;
+      _windowsService = windowsService;
     }
 
     public async UniTask SetupLevel(string levelId)
     {
-      GameObject jelliesObject = await InitJellies(levelId);
+      await _windowsService.CreateAndInitializeWindowsAsync();
+
+      GameObject jelliesObject = await _jelliesFactory.CreateJelly(levelId);
       _levelChangeService.Initialize(jelliesObject);
       _paintCountCalculationService.Initialize(jelliesObject);
       _levelRestartService.Initialize(jelliesObject);
-      await InitSyringe();
-      await InitHud(levelId);
 
+      await CreateAndInitSyringe();
+      await CreateAndInitHud(levelId);
       _syringeProvider.Syringe.Initialize(_hudProvider.InjectionButton);
     }
 
-    private async UniTask<GameObject> InitJellies(string levelId)
-    {
-      GameObject jelliesObject = await _jelliesFactory.CreateJelly(levelId);
-      return jelliesObject;
-    }
-
-    private async UniTask InitSyringe()
+    private async UniTask CreateAndInitSyringe()
     {
       SkinType equippedSkin = _progress.ForSkins.EquippedSkin;
       Syringe syringe = await _syringeFactory.Create(equippedSkin, _parentsProvider.ParentForGameplay);
@@ -69,7 +67,7 @@ namespace Code.Services.LevelLoad
       _syringeService.ResetSyringe();
     }
 
-    private async UniTask InitHud(string levelId)
+    private async UniTask CreateAndInitHud(string levelId)
     {
       GameObject hudObject = await _hudFactory.CreateHud();
       _hudProvider.Initialize(hudObject);

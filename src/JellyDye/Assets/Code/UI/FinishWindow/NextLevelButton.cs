@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Code.Data;
+using Code.Enums;
 using Code.Infrastructure.States;
 using Code.Services;
-using Code.Services.Factories.UI;
 using Code.Services.Progress;
+using Code.Services.Providers;
 using Code.StaticData.Level;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -18,13 +18,13 @@ namespace Code.UI.FinishWindow
     private GameStateMachine _gameStateMachine;
     private StaticDataService _staticData;
     private ProgressService _progress;
-    private WindowFactory _windowFactory;
+    private WindowsProvider _windowsProvider;
 
     [Inject]
     public void Construct(GameStateMachine gameStateMachine, StaticDataService staticDataService,
-      ProgressService progressService, WindowFactory windowFactory)
+      ProgressService progressService, WindowsProvider windowsProvider)
     {
-      _windowFactory = windowFactory;
+      _windowsProvider = windowsProvider;
       _progress = progressService;
       _staticData = staticDataService;
       _gameStateMachine = gameStateMachine;
@@ -41,7 +41,10 @@ namespace Code.UI.FinishWindow
       if (nextLevelIndex == null)
       {
         if (currentLevelIndex == lastLevelIndex)
-          _windowFactory.CreateMainMenu().Forget();
+        {
+          _windowsProvider.MainMenuWindow.OpenWindow();
+          _windowsProvider.MainMenuWindow.OpenTab(TabType.Gallery);
+        }
         else
           LoadLevel(currentLevelIndex + 1);
       }

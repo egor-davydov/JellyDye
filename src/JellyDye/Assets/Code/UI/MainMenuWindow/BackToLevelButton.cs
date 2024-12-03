@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.UI.MainMenu
+namespace Code.UI.MainMenuWindow
 {
   public class BackToLevelButton : MonoBehaviour
   {
-    [SerializeField] private GameObject _menuObject;
+    [SerializeField] private MainMenuWindow _mainMenuWindow;
     [SerializeField] private Button _backButton;
 
     private SkinType _equippedSkinOnOpen;
@@ -22,12 +22,12 @@ namespace Code.UI.MainMenu
     }
 
     private void Awake() =>
-      _backButton.onClick.AddListener(UniTask.UnityAction(CloseMenu));
+      _backButton.onClick.AddListener(UniTask.UnityAction(OnBackToLevelButtonClick));
 
-    private async UniTaskVoid CloseMenu()
+    private async UniTaskVoid OnBackToLevelButtonClick()
     {
       await _syringeService.ReplaceSkinIfChanged();
-      Destroy(_menuObject);
+      _mainMenuWindow.CloseWindow();
     }
   }
 }

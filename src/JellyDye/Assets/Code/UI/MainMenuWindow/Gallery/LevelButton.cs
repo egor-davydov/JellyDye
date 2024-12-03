@@ -2,21 +2,18 @@
 using Code.Infrastructure.States;
 using Code.Services;
 using Code.Services.Progress;
-using Code.StaticData.Level;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.UI.MainMenu.Gallery
+namespace Code.UI.MainMenuWindow.Gallery
 {
   public class LevelButton : MonoBehaviour
   {
     [SerializeField] private Button _loadLevelButton;
     [SerializeField] private Image _backgroundImage;
-
     [SerializeField] private TextMeshProUGUI _levelNumber;
-
     [SerializeField] private TextMeshProUGUI _levelNumberWithPercentage;
     [SerializeField] private TextMeshProUGUI _levelPercentage;
     [SerializeField] private Sprite _backgroundNotFullCompleted;
@@ -29,15 +26,17 @@ namespace Code.UI.MainMenu.Gallery
     [SerializeField] private RawImage _levelJellyTexture;
     [SerializeField] private Sprite _backgroundFullCompleted;
 
-    private GameStateMachine _gameStateMachine;
+    private int _levelIndex;
     private string _levelId;
+
+    private GameStateMachine _gameStateMachine;
     private ProgressService _progress;
     private StaticDataService _staticData;
     private StringsService _stringsService;
 
     [Inject]
     public void Construct(GameStateMachine gameStateMachine, ProgressService progressService,
-      StaticDataService staticDataService, StringsService stringsService)
+      StaticDataService staticDataService, StringsService stringsService, WindowsService windowsService)
     {
       _stringsService = stringsService;
       _staticData = staticDataService;
@@ -47,28 +46,35 @@ namespace Code.UI.MainMenu.Gallery
 
     public void Initialize(string levelId, int levelIndex)
     {
+      _levelIndex = levelIndex;
       _levelId = levelId;
-      LevelData progressLevelData = _progress.ForLevels;
-      LevelsStaticData levelsStaticData = _staticData.ForLevels;
-      if (!progressLevelData.IsLevelCompleted(_levelId))
+      SetButtonData();
+    }
+
+    private void Awake() =>
+      _loadLevelButton.onClick.AddListener(LoadLevelClick);
+
+    public void SetButtonData()
+    {
+      if (!_progress.ForLevels.IsLevelAlreadyInProgress(_levelId))
       {
         UnCompletedTurnOn(true);
         NotFullCompletedTurnOn(false);
         FullCompletedTurnOn(false);
         _levelNumber.text = _staticData.ForDevelopHelpers.IsShowingNames
-          ? levelId
-          : _stringsService.Numbers[levelIndex + 1];
+          ? _levelId
+          : _stringsService.Numbers[_levelIndex + 1];
       }
       else
       {
-        int percentage = progressLevelData.CompletedLevel(_levelId).Percentage;
+        int percentage = _progress.ForLevels.CompletedLevel(_levelId).Percentage;
         if (percentage == 100)
         {
           SetBackground(_backgroundFullCompleted);
           UnCompletedTurnOn(false);
           NotFullCompletedTurnOn(false);
           FullCompletedTurnOn(true);
-          _levelJellyTexture.texture = levelsStaticData.LevelConfigs[levelIndex].TargetTexture;
+          _levelJellyTexture.texture = _staticData.ForLevels.LevelConfigs[_levelIndex].TargetTexture;
           return;
         }
 
@@ -77,7 +83,7 @@ namespace Code.UI.MainMenu.Gallery
         NotFullCompletedTurnOn(true);
         FullCompletedTurnOn(false);
         _levelPercentage.text = _stringsService.PercentagesWithNewLine[percentage];
-        _levelNumberWithPercentage.text = _stringsService.Numbers[levelIndex + 1];
+        _levelNumberWithPercentage.text = _stringsService.Numbers[_levelIndex + 1];
         Color levelPercentageColor = PercentageColor(percentage);
 
         _levelPercentage.color = levelPercentageColor;
@@ -115,9 +121,6 @@ namespace Code.UI.MainMenu.Gallery
 
       return levelPercentageColor;
     }
-
-    private void Awake() =>
-      _loadLevelButton.onClick.AddListener(LoadLevelClick);
 
     private bool LevelCompleted(CompletedLevel observableLevel) =>
       observableLevel != default;

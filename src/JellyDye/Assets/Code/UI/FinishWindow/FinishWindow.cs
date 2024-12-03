@@ -2,6 +2,8 @@
 using Code.Services.Progress;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,25 +11,26 @@ using Zenject;
 
 namespace Code.UI.FinishWindow
 {
-  public class FinishWindow : MonoBehaviour
+  public class FinishWindow : MonoBehaviour, IWindow
   {
     [field: SerializeField] public SkinProgressBar SkinProgressBar { get; private set; }
     [SerializeField] private RawImage _yourResultImage;
     [SerializeField] private RawImage _shouldBeImage;
     [SerializeField] private TextMeshProUGUI _percentageText;
     [SerializeField] private Transform _textTransform;
-    [SerializeField] private Transform _resultsTransform;
+    [SerializeField] private Transform _windowTransform;
+    [SerializeField] private AnimatedButton _nextLevelButton;
     [SerializeField] private float _appearanceAnimationDuration;
     [SerializeField] private float _percentageIncreaseTime;
     [SerializeField] private float _textIncreaseScale;
     [SerializeField] private float _scalingTime;
-
 
     private Tween _scaleTween;
 
     private StringsService _stringsService;
     private ProgressService _progress;
     private StaticDataService _staticData;
+    private TweenerCore<Vector3, Vector3, VectorOptions> _appearanceTween;
 
     [Inject]
     public void Construct(ProgressService progressService, StaticDataService staticDataService,
@@ -38,28 +41,55 @@ namespace Code.UI.FinishWindow
       _progress = progressService;
     }
 
-    public void Initialize(Texture2D screenshot)
+    public bool IsOpen { get; private set; } = true;
+
+    private void Awake()
     {
-      _shouldBeImage.texture = _staticData
-        .ForLevel(_progress.ForLevels.CurrentLevelId)
-        .TargetTextureWithGround;
-      _yourResultImage.texture = screenshot;
+      _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime)
+        .SetAutoKill(false);
+      _appearanceTween = _windowTransform.DOScale(Vector3.one, _appearanceAnimationDuration)
+        .From(Vector3.zero).SetLink(gameObject).SetAutoKill(false);
     }
 
     private void OnDestroy() =>
       _scaleTween.Kill();
 
+    public void Initialize(Texture2D screenshot)
+    {
+      _shouldBeImage.texture = _staticData.ForLevel(_progress.ForLevels.CurrentLevelId).TargetTextureWithGround;
+      _yourResultImage.texture = screenshot;
+      _nextLevelButton.ResetAnimation();
+      SetPercentage(0);
+    }
+
+    public void OpenWindow() =>
+      SetActiveWindow(true);
+
+    public void CloseWindow() =>
+      SetActiveWindow(false);
+
+    private void SetActiveWindow(bool isActive)
+    {
+      IsOpen = isActive;
+      gameObject.SetActive(isActive);
+    }
+
     public async UniTask AnimateWindowAppearanceAsync()
     {
-      _resultsTransform.localScale = Vector3.zero;
-      await _resultsTransform.DOScale(Vector3.one, _appearanceAnimationDuration).Play();
+      _appearanceTween.Restart();
+      await _appearanceTween.AwaitForComplete();
     }
 
     public async UniTask AnimatePercentageTextAsync(int percentage)
     {
-      _scaleTween = _textTransform.DOScale(Vector3.one * _textIncreaseScale, _scalingTime).Play();
+      _scaleTween.Restart();
       await PercentageIncrease(percentage);
-      _scaleTween = _textTransform.DOScale(Vector3.one, _scalingTime).Play();
+      _scaleTween.PlayBackwards();
+    }
+
+    public void AnimateNextLevelButton()
+    {
+      _nextLevelButton.Animate();
     }
 
     private async UniTask PercentageIncrease(float percentage)

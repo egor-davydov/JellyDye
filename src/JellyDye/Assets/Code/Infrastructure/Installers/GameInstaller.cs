@@ -53,6 +53,7 @@ namespace Code.Infrastructure.Installers
     {
       Container.Bind<AssetsWaitService>().AsSingle();
       Container.Bind<SyringeService>().AsSingle();
+      Container.Bind<WindowsService>().AsSingle();
       Container.Bind<LevelInitializationService>().AsSingle();
       Container.Bind<LevelRestartService>().AsSingle();
       Container.Bind<LevelChangeService>().AsSingle();

@@ -1,6 +1,6 @@
 ﻿using Code.Enums;
 
-namespace Code.UI.MainMenu
+namespace Code.UI.MainMenuWindow
 {
   public interface ITabOpener
   {

@@ -1,8 +1,9 @@
-﻿using Code.Services.Progress;
+﻿using Code.Enums;
+using Code.Services.Progress;
 using UnityEngine;
 using Zenject;
 
-namespace Code.UI.MainMenu.Skins
+namespace Code.UI.MainMenuWindow.Skins
 {
   public class LockSkin : MonoBehaviour
   {
@@ -20,7 +21,14 @@ namespace Code.UI.MainMenu.Skins
 
     private void Awake()
     {
+      _progress.ForSkins.Opened += CheckIsThisOpened;
       if (_progress.ForSkins.IsPlayerHaveSkin(_equipSkinButton.SkinType))
+        UnlockSkin();
+    }
+
+    private void CheckIsThisOpened(SkinType skinType)
+    {
+      if (_equipSkinButton.SkinType == skinType)
         UnlockSkin();
     }
 

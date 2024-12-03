@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.UI.MainMenu.Skins
+namespace Code.UI.MainMenuWindow.Skins
 {
   public class OpenRewardedSkinButton : MonoBehaviour
   {
