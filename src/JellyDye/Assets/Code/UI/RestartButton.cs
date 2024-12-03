@@ -1,4 +1,5 @@
-﻿using Code.Infrastructure.States;
+﻿using Code.Extensions;
+using Code.Infrastructure.States;
 using Code.Services.Progress;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -35,8 +36,7 @@ namespace Code.UI
     {
       _reloadLevelButton.interactable = false;
       _gameStateMachine.Enter<LoadLevelState, string>(_progress.ForLevels.CurrentLevelId);
-      _rotationAnimation.Restart();
-      await _rotationAnimation.AwaitForComplete();
+      await _rotationAnimation.RestartAndAwaitComplete();
       _reloadLevelButton.interactable = true;
     }
   }

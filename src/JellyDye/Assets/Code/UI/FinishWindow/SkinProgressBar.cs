@@ -1,6 +1,9 @@
 ﻿using Code.Services.Progress;
 using Code.StaticData.Skins;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -16,9 +19,9 @@ namespace Code.UI.FinishWindow
     [SerializeField] private Image _progressImage;
     [field: SerializeField] public float ProgressMoveTime { get; private set; }
 
-    private Tween _fillTween;
 
     private ProgressService _progress;
+    private TweenerCore<float, float, FloatOptions> _fillTweenFullTime;
 
     [Inject]
     public void Construct(ProgressService progressService)
@@ -34,30 +37,32 @@ namespace Code.UI.FinishWindow
         SetSkinIconAndFillAmount(nextSkinConfigBeforeSave.Icon, currentAmount);
     }
 
-    private void OnDestroy() =>
-      _fillTween.Kill();
+    private void Awake()
+    {
+      _fillTweenFullTime = _progressImage.DOFillAmount(default, ProgressMoveTime)
+        .SetEase(FillTweenEase).SetLink(gameObject).SetAutoKill(false);
+    }
 
     public void AnimateFill()
     {
-      _fillTween = _progressImage
-        .DOFillAmount(_progress.ForSkins.NextSkinProgress, ProgressMoveTime)
-        .SetEase(FillTweenEase).Play();
+      _fillTweenFullTime.ChangeValues(_progressImage.fillAmount, _progress.ForSkins.NextSkinProgress);
+      _fillTweenFullTime.Restart();
     }
 
-    public Tween AnimateFillBeforeNewSkin(float fillDuration)
+    public UniTask AnimateFillBeforeNewSkinAsync(float duration)
     {
-      _fillTween = _progressImage.DOFillAmount(1, fillDuration).SetEase(FillTweenEase).Play();
-      return _fillTween;
+      Tween fillTween = _progressImage.DOFillAmount(1, duration)
+        .SetEase(FillTweenEase).Play();
+      return fillTween.ToUniTask();
     }
 
-    public void AnimateLastPartOrHideSkinObjects(bool isAllSkinsUnlockedAfterSave, float firstPartDuration,
+    public void AnimateLastPartOrHideSkinObjects(bool isAllSkinsUnlockedAfterSave, float duration,
       UnlockableSkinConfig nextSkinConfigAfterSave)
     {
       if (!isAllSkinsUnlockedAfterSave)
       {
         SetSkinIconAndFillAmount(nextSkinConfigAfterSave.Icon, 0);
-        float lastPartDuration = ProgressMoveTime - firstPartDuration;
-        _fillTween = _progressImage.DOFillAmount(_progress.ForSkins.NextSkinProgress, lastPartDuration)
+        _progressImage.DOFillAmount(_progress.ForSkins.NextSkinProgress, duration)
           .SetEase(FillTweenEase).Play();
       }
       else

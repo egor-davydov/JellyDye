@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Extensions;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -23,14 +24,14 @@ namespace Code.Gameplay.Logic
 
     private void Awake()
     {
-      Tween moveTween = transform.DOMove(_finishPosition, MovingTime).SetEase(MoveEase);
-      Tween rotateTween = transform.DORotate(_finishRotation, MovingTime).SetEase(MoveEase);
-      Tween orthoSizeTween = Camera.DOOrthoSize(_finishOrthoSize, MovingTime).SetEase(MoveEase);
+      Tween moveTween = transform.DOMove(_finishPosition, MovingTime);
+      Tween rotateTween = transform.DORotate(_finishRotation, MovingTime);
+      Tween orthoSizeTween = Camera.DOOrthoSize(_finishOrthoSize, MovingTime);
       _finishSequence = DOTween.Sequence()
         .Join(moveTween)
         .Join(rotateTween)
         .Join(orthoSizeTween)
-        .SetAutoKill(false);
+        .SetEase(MoveEase).SetAutoKill(false);
     }
 
     public void OnDestroy() =>
@@ -39,11 +40,8 @@ namespace Code.Gameplay.Logic
     public void MoveToStart() =>
       _finishSequence.Rewind();
 
-    public async UniTask MoveToFinishAsync()
-    {
-      _finishSequence.Restart();
-      await _finishSequence.AwaitForComplete();
-    }
+    public async UniTask MoveToFinishAsync() =>
+      await _finishSequence.RestartAndAwaitComplete();
 
     public void MoveToFinish() =>
       _finishSequence.Complete();

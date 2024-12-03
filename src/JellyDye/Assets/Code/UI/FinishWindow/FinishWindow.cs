@@ -1,4 +1,5 @@
-﻿using Code.Services;
+﻿using Code.Extensions;
+using Code.Services;
 using Code.Services.Progress;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -51,9 +52,6 @@ namespace Code.UI.FinishWindow
         .From(Vector3.zero).SetLink(gameObject).SetAutoKill(false);
     }
 
-    private void OnDestroy() =>
-      _scaleTween.Kill();
-
     public void Initialize(Texture2D screenshot)
     {
       _shouldBeImage.texture = _staticData.ForLevel(_progress.ForLevels.CurrentLevelId).TargetTextureWithGround;
@@ -74,11 +72,8 @@ namespace Code.UI.FinishWindow
       gameObject.SetActive(isActive);
     }
 
-    public async UniTask AnimateWindowAppearanceAsync()
-    {
-      _appearanceTween.Restart();
-      await _appearanceTween.AwaitForComplete();
-    }
+    public async UniTask AnimateWindowAppearanceAsync() =>
+      await _appearanceTween.RestartAndAwaitComplete();
 
     public async UniTask AnimatePercentageTextAsync(int percentage)
     {

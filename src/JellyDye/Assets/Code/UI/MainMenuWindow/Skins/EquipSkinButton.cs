@@ -40,7 +40,7 @@ namespace Code.UI.MainMenuWindow.Skins
       Button.onClick.AddListener(EquipSkin);
       _progress.ForSkins.Changed += CheckIsEquipped;
       _unScaleTween = _skinButtonImage.transform.DOScale(Vector3.one, _unScaleDuration)
-        .From(Vector3.one * 1.1f, false).SetAutoKill(false);
+        .From(Vector3.one * 1.1f, setImmediately: false).SetAutoKill(false);
     }
 
     private void OnDestroy()

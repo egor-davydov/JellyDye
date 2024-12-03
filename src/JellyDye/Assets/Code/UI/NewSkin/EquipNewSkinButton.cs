@@ -1,4 +1,5 @@
 ﻿using Code.Enums;
+using Code.Extensions;
 using Code.Services.Progress;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -18,6 +19,7 @@ namespace Code.UI.NewSkin
 
     private ProgressService _progress;
     private SkinType _skinType;
+    private Tween _fadeTween;
 
     [Inject]
     public void Construct(ProgressService progressService)
@@ -33,6 +35,7 @@ namespace Code.UI.NewSkin
     private void Awake()
     {
       _button.onClick.AddListener(UniTask.UnityAction(OnEquipNewSkinButtonClick));
+      _fadeTween = _skinEquippedImage.DOFade(0, _fadeTime).SetLink(gameObject).SetAutoKill(false);
     }
 
     private async UniTaskVoid OnEquipNewSkinButtonClick()
@@ -41,7 +44,7 @@ namespace Code.UI.NewSkin
       _progress.ForSkins.EquipSkin(_skinType);
       _button.gameObject.SetActive(false);
       await UniTask.WaitForSeconds(_fadeDelay).AttachExternalCancellation(destroyCancellationToken);
-      await _skinEquippedImage.DOFade(0, _fadeTime).Play().WithCancellation(destroyCancellationToken);
+      await _fadeTween.RestartAndAwaitComplete(TweenCancelBehaviour.Kill, destroyCancellationToken);
       Destroy(gameObject);
     }
   }

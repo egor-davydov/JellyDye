@@ -104,8 +104,7 @@ namespace Code.Infrastructure.States
         float fillDuration = isAllSkinsUnlockedAfterSave
           ? skinProgressBar.ProgressMoveTime
           : skinProgressBar.ProgressMoveTime * ((1 - currentAmount) / increaseAmount);
-        await skinProgressBar.AnimateFillBeforeNewSkin(fillDuration);
-
+        await skinProgressBar.AnimateFillBeforeNewSkinAsync(fillDuration);
         await _newSkinSceneService.ShowSkinScene(nextSkinConfigBeforeSave.SkinType);
         skinProgressBar.AnimateLastPartOrHideSkinObjects(isAllSkinsUnlockedAfterSave, fillDuration, nextSkinConfigAfterSave);
       }

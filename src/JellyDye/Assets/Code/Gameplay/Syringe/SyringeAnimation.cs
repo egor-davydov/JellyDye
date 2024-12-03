@@ -1,4 +1,7 @@
-﻿using DG.Tweening;
+﻿using System.Threading;
+using Code.Extensions;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
@@ -15,33 +18,63 @@ namespace Code.Gameplay.Syringe
     [SerializeField] private float _movingLittleBackTime;
     [SerializeField] private float _movingBackTime;
 
+    private CancellationTokenSource _cts;
     private Vector3 _movingCloserDirection;
-    private Tween _moveTween;
-    public bool IsPlaying { get; private set; }
+    private TweenerCore<Vector3, Vector3, VectorOptions> _moveCloserTween;
+    private TweenerCore<Vector3, Vector3, VectorOptions> _moveLittleBackTween;
+    private TweenerCore<Vector3, Vector3, VectorOptions> _moveBackTween;
+
+    private bool IsInjectionPlaying => _moveCloserTween.IsPlaying() || _moveLittleBackTween.IsPlaying();
 
     private void Awake()
     {
+      _cts = new CancellationTokenSource();
       _movingCloserDirection = transform.localRotation * Vector3.down;
+
+      _moveCloserTween = transform.DOMove(default, _movingCloserTime)
+        .SetEase(_moveCloserEase).SetLink(gameObject).SetAutoKill(false);
+
+      _moveLittleBackTween = transform.DOMove(default, _movingLittleBackTime)
+        .SetEase(_moveLittleBackEase).SetLink(gameObject).SetAutoKill(false);
+
+      _moveBackTween = transform.DOMove(default, _movingBackTime)
+        .SetLink(gameObject).SetAutoKill(false);
     }
 
-    public void StopAnimation() =>
-      _moveTween.Kill();
-
-    public void AnimateInjection(TweenCallback onComplete = null)
+    public void CompleteMoveBackIfPlaying()
     {
-      TweenerCore<Vector3, Vector3, VectorOptions> moveCloserTween =
-        transform.DOMove(transform.position + _movingCloserDirection * _movingCloserDistance, _movingCloserTime).SetEase(_moveCloserEase);
-      Tween injectionAnimation = DOTween.Sequence()
-        .Append(moveCloserTween)
-        .Append(transform.DOMove(moveCloserTween.endValue - _movingCloserDirection * _movingLittleBackDistance,
-          _movingLittleBackTime).SetEase(_moveLittleBackEase)).OnComplete(onComplete).Play();
-      _moveTween = injectionAnimation;
+      if (_moveBackTween.IsPlaying())
+        _moveBackTween.Complete();
     }
 
-    public void AnimateMovingBack(Vector3 injectionStartPosition)
+    public async UniTask AwaitAnimateInjectionComplete()
     {
-      IsPlaying = true;
-      _moveTween = transform.DOMove(injectionStartPosition, _movingBackTime).Play().OnComplete(() => IsPlaying = false);
+      Vector3 movingCloserEnd = transform.position + _movingCloserDirection * _movingCloserDistance;
+      _moveCloserTween.ChangeValues(transform.position, movingCloserEnd);
+      _moveLittleBackTween.ChangeValues(movingCloserEnd, movingCloserEnd - _movingCloserDirection * _movingLittleBackDistance);
+
+      await RestartAndAwaitTweenComplete(_moveCloserTween);
+      await RestartAndAwaitTweenComplete(_moveLittleBackTween);
     }
+
+    public async UniTaskVoid AnimateMovingBack(Vector3 injectionStartPosition)
+    {
+      _moveBackTween.ChangeValues(transform.position, injectionStartPosition);
+      await RestartAndAwaitTweenComplete(_moveBackTween);
+    }
+
+    public void StopInjectionAnimationIfPlaying()
+    {
+      if (!IsInjectionPlaying)
+        return;
+
+      _cts.Cancel();
+      _cts = new CancellationTokenSource();
+      _moveCloserTween.Pause();
+      _moveLittleBackTween.Pause();
+    }
+
+    private UniTask RestartAndAwaitTweenComplete(Tween tween) =>
+      tween.RestartAndAwaitComplete(TweenCancelBehaviour.CancelAwait, _cts.Token);
   }
 }

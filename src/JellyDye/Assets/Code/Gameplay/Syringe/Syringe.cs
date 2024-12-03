@@ -1,5 +1,6 @@
 ﻿using Code.Enums;
 using Code.UI.Hud;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.Gameplay.Syringe
@@ -23,32 +24,28 @@ namespace Code.Gameplay.Syringe
       _syringeMove.Initialize(injectionButton);
 
       _injectionButton = injectionButton;
-      _injectionButton.OnButtonDown += OnInjectionButtonDown;
+      _injectionButton.OnButtonDown += UniTask.Action(OnInjectionButtonDown);
       _injectionButton.OnButtonUp += OnInjectionButtonUp;
     }
 
     private void OnDestroy()
     {
-      _injectionButton.OnButtonDown -= OnInjectionButtonDown;
+      _injectionButton.OnButtonDown -= UniTask.Action(OnInjectionButtonDown);
       _injectionButton.OnButtonUp -= OnInjectionButtonUp;
     }
 
-    private void OnInjectionButtonDown()
+    private async UniTaskVoid OnInjectionButtonDown()
     {
-      if (_syringeAnimation.IsPlaying)
-      {
-        _syringeAnimation.StopAnimation();
-        transform.position = _injectionStartPosition;
-      }
-
+      _syringeAnimation.CompleteMoveBackIfPlaying();
       _injectionStartPosition = transform.position;
-      _syringeAnimation.AnimateInjection(onComplete: _syringePainting.TryStartPaint);
+      await _syringeAnimation.AwaitAnimateInjectionComplete();
+      _syringePainting.TryStartPaint();
     }
 
     private void OnInjectionButtonUp()
     {
-      _syringeAnimation.StopAnimation();
-      _syringeAnimation.AnimateMovingBack(_injectionStartPosition);
+      _syringeAnimation.StopInjectionAnimationIfPlaying();
+      _syringeAnimation.AnimateMovingBack(_injectionStartPosition).Forget();
     }
   }
 }
