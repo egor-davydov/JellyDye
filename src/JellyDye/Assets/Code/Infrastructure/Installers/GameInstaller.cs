@@ -3,6 +3,7 @@ using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
 using Code.Services.Factories.UI;
+using Code.Services.LevelLoad;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.Services.Providers;
@@ -50,7 +51,11 @@ namespace Code.Infrastructure.Installers
 
     private void BindServices()
     {
-      Container.Bind<RestartService>().AsSingle();
+      Container.Bind<AssetsWaitService>().AsSingle();
+      Container.Bind<SyringeService>().AsSingle();
+      Container.Bind<LevelInitializationService>().AsSingle();
+      Container.Bind<LevelRestartService>().AsSingle();
+      Container.Bind<LevelChangeService>().AsSingle();
       Container.Bind<StringsService>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<PublishService>().AsSingle();
@@ -69,6 +74,7 @@ namespace Code.Infrastructure.Installers
 
     private void BindProviders()
     {
+      Container.Bind<AdditiveSceneInterferingObjectsProvider>().AsSingle();
       Container.Bind<WindowsProvider>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
       Container.Bind<SyringeProvider>().AsSingle();

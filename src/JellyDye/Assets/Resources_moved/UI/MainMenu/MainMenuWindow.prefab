@@ -2058,10 +2058,10 @@ PrefabInstance:
       addedObject: {fileID: 1980743227535812525}
     - targetCorrespondingSourceObject: {fileID: 2628965900095645989, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7235514259023146039}
+      addedObject: {fileID: 5585732576425534257}
     - targetCorrespondingSourceObject: {fileID: 2628965900095645989, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5585732576425534257}
+      addedObject: {fileID: 7235514259023146039}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bd72f63cbb2a1d44896f9d37ceb8dc6, type: 3}
 --- !u!224 &4173057516774248832 stripped

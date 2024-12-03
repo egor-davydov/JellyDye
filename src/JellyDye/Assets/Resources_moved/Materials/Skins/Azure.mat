@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sand
+  m_Name: Azure
   m_Shader: {fileID: 4800000, guid: a6da473b89caeb1409bac856668af764, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -87,10 +87,10 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.9528302, g: 0.7744045, b: 0.35416517, a: 1}
+    - _Color: {r: 0.2235294, g: 0.72763556, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HColor: {r: 0.9528302, g: 0.86960775, b: 0.61484516, a: 1}
-    - _SColor: {r: 0.8584906, g: 0.64898854, b: 0.46488073, a: 1}
+    - _HColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SColor: {r: 0.8679245, g: 0.8652716, b: 0.8630117, a: 1}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

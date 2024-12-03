@@ -37,10 +37,10 @@ namespace Code.Services
       _staticData = staticData;
     }
 
-    public void InitializeOnSceneLoad(FluxySolver fluxySolver, FluxyContainer[] fluxyContainers)
+    public void Initialize(GameObject jelliesObject)
     {
-      _fluxySolver = fluxySolver;
-      _fluxyContainers = fluxyContainers;
+      _fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
+      _fluxyContainers = jelliesObject.GetComponentsInChildren<FluxyContainer>();
       Object.Destroy(_densityReadbackTexture);
       _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, DensityTextureFormat, false);
 

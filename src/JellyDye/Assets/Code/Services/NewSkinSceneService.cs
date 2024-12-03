@@ -63,27 +63,20 @@ namespace Code.Services
       syringeRotation.Initialize(_skinRotationPoint);
       await hudInitTask;
       await _newSkinHud.CloseSkinButtonClick;
+      await HideSkinScene();
     }
 
     private async UniTask LoadSceneAndDisableMainSceneRenderers()
     {
-      UniTask<SceneInstance> loadSceneTask = _sceneLoader.Load(SceneName.NewSkin, LoadSceneMode.Additive);
-      MainSceneRenderersSetActive(false);
+      UniTask<SceneInstance> loadSceneTask = _sceneLoader.LoadAsync(SceneName.NewSkin, LoadSceneMode.Additive);
+      _sceneLoader.MainSceneRenderersSetActive(false);
       _sceneInstance = await loadSceneTask;
     }
 
-    public async UniTask HideSkinScene()
+    private async UniTask HideSkinScene()
     {
       await Addressables.UnloadSceneAsync(_sceneInstance);
-      MainSceneRenderersSetActive(true);
-    }
-
-    private void MainSceneRenderersSetActive(bool active)
-    {
-      _cameraProvider.LevelCamera.gameObject.SetActive(active);
-      _parentsProvider.ParentForOther.gameObject.SetActive(active);
-      _parentsProvider.ParentForUI.gameObject.SetActive(active);
-      _parentsProvider.ParentForGameplay.gameObject.SetActive(active);
+      _sceneLoader.MainSceneRenderersSetActive(true);
     }
   }
 }

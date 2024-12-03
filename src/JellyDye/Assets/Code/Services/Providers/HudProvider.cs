@@ -11,6 +11,7 @@ namespace Code.Services.Providers
     public JarsContainer JarsContainer { get; private set; }
     public InjectionButton InjectionButton { get; private set; }
     public AnimatedButton FinishButton { get; private set; }
+    public ScreenshotTargetColors ScreenshotTargetColors { get; private set; }
 
     public void Initialize(GameObject hudObject)
     {
@@ -18,6 +19,7 @@ namespace Code.Services.Providers
       JarsContainer = HudObject.GetComponentInChildren<JarsContainer>();
       InjectionButton = HudObject.GetComponentInChildren<InjectionButton>();
       FinishButton = HudObject.GetComponentInChildren<AnimatedButton>();
+      ScreenshotTargetColors = hudObject.GetComponentInChildren<ScreenshotTargetColors>();
     }
   }
 }

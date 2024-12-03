@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Code.Extensions;
+using Code.Services;
 using Code.Services.Factories.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -11,22 +12,26 @@ namespace Code.Gameplay.UI.Hud.PaintChange
 {
   public class JarsContainer : MonoBehaviour
   {
-    private JarFactory _jarFactory;
     private Tween _unscaleTween;
     private Tween _scaleTween;
     private Jar _currentSelectedJar;
 
+    private JarFactory _jarFactory;
+    private StaticDataService _staticData;
+
     [Inject]
-    public void Construct(JarFactory jarFactory)
+    public void Construct(JarFactory jarFactory, StaticDataService staticData)
     {
+      _staticData = staticData;
       _jarFactory = jarFactory;
     }
 
     public List<Jar> Jars { get; private set; }
     public Color CurrentSelectedColor => _currentSelectedJar.Color;
 
-    public async UniTaskVoid InitializeAndCreateJars(List<Color> allColors)
+    public async UniTaskVoid InitializeAndCreateJars(string levelId)
     {
+      List<Color> allColors = _staticData.ForLevel(levelId).AllColorsCached;
       Jars = new List<Jar>(allColors.Count);
       allColors.Shuffle();
       foreach (Color color in allColors)
@@ -40,10 +45,23 @@ namespace Code.Gameplay.UI.Hud.PaintChange
       SelectFirstJar();
     }
 
+    public void ReShuffleJars()
+    {
+      Jars.Shuffle();
+      for (var index = 0; index < Jars.Count; index++)
+        Jars[index].transform.SetSiblingIndex(index);
+    }
+
+    public void ClearFromJars()
+    {
+      foreach (Jar jar in Jars)
+        Destroy(jar.gameObject);
+    }
+
     public void SelectFirstJar() =>
       Jars.First().Select();
 
-    public void DeselectPreviousJar(Jar currentJar)
+    public void DeselectPreviousJarAndSetCurrent(Jar currentJar)
     {
       Jar previousJar = _currentSelectedJar;
       if (previousJar != null && previousJar != currentJar)

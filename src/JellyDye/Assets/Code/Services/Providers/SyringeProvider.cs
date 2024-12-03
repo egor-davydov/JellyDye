@@ -9,13 +9,15 @@ namespace Code.Services.Providers
     public Syringe Syringe { get; private set; }
     public SyringePistonAndLiquid SyringePistonAndLiquid { get; private set; }
     public SyringeLiquidColor SyringeLiquidColor { get; private set; }
+    public SyringeMove SyringeMove { get; private set; }
 
-    public void Initialize(GameObject syringeObject)
+    public void Initialize(Syringe syringe)
     {
-      SyringeObject = syringeObject;
-      Syringe = SyringeObject.GetComponent<Syringe>();
+      Syringe = syringe;
+      SyringeObject = syringe.gameObject;
       SyringeLiquidColor = SyringeObject.GetComponent<SyringeLiquidColor>();
       SyringePistonAndLiquid = SyringeObject.GetComponent<SyringePistonAndLiquid>();
+      SyringeMove = SyringeObject.GetComponent<SyringeMove>();
     }
   }
 }

@@ -56,6 +56,7 @@ namespace Code.Infrastructure.States
     {
       UniTask<float> calculatePaintPercentageTask = _paintCountCalculationService.CalculatePaintPercentageAsync();
       _hudProvider.HudObject.SetActive(false);
+
       _syringeProvider.SyringeObject.SetActive(false);
       await AnimateAndShowCameraFlash();
 
@@ -115,7 +116,6 @@ namespace Code.Infrastructure.States
         await skinProgressBar.AnimateFillBeforeNewSkin(fillDuration);
 
         await _newSkinSceneService.ShowSkinScene(nextSkinConfigBeforeSave.SkinType);
-        await _newSkinSceneService.HideSkinScene();
         skinProgressBar.AnimateLastPartOrHideSkinObjects(isAllSkinsUnlockedAfterSave, fillDuration, nextSkinConfigAfterSave);
       }
     }

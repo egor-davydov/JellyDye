@@ -1,6 +1,7 @@
 ﻿using Code.Services;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -16,10 +17,13 @@ namespace Code.Gameplay.UI.MainMenu.Skins
     private ProgressService _progress;
     private ISaveLoadService _saveLoadService;
     private PublishService _publishService;
+    private NewSkinSceneService _newSkinSceneService;
 
     [Inject]
-    public void Construct(ProgressService progressService, ISaveLoadService saveLoadService, PublishService publishService)
+    public void Construct(ProgressService progressService, ISaveLoadService saveLoadService, PublishService publishService,
+      NewSkinSceneService newSkinSceneService)
     {
+      _newSkinSceneService = newSkinSceneService;
       _publishService = publishService;
       _saveLoadService = saveLoadService;
       _progress = progressService;
@@ -32,13 +36,14 @@ namespace Code.Gameplay.UI.MainMenu.Skins
 
     private void ShowRewardedVideoClick()
     {
-      _publishService.ShowRewardedVideo(OpenRewardedSkin);
+      _publishService.ShowRewardedVideo(UniTask.Action(OpenRewardedSkin));
     }
 
-    private void OpenRewardedSkin()
+    private async UniTaskVoid OpenRewardedSkin()
     {
       _progress.ForSkins.OpenSkin(_equipSkinButton.SkinType);
       _saveLoadService.SaveProgress();
+      await _newSkinSceneService.ShowSkinScene(_equipSkinButton.SkinType);
       _lockSkin.UnlockSkin();
     }
   }

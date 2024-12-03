@@ -14,35 +14,36 @@ namespace Code.Services.Factories
     private readonly IAssetProvider _assetProvider;
     private readonly StaticDataService _staticData;
 
-    public SyringeFactory(IInstantiator instantiator, IAssetProvider assetProvider, StaticDataService staticData
-    )
+    public SyringeFactory(IInstantiator instantiator, IAssetProvider assetProvider, StaticDataService staticData)
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
       _staticData = staticData;
     }
 
-    public async UniTask<GameObject> Create(SkinType skinType, Vector3 at, Quaternion rotation, Transform parent)
+    public async UniTask<Syringe> Create(SkinType skinType, Vector3 at, Quaternion rotation, Transform parent)
     {
-      GameObject syringeObject = await Create(skinType, parent);
-      syringeObject.transform.position = at;
-      syringeObject.transform.rotation = rotation;
-      return syringeObject;
+      Syringe syringe = await Create(skinType, parent);
+      syringe.transform.position = at;
+      syringe.transform.rotation = rotation;
+      return syringe;
     }
 
-    public async UniTask<GameObject> Create(SkinType skinType, Transform parent)
+    public async UniTask<Syringe> Create(SkinType skinType, Transform parent)
     {
       AssetReference syringeBaseReference = _staticData.ForSkins.SyringeBaseReference;
       GameObject syringeBasePrefab = await _assetProvider.Load<GameObject>(syringeBaseReference);
-      GameObject syringeBaseObject = _instantiator.InstantiatePrefab(syringeBasePrefab,
+      Syringe syringe = _instantiator.InstantiatePrefabForComponent<Syringe>(syringeBasePrefab,
         syringeBasePrefab.transform.position,
         syringeBasePrefab.transform.rotation, parent);
 
-      SyringeMesh syringeMesh = await CreateMesh(skinType, syringeBaseObject.transform);
-      syringeBaseObject.GetComponent<SyringePistonAndLiquid>().WireUp(syringeMesh.PistonTransform, syringeMesh.LiquidTransform);
-      syringeBaseObject.GetComponent<SyringeLiquidColor>().WireUp(syringeMesh.LiquidRenderer);
+      syringe.SkinType = skinType;
 
-      return syringeBaseObject;
+      SyringeMesh syringeMesh = await CreateMesh(skinType, syringe.transform);
+      syringe.GetComponent<SyringePistonAndLiquid>().WireUp(syringeMesh.PistonTransform, syringeMesh.LiquidTransform);
+      syringe.GetComponent<SyringeLiquidColor>().WireUp(syringeMesh.LiquidRenderer);
+
+      return syringe;
     }
 
     public async UniTask<SyringeMesh> CreateMesh(SkinType skinType, Transform parent)

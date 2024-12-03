@@ -4,6 +4,6 @@ namespace Code.Infrastructure.States.Interfaces
 {
   public interface IPayloadState<TPayload> : IExitableState
   {
-    UniTaskVoid Enter(TPayload levelIndex);
+    UniTaskVoid Enter(TPayload payload);
   }
 }

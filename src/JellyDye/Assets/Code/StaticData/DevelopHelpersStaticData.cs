@@ -8,5 +8,6 @@ namespace Code.StaticData
     [field: SerializeField] public bool FinishLevelImmediately { get; private set; }
     [field: SerializeField] public bool OpenNewSkin { get; private set; }
     [field: SerializeField] public bool IsShowingNames { get; private set; }
+    [field: SerializeField, Min(0)] public float SimulateLoadingTime { get; private set; }
   }
 }

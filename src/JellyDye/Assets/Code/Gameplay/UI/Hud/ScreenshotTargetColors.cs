@@ -1,7 +1,9 @@
 ﻿using Code.Gameplay.Language;
+using Code.Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Code.Gameplay.UI.Hud
 {
@@ -10,10 +12,19 @@ namespace Code.Gameplay.UI.Hud
     [SerializeField] private TextMeshProUGUI _levelNumberText;
     [SerializeField] private RawImage _screenshotImage;
     [SerializeField] private LanguageChangerText _languageChangerText;
-    
-    public void Initialize(Texture2D screenshotImage, int levelNumber)
+
+    private StaticDataService _staticData;
+
+    [Inject]
+    public void Construct(StaticDataService staticData)
     {
-      _screenshotImage.texture = screenshotImage;
+      _staticData = staticData;
+    }
+
+    public void Initialize(string levelId)
+    {
+      int levelNumber = _staticData.ForLevels.GetLevelIndex(levelId) + 1;
+      _screenshotImage.texture = _staticData.ForLevel(levelId).TargetTexture;
       _levelNumberText.text = $"{_languageChangerText.ResultText} {levelNumber}";
     }
   }

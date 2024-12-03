@@ -17,10 +17,12 @@ namespace Code.Gameplay.Syringe
     private InjectionButton _injectionButton;
 
     private InputService _inputService;
+    private CameraProvider _cameraProvider;
 
     [Inject]
-    public void Construct(InputService inputService)
+    public void Construct(InputService inputService, CameraProvider cameraProvider)
     {
+      _cameraProvider = cameraProvider;
       _inputService = inputService;
     }
 
@@ -41,7 +43,7 @@ namespace Code.Gameplay.Syringe
 
     private void Awake()
     {
-      _camera = Camera.main;
+      _camera = _cameraProvider.LevelCamera.Camera;
     }
 
     private void OnInjectionButtonDown() =>

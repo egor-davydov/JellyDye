@@ -17,6 +17,10 @@ namespace Code.Services
 
     public void Reset()
     {
+      if (!FinishButtonAnimated)
+        return;
+
+      _hudProvider.FinishButton.ResetAnimation();
       FinishButtonAnimated = false;
     }
 

@@ -1,4 +1,5 @@
 ﻿using Code.Gameplay.UI.Hud;
+using Code.Gameplay.UI.MainMenu.Skins;
 using UnityEngine;
 
 namespace Code.Gameplay.Syringe
@@ -13,6 +14,8 @@ namespace Code.Gameplay.Syringe
     private Vector3 _injectionStartPosition;
     private InjectionButton _injectionButton;
 
+    public SkinType SkinType { get; set; }
+
     public void Initialize(InjectionButton injectionButton)
     {
       _syringePainting.Initialize(injectionButton);
@@ -21,18 +24,13 @@ namespace Code.Gameplay.Syringe
 
       _injectionButton = injectionButton;
       _injectionButton.OnButtonDown += OnInjectionButtonDown;
-      ;
       _injectionButton.OnButtonUp += OnInjectionButtonUp;
     }
 
     private void OnDestroy()
     {
-      if (_injectionButton != null)
-      {
-        _injectionButton.OnButtonDown -= OnInjectionButtonDown;
-        ;
-        _injectionButton.OnButtonUp -= OnInjectionButtonUp;
-      }
+      _injectionButton.OnButtonDown -= OnInjectionButtonDown;
+      _injectionButton.OnButtonUp -= OnInjectionButtonUp;
     }
 
     private void OnInjectionButtonDown()

@@ -14,7 +14,8 @@ namespace Code.Services.Factories
     private readonly ParentsProvider _parentsProvider;
     private readonly StaticDataService _staticData;
 
-    public JelliesFactory(IInstantiator instantiator, IAssetProvider assetProvider, ParentsProvider parentsProvider, StaticDataService staticData)
+    public JelliesFactory(IInstantiator instantiator, IAssetProvider assetProvider, ParentsProvider parentsProvider,
+      StaticDataService staticData)
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;

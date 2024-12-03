@@ -1,4 +1,4 @@
-﻿using Code.Services.Providers;
+﻿using Code.Services;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,15 +13,15 @@ namespace Code.Gameplay.UI.Hud.PaintChange
     [SerializeField] private float _selectedScale;
     [SerializeField] private float _scalingTime;
 
-    private SyringeProvider _syringeProvider;
     private Tween _scaleTween;
     private JarsContainer _jarsContainer;
     private Tween _unscaleTween;
+    private SyringeService _syringeService;
 
     [Inject]
-    public void Construct(SyringeProvider syringeProvider)
+    public void Construct(SyringeService syringeService)
     {
-      _syringeProvider = syringeProvider;
+      _syringeService = syringeService;
     }
 
     public Color Color { get; private set; }
@@ -46,9 +46,9 @@ namespace Code.Gameplay.UI.Hud.PaintChange
     {
       _jarButton.interactable = false;
       _scaleTween.Restart();
-      _syringeProvider.SyringePistonAndLiquid.ResetEither().Forget();
-      _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(Color);
-      _jarsContainer.DeselectPreviousJar(this);
+      _jarsContainer.DeselectPreviousJarAndSetCurrent(this);
+      _syringeService.ResetPistonAndLiquid();
+      _syringeService.SetCurrentJarColor();
     }
 
     public void Deselect()
