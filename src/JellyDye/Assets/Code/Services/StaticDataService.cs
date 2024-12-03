@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Code.Gameplay.UI.MainMenu.Skins;
+using Code.Enums;
 using Code.StaticData;
 using Code.StaticData.Level;
 using Code.StaticData.Skins;

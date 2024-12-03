@@ -1,5 +1,5 @@
-﻿using Code.Gameplay.UI.NewSkin;
-using Code.Services;
+﻿using Code.Services;
+using Code.UI.NewSkin;
 using UnityEngine;
 using Zenject;
 

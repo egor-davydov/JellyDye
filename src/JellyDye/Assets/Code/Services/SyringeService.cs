@@ -1,5 +1,5 @@
-﻿using Code.Gameplay.Syringe;
-using Code.Gameplay.UI.MainMenu.Skins;
+﻿using Code.Enums;
+using Code.Gameplay.Syringe;
 using Code.Services.Factories;
 using Code.Services.Progress;
 using Code.Services.Providers;

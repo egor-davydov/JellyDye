@@ -1,10 +1,10 @@
 ﻿using Code.Constants;
+using Code.Enums;
 using Code.Gameplay.Syringe;
-using Code.Gameplay.UI.MainMenu.Skins;
-using Code.Gameplay.UI.NewSkin;
 using Code.Services.Factories;
 using Code.Services.Providers;
 using Code.StaticData.Skins;
+using Code.UI.NewSkin;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

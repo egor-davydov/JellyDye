@@ -1,6 +1,6 @@
-﻿using Code.Gameplay.UI.FinishWindow;
-using Code.Services.AssetManagement;
+﻿using Code.Services.AssetManagement;
 using Code.Services.Providers;
+using Code.UI.FinishWindow;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;

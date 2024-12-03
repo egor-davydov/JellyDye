@@ -1,5 +1,5 @@
-﻿using Code.Gameplay.UI.Hud;
-using Code.Gameplay.UI.MainMenu.Skins;
+﻿using Code.Enums;
+using Code.UI.Hud;
 using UnityEngine;
 
 namespace Code.Gameplay.Syringe

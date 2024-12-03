@@ -1,5 +1,5 @@
-﻿using Code.Gameplay.Syringe;
-using Code.Gameplay.UI.MainMenu.Skins;
+﻿using Code.Enums;
+using Code.Gameplay.Syringe;
 using Code.Services.AssetManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine;

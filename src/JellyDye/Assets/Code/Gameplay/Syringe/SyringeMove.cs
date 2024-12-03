@@ -1,5 +1,6 @@
-﻿using Code.Gameplay.UI.Hud;
-using Code.Services;
+﻿using Code.Services;
+using Code.Services.Providers;
+using Code.UI.Hud;
 using UnityEngine;
 using Zenject;
 

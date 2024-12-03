@@ -1,5 +1,5 @@
 ﻿using System;
-using Code.Gameplay.UI.MainMenu.Skins;
+using Code.Enums;
 using UnityEngine;
 
 namespace Code.StaticData.Skins

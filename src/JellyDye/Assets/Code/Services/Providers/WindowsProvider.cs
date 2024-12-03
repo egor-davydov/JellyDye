@@ -1,4 +1,4 @@
-﻿using Code.Gameplay.UI.FinishWindow;
+﻿using Code.UI.FinishWindow;
 using UnityEngine;
 
 namespace Code.Services.Providers

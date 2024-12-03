@@ -1,5 +1,6 @@
 using System;
 using Code.Constants;
+using Code.Enums;
 using Code.Infrastructure.States.Interfaces;
 using Code.Services;
 using Code.Services.LevelLoad;

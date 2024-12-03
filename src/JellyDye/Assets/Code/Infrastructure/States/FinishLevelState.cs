@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Code.Gameplay.UI.FinishWindow;
 using Code.Infrastructure.States.Interfaces;
 using Code.Services;
 using Code.Services.Factories.UI;
@@ -7,6 +6,7 @@ using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.Services.Providers;
 using Code.StaticData.Skins;
+using Code.UI.FinishWindow;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 

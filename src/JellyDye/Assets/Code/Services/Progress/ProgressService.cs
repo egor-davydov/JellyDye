@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Code.Data;
-using Code.Gameplay.UI.MainMenu.Skins;
+using Code.Enums;
 
 namespace Code.Services.Progress
 {

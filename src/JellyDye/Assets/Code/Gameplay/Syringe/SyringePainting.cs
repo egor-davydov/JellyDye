@@ -1,5 +1,5 @@
-﻿using Code.Gameplay.UI.Hud;
-using Code.Services;
+﻿using Code.Services;
+using Code.UI.Hud;
 using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEngine;

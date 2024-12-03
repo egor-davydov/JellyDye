@@ -1,6 +1,6 @@
-﻿using Code.Gameplay.UI;
-using Code.Gameplay.UI.Hud;
-using Code.Gameplay.UI.Hud.PaintChange;
+﻿using Code.UI;
+using Code.UI.Hud;
+using Code.UI.Hud.PaintChange;
 using UnityEngine;
 
 namespace Code.Services.Providers

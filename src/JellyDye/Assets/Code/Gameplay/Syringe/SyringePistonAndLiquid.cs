@@ -1,4 +1,4 @@
-﻿using Code.Gameplay.UI.Hud;
+﻿using Code.UI.Hud;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using static Code.Constants.SyringeConstants;

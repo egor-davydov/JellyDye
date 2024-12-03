@@ -1,5 +1,5 @@
-﻿using Code.Gameplay.UI.FinishWindow;
-using Code.Services.Providers;
+﻿using Code.Services.Providers;
+using Code.UI.FinishWindow;
 using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEngine;

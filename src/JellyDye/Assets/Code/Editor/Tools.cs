@@ -2,7 +2,7 @@
 using System.IO;
 using Code.Constants;
 using Code.Data;
-using Code.Gameplay.UI.MainMenu.Skins;
+using Code.Enums;
 using Code.Helpers;
 using Code.Services;
 using Code.Services.Progress;
