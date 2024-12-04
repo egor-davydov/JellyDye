@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Code.Constants;
+using Code.Extensions;
 using Code.Helpers;
 using Code.StaticData;
 using Code.StaticData.Level;
@@ -195,9 +195,17 @@ namespace Code.Editor
 
           if (GUILayout.Button("Update cached colors"))
           {
-            foreach (LevelConfig levelConfig in levelConfigs) 
+            foreach (LevelConfig levelConfig in levelConfigs)
               levelConfig.UpdateColors();
-            
+
+            SetTargetDirty();
+          }
+
+          if (GUILayout.Button("Shuffle levels"))
+          {
+            List<LevelConfig> configs = levelConfigs.ToList();
+            configs.Shuffle();
+            _levelsDataTarget.LevelConfigs = configs.ToArray();
             SetTargetDirty();
           }
 
@@ -207,12 +215,13 @@ namespace Code.Editor
               for (var index = 0; index < levelConfig.AdditionalColors.Count; index++)
               {
                 Color levelConfigAdditionalColor = levelConfig.AdditionalColors[index];
-                if(levelConfigAdditionalColor == Color.clear)
+                if (levelConfigAdditionalColor == Color.clear)
                 {
                   levelConfig.AdditionalColors.RemoveAt(index);
                   Debug.Log($"Removed clear color in '{levelConfig.Id}' config at '{index}' index");
                 }
               }
+
             SetTargetDirty();
           }
 
@@ -227,25 +236,26 @@ namespace Code.Editor
 
           if (GUILayout.Button("Set jellies prefab references"))
           {
-            foreach (LevelConfig levelConfig in levelConfigs) 
+            foreach (LevelConfig levelConfig in levelConfigs)
               levelConfig.JelliesPrefabReference = GetAssetReferenceByAssetPath($"{FolderPath.AbsoluteJelliesPath}/{levelConfig.Id}.prefab");
 
             SetTargetDirty();
           }
+
           if (GUILayout.Button("Set mesh references by mask"))
           {
             foreach (LevelConfig levelConfig in levelConfigs)
             {
               var searchInFolders = new[] { $"{FolderPath.AbsoluteMeshesPath}/{levelConfig.Id}" };
               string[] findAssetsGuids = AssetDatabase.FindAssets($"t:{nameof(Mesh)}", searchInFolders);
-              if(findAssetsGuids.Length == 0)
+              if (findAssetsGuids.Length == 0)
                 Debug.LogError($"Can't find meshes in folder {searchInFolders[0]}");
 
               foreach (string guid in findAssetsGuids)
               {
                 AssetReference assetReference = new AssetReference(guid);
                 string meshName = assetReference.editorAsset.name;
-                JellyMeshConfig jellyMeshConfig = levelConfig.JellyMeshConfigs.FirstOrDefault(x=> x.MaskTexture.name.Last() == meshName.Last());
+                JellyMeshConfig jellyMeshConfig = levelConfig.JellyMeshConfigs.FirstOrDefault(x => x.MaskTexture.name.Last() == meshName.Last());
                 if (jellyMeshConfig != null)
                 {
                   jellyMeshConfig.SetMeshReference(assetReference);

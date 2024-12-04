@@ -10,6 +10,8 @@ namespace Code.Helpers
   {
 #if UNITY_EDITOR
     private StaticDataService _staticData;
+    private JellyMeshConfig _jellyMeshConfig;
+    private FluxyTarget _fluxyTarget;
 
     [Inject]
     public void Construct(StaticDataService staticDataService)
@@ -20,9 +22,13 @@ namespace Code.Helpers
     private void Awake()
     {
       FluxyContainer fluxyContainer = GetComponent<FluxyContainer>();
-      JellyMeshConfig jellyMeshConfig = _staticData.ForLevels.GetJellyConfigByMesh(fluxyContainer.customMesh);
-      FluxyTarget fluxyTarget = GetComponentInChildren<FluxyTarget>();
-      fluxyTarget.color = jellyMeshConfig.TargetColor;
+      _jellyMeshConfig = _staticData.ForLevels.GetJellyConfigByMesh(fluxyContainer.customMesh);
+      _fluxyTarget = GetComponentInChildren<FluxyTarget>();
+    }
+
+    private void Update()
+    {
+      _fluxyTarget.color = _jellyMeshConfig.TargetColor;
     }
 #endif
   }
