@@ -89,8 +89,6 @@ namespace Code.Gameplay.Syringe
 
     private async UniTask PaintAsync()
     {
-      float additionalIncreaseSpeed = _currentContainer.AdditionalPaintIncreaseSpeed;
-      float forcePlusAdditional = _targetForcePower + additionalIncreaseSpeed;
       while (_injectionButton.IsInjecting)
       {
         if (_syringePistonAndLiquid.IsLiquidRunOut())
@@ -100,11 +98,10 @@ namespace Code.Gameplay.Syringe
           break;
         }
 
-        _fluxyTarget.scale +=
-          Vector2.one * ((_paintIncreaseSpeed + additionalIncreaseSpeed) * Time.deltaTime);
+        _fluxyTarget.scale += Vector2.one * (_paintIncreaseSpeed * Time.deltaTime);
         _currentForceDirection =
           Quaternion.AngleAxis(_paintRotationSpeed * Time.deltaTime, Vector3.forward) * _fluxyTarget.force.normalized;
-        _fluxyTarget.force = _currentForceDirection * forcePlusAdditional;
+        _fluxyTarget.force = _currentForceDirection * _targetForcePower;
         _syringePistonAndLiquid.MovePiston((_pistonSpeed * Time.deltaTime));
         _syringePistonAndLiquid.MoveLiquid((_pistonSpeed * LiquidSpeed * Time.deltaTime));
         await UniTask.Yield(destroyCancellationToken);
