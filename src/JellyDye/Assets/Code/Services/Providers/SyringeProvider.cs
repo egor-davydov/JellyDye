@@ -10,6 +10,7 @@ namespace Code.Services.Providers
     public SyringePistonAndLiquid SyringePistonAndLiquid { get; private set; }
     public SyringeLiquidColor SyringeLiquidColor { get; private set; }
     public SyringeMove SyringeMove { get; private set; }
+    public SyringeAudio SyringeAudio { get; private set; }
 
     public void Initialize(Syringe syringe)
     {
@@ -18,6 +19,7 @@ namespace Code.Services.Providers
       SyringeLiquidColor = SyringeObject.GetComponent<SyringeLiquidColor>();
       SyringePistonAndLiquid = SyringeObject.GetComponent<SyringePistonAndLiquid>();
       SyringeMove = SyringeObject.GetComponent<SyringeMove>();
+      SyringeAudio = SyringeObject.GetComponent<SyringeAudio>();
     }
   }
 }

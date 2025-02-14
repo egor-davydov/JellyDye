@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Code.Helpers;
+using Code.Extensions;
 using Code.Services.Progress;
 using Code.StaticData;
 using Code.StaticData.Level;
@@ -106,7 +106,8 @@ namespace Code.Services
             _colors[pixelColor]++;
 #endif
 
-          if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticData.ForLevels.ColorCompareEpsilon))
+          if (pixelColor.RGBSimilarTo(jellyMeshConfig.TargetColor, _staticData.ForLevels.RGBCompareEpsilon)
+              && pixelColor.AlphaSimilarTo(jellyMeshConfig.TargetColor, _staticData.ForLevels.AlphaCompareEpsilon))
             paintedPixelsCount++;
         }
       }

@@ -35,7 +35,7 @@ namespace Code.Services
         await UniTask.NextFrame(PlayerLoopTiming.LastUpdate);
       }
 
-      return await loadSceneAsync;
+      return await loadSceneAsync.ToUniTask();
     }
 
     public async UniTask UnloadAsync(SceneInstance sceneInstance) =>

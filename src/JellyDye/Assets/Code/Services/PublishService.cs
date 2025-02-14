@@ -17,6 +17,7 @@ namespace Code.Services
     private static Action<bool> _isCanReviewResponse;
     private static Action<bool> _onReviewPlayerAction;
     private static Action _onRewarded;
+    private static Action _onRewardedClose;
     private static Action _onSdkInitialize;
     private static Action _onPlayerInitialize;
     private static bool _gameWasMuted;
@@ -68,7 +69,7 @@ namespace Code.Services
     private static extern void ShowYandexReviewGameWindow(Action<bool> onPlayerAction);
 
     [DllImport("__Internal")]
-    private static extern void ShowYandexRewardedVideo(Action onRewarded);
+    private static extern void ShowYandexRewardedVideo(Action onOpen, Action onRewarded, Action onClose);
 
     public void Initialize(Action onSdkInitialize, Action onPlayerInitialize)
     {
@@ -159,9 +160,10 @@ namespace Code.Services
       ShowYandexReviewGameWindow(ServerReviewWindowActionResponse);
     }
 
-    public void ShowRewardedVideo(Action onRewarded)
+    public void ShowRewardedVideo(Action onRewarded, Action onClose)
     {
       _onRewarded = onRewarded;
+      _onRewardedClose = onClose;
       if (!IsOnYandexGames())
       {
         if (_isOnCrazyGames)
@@ -171,11 +173,14 @@ namespace Code.Services
         return;
       }
 
-      ShowYandexRewardedVideo(OnRewardedVideoEnd);
+      ShowYandexRewardedVideo(OnRewardedVideoOpen, OnRewardedVideoEnd, OnRewardedVideoClose);
     }
 
-    private void GiveReward() =>
+    private void GiveReward()
+    {
       _onRewarded?.Invoke();
+      _onRewardedClose?.Invoke();
+    }
 
     [MonoPInvokeCallback(typeof(Action))]
     private static void OnSdkInitialized() =>
@@ -186,8 +191,23 @@ namespace Code.Services
       _onPlayerInitialize.Invoke();
 
     [MonoPInvokeCallback(typeof(Action))]
+    private static void OnRewardedVideoOpen()
+    {
+      _audioService.MuteGame();
+      Time.timeScale = 0;
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
     private static void OnRewardedVideoEnd() =>
       _onRewarded?.Invoke();
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void OnRewardedVideoClose()
+    {
+      _audioService.UnMuteGame();
+      Time.timeScale = 1;
+      _onRewardedClose?.Invoke();
+    }
 
     [MonoPInvokeCallback(typeof(Action<bool>))]
     private static void ServerIsCanReviewResponse(bool value) =>

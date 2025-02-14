@@ -50,13 +50,22 @@ namespace Code.Services
       }
     }
 
+    public void PlayResetSound() =>
+      _syringeProvider.SyringeAudio.PlayReset();
+
     public void ResetPistonAndLiquid() =>
       _syringeProvider.SyringePistonAndLiquid.ResetEither().Forget();
 
-    public void SetCurrentJarColor()
+    public void SetColorAndPlaySound(Color color)
+    {
+      _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(color);
+      PlayResetSound();
+    }
+
+    private void SetCurrentJarColor()
     {
       Color currentSelectedColor = _hudProvider.JarsContainer.CurrentSelectedColor;
-      _syringeProvider.SyringeLiquidColor.ChangeLiquidColor(currentSelectedColor);
+      SetColorAndPlaySound(currentSelectedColor);
     }
 
     private void MoveToStart() =>

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <FinishLevelImmediately>k__BackingField: 0
   <OpenNewSkin>k__BackingField: 0
-  <IsShowingNames>k__BackingField: 1
+  <IsShowingNames>k__BackingField: 0
   <SimulateLoadingTime>k__BackingField: 0

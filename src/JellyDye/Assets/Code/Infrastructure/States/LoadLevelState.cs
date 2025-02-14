@@ -85,7 +85,11 @@ namespace Code.Infrastructure.States
 
       _gameStateMachine.Enter<GameLoopState>();
       if (_staticData.ForDevelopHelpers.FinishLevelImmediately)
+      {
+        await UniTask.WaitForEndOfFrame();
+        await UniTask.WaitForEndOfFrame();
         _gameStateMachine.Enter<FinishLevelState>();
+      }
     }
 
     public UniTaskVoid Exit()

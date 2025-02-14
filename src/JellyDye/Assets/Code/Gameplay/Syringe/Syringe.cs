@@ -1,4 +1,5 @@
-﻿using Code.Enums;
+﻿using System;
+using Code.Enums;
 using Code.UI.Hud;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Code.Gameplay.Syringe
 
     private Vector3 _injectionStartPosition;
     private InjectionButton _injectionButton;
+    private Action _buttonDownAction;
 
     public SkinType SkinType { get; set; }
 
@@ -24,13 +26,14 @@ namespace Code.Gameplay.Syringe
       _syringeMove.Initialize(injectionButton);
 
       _injectionButton = injectionButton;
-      _injectionButton.OnButtonDown += UniTask.Action(OnInjectionButtonDown);
+      _buttonDownAction = UniTask.Action(OnInjectionButtonDown);
+      _injectionButton.OnButtonDown += _buttonDownAction;
       _injectionButton.OnButtonUp += OnInjectionButtonUp;
     }
 
     private void OnDestroy()
     {
-      _injectionButton.OnButtonDown -= UniTask.Action(OnInjectionButtonDown);
+      _injectionButton.OnButtonDown -= _buttonDownAction;
       _injectionButton.OnButtonUp -= OnInjectionButtonUp;
     }
 

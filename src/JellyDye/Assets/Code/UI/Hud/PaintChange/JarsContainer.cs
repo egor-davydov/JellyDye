@@ -12,16 +12,18 @@ namespace Code.UI.Hud.PaintChange
 {
   public class JarsContainer : MonoBehaviour
   {
+    private JarFactory _jarFactory;
+    private StaticDataService _staticData;
+    private SyringeService _syringeService;
+
     private Tween _unscaleTween;
     private Tween _scaleTween;
     private Jar _currentSelectedJar;
 
-    private JarFactory _jarFactory;
-    private StaticDataService _staticData;
-
     [Inject]
-    public void Construct(JarFactory jarFactory, StaticDataService staticData)
+    public void Construct(JarFactory jarFactory, StaticDataService staticData, SyringeService syringeService)
     {
+      _syringeService = syringeService;
       _staticData = staticData;
       _jarFactory = jarFactory;
     }
@@ -59,14 +61,19 @@ namespace Code.UI.Hud.PaintChange
     }
 
     public void SelectFirstJar() =>
-      Jars.First().Select();
+      DeselectPreviousJarAndSelectCurrent(Jars.First());
 
-    public void DeselectPreviousJarAndSetCurrent(Jar currentJar)
+    public void DeselectPreviousJarAndSelectCurrent(Jar jarToSelect)
     {
-      Jar previousJar = _currentSelectedJar;
-      if (previousJar != null && previousJar != currentJar)
-        previousJar.Deselect();
-      _currentSelectedJar = currentJar;
+      _syringeService.ResetPistonAndLiquid();
+      _syringeService.PlayResetSound();
+      if (_currentSelectedJar == jarToSelect)
+        return;
+      if (_currentSelectedJar != null)
+        _currentSelectedJar.Deselect();
+
+      _currentSelectedJar = jarToSelect;
+      _currentSelectedJar.Select();
     }
   }
 }

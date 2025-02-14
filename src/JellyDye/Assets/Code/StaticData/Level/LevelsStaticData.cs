@@ -9,7 +9,8 @@ namespace Code.StaticData.Level
   {
     private const int RangeMinResolution = 6;
     private const int RangeMaxResolution = 19;
-    public float ColorCompareEpsilon;
+    [field: SerializeField, Range(0, 1f)] public float RGBCompareEpsilon { get; private set; }
+    [field: SerializeField, Range(0, 1f)] public float AlphaCompareEpsilon { get; private set; }
     [field: SerializeField] public Vector3 SyringeStartPosition { get; private set; }
 
     [field: SerializeField, Range(RangeMinResolution, RangeMaxResolution)]
@@ -30,8 +31,6 @@ namespace Code.StaticData.Level
         LevelConfig levelConfig = LevelConfigs[index];
         ValidateLevelId(levelConfig, index + 1);
         ValidateMinMax();
-        //AddTargetColorIfNeed(levelConfig);
-        //RemoveSimilarColorsByEpsilon(levelConfig);
       }
     }
 

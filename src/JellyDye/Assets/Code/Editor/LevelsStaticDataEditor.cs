@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using Code.Constants;
 using Code.Extensions;
-using Code.Helpers;
 using Code.StaticData;
 using Code.StaticData.Level;
 using Obi;
@@ -163,7 +162,7 @@ namespace Code.Editor
                 var newRandomColorSimilar = false;
                 foreach (JellyMeshConfig jellyMeshConfig in levelConfig.JellyMeshConfigs)
                 {
-                  if (MathHelp.VectorsSimilar(jellyMeshConfig.TargetColor, randomColor, _levelsDataTarget.ColorCompareEpsilon))
+                  if (jellyMeshConfig.TargetColor.RGBSimilarTo(randomColor, _levelsDataTarget.RGBCompareEpsilon))
                   {
                     newRandomColorSimilar = true;
                     break;

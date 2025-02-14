@@ -40,6 +40,9 @@ const library = {
         yandexGames.appendBackgroundImage(sdk.environment.i18n.lang);
         if (sdk.deviceInfo.isDesktop()) {
           var container = document.querySelector("#unity-container");
+          container.style.userSelect = "none";
+          container.addEventListener("contextmenu", (event) => event.preventDefault());
+          container.addEventListener("mousedown", (event) => event.preventDefault());
           container.style.display = "flex";
           container.style.justifyContent = "center";
           container.style.alignItems = "center";
@@ -120,11 +123,17 @@ const library = {
         }
     });
   },
-  ShowYandexRewardedVideo: function (onRewarded) {
+  ShowYandexRewardedVideo: function (onOpen, onRewarded, onClose) {
      yandexGames.sdk.adv.showRewardedVideo({
         callbacks: {
+          onOpen: () => {
+            {{{ makeDynCall('v', 'onOpen') }}}();
+          },
           onRewarded: () => {
             {{{ makeDynCall('v', 'onRewarded') }}}();
+          },
+          onClose: () => {
+            {{{ makeDynCall('v', 'onClose') }}}();
           },
           onError: (e) => {
             console.log('Error while open video ad:', e);

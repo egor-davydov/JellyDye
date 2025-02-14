@@ -64,7 +64,7 @@ MonoBehaviour:
   velocityScale: {x: 1, y: 1, z: 1}
   maxRelativeAngularVelocity: 1
   angularVelocityScale: 1
-  force: {x: -1.5, y: 0, z: 0}
+  force: {x: 0, y: 0, z: 0}
   torque: 0
   densityWeight: 1
   densityTexture: {fileID: 0}
@@ -288,7 +288,7 @@ MonoBehaviour:
   _pistonSpeed: 0.2
   _paintIncreaseSpeed: 0.7
   _paintRotationSpeed: 145
-  _targetForcePower: 1.2
+  _targetForcePower: 0.9
   _startForceDirection: {x: 0, y: 1}
 --- !u!114 &1100628588603267852
 MonoBehaviour:
@@ -332,7 +332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da7f8bc96ab3d7343ae708a03999962e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _syringeAudio: {fileID: 5440877559713876049}
   _fluxyTarget: {fileID: 1312922224575281827}
   _shader: {fileID: 4800000, guid: ccfc7d68845db8341944b3091b59be55, type: 3}
 --- !u!114 &5440877559713876049

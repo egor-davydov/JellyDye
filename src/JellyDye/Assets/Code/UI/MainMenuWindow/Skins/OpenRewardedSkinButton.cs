@@ -36,13 +36,18 @@ namespace Code.UI.MainMenuWindow.Skins
 
     private void ShowRewardedVideoClick()
     {
-      _publishService.ShowRewardedVideo(UniTask.Action(OpenRewardedSkin));
+      _openButton.interactable = false;
+      _publishService.ShowRewardedVideo(OpenRewardedSkin, UniTask.Action(ShowRewardedSkin));
     }
 
-    private async UniTaskVoid OpenRewardedSkin()
+    private void OpenRewardedSkin()
     {
       _progress.ForSkins.OpenSkin(_equipSkinButton.SkinType);
       _saveLoadService.SaveProgress();
+    }
+
+    private async UniTaskVoid ShowRewardedSkin()
+    {
       await _newSkinSceneService.ShowSkinScene(_equipSkinButton.SkinType);
       _lockSkin.UnlockSkin();
     }
