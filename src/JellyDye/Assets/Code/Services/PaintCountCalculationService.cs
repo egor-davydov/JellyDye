@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Code.Helpers;
+using Code.Extensions;
 using Code.Services.Progress;
 using Code.StaticData;
 using Code.StaticData.Level;
+using Cysharp.Threading.Tasks;
 using Fluxy;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
@@ -13,9 +15,11 @@ namespace Code.Services
 {
   public class PaintCountCalculationService
   {
-    private readonly StaticDataService _staticDataService;
-    private readonly ProgressService _progressService;
-    
+    private const TextureFormat DensityTextureFormat = TextureFormat.RGBA32;
+
+    private readonly StaticDataService _staticData;
+    private readonly ProgressService _progress;
+
     private FluxySolver _fluxySolver;
     private FluxyContainer[] _fluxyContainers;
 
@@ -27,21 +31,21 @@ namespace Code.Services
     private Texture2D _densityReadbackTexture;
     private RenderTexture DensityRenderTexture => _fluxySolver.framebuffer.stateA;
 
-    private PaintCountCalculationService(StaticDataService staticDataService, ProgressService progressService)
+    private PaintCountCalculationService(StaticDataService staticData, ProgressService progress)
     {
-      _progressService = progressService;
-      _staticDataService = staticDataService;
+      _progress = progress;
+      _staticData = staticData;
     }
 
-    public void InitializeOnSceneLoad(FluxySolver fluxySolver, FluxyContainer[] fluxyContainers)
+    public void Initialize(GameObject jelliesObject)
     {
-      _fluxySolver = fluxySolver;
-      _fluxyContainers = fluxyContainers;
+      _fluxySolver = jelliesObject.GetComponentInChildren<FluxySolver>();
+      _fluxyContainers = jelliesObject.GetComponentsInChildren<FluxyContainer>();
       Object.Destroy(_densityReadbackTexture);
-      _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, TextureFormat.RGBAHalf, false);
-      
-      string currentLevelId = _progressService.Progress.LevelData.CurrentLevelId;
-      _currentLevelConfig = _staticDataService.ForLevels().GetConfigByLevelId(currentLevelId);
+      _densityReadbackTexture = new Texture2D(DensityRenderTexture.width, DensityRenderTexture.height, DensityTextureFormat, false);
+
+      string currentLevelId = _progress.ForLevels.CurrentLevelId;
+      _currentLevelConfig = _staticData.ForLevel(currentLevelId);
     }
 
     public bool HasPaintOnAllMeshes()
@@ -55,42 +59,44 @@ namespace Code.Services
       return true;
     }
 
-    public void AsyncCalculatePaintPercentage(Action<float> callback)
+    public async UniTask<float> CalculatePaintPercentageAsync()
     {
-      RequestDensityTexture(() =>
+      await RequestDensityTextureAsync();
+      int paintedPixelsCount = 0;
+      int countPixelsShouldPaint = 0;
+      foreach (FluxyContainer fluxyContainer in _fluxyContainers)
       {
-        int paintedPixelsCount = 0;
-        int countPixelsShouldPaint = 0;
-        foreach (FluxyContainer fluxyContainer in _fluxyContainers)
-        {
-          JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
-          Vector2Int pixelsCount = CalculateJellyPaintedPixelsCount(jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
-          paintedPixelsCount += pixelsCount.x;
-          countPixelsShouldPaint += pixelsCount.y;
-        }
+        JellyMeshConfig jellyMeshConfig = _currentLevelConfig.GetConfigForMesh(fluxyContainer.customMesh);
+        (int jellyPaintedPixelsCount, int jellyCountPixelsShouldPaint) = CalculateJellyPaintedPixelsCount(jellyMeshConfig, _fluxySolver.GetContainerUVRect(fluxyContainer));
+        paintedPixelsCount += jellyPaintedPixelsCount;
+        countPixelsShouldPaint += jellyCountPixelsShouldPaint;
+      }
 
-        callback.Invoke((float)paintedPixelsCount / countPixelsShouldPaint * 100);
-      });
+      float percentage = (float)paintedPixelsCount / countPixelsShouldPaint * 100;
+      return percentage;
     }
 
-    private Vector2Int CalculateJellyPaintedPixelsCount(JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
+    private (int, int) CalculateJellyPaintedPixelsCount(JellyMeshConfig jellyMeshConfig, Vector4 containerUVRect)
     {
       int paintedPixelsCount = 0;
       int shouldPaintedPixelsCount = jellyMeshConfig.Mesh.uv.Length;
       Texture2D maskTexture = jellyMeshConfig.MaskTexture;
       foreach (Vector2 uvCoordinates in jellyMeshConfig.Mesh.uv)
       {
-        float uvFluxyCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
-        float uvFluxyCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
-        int x = (int)(uvFluxyCoordinatesX * _densityReadbackTexture.width);
-        int y = (int)(uvFluxyCoordinatesY * _densityReadbackTexture.height);
-        if (maskTexture.GetPixel((int)(uvCoordinates.x * maskTexture.width), (int)(uvCoordinates.y * maskTexture.height)).r != 0)
+        int maskX = (int)(uvCoordinates.x * maskTexture.width);
+        int maskY = (int)(uvCoordinates.y * maskTexture.height);
+        Color maskPixelColor = maskTexture.GetPixel(maskX, maskY);
+        if (maskPixelColor.r != 0)
         {
           shouldPaintedPixelsCount--;
           continue;
         }
 
-        Color pixelColor = _densityReadbackTexture.GetPixel(x, y);
+        float uvFluxyCoordinatesX = containerUVRect.x + uvCoordinates.x * containerUVRect.z;
+        float uvFluxyCoordinatesY = containerUVRect.y + uvCoordinates.y * containerUVRect.w;
+        int x = (int)(uvFluxyCoordinatesX * _densityReadbackTexture.width);
+        int y = (int)(uvFluxyCoordinatesY * _densityReadbackTexture.height);
+        Color pixelColor = _densityReadbackTexture.GetPixel(x, y).gamma;
         if (pixelColor != Color.clear)
         {
 #if UNITY_EDITOR
@@ -99,8 +105,9 @@ namespace Code.Services
           else
             _colors[pixelColor]++;
 #endif
-          
-          if (MathHelp.VectorsSimilar(pixelColor, jellyMeshConfig.TargetColor, _staticDataService.ForLevels().ColorCompareEpsilon))
+
+          if (pixelColor.RGBSimilarTo(jellyMeshConfig.TargetColor, _staticData.ForLevels.RGBCompareEpsilon)
+              && pixelColor.AlphaSimilarTo(jellyMeshConfig.TargetColor, _staticData.ForLevels.AlphaCompareEpsilon))
             paintedPixelsCount++;
         }
       }
@@ -117,29 +124,32 @@ namespace Code.Services
           maxColorsCountColor = keyValuePair.Key;
         }
       }
+
       _colors.Clear();
 
       Debug.Log($"name={jellyMeshConfig.Mesh.name}; percentage= {(float)paintedPixelsCount / shouldPaintedPixelsCount * 100}; painted={paintedPixelsCount};shouldPainted={shouldPaintedPixelsCount};");
       Debug.Log($"maxColorsCountColor={maxColorsCountColor};TargetColor={jellyMeshConfig.TargetColor}; maxColorsCount= {maxColorsCount};");
 #endif
 
-      return new Vector2Int(paintedPixelsCount, shouldPaintedPixelsCount);
+      return (paintedPixelsCount, shouldPaintedPixelsCount);
     }
-    
-    private void RequestDensityTexture(Action callback)
+
+    private async UniTask RequestDensityTextureAsync()
     {
-      if (_densityReadbackTexture != null)
-        AsyncGPUReadback.Request(DensityRenderTexture, 0, TextureFormat.RGBAHalf, (AsyncGPUReadbackRequest request) =>
-        {
-          if (request.hasError)
-            Debug.LogError("GPU readback error.");
-          else
-          {
-            _densityReadbackTexture.LoadRawTextureData(request.GetData<float>());
-            _densityReadbackTexture.Apply();
-            callback?.Invoke();
-          }
-        });
+      AsyncGPUReadbackRequest request = await AsyncGPUReadback.Request(DensityRenderTexture, 0, DensityTextureFormat);
+      if (request.hasError)
+        throw new Exception("GPU readback error.");
+
+      int expectedSize = _densityReadbackTexture.width * _densityReadbackTexture.height * 4;
+      NativeArray<byte> requestData = request.GetData<byte>();
+      if (requestData.Length != expectedSize)
+      {
+        Debug.LogError($"Data size mismatch: expected {expectedSize}, but got {requestData.Length}");
+        return;
+      }
+
+      _densityReadbackTexture.LoadRawTextureData(requestData);
+      _densityReadbackTexture.Apply();
     }
   }
 }

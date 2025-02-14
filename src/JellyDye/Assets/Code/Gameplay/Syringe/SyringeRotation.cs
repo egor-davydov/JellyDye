@@ -7,7 +7,7 @@ namespace Code.Gameplay.Syringe
   public class SyringeRotation : MonoBehaviour
   {
     private InputService _inputService;
-    private StaticDataService _staticDataService;
+    private StaticDataService _staticData;
 
     private Vector3? _skinRotationPoint;
 
@@ -20,7 +20,7 @@ namespace Code.Gameplay.Syringe
 
     public void Construct(InputService inputService, StaticDataService staticDataService)
     {
-      _staticDataService = staticDataService;
+      _staticData = staticDataService;
       _inputService = inputService;
     }
 
@@ -29,7 +29,7 @@ namespace Code.Gameplay.Syringe
       _skinRotationPoint = skinRotationPoint;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticDataService.ForSkins().NewSkinSceneConfig;
+    private NewSkinSceneConfig NewSkinSceneConfig => _staticData.ForSkins.NewSkinSceneConfig;
 
     private void Update()
     {

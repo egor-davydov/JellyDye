@@ -9,10 +9,9 @@ namespace Code.StaticData.Level
   {
     private const int RangeMinResolution = 6;
     private const int RangeMaxResolution = 19;
-    public float ColorCompareEpsilon = 0.4f;
-    [field: SerializeField] public bool FinishLevelImmediately { get; private set; }
-    [field: SerializeField] public bool OpenNewSkin { get; private set; }
-    [field: SerializeField] public bool IsShowingNames { get; private set; }
+    [field: SerializeField, Range(0, 1f)] public float RGBCompareEpsilon { get; private set; }
+    [field: SerializeField, Range(0, 1f)] public float AlphaCompareEpsilon { get; private set; }
+    [field: SerializeField] public Vector3 SyringeStartPosition { get; private set; }
 
     [field: SerializeField, Range(RangeMinResolution, RangeMaxResolution)]
     public int MinGeneratedResolution { get; private set; }
@@ -32,8 +31,6 @@ namespace Code.StaticData.Level
         LevelConfig levelConfig = LevelConfigs[index];
         ValidateLevelId(levelConfig, index + 1);
         ValidateMinMax();
-        //AddTargetColorIfNeed(levelConfig);
-        //RemoveSimilarColorsByEpsilon(levelConfig);
       }
     }
 
@@ -76,16 +73,6 @@ namespace Code.StaticData.Level
       throw new Exception($"Can't find level index of id \"{id}\"");
     }
 
-    public LevelConfig GetConfigByLevelId(string levelId)
-    {
-      foreach (LevelConfig levelConfig in LevelConfigs)
-      {
-        if (levelConfig.Id == levelId)
-          return levelConfig;
-      }
-
-      throw new Exception($"Can't find config by id= \"{levelId}\"");
-    }
 #if UNITY_EDITOR
     public JellyMeshConfig GetJellyConfigByMesh(Mesh mesh) //use only in editor, use LevelConfig
     {

@@ -9,21 +9,24 @@ namespace Code.Services.Progress.SaveLoad
 {
   public class YandexSaveLoadService : ISaveLoadService
   {
-    private static ProgressService _progressService;
-    
-    private static Action _onLoaded;
-    
-    [DllImport("__Internal")] private static extern void SaveToYandex(string json);
-    [DllImport("__Internal")] private static extern void LoadFromYandex(Action<string> onLoaded);
+    private static ProgressService _progress;
 
-    public YandexSaveLoadService(ProgressService progressService)
+    private static Action _onLoaded;
+
+    [DllImport("__Internal")]
+    private static extern void SaveToYandex(string json);
+
+    [DllImport("__Internal")]
+    private static extern void LoadFromYandex(Action<string> onLoaded);
+
+    public YandexSaveLoadService(ProgressService progress)
     {
-      _progressService = progressService;
+      _progress = progress;
     }
 
     public void SaveProgress()
     {
-      string json = JsonUtility.ToJson(_progressService.Progress);
+      string json = JsonUtility.ToJson(_progress.Whole);
       SaveToYandex(json);
     }
 
@@ -41,10 +44,10 @@ namespace Code.Services.Progress.SaveLoad
       WebDebug.Log(playerHaventProgress
         ? "Player haven't got any progress"
         : "Player has progress");
-      if(playerHaventProgress)
-        _progressService.CreateAndSetNewProgress();
+      if (playerHaventProgress)
+        _progress.CreateAndSetStartProgress();
       else
-        _progressService.SetProgress(playerProgress);
+        _progress.Whole = playerProgress;
       _onLoaded?.Invoke();
     }
   }

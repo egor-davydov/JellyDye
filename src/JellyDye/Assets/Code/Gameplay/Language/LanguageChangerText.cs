@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Enums;
 using Code.Services;
 using TMPro;
 using UnityEngine;
@@ -12,15 +13,15 @@ namespace Code.Gameplay.Language
     [field: SerializeField] public string RuText { get; private set; }
     [SerializeField] private bool _useForTransfer;
     [SerializeField] private TextMeshProUGUI _textMeshPro;
-    
+
     private PublishService _publishService;
 
     [Inject]
     public void Construct(PublishService publishService)
     {
       _publishService = publishService;
-      
-      if(!_useForTransfer)
+
+      if (!_useForTransfer)
         ChangeLanguage();
     }
 
@@ -38,7 +39,7 @@ namespace Code.Gameplay.Language
       }
     }
 
-    private void ChangeLanguage() => 
+    private void ChangeLanguage() =>
       _textMeshPro.text = ResultText;
   }
 }

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Code.Services;
-using Code.Services.Progress;
+﻿using Code.Services;
 using Code.StaticData;
 using Fluxy;
 using UnityEngine;
@@ -11,20 +9,26 @@ namespace Code.Helpers
   public class AutoSetTargetColor : MonoBehaviour
   {
 #if UNITY_EDITOR
-    private StaticDataService _staticDataService;
+    private StaticDataService _staticData;
+    private JellyMeshConfig _jellyMeshConfig;
+    private FluxyTarget _fluxyTarget;
 
     [Inject]
     public void Construct(StaticDataService staticDataService)
     {
-      _staticDataService = staticDataService;
+      _staticData = staticDataService;
     }
-    
+
     private void Awake()
     {
       FluxyContainer fluxyContainer = GetComponent<FluxyContainer>();
-      JellyMeshConfig jellyMeshConfig = _staticDataService.ForLevels().GetJellyConfigByMesh(fluxyContainer.customMesh);
-      FluxyTarget fluxyTarget = GetComponentInChildren<FluxyTarget>();
-      fluxyTarget.color = jellyMeshConfig.TargetColor;
+      _jellyMeshConfig = _staticData.ForLevels.GetJellyConfigByMesh(fluxyContainer.customMesh);
+      _fluxyTarget = GetComponentInChildren<FluxyTarget>();
+    }
+
+    private void Update()
+    {
+      _fluxyTarget.color = _jellyMeshConfig.TargetColor;
     }
 #endif
   }

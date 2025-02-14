@@ -1,33 +1,27 @@
 ﻿using System;
+using System.Linq;
 using Code.Data;
-using Code.Gameplay.UI.MainMenu.Skins;
+using Code.Enums;
 
 namespace Code.Services.Progress
 {
   public class ProgressService
   {
-    private readonly StaticDataService _staticDataService;
+    private readonly StaticDataService _staticData;
 
-    public ProgressService(StaticDataService staticDataService)
+    public ProgressService(StaticDataService staticData)
     {
-      _staticDataService = staticDataService;
+      _staticData = staticData;
     }
 
-    public PlayerProgress Progress { get; private set; }
+    public PlayerProgress Whole { get; set; }
+    public SkinData ForSkins => Whole.SkinData;
+    public LevelData ForLevels => Whole.LevelData;
 
-    public void SetProgress(PlayerProgress progress)
-    {
-      Progress = progress;
-    }
+    public void CreateAndSetStartProgress() =>
+      Whole = CreateStartProgress();
 
-    public void CreateAndSetNewProgress()
-    {
-      Progress = NewProgress();
-    }
-
-    public PlayerProgress NewProgress()
-    {
-      return new PlayerProgress(_staticDataService.ForLevels().LevelConfigs[0].Id, Enum.GetValues(typeof(SkinType)).Length);
-    }
+    public PlayerProgress CreateStartProgress() =>
+      new(_staticData.ForLevels.LevelConfigs.First().Id, Enum.GetValues(typeof(SkinType)).Length);
   }
 }

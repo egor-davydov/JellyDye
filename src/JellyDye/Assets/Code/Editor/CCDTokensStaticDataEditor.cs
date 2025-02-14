@@ -7,14 +7,14 @@ using UnityEngine;
 
 namespace Code.Editor
 {
-  [CustomEditor(typeof(CCDTokensStaticData))]
+  [CustomEditor(typeof(CcdTokensStaticData))]
   public class CCDTokensStaticDataEditor : UnityEditor.Editor
   {
-    private static CCDTokensStaticData _tokensTarget;
+    private static CcdTokensStaticData _tokensTarget;
 
     private void OnEnable()
     {
-      _tokensTarget = (CCDTokensStaticData)target;
+      _tokensTarget = (CcdTokensStaticData)target;
     }
 
     public override void OnInspectorGUI()
@@ -24,7 +24,7 @@ namespace Code.Editor
       GUI.enabled = !HasActiveProfile(activeProfileName);
       if (GUILayout.Button("Add active profile"))
       {
-        _tokensTarget.Configs.Add(new CCDTokenConfig(activeProfileName));
+        _tokensTarget.Configs.Add(new CcdTokenConfig(activeProfileName));
         EditorUtility.SetDirty(target);
       }
 

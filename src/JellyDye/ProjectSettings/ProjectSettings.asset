@@ -140,7 +140,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.3
+  bundleVersion: 1.4
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -177,7 +177,7 @@ PlayerSettings:
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 
-  stripEngineCode: 0
+  stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
   ForceInternetPermission: 0
@@ -495,7 +495,11 @@ PlayerSettings:
   - m_BuildTarget: WebGL
     m_StaticBatching: 1
     m_DynamicBatching: 1
-  m_BuildTargetShaderSettings: []
+  m_BuildTargetShaderSettings:
+  - m_BuildTarget: WebGL
+    m_ChunkSizeInMB: 16
+    m_MaxChunks: 0
+    m_OverrideDefaultSettings: 0
   m_BuildTargetGraphicsJobs:
   - m_BuildTarget: MacStandaloneSupport
     m_GraphicsJobs: 0
@@ -826,7 +830,7 @@ PlayerSettings:
   webGLNameFilesAsHashes: 1
   webGLShowDiagnostics: 0
   webGLDataCaching: 0
-  webGLDebugSymbols: 1
+  webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
   webGLTemplate: APPLICATION:PWA
@@ -837,7 +841,7 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  webGLInitialMemorySize: 256
+  webGLInitialMemorySize: 384
   webGLMaximumMemorySize: 2048
   webGLMemoryGrowthMode: 1
   webGLMemoryLinearGrowthStep: 16
@@ -858,7 +862,7 @@ PlayerSettings:
     QNX: ENABLE_JSON_CATALOG
     Server: ENABLE_JSON_CATALOG
     Standalone: ENABLE_JSON_CATALOG;OBI_ONI_SUPPORTED
-    WebGL: UNITASK_DOTWEEN_SUPPORT;SHOW_NEW_SKIN_SCENE
+    WebGL: UNITASK_DOTWEEN_SUPPORT
     Windows Store Apps: ENABLE_JSON_CATALOG
     XboxOne: ENABLE_JSON_CATALOG
     iPhone: ENABLE_JSON_CATALOG;OBI_ONI_SUPPORTED
@@ -880,7 +884,7 @@ PlayerSettings:
     QNX: 1
     Stadia: 1
     VisionOS: 1
-    WebGL: 4
+    WebGL: 1
     Windows Store Apps: 1
     XboxOne: 1
     iPhone: 1

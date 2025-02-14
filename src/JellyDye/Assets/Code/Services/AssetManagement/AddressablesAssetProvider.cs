@@ -16,23 +16,22 @@ namespace Code.Services.AssetManagement
   {
     private Dictionary<string, AsyncOperationHandle> _completedCache;
 
-    private readonly StaticDataService _staticDataService;
-    private Func<CCDTokenConfig, bool> _ccdTokensPredicate;
+    private readonly StaticDataService _staticData;
+    private CcdTokenConfig _ccdTokenConfig;
 
-    public AddressablesAssetProvider(StaticDataService staticDataService) =>
-      _staticDataService = staticDataService;
+    public AddressablesAssetProvider(StaticDataService staticData) =>
+      _staticData = staticData;
 
     public void Initialize()
     {
-      int levelPrefabsCount = _staticDataService.ForLevels().LevelConfigs.Length;
-      int jellyMeshesCount = _staticDataService.ForLevels().LevelConfigs.Sum(x => x.JellyMeshConfigs.Count);
-      int skinsCount = _staticDataService.ForSkins().SkinConfigs.Length;
+      int levelPrefabsCount = _staticData.ForLevels.LevelConfigs.Length;
+      int jellyMeshesCount = _staticData.ForLevels.LevelConfigs.Sum(x => x.JellyMeshConfigs.Count);
+      int skinsCount = _staticData.ForSkins.SkinConfigs.Length;
       int assetsCount = levelPrefabsCount + jellyMeshesCount + skinsCount + 10;
       _completedCache = new(assetsCount);
       Addressables.InitializeAsync();
-      CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
-      _ccdTokensPredicate = config => config.ProfileName == ccdTokensStaticData.ActiveProfileName;
-      if (default != ccdTokensStaticData.Configs.FirstOrDefault(_ccdTokensPredicate))
+      _ccdTokenConfig = _staticData.ForCcdToken(_staticData.ForCcdTokens.ActiveProfileName);
+      if (_ccdTokenConfig != null)
         Addressables.WebRequestOverride += AddressablesWebRequestOverride;
     }
 
@@ -75,8 +74,7 @@ namespace Code.Services.AssetManagement
 
     private void AddressablesWebRequestOverride(UnityWebRequest overrideWebRequest)
     {
-      CCDTokensStaticData ccdTokensStaticData = _staticDataService.ForCCDTokens();
-      string token = ccdTokensStaticData.Configs.First(_ccdTokensPredicate).Token;
+      string token = _ccdTokenConfig.Token;
       string authorization = "Basic " + Authenticate("", token);
       overrideWebRequest.SetRequestHeader("Authorization", authorization);
     }

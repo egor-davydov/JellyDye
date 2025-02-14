@@ -1,4 +1,7 @@
-﻿using Code.StaticData;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Code.Enums;
+using Code.StaticData;
 using Code.StaticData.Level;
 using Code.StaticData.Skins;
 using Code.StaticData.Token;
@@ -12,23 +15,40 @@ namespace Code.Services
     private const string LevelsDataPath = "StaticData/Levels";
     private const string TokensDataPath = "StaticData/CCDTokens";
     private const string GameSettingsPath = "StaticData/GameSettings";
+    private const string DevelopHelpersDataPath = "StaticData/DevelopHelpers";
 
-    private SkinsStaticData _skinsStaticData;
-    private LevelsStaticData _levelsStaticData;
-    private CCDTokensStaticData _tokensStaticData;
-    private GameSettings _gameSettings;
+    private Dictionary<SkinType, SkinConfig> _skinsStaticData;
+    private Dictionary<string, LevelConfig> _levelsStaticData;
+    private Dictionary<string, CcdTokenConfig> _tokensStaticData;
+
+    public DevelopHelpersStaticData ForDevelopHelpers { get; private set; }
+    public GameSettings ForGameSettings { get; private set; }
+    public CcdTokensStaticData ForCcdTokens { get; private set; }
+    public SkinsStaticData ForSkins { get; private set; }
+    public LevelsStaticData ForLevels { get; private set; }
 
     public void Initialize()
     {
-      _skinsStaticData = Resources.Load<SkinsStaticData>(SkinsDataPath);
-      _levelsStaticData = Resources.Load<LevelsStaticData>(LevelsDataPath);
-      _tokensStaticData = Resources.Load<CCDTokensStaticData>(TokensDataPath);
-      _gameSettings = Resources.Load<GameSettings>(GameSettingsPath);
+      ForSkins = Resources.Load<SkinsStaticData>(SkinsDataPath);
+      ForLevels = Resources.Load<LevelsStaticData>(LevelsDataPath);
+      ForCcdTokens = Resources.Load<CcdTokensStaticData>(TokensDataPath);
+      ForGameSettings = Resources.Load<GameSettings>(GameSettingsPath);
+      ForDevelopHelpers = Resources.Load<DevelopHelpersStaticData>(DevelopHelpersDataPath);
+
+      _skinsStaticData = ForSkins.SkinConfigs.ToDictionary(x => x.SkinType);
+      _levelsStaticData = ForLevels.LevelConfigs.ToDictionary(x => x.Id);
+      _tokensStaticData = ForCcdTokens.Configs.ToDictionary(x => x.ProfileName);
     }
 
-    public GameSettings ForGameSettings() => _gameSettings;
-    public CCDTokensStaticData ForCCDTokens() => _tokensStaticData;
-    public SkinsStaticData ForSkins() => _skinsStaticData;
-    public LevelsStaticData ForLevels() => _levelsStaticData;
+    public SkinConfig ForSkin(SkinType skinType) => _skinsStaticData[skinType];
+
+    public CcdTokenConfig ForCcdToken(string profileName)
+    {
+      return _tokensStaticData.TryGetValue(profileName, out CcdTokenConfig token)
+        ? token
+        : null;
+    }
+
+    public LevelConfig ForLevel(string levelId) => _levelsStaticData[levelId];
   }
 }

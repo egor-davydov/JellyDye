@@ -35,11 +35,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3436234f47be094429966d85916174f9
-    m_Address: cherries
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3c88c339b7d7d4537b423df244a83a4e
     m_Address: Materials/FluidSimulation.shader
     m_ReadOnly: 0

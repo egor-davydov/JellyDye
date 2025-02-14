@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Code.Extensions;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -7,43 +9,50 @@ namespace Code.Gameplay.Logic
   public class LevelCamera : MonoBehaviour
   {
     private const Ease MoveEase = Ease.OutQuad;
-    [field: SerializeField] public float FlashDuration { get; private set; }
-    [field: SerializeField] public Light FlashLight { get; private set; }
-    [SerializeField] private Camera _camera;
+
+    [field: SerializeField] public Camera Camera { get; private set; }
+    [field: SerializeField] public float MovingTime { get; private set; }
     [SerializeField] private Vector3 _finishPosition;
     [SerializeField] private Vector3 _finishRotation;
-    [SerializeField] private float _movingTime;
-    [SerializeField] private float _targetSize;
+    [SerializeField] private float _finishOrthoSize;
+    [SerializeField] private float _flashDuration;
+    [SerializeField] private Light _flashLight;
     [SerializeField] private AudioSource _photoAudioSource;
     [SerializeField] private AudioClip _photoSound;
 
-    public float TargetSize => _targetSize;
-    public Camera Camera => _camera;
-    public float MovingTime => _movingTime;
-    public Vector3 FinishPosition => _finishPosition;
-    public Vector3 FinishRotation => _finishRotation;
-    private Tween _moveTween;
-    private Tween _rotateTween;
-    private Tween _orthoSizeTween;
+    private Sequence _finishSequence;
 
-    public void OnDestroy()
+    private void Awake()
     {
-      _moveTween.Kill();
-      _rotateTween.Kill();
-      _orthoSizeTween.Kill();
+      Tween moveTween = transform.DOMove(_finishPosition, MovingTime);
+      Tween rotateTween = transform.DORotate(_finishRotation, MovingTime);
+      Tween orthoSizeTween = Camera.DOOrthoSize(_finishOrthoSize, MovingTime);
+      _finishSequence = DOTween.Sequence()
+        .Join(moveTween)
+        .Join(rotateTween)
+        .Join(orthoSizeTween)
+        .SetEase(MoveEase).SetAutoKill(false);
     }
 
-    public async UniTask MoveToFinish()
-    {
-      _moveTween = transform.DOMove(FinishPosition, _movingTime).SetEase(MoveEase);
-      _rotateTween = transform.DORotate(FinishRotation, _movingTime).SetEase(MoveEase);
-      _orthoSizeTween = Camera.DOOrthoSize(TargetSize, _movingTime).SetEase(MoveEase);
-      await _orthoSizeTween;
-    }
+    public void OnDestroy() =>
+      _finishSequence.Kill();
 
-    public void PlayPhotoSound()
+    public void MoveToStart() =>
+      _finishSequence.Rewind();
+
+    public async UniTask MoveToFinishAsync() =>
+      await _finishSequence.RestartAndAwaitComplete();
+
+    public void MoveToFinish() =>
+      _finishSequence.Complete();
+
+    public async UniTask ShowPhotoFlash()
     {
       _photoAudioSource.PlayOneShot(_photoSound);
+      GameObject flashObject = _flashLight.gameObject;
+      flashObject.SetActive(true);
+      await UniTask.Delay(TimeSpan.FromSeconds(_flashDuration));
+      flashObject.SetActive(false);
     }
   }
 }

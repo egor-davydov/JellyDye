@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
-using Code.Data;
 using Code.Gameplay.Logic;
 using Code.Services;
 using Code.Services.Factories;
 using Code.Services.Progress;
 using Code.Services.Providers;
-using Code.StaticData.Level;
 using Cysharp.Threading.Tasks;
 using Fluxy;
 using UnityEngine;
@@ -18,8 +16,8 @@ namespace Code.Helpers
   public class Screenshots : MonoBehaviour
   {
 #if UNITY_EDITOR
-    private ProgressService _progressService;
-    private StaticDataService _staticDataService;
+    private ProgressService _progress;
+    private StaticDataService _staticData;
     private ScreenshotService _screenshotService;
     private string _currentLevelId;
     private JelliesFactory _jelliesFactory;
@@ -30,20 +28,18 @@ namespace Code.Helpers
     private Action _onDone;
     private HudProvider _hudProvider;
     private SyringeProvider _syringeProvider;
-    private LevelData ProgressLevelData => _progressService.Progress.LevelData;
-
-    private LevelConfig[] LevelsConfigs => _staticDataService.ForLevels().LevelConfigs;
 
     [Inject]
     public void Construct(ProgressService progressService, StaticDataService staticDataService,
-      ScreenshotService screenshotService, JelliesFactory jelliesFactory, HudProvider hudProvider, SyringeProvider syringeProvider)
+      ScreenshotService screenshotService, JelliesFactory jelliesFactory, HudProvider hudProvider,
+      SyringeProvider syringeProvider)
     {
       _syringeProvider = syringeProvider;
       _hudProvider = hudProvider;
       _jelliesFactory = jelliesFactory;
       _screenshotService = screenshotService;
-      _staticDataService = staticDataService;
-      _progressService = progressService;
+      _staticData = staticDataService;
+      _progress = progressService;
     }
 
     private void Awake()
@@ -53,7 +49,7 @@ namespace Code.Helpers
         Debug.LogWarning("Couldn't find ground");
 
       _directionPath = $"{Application.dataPath}/Resources/{FromResourcesScreenshotsPath}";
-      _currentLevelId = ProgressLevelData.CurrentLevelId;
+      _currentLevelId = _progress.ForLevels.CurrentLevelId;
     }
 
     public async UniTask TakeScreenshots(bool withGround)
@@ -62,27 +58,25 @@ namespace Code.Helpers
       SetupAll();
       if (!Directory.Exists(_directionPath))
         Directory.CreateDirectory(_directionPath);
-      int startLevelIndex = _staticDataService.ForLevels().GetLevelIndex(ProgressLevelData.CurrentLevelId);
-      for (int i = startLevelIndex; i < _staticDataService.ForLevels().LevelConfigs.Length; i++)
+      int startLevelIndex = _staticData.ForLevels.GetLevelIndex(_progress.ForLevels.CurrentLevelId);
+      for (int i = startLevelIndex; i < _staticData.ForLevels.LevelConfigs.Length; i++)
       {
-        string levelId = LevelsConfigs[i].Id;
+        string levelId = _staticData.ForLevels.LevelConfigs[i].Id;
 
         await ReplaceJellyBy(levelId);
         await UniTask.WaitForEndOfFrame();
         await UniTask.WaitForEndOfFrame();
-        Texture2D screenshot = await _screenshotService.TakeScreenshot();
+        Texture2D screenshot = await _screenshotService.TakeScreenshotAsync();
         await WriteScreenshotOnDisk(screenshot, levelId);
       }
 
-      await ReplaceJellyBy(ProgressLevelData.CurrentLevelId);
+      await ReplaceJellyBy(_progress.ForLevels.CurrentLevelId);
     }
 
     public void MoveCamera()
     {
       LevelCamera levelCamera = FindAnyObjectByType<LevelCamera>();
-      levelCamera.Camera.orthographicSize = levelCamera.TargetSize;
-      levelCamera.transform.eulerAngles = levelCamera.FinishRotation;
-      levelCamera.transform.position = levelCamera.FinishPosition;
+      levelCamera.MoveToFinish();
     }
 
     private void SetupAll()

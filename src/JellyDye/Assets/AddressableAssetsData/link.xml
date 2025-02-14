@@ -10,39 +10,42 @@
         <type fullname="Code.Gameplay.Logic.UI.ImageColorChange" preserve="all"/>
         <type fullname="Code.Gameplay.Logic.UI.LevelLoadingFill" preserve="all"/>
         <type fullname="Code.Gameplay.Logic.UI.RotateByZ" preserve="all"/>
+        <type fullname="Code.Gameplay.Syringe.Syringe" preserve="all"/>
+        <type fullname="Code.Gameplay.Syringe.SyringeAnimation" preserve="all"/>
         <type fullname="Code.Gameplay.Syringe.SyringeAudio" preserve="all"/>
-        <type fullname="Code.Gameplay.Syringe.SyringeInjection" preserve="all"/>
         <type fullname="Code.Gameplay.Syringe.SyringeLiquidColor" preserve="all"/>
         <type fullname="Code.Gameplay.Syringe.SyringeMesh" preserve="all"/>
         <type fullname="Code.Gameplay.Syringe.SyringeMove" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.AnimatedButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.FinishWindow.FinishWindow" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.FinishWindow.NextLevelButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.FinishWindow.SkinProgressBar" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.FinishButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.InjectionButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.OpenMainMenu" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.PaintChange.Jar" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.PaintChange.JarsContainer" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.ReloadLevel" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.ScreenshotTargetColors" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.Sound.SoundButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.Hud.Sound.SoundContainer" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.MainMenu.BackToLevelButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.MainMenu.Gallery.LevelButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.MainMenu.Gallery.LevelsGrid" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.MainMenu.OpenTab" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.MainMenu.Skins.EquipSkinButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.MainMenu.Skins.LockSkin" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.MainMenu.Skins.OpenRewardedSkinButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.NewSkin.CloseSkinButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.NewSkin.EquipNewSkinButton" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.NewSkin.NewSkinHud" preserve="all"/>
-        <type fullname="Code.Gameplay.UI.UIAudio" preserve="all"/>
+        <type fullname="Code.Gameplay.Syringe.SyringePainting" preserve="all"/>
+        <type fullname="Code.Gameplay.Syringe.SyringePistonAndLiquid" preserve="all"/>
         <type fullname="Code.Helpers.TabsHelper" preserve="all"/>
         <type fullname="Code.Infrastructure.Installers.LevelInstaller" preserve="all"/>
         <type fullname="Code.Infrastructure.Installers.LevelLoadInstaller" preserve="all"/>
         <type fullname="Code.Infrastructure.Installers.NewSkinSceneInstaller" preserve="all"/>
+        <type fullname="Code.UI.AnimatedButton" preserve="all"/>
+        <type fullname="Code.UI.FinishWindow.FinishWindow" preserve="all"/>
+        <type fullname="Code.UI.FinishWindow.NextLevelButton" preserve="all"/>
+        <type fullname="Code.UI.FinishWindow.SkinProgressBar" preserve="all"/>
+        <type fullname="Code.UI.Hud.FinishButton" preserve="all"/>
+        <type fullname="Code.UI.Hud.InjectionButton" preserve="all"/>
+        <type fullname="Code.UI.Hud.PaintChange.Jar" preserve="all"/>
+        <type fullname="Code.UI.Hud.PaintChange.JarsContainer" preserve="all"/>
+        <type fullname="Code.UI.Hud.ScreenshotTargetColors" preserve="all"/>
+        <type fullname="Code.UI.Hud.Sound.SoundButton" preserve="all"/>
+        <type fullname="Code.UI.MainMenuWindow.BackToLevelButton" preserve="all"/>
+        <type fullname="Code.UI.MainMenuWindow.Gallery.LevelButton" preserve="all"/>
+        <type fullname="Code.UI.MainMenuWindow.Gallery.LevelsGrid" preserve="all"/>
+        <type fullname="Code.UI.MainMenuWindow.MainMenuWindow" preserve="all"/>
+        <type fullname="Code.UI.MainMenuWindow.Skins.EquipSkinButton" preserve="all"/>
+        <type fullname="Code.UI.MainMenuWindow.Skins.LockSkin" preserve="all"/>
+        <type fullname="Code.UI.MainMenuWindow.Skins.OpenRewardedSkinButton" preserve="all"/>
+        <type fullname="Code.UI.MainMenuWindow.Tab" preserve="all"/>
+        <type fullname="Code.UI.NewSkin.CloseSkinButton" preserve="all"/>
+        <type fullname="Code.UI.NewSkin.EquipNewSkinButton" preserve="all"/>
+        <type fullname="Code.UI.NewSkin.NewSkinHud" preserve="all"/>
+        <type fullname="Code.UI.OpenMainMenuButton" preserve="all"/>
+        <type fullname="Code.UI.RestartButton" preserve="all"/>
+        <type fullname="Code.UI.UIAudio" preserve="all"/>
     </assembly>
     <assembly fullname="fluxy, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <type fullname="Fluxy.FluxyContainer" preserve="all"/>

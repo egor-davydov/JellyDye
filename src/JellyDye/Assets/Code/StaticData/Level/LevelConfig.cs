@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Code.Helpers;
+using Code.Extensions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -20,7 +20,7 @@ namespace Code.StaticData.Level
 
     private IEnumerable<Color> GetTargetColors => JellyMeshConfigs.Select(x => x.TargetColor);
     private List<Color> AllColors => GetTargetColors.Union(AdditionalColors).ToList();
-    
+
     public JellyMeshConfig GetConfigForMesh(Mesh mesh)
     {
       foreach (JellyMeshConfig jellyMeshConfig in JellyMeshConfigs)
@@ -34,14 +34,12 @@ namespace Code.StaticData.Level
 
     #region ValidateLevelConfig
 
-    
-
     public void UpdateColors()
     {
       AllColorsCached.Clear();
       AllColorsCached.AddRange(AllColors);
     }
-    
+
     private void AddTargetColorIfNeed()
     {
       foreach (JellyMeshConfig jellyMeshConfig in JellyMeshConfigs)
@@ -52,7 +50,7 @@ namespace Code.StaticData.Level
       }
     }
 
-    public void RemoveSimilarColorsByEpsilon( float epsilon)
+    public void RemoveSimilarColorsByEpsilon(float epsilon)
     {
       List<Color> levelColors = AllColors;
       List<Color> targetColors = GetTargetColors.ToList();
@@ -61,13 +59,13 @@ namespace Code.StaticData.Level
       {
         Color firstColor = levelColors[indexFirst];
         Color secondColor = levelColors[indexSecond];
-        if (MathHelp.VectorsSimilar(firstColor, secondColor, epsilon))
+        if (firstColor.RGBSimilarTo(secondColor, epsilon))
         {
           bool isFirstTargetColor = targetColors.Contains(firstColor);
           bool isSecondTargetColor = targetColors.Contains(secondColor);
           if (isFirstTargetColor && isSecondTargetColor)
             continue;
-          if(epsilon > 0.3f)
+          if (epsilon > 0.3f)
             Debug.LogWarning($"Removing similar color in level \"{Id}\"\n firstColor=({firstColor}, index={indexFirst});secondColor=({secondColor}, index={indexSecond}); ");
           if (!isFirstTargetColor)
           {
@@ -81,6 +79,7 @@ namespace Code.StaticData.Level
         }
       }
     }
+
     #endregion
   }
 }
