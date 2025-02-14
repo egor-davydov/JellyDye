@@ -1,6 +1,6 @@
-﻿using Code.Gameplay.UI;
-using Code.Gameplay.UI.NewSkin;
-using Code.Services.AssetManagement;
+﻿using Code.Services.AssetManagement;
+using Code.UI;
+using Code.UI.NewSkin;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -16,24 +16,6 @@ namespace Code.Services.Factories.UI
     {
       _instantiator = instantiator;
       _assetProvider = assetProvider;
-    }
-
-    public async UniTask<AnimatedButton> CreateFinishButton(Transform parent)
-    {
-      GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetKey.FinishButton);
-      AnimatedButton animatedButton = _instantiator.InstantiatePrefabForComponent<AnimatedButton>(buttonPrefab, parent);
-      animatedButton.Animate();
-
-      return animatedButton;
-    }
-
-    public async UniTask<AnimatedButton> CreateNextLevelButton(Transform parent)
-    {
-      GameObject buttonPrefab = await _assetProvider.Load<GameObject>(AssetKey.NextLevelButton);
-      AnimatedButton animatedButton = _instantiator.InstantiatePrefabForComponent<AnimatedButton>(buttonPrefab, parent);
-      animatedButton.Animate();
-
-      return animatedButton;
     }
 
     public async UniTask<CloseSkinButton> CreateCloseSkinButton(Transform parent, bool animate = true)

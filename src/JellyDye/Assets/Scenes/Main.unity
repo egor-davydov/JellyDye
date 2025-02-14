@@ -314,13 +314,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1053685777ae4aa8865602a0eefb47f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <FlashDuration>k__BackingField: 0.3
-  <FlashLight>k__BackingField: {fileID: 1312344691}
-  _camera: {fileID: 330474151}
+  <Camera>k__BackingField: {fileID: 330474151}
+  <MovingTime>k__BackingField: 0.7
   _finishPosition: {x: 0, y: 2.7, z: -0.3}
   _finishRotation: {x: 75, y: 0, z: 0}
-  _movingTime: 0.7
-  _targetSize: 1.1
+  _finishOrthoSize: 1.1
+  _flashDuration: 0.3
+  _flashLight: {fileID: 1312344691}
   _photoAudioSource: {fileID: 330474157}
   _photoSound: {fileID: 8300000, guid: 68c71343070310c4480cdf10be9fc773, type: 3}
 --- !u!114 &330474155
@@ -815,7 +815,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelCamera: {fileID: 330474153}
-  _meshFilter: {fileID: 223867959}
+  _jelliesPlatformMesh: {fileID: 223867959}
+  _directionalLight: {fileID: 1559713336}
+  _eventSystem: {fileID: 1442165063}
   _otherParent: {fileID: 503041966}
   _gameplayParent: {fileID: 1193314341}
   _uiParent: {fileID: 1018715314}

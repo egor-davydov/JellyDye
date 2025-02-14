@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.Gameplay.Logic
 {
@@ -7,28 +6,23 @@ namespace Code.Gameplay.Logic
   {
     [SerializeField] private Camera _camera;
     [SerializeField] private float _boundsSizeX = 1.3f;
-    [SerializeField] private float _boundsSizeY = 2.8f;
+    [SerializeField] private float _boundsSizeY = 2.4f;
 
     private void Awake()
     {
-      ChangeCameraSize();
-      //_button.onClick.AddListener(ChangeCameraSize);
+      _camera.orthographicSize = GetOrthoSize(_boundsSizeX, _boundsSizeY);
     }
 
-    private void ChangeCameraSize()
+    private float GetOrthoSize(float boundsSizeX, float boundsSizeY)
     {
       float screenRatio = Screen.width / (float)Screen.height;
-      float targetRatio = _boundsSizeX / _boundsSizeY;
+      float targetRatio = boundsSizeX / boundsSizeY;
 
-      if(screenRatio >= targetRatio){
-        _camera.orthographicSize = _boundsSizeY / 2;
-      }else{
-        float differenceInSize = targetRatio / screenRatio;
-        _camera.orthographicSize = _boundsSizeY / 2 * differenceInSize;
-      }
-      // Debug.Log($"screenRatio={screenRatio}");
-      // Debug.Log($"targetRatio={targetRatio}");
-      // Debug.Log($"_camera.orthographicSize={_camera.orthographicSize}");
+      if (screenRatio >= targetRatio)
+        return boundsSizeY / 2;
+
+      float differenceInSize = targetRatio / screenRatio;
+      return boundsSizeY / 2 * differenceInSize;
     }
   }
 }

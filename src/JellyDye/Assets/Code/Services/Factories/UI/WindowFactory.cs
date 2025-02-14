@@ -1,5 +1,7 @@
 ﻿using Code.Services.AssetManagement;
 using Code.Services.Providers;
+using Code.UI.FinishWindow;
+using Code.UI.MainMenuWindow;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -19,18 +21,18 @@ namespace Code.Services.Factories.UI
       _parentsProvider = parentsProvider;
     }
 
-    public async UniTask<GameObject> CreateMainMenu()
+    public async UniTask<MainMenuWindow> CreateMainMenu()
     {
       GameObject menuPrefab = await _assetProvider.Load<GameObject>(AssetKey.MainMenu);
-      GameObject menuObject = _instantiator.InstantiatePrefab(menuPrefab, _parentsProvider.ParentForUI);
-      return menuObject;
+      MainMenuWindow mainMenuWindow = _instantiator.InstantiatePrefabForComponent<MainMenuWindow>(menuPrefab, _parentsProvider.ParentForUI);
+      return mainMenuWindow;
     }
 
-    public async UniTask<GameObject> CreateFinishWindow()
+    public async UniTask<FinishWindow> CreateFinishWindow()
     {
       GameObject finishWindowPrefab = await _assetProvider.Load<GameObject>(AssetKey.FinishWindow);
-      GameObject finishWindowObject = _instantiator.InstantiatePrefab(finishWindowPrefab, _parentsProvider.ParentForUI);
-      return finishWindowObject;
+      FinishWindow finishWindow = _instantiator.InstantiatePrefabForComponent<FinishWindow>(finishWindowPrefab, _parentsProvider.ParentForUI);
+      return finishWindow;
     }
   }
 }

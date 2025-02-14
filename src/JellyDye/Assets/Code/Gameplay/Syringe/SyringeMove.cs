@@ -1,4 +1,6 @@
 ﻿using Code.Services;
+using Code.Services.Providers;
+using Code.UI.Hud;
 using UnityEngine;
 using Zenject;
 
@@ -13,17 +15,43 @@ namespace Code.Gameplay.Syringe
     private Camera _camera;
     private Vector3 _dragStartPoint;
     private Vector3 _worldToScreenPoint;
+    private InjectionButton _injectionButton;
 
     private InputService _inputService;
+    private CameraProvider _cameraProvider;
 
     [Inject]
-    public void Construct(InputService inputService)
+    public void Construct(InputService inputService, CameraProvider cameraProvider)
     {
+      _cameraProvider = cameraProvider;
       _inputService = inputService;
     }
 
-    private void Start() =>
-      _camera = Camera.main;
+    public void Initialize(InjectionButton injectionButton)
+    {
+      _injectionButton = injectionButton;
+      _injectionButton.OnButtonDown += OnInjectionButtonDown;
+      _injectionButton.OnButtonUp += OnInjectionButtonUp;
+    }
+
+    private void OnDestroy()
+    {
+      if (_injectionButton == null)
+        return;
+      _injectionButton.OnButtonDown -= OnInjectionButtonDown;
+      _injectionButton.OnButtonUp -= OnInjectionButtonUp;
+    }
+
+    private void Awake()
+    {
+      _camera = _cameraProvider.LevelCamera.Camera;
+    }
+
+    private void OnInjectionButtonDown() =>
+      enabled = false;
+
+    private void OnInjectionButtonUp() =>
+      enabled = true;
 
     private void Update()
     {

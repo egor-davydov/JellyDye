@@ -90,6 +90,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3436234f47be094429966d85916174f9
+    m_Address: cherries
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 35777dbf11f22fa4b821eeb802d90a60
     m_Address: devil_heart
     m_ReadOnly: 0

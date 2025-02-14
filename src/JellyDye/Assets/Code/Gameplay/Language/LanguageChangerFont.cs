@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Enums;
 using Code.Services;
 using TMPro;
 using UnityEngine;
@@ -11,14 +12,14 @@ namespace Code.Gameplay.Language
     [SerializeField] private TMP_FontAsset _enFont;
     [SerializeField] private TMP_FontAsset _ruFont;
     [SerializeField] private TextMeshProUGUI _textMeshPro;
-    
+
     private PublishService _publishService;
 
     [Inject]
     public void Construct(PublishService publishService)
     {
       _publishService = publishService;
-      
+
       ChangeLanguage();
     }
 

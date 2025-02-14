@@ -1,4 +1,5 @@
-﻿using Code.Services;
+﻿using Code.Enums;
+using Code.Services;
 using UnityEngine;
 using Zenject;
 
@@ -8,14 +9,14 @@ namespace Code.Gameplay.Language
   {
     [SerializeField] private GameObject _enObject;
     [SerializeField] private GameObject _ruObject;
-    
+
     private PublishService _publishService;
 
     [Inject]
     public void Construct(PublishService publishService)
     {
       _publishService = publishService;
-      
+
       ChangeLanguage();
     }
 

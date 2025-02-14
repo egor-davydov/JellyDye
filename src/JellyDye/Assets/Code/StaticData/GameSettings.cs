@@ -1,4 +1,4 @@
-﻿using Code.Gameplay.Language;
+﻿using Code.Enums;
 using UnityEngine;
 
 namespace Code.StaticData

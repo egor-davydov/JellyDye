@@ -3,6 +3,7 @@ using Code.Services;
 using Code.Services.AssetManagement;
 using Code.Services.Factories;
 using Code.Services.Factories.UI;
+using Code.Services.LevelLoad;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
 using Code.Services.Providers;
@@ -50,6 +51,12 @@ namespace Code.Infrastructure.Installers
 
     private void BindServices()
     {
+      Container.Bind<AssetsWaitService>().AsSingle();
+      Container.Bind<SyringeService>().AsSingle();
+      Container.Bind<WindowsService>().AsSingle();
+      Container.Bind<LevelInitializationService>().AsSingle();
+      Container.Bind<LevelRestartService>().AsSingle();
+      Container.Bind<LevelChangeService>().AsSingle();
       Container.Bind<StringsService>().AsSingle();
       Container.Bind<SceneLoader>().AsSingle();
       Container.Bind<PublishService>().AsSingle();
@@ -58,16 +65,18 @@ namespace Code.Infrastructure.Installers
       Container.Bind<ProgressService>().AsSingle();
       Container.Bind<NewSkinSceneService>().AsSingle();
       Container.Bind<InputService>().AsSingle();
-      Container.Bind<CameraService>().AsSingle();
+      Container.Bind<CameraProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AddressablesAssetProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnalyticsService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<ScreenshotService>().AsSingle();
-      Container.BindInterfacesAndSelfTo<FinishLevelService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<FinishButtonService>().AsSingle();
     }
 
     private void BindProviders()
     {
+      Container.Bind<AdditiveSceneInterferingObjectsProvider>().AsSingle();
+      Container.Bind<WindowsProvider>().AsSingle();
       Container.Bind<ParentsProvider>().AsSingle();
       Container.Bind<SyringeProvider>().AsSingle();
       Container.Bind<HudProvider>().AsSingle();
@@ -88,9 +97,10 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
       Container.Bind<InitializationState>().AsSingle();
       Container.Bind<LoadProgressState>().AsSingle();
-      Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<WarmUpState>().AsSingle();
+      Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<GameLoopState>().AsSingle();
+      Container.Bind<FinishLevelState>().AsSingle();
     }
   }
 }

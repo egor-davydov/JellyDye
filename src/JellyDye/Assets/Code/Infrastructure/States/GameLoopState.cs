@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Code.Infrastructure.States.Interfaces;
+using Cysharp.Threading.Tasks;
 
 namespace Code.Infrastructure.States
 {
