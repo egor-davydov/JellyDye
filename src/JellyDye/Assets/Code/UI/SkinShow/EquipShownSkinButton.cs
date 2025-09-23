@@ -7,9 +7,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.UI.NewSkin
+namespace Code.UI.SkinShow
 {
-  public class EquipNewSkinButton : MonoBehaviour
+  public class EquipShownSkinButton : MonoBehaviour
   {
     [SerializeField] private UIAudio _uiAudio;
     [SerializeField] private Button _button;
@@ -34,11 +34,11 @@ namespace Code.UI.NewSkin
 
     private void Awake()
     {
-      _button.onClick.AddListener(UniTask.UnityAction(OnEquipNewSkinButtonClick));
+      _button.onClick.AddListener(UniTask.UnityAction(OnEquipShownSkinButtonClick));
       _fadeTween = _skinEquippedImage.DOFade(0, _fadeTime).SetLink(gameObject).SetAutoKill(false);
     }
 
-    private async UniTaskVoid OnEquipNewSkinButtonClick()
+    private async UniTaskVoid OnEquipShownSkinButtonClick()
     {
       _uiAudio.PlayClick();
       _progress.ForSkins.EquipSkin(_skinType);

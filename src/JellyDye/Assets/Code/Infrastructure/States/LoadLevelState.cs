@@ -50,7 +50,6 @@ namespace Code.Infrastructure.States
     {
       _currentLevelId = levelId;
       LevelLoadingType loadingType = GetLevelLoadingType();
-
       switch (loadingType)
       {
         case LevelLoadingType.Initialization:
@@ -74,6 +73,7 @@ namespace Code.Infrastructure.States
         default:
           throw new ArgumentOutOfRangeException();
       }
+      _publishService.ShowFullscreenAdvAndPauseGame();
 
       switch (loadingType)
       {

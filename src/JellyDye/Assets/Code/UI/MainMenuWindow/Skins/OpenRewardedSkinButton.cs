@@ -17,13 +17,13 @@ namespace Code.UI.MainMenuWindow.Skins
     private ProgressService _progress;
     private ISaveLoadService _saveLoadService;
     private PublishService _publishService;
-    private NewSkinSceneService _newSkinSceneService;
+    private SkinShowSceneService _skinShowSceneService;
 
     [Inject]
     public void Construct(ProgressService progressService, ISaveLoadService saveLoadService, PublishService publishService,
-      NewSkinSceneService newSkinSceneService)
+      SkinShowSceneService skinShowSceneService)
     {
-      _newSkinSceneService = newSkinSceneService;
+      _skinShowSceneService = skinShowSceneService;
       _publishService = publishService;
       _saveLoadService = saveLoadService;
       _progress = progressService;
@@ -48,7 +48,7 @@ namespace Code.UI.MainMenuWindow.Skins
 
     private async UniTaskVoid ShowRewardedSkin()
     {
-      await _newSkinSceneService.ShowSkinScene(_equipSkinButton.SkinType);
+      await _skinShowSceneService.ShowSkinScene(_equipSkinButton.SkinType);
       _lockSkin.UnlockSkin();
     }
   }

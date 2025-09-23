@@ -29,7 +29,7 @@ namespace Code.Gameplay.Syringe
       _skinRotationPoint = skinRotationPoint;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticData.ForSkins.NewSkinSceneConfig;
+    private SkinShowSceneConfig SkinShowSceneConfig => _staticData.ForSkins.SkinShowSceneConfig;
 
     private void Update()
     {
@@ -38,7 +38,7 @@ namespace Code.Gameplay.Syringe
       if (_isSkinAutoRotating)
       {
         transform.RotateAround(_skinRotationPoint.Value, Vector3.up,
-          -NewSkinSceneConfig.AutoRotationSpeed * Time.deltaTime);
+          -SkinShowSceneConfig.AutoRotationSpeed * Time.deltaTime);
       }
 
       if (_inputService.IsInputButtonPressedInGameSpace)
@@ -58,8 +58,8 @@ namespace Code.Gameplay.Syringe
       {
         Vector3 mouseDelta = Input.mousePosition - _previousMousePosition;
 
-        float rotationY = -mouseDelta.x * NewSkinSceneConfig.RotationSpeed * Time.deltaTime;
-        float rotationX = mouseDelta.y * NewSkinSceneConfig.RotationSpeed * Time.deltaTime;
+        float rotationY = -mouseDelta.x * SkinShowSceneConfig.RotationSpeed * Time.deltaTime;
+        float rotationX = mouseDelta.y * SkinShowSceneConfig.RotationSpeed * Time.deltaTime;
 
         _currentRotationVelocity = new Vector2(rotationX, rotationY);
 
@@ -69,7 +69,7 @@ namespace Code.Gameplay.Syringe
       }
       else if (_lastRotationVelocity != Vector2.zero)
       {
-        float dampingFactor = 1f - (NewSkinSceneConfig.InertiaDamping * Time.deltaTime);
+        float dampingFactor = 1f - (SkinShowSceneConfig.InertiaDamping * Time.deltaTime);
         _lastRotationVelocity *= dampingFactor;
 
         if (_lastRotationVelocity.sqrMagnitude < 0.01f)

@@ -1,4 +1,5 @@
 ﻿using Code.Infrastructure.States.Interfaces;
+using Code.Logging;
 using Code.Services;
 using Code.Services.AssetManagement;
 using Cysharp.Threading.Tasks;
@@ -21,28 +22,20 @@ namespace Code.Infrastructure.States
       _assetProvider = assetProvider;
     }
 
-    public UniTaskVoid Enter()
+    public async UniTaskVoid Enter()
     {
       _staticData.Initialize();
       _assetProvider.Initialize();
       // WebDebug.Log($"IsOnCrazyGames={CrazySDK.IsOnCrazyGames}");
       // WebDebug.Log($"Application.absoluteURL={Application.absoluteURL}");
-      _publishService.Initialize(OnSdkInitialize, OnPlayerInitialized);
-      return default;
+      await _publishService.Initialize();
+      WebDebug.Log("After _publishService.Initialize");
+      MoveToNextState();
     }
 
     public UniTaskVoid Exit()
     {
       return default;
-    }
-
-    private void OnPlayerInitialized()
-    {
-      MoveToNextState();
-    }
-
-    private void OnSdkInitialize()
-    {
     }
 
     private void MoveToNextState() =>
