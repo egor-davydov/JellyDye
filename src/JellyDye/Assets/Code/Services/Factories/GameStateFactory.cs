@@ -9,7 +9,7 @@ namespace Code.Services.Factories
     public GameStateFactory(DiContainer diContainer) => 
       _diContainer = diContainer;
 
-    public TState Create<TState>() => 
+    public TState GetState<TState>() => 
       _diContainer.Resolve<TState>();
   }
 }

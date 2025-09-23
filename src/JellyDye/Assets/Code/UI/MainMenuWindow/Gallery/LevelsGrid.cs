@@ -14,7 +14,6 @@ namespace Code.UI.MainMenuWindow.Gallery
   {
     [SerializeField] private GridLayoutGroup _gridLayoutGroup;
     [SerializeField] private float _offsetScrollMoveToProgress;
-    [SerializeField] private float _screenSize;
 
     private LevelButtonFactory _levelButtonFactory;
     private StaticDataService _staticData;
@@ -58,14 +57,23 @@ namespace Code.UI.MainMenuWindow.Gallery
     private void MoveScrollToCurrentLevel()
     {
       string currentLevelId = _progress.ForLevels.CurrentLevelId;
-      int levelRow = _staticData.ForLevels.GetLevelIndex(currentLevelId) / 2;
-      float sizeOfLevelButtonWithSpacing = _gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y;
-      int rowsCount = Mathf.RoundToInt((float)LevelConfigs.Length / 2);
-      float scrollHeight = sizeOfLevelButtonWithSpacing * rowsCount;
+      int currentIndex = _staticData.ForLevels.GetLevelIndex(currentLevelId);
 
-      float movingHeight = levelRow * sizeOfLevelButtonWithSpacing - _offsetScrollMoveToProgress;
-      movingHeight = Mathf.Clamp(movingHeight, 0, scrollHeight - Screen.height);
-      ((RectTransform)transform).anchoredPosition = Vector2.up * movingHeight;
+      int columns = Mathf.Max(1, _gridLayoutGroup.constraintCount); // количество колонок
+      int row = currentIndex / columns;
+
+      float cellHeight = _gridLayoutGroup.cellSize.y + _gridLayoutGroup.spacing.y;
+
+      RectTransform contentRect = (RectTransform)transform;
+      float contentHeight = contentRect.rect.height;
+      float viewportHeight = ((RectTransform)_gridLayoutGroup.transform.parent).rect.height;
+      
+      float movingHeight = row * cellHeight - _offsetScrollMoveToProgress;
+      float maxScroll = Mathf.Max(0, contentHeight - viewportHeight);
+
+      movingHeight = Mathf.Clamp(movingHeight, 0, maxScroll);
+
+      contentRect.anchoredPosition = Vector2.up * movingHeight;
     }
   }
 }

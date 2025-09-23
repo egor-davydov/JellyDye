@@ -39,13 +39,12 @@ namespace Code.Infrastructure.Installers
       Container.Bind<LevelButtonFactory>().AsSingle();
       Container.Bind<JelliesFactory>().AsSingle();
       Container.Bind<AnimatedButtonFactory>().AsSingle();
-      Container.Bind<EquipNewSkinButtonFactory>().AsSingle();
+      Container.Bind<EquipShownSkinButtonFactory>().AsSingle();
     }
 
     private void SetupStatesAndMoveToNextState()
     {
       GameStateMachine gameStateMachine = Container.Resolve<GameStateMachine>();
-      gameStateMachine.SetupStates();
       gameStateMachine.Enter<InitializationState>();
     }
 
@@ -63,7 +62,7 @@ namespace Code.Infrastructure.Installers
       Container.Bind<PaintCountCalculationService>().AsSingle();
       Container.Bind<StaticDataService>().AsSingle();
       Container.Bind<ProgressService>().AsSingle();
-      Container.Bind<NewSkinSceneService>().AsSingle();
+      Container.Bind<SkinShowSceneService>().AsSingle();
       Container.Bind<InputService>().AsSingle();
       Container.Bind<CameraProvider>().AsSingle();
       Container.BindInterfacesAndSelfTo<AddressablesAssetProvider>().AsSingle();
@@ -97,6 +96,7 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
       Container.Bind<InitializationState>().AsSingle();
       Container.Bind<LoadProgressState>().AsSingle();
+      Container.Bind<CheckForUnprocessedPurchasesState>().AsSingle();
       Container.Bind<WarmUpState>().AsSingle();
       Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<GameLoopState>().AsSingle();

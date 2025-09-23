@@ -1,10 +1,11 @@
-﻿using Code.Constants;
+﻿using System.Threading.Tasks;
+using Code.Constants;
 using Code.Enums;
 using Code.Gameplay.Syringe;
 using Code.Services.Factories;
 using Code.Services.Providers;
 using Code.StaticData.Skins;
-using Code.UI.NewSkin;
+using Code.UI.SkinShow;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -13,7 +14,7 @@ using UnityEngine.SceneManagement;
 
 namespace Code.Services
 {
-  public class NewSkinSceneService
+  public class SkinShowSceneService
   {
     private readonly CameraProvider _cameraProvider;
     private readonly SceneLoader _sceneLoader;
@@ -24,12 +25,12 @@ namespace Code.Services
 
     private Transform _newSkinStandTransform;
     private Vector3 _skinRotationPoint;
-    private NewSkinHud _newSkinHud;
+    private SkinShowHud _skinShowHud;
     private AudioSource _audioSource;
 
     private SceneInstance _sceneInstance;
 
-    public NewSkinSceneService(SceneLoader sceneLoader, CameraProvider cameraProvider, ParentsProvider parentsProvider,
+    public SkinShowSceneService(SceneLoader sceneLoader, CameraProvider cameraProvider, ParentsProvider parentsProvider,
       SyringeFactory syringeFactory, InputService inputService, StaticDataService staticDataService)
     {
       _sceneLoader = sceneLoader;
@@ -40,12 +41,13 @@ namespace Code.Services
       _cameraProvider = cameraProvider;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticData.ForSkins.NewSkinSceneConfig;
+    private SkinShowSceneConfig SkinShowSceneConfig => _staticData.ForSkins.SkinShowSceneConfig;
 
-    public void Initialize(Transform newSkinStandTransform, Vector3 skinRotationPoint, NewSkinHud newSkinHud, AudioSource audioSource)
+    public void Initialize(Transform newSkinStandTransform, Vector3 skinRotationPoint,
+      SkinShowHud skinShowHud, AudioSource audioSource)
     {
       _audioSource = audioSource;
-      _newSkinHud = newSkinHud;
+      _skinShowHud = skinShowHud;
       _skinRotationPoint = skinRotationPoint;
       _newSkinStandTransform = newSkinStandTransform;
     }
@@ -54,16 +56,32 @@ namespace Code.Services
     {
       await LoadSceneAndDisableMainSceneRenderers();
 
-      _audioSource.PlayOneShot(NewSkinSceneConfig.NewSkinSound);
-      UniTask hudInitTask = _newSkinHud.InitializeAsync(skinType);
+      _audioSource.PlayOneShot(SkinShowSceneConfig.NewSkinSound);
+      UniTask hudInitTask = _skinShowHud.InitializeUnlockedSkinHudAsync(skinType);
+      await CreateAndInitSyringe(skinType);
+      await hudInitTask;
+      await _skinShowHud.CloseSkinButtonClick;
+      await NewSkinSceneUnloadAndLoadMain();
+    }
+
+    public async UniTask ShowPurchasableSkinScene(SkinType skinType)
+    {
+      await LoadSceneAndDisableMainSceneRenderers();
+
+      UniTask hudInitTask = _skinShowHud.InitializePurchasableSkinHudAsync(skinType);
+      await CreateAndInitSyringe(skinType);
+      await hudInitTask;
+      await _skinShowHud.CloseSkinButtonClick;
+      await NewSkinSceneUnloadAndLoadMain();
+    }
+
+    private async UniTask CreateAndInitSyringe(SkinType skinType)
+    {
       SyringeMesh syringeMesh = await _syringeFactory.CreateMesh(skinType, _newSkinStandTransform);
       syringeMesh.transform.localScale = Vector3.one;
       SyringeRotation syringeRotation = syringeMesh.gameObject.AddComponent<SyringeRotation>();
       syringeRotation.Construct(_inputService, _staticData);
       syringeRotation.Initialize(_skinRotationPoint);
-      await hudInitTask;
-      await _newSkinHud.CloseSkinButtonClick;
-      await HideSkinScene();
     }
 
     private async UniTask LoadSceneAndDisableMainSceneRenderers()
@@ -73,7 +91,7 @@ namespace Code.Services
       _sceneInstance = await loadSceneTask;
     }
 
-    private async UniTask HideSkinScene()
+    private async UniTask NewSkinSceneUnloadAndLoadMain()
     {
       await Addressables.UnloadSceneAsync(_sceneInstance);
       _sceneLoader.MainSceneRenderersSetActive(true);

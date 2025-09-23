@@ -10,6 +10,6 @@ namespace Code.StaticData.Skins
     public UnlockableSkinConfig[] UnlockableSkins;
     public SkinConfig[] SkinConfigs;
     [field: SerializeField, Range(0, 1)] public float MinSkinProgress { get; private set; }
-    [field: SerializeField] public NewSkinSceneConfig NewSkinSceneConfig { get; private set; }
+    [field: SerializeField] public SkinShowSceneConfig SkinShowSceneConfig { get; private set; }
   }
 }

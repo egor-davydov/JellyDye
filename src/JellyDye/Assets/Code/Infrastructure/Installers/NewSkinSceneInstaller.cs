@@ -1,5 +1,5 @@
 ﻿using Code.Services;
-using Code.UI.NewSkin;
+using Code.UI.SkinShow;
 using UnityEngine;
 using Zenject;
 
@@ -9,20 +9,20 @@ namespace Code.Infrastructure.Installers
   {
     [SerializeField] private Transform _newSkinStandTransform;
     [SerializeField] private Transform _skinRotationPointTransform;
-    [SerializeField] private NewSkinHud _newSkinHud;
+    [SerializeField] private SkinShowHud _skinShowHud;
     [SerializeField] private AudioSource _audioSource;
 
-    private NewSkinSceneService _newSkinSceneService;
+    private SkinShowSceneService _skinShowSceneService;
 
     [Inject]
-    public void Construct(NewSkinSceneService newSkinSceneService)
+    public void Construct(SkinShowSceneService skinShowSceneService)
     {
-      _newSkinSceneService = newSkinSceneService;
+      _skinShowSceneService = skinShowSceneService;
     }
 
     private void Awake()
     {
-      _newSkinSceneService.Initialize(_newSkinStandTransform, _skinRotationPointTransform.position, _newSkinHud, _audioSource);
+      _skinShowSceneService.Initialize(_newSkinStandTransform, _skinRotationPointTransform.position, _skinShowHud, _audioSource);
     }
 
     public override void InstallBindings()
