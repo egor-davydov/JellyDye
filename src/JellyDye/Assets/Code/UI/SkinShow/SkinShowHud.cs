@@ -9,29 +9,29 @@ using UnityEngine;
 using Zenject;
 using static UnityEngine.UI.Button;
 
-namespace Code.UI.NewSkin
+namespace Code.UI.SkinShow
 {
-  public class NewSkinHud : MonoBehaviour
+  public class SkinShowHud : MonoBehaviour
   {
     [SerializeField] private Transform _uiParent;
     [SerializeField] private TextMeshProUGUI _skinNameText;
 
     private AnimatedButtonFactory _animatedButtonFactory;
-    private EquipNewSkinButtonFactory _equipNewSkinButtonFactory;
+    private EquipShownSkinButtonFactory _equipShownSkinButtonFactory;
     private StaticDataService _staticData;
     private PublishService _publishService;
 
     [Inject]
-    public void Construct(AnimatedButtonFactory animatedButtonFactory, EquipNewSkinButtonFactory equipNewSkinButtonFactory,
+    public void Construct(AnimatedButtonFactory animatedButtonFactory, EquipShownSkinButtonFactory equipShownSkinButtonFactory,
       StaticDataService staticDataService, PublishService publishService)
     {
       _publishService = publishService;
       _staticData = staticDataService;
-      _equipNewSkinButtonFactory = equipNewSkinButtonFactory;
+      _equipShownSkinButtonFactory = equipShownSkinButtonFactory;
       _animatedButtonFactory = animatedButtonFactory;
     }
 
-    private NewSkinSceneConfig NewSkinSceneConfig => _staticData.ForSkins.NewSkinSceneConfig;
+    private SkinShowSceneConfig SkinShowSceneConfig => _staticData.ForSkins.SkinShowSceneConfig;
     public ButtonClickedEvent CloseSkinButtonClick { get; private set; }
 
     public async UniTask InitializeAsync(SkinType skinType)
@@ -45,10 +45,10 @@ namespace Code.UI.NewSkin
 
       _skinNameText.text = localizedSkinName.ToUpper();
 
-      EquipNewSkinButton equipNewSkinButton = await _equipNewSkinButtonFactory.Create(_uiParent).AttachExternalCancellation(destroyCancellationToken);
-      equipNewSkinButton.Initialize(skinType);
+      EquipShownSkinButton equipShownSkinButton = await _equipShownSkinButtonFactory.Create(_uiParent).AttachExternalCancellation(destroyCancellationToken);
+      equipShownSkinButton.Initialize(skinType);
 
-      await UniTask.WaitForSeconds(NewSkinSceneConfig.DelayBeforeCloseButtonCreation).AttachExternalCancellation(destroyCancellationToken);
+      await UniTask.WaitForSeconds(SkinShowSceneConfig.DelayBeforeCloseButtonCreation).AttachExternalCancellation(destroyCancellationToken);
 
       CloseSkinButtonClick = (await _animatedButtonFactory.CreateCloseSkinButton(_uiParent).AttachExternalCancellation(destroyCancellationToken)).Button.onClick;
     }

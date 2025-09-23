@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: 5f34f40a48cf39c4eb583627743ffab4
   - enabled: 0
-    path: Assets/Scenes/NewSkin.unity
+    path: Assets/Scenes/SkinShow.unity
     guid: 7b0653545b316ec42b708651667360d9
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: bec00f9050d258e4e803a4f309041ef8, type: 2}

@@ -23,13 +23,13 @@ namespace Code.Infrastructure.States
     private readonly AnalyticsService _analyticsService;
     private readonly ProgressService _progress;
     private readonly ISaveLoadService _saveLoadService;
-    private readonly NewSkinSceneService _newSkinSceneService;
+    private readonly SkinShowSceneService _skinShowSceneService;
     private readonly WindowsProvider _windowsProvider;
 
     public FinishLevelState(PaintCountCalculationService paintCountCalculationService, CameraProvider cameraProvider,
       SyringeProvider syringeProvider, HudProvider hudProvider, WindowsProvider windowsProvider, StaticDataService staticData,
       PublishService publishService, AnalyticsService analyticsService, ProgressService progress,
-      ISaveLoadService saveLoadService, NewSkinSceneService newSkinSceneService, ScreenshotService screenshotService)
+      ISaveLoadService saveLoadService, SkinShowSceneService skinShowSceneService, ScreenshotService screenshotService)
     {
       _paintCountCalculationService = paintCountCalculationService;
       _cameraProvider = cameraProvider;
@@ -41,7 +41,7 @@ namespace Code.Infrastructure.States
       _analyticsService = analyticsService;
       _progress = progress;
       _saveLoadService = saveLoadService;
-      _newSkinSceneService = newSkinSceneService;
+      _skinShowSceneService = skinShowSceneService;
       _windowsProvider = windowsProvider;
     }
 
@@ -105,7 +105,7 @@ namespace Code.Infrastructure.States
           ? skinProgressBar.ProgressMoveTime
           : skinProgressBar.ProgressMoveTime * ((1 - currentAmount) / increaseAmount);
         await skinProgressBar.AnimateFillBeforeNewSkinAsync(fillDuration);
-        await _newSkinSceneService.ShowSkinScene(nextSkinConfigBeforeSave.SkinType);
+        await _skinShowSceneService.ShowSkinScene(nextSkinConfigBeforeSave.SkinType);
         skinProgressBar.AnimateLastPartOrHideSkinObjects(isAllSkinsUnlockedAfterSave, fillDuration, nextSkinConfigAfterSave);
       }
     }

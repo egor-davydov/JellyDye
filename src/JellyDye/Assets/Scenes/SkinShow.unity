@@ -537,7 +537,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1278775605}
   m_Layer: 0
-  m_Name: NewSkinStand
+  m_Name: SkinStand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _newSkinStandTransform: {fileID: 1278775605}
   _skinRotationPointTransform: {fileID: 722728362}
-  _newSkinHud: {fileID: 1791169271580288353}
+  _skinShowHud: {fileID: 1791169271580288353}
   _audioSource: {fileID: 1791169268157735686}
 --- !u!1 &1791169267838968309
 GameObject:
@@ -789,12 +789,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1791169271580288352}
+  - component: {fileID: 1791169271580288353}
   - component: {fileID: 1791169271563510949}
   - component: {fileID: 1791169269734794920}
   - component: {fileID: 1791169269734794919}
-  - component: {fileID: 1791169271580288353}
   m_Layer: 11
-  m_Name: NewSkinHud
+  m_Name: Hud
   m_TagString: 
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

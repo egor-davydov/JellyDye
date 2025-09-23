@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 4563983873097357528}
   - component: {fileID: 2959993423161311170}
   m_Layer: 5
-  m_Name: RewardedSkinButton
+  m_Name: RewardedSkinButton 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

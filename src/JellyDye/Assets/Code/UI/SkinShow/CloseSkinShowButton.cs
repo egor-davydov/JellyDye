@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.UI.NewSkin
+namespace Code.UI.SkinShow
 {
-  public class CloseSkinButton : MonoBehaviour
+  public class CloseSkinShowButton : MonoBehaviour
   {
     [field: SerializeField] public Button Button { get; private set; }
   }

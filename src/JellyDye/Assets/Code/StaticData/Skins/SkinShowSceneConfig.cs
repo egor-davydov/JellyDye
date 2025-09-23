@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Code.StaticData.Skins
 {
   [Serializable]
-  public struct NewSkinSceneConfig
+  public struct SkinShowSceneConfig
   {
     [field: SerializeField] public float AutoRotationSpeed { get; private set; }
     [field: SerializeField] public float RotationSpeed { get; private set; }
