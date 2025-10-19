@@ -2,11 +2,21 @@
 using UnityEngine;
 #endif
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using AOT;
 using Code.Enums;
+using Code.Extensions;
+using Code.InAppPurchases;
+using Code.Logging;
 using CrazyGames;
+using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
+using ModestTree;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Code.Services
 {
@@ -26,6 +36,16 @@ namespace Code.Services
     private readonly StaticDataService _staticData;
 
     private readonly bool _isOnCrazyGames = CrazySDK.IsAvailable && Application.platform != RuntimePlatform.WindowsPlayer;
+    private static UniTaskCompletionSource _playerInitTcs;
+    private static Action<string> _onGetProductCatalogSuccess;
+    private static Action<string> _onGetPurchasedSuccess;
+    private static Action _onPurchaseSuccess;
+
+    public PublishService(AudioService audioService, StaticDataService staticData)
+    {
+      _staticData = staticData;
+      _audioService = audioService;
+    }
 
     private Uri Uri
     {
@@ -38,11 +58,8 @@ namespace Code.Services
       }
     }
 
-    public PublishService(AudioService audioService, StaticDataService staticData)
-    {
-      _staticData = staticData;
-      _audioService = audioService;
-    }
+    public Texture2D CurrencyTexture { get; private set; }
+    public CatalogProduct[] ProductCatalog { get; private set; }
 
     [DllImport("__Internal")]
     private static extern bool IsMobile();
@@ -71,21 +88,133 @@ namespace Code.Services
     [DllImport("__Internal")]
     private static extern void ShowYandexRewardedVideo(Action onOpen, Action onRewarded, Action onClose);
 
-    public void Initialize(Action onSdkInitialize, Action onPlayerInitialize)
+    [DllImport("__Internal")]
+    private static extern void BillingPurchaseProduct(string productId, Action<string> onSuccess);
+
+    [DllImport("__Internal")]
+    private static extern void BillingGetProductCatalog(Action<string> onSuccess);
+
+    [DllImport("__Internal")]
+    private static extern void BillingGetPurchasedProducts(Action<string> onSuccess);
+
+    [CanBeNull]
+    public CatalogProduct GetSkinProduct(SkinType skinType) =>
+      GetCatalogProduct(SkinTypeToProductId(skinType));
+
+    public string SkinTypeToProductId(SkinType skinType) =>
+      skinType.ToString();
+
+    public SkinType ProductIdToSkinType(string productId)
     {
-      _onSdkInitialize = onSdkInitialize;
-      _onPlayerInitialize = onPlayerInitialize;
+      if (Enum.TryParse(productId, out SkinType skinType))
+        return skinType;
+
+      throw new ArgumentException($"Неизвестный productId: {productId}");
+    }
+
+    [CanBeNull]
+    public CatalogProduct GetCatalogProduct(string productId) =>
+      ProductCatalog?.FirstOrDefault(x => x.Id == productId);
+
+    public void PurchaseProduct(string productId, Action onSuccess)
+    {
+      _onPurchaseSuccess = onSuccess;
+      BillingPurchaseProduct(productId, OnPurchaseSuccess);
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void OnPurchaseSuccess(string purchasedProductJson) =>
+      _onPurchaseSuccess?.Invoke();
+
+    private UniTask<CatalogProduct[]> GetProductCatalog()
+    {
+      var tcs = new UniTaskCompletionSource<CatalogProduct[]>();
+      GetProductCatalogJson(json =>
+      {
+        WebDebug.Log($"GetProductCatalogJson json: {json}");
+        var response = JsonUtility.FromJson<GetProductCatalogResponse>(json);
+        foreach (CatalogProduct responseProduct in response.Products)
+        {
+          WebDebug.Log($"GetProductCatalogJson response:" +
+                       $" Id={responseProduct.Id};" +
+                       $" PriceValue={responseProduct.PriceValue};" +
+                       $" PriceCurrencyImage={responseProduct.PriceCurrencyImage}");
+        }
+        tcs.TrySetResult(response.Products);
+      });
+
+      return tcs.Task;
+    }
+
+    public UniTask<PurchasedProduct[]> GetPurchases()
+    {
+      var tcs = new UniTaskCompletionSource<PurchasedProduct[]>();
+      GetPurchasesJson(json =>
+      {
+        var response = JsonUtility.FromJson<GetPurchasedProductsResponse>(json);
+        tcs.TrySetResult(response.PurchasedProducts);
+      });
+
+      return tcs.Task;
+    }
+
+    private void GetProductCatalogJson(Action<string> onSuccess)
+    {
+      _onGetProductCatalogSuccess = onSuccess;
+      BillingGetProductCatalog(OnGetProductCatalogSuccess);
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void OnGetProductCatalogSuccess(string resultJson) =>
+      _onGetProductCatalogSuccess?.Invoke(resultJson);
+
+    private void GetPurchasesJson(Action<string> onSuccess)
+    {
+      _onGetPurchasedSuccess = onSuccess;
+      BillingGetPurchasedProducts(OnGetPurchasesSuccess);
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void OnGetPurchasesSuccess(string resultJson) =>
+      _onGetPurchasedSuccess?.Invoke(resultJson);
+
+    public async UniTask Initialize()
+    {
+      _playerInitTcs = new UniTaskCompletionSource();
       if (IsOnYandexGames())
       {
-        InitializeYandexGames(OnSdkInitialized, PlayerInitialized);
+        InitializeYandexGames(
+          OnSdkInitialized,
+          OnPlayerInitialize
+        );
+
+        await _playerInitTcs.Task;
+        await InitYandexInApps();
       }
       else
       {
         if (_isOnCrazyGames)
-          CrazySDK.Init(_onPlayerInitialize);
-        else
-          _onPlayerInitialize.Invoke();
+          CrazySDK.Init(() => { _playerInitTcs.TrySetResult(); });
+        await _playerInitTcs.Task;
       }
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void OnSdkInitialized() =>
+      _onSdkInitialize?.Invoke();
+
+    [MonoPInvokeCallback(typeof(Action))]
+    private static void OnPlayerInitialize() => 
+      _playerInitTcs?.TrySetResult();
+
+    private async UniTask InitYandexInApps()
+    {
+      WebDebug.Log("InitYandexInApps");
+      ProductCatalog = await GetProductCatalog();
+      WebDebug.Log("After GetProductCatalog");
+      WebDebug.Log($"PriceCurrencyImage={ProductCatalog[0].PriceCurrencyImage}");
+      CurrencyTexture = await ProductCatalog[0].PriceCurrencyImage.GetTextureFromUrlAsync();
+      WebDebug.Log("After GetTextureFromUrlAsync");
     }
 
     public bool IsPlatformMobile()
@@ -181,14 +310,6 @@ namespace Code.Services
       _onRewarded?.Invoke();
       _onRewardedClose?.Invoke();
     }
-
-    [MonoPInvokeCallback(typeof(Action))]
-    private static void OnSdkInitialized() =>
-      _onSdkInitialize?.Invoke();
-
-    [MonoPInvokeCallback(typeof(Action))]
-    private static void PlayerInitialized() =>
-      _onPlayerInitialize.Invoke();
 
     [MonoPInvokeCallback(typeof(Action))]
     private static void OnRewardedVideoOpen()

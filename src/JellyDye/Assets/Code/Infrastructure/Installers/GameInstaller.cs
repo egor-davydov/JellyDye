@@ -45,7 +45,6 @@ namespace Code.Infrastructure.Installers
     private void SetupStatesAndMoveToNextState()
     {
       GameStateMachine gameStateMachine = Container.Resolve<GameStateMachine>();
-      gameStateMachine.SetupStates();
       gameStateMachine.Enter<InitializationState>();
     }
 
@@ -97,6 +96,7 @@ namespace Code.Infrastructure.Installers
       Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
       Container.Bind<InitializationState>().AsSingle();
       Container.Bind<LoadProgressState>().AsSingle();
+      Container.Bind<CheckForUnprocessedPurchasesState>().AsSingle();
       Container.Bind<WarmUpState>().AsSingle();
       Container.Bind<LoadLevelState>().AsSingle();
       Container.Bind<GameLoopState>().AsSingle();

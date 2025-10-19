@@ -121,7 +121,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
     RuName: "\u0414\u0438\u0441\u043A\u043E"
   <MinSkinProgress>k__BackingField: 0.2
-  <NewSkinSceneConfig>k__BackingField:
+  <SkinShowSceneConfig>k__BackingField:
     <AutoRotationSpeed>k__BackingField: 60
     <RotationSpeed>k__BackingField: 15
     <InertiaDamping>k__BackingField: 5

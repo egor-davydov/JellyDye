@@ -43,7 +43,8 @@ namespace Code.Services
 
     private SkinShowSceneConfig SkinShowSceneConfig => _staticData.ForSkins.SkinShowSceneConfig;
 
-    public void Initialize(Transform newSkinStandTransform, Vector3 skinRotationPoint, SkinShowHud skinShowHud, AudioSource audioSource)
+    public void Initialize(Transform newSkinStandTransform, Vector3 skinRotationPoint,
+      SkinShowHud skinShowHud, AudioSource audioSource)
     {
       _audioSource = audioSource;
       _skinShowHud = skinShowHud;
@@ -56,7 +57,18 @@ namespace Code.Services
       await LoadSceneAndDisableMainSceneRenderers();
 
       _audioSource.PlayOneShot(SkinShowSceneConfig.NewSkinSound);
-      UniTask hudInitTask = _skinShowHud.InitializeAsync(skinType);
+      UniTask hudInitTask = _skinShowHud.InitializeUnlockedSkinHudAsync(skinType);
+      await CreateAndInitSyringe(skinType);
+      await hudInitTask;
+      await _skinShowHud.CloseSkinButtonClick;
+      await NewSkinSceneUnloadAndLoadMain();
+    }
+
+    public async UniTask ShowPurchasableSkinScene(SkinType skinType)
+    {
+      await LoadSceneAndDisableMainSceneRenderers();
+
+      UniTask hudInitTask = _skinShowHud.InitializePurchasableSkinHudAsync(skinType);
       await CreateAndInitSyringe(skinType);
       await hudInitTask;
       await _skinShowHud.CloseSkinButtonClick;

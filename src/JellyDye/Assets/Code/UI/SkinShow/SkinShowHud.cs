@@ -13,8 +13,11 @@ namespace Code.UI.SkinShow
 {
   public class SkinShowHud : MonoBehaviour
   {
+    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private Transform _uiParent;
     [SerializeField] private TextMeshProUGUI _skinNameText;
+    [SerializeField] private GameObject _unlockedObject;
+    [SerializeField] private PurchaseShownSkinButton _purchaseShownSkinButton;
 
     private AnimatedButtonFactory _animatedButtonFactory;
     private EquipShownSkinButtonFactory _equipShownSkinButtonFactory;
@@ -34,7 +37,36 @@ namespace Code.UI.SkinShow
     private SkinShowSceneConfig SkinShowSceneConfig => _staticData.ForSkins.SkinShowSceneConfig;
     public ButtonClickedEvent CloseSkinButtonClick { get; private set; }
 
-    public async UniTask InitializeAsync(SkinType skinType)
+    public async UniTask InitializeUnlockedSkinHudAsync(SkinType skinType)
+    {
+      InitSkinName(skinType);
+
+      EquipShownSkinButton equipShownSkinButton = await _equipShownSkinButtonFactory.Create(_uiParent).AttachExternalCancellation(destroyCancellationToken);
+      equipShownSkinButton.Initialize(skinType);
+
+      await UniTask.WaitForSeconds(SkinShowSceneConfig.DelayBeforeCloseButtonCreation).AttachExternalCancellation(destroyCancellationToken);
+
+      CloseSkinButtonClick = (await _animatedButtonFactory.CreateCloseSkinButton(_uiParent).AttachExternalCancellation(destroyCancellationToken)).Button.onClick;
+    }
+    
+    public async UniTask InitializePurchasableSkinHudAsync(SkinType skinType)
+    {
+      InitSkinName(skinType);
+      _unlockedObject.SetActive(false);
+      _purchaseShownSkinButton.gameObject.SetActive(true);
+      
+      _purchaseShownSkinButton.Initialize(skinType, OnPurchaseSuccess);
+      
+      CloseSkinButtonClick = (await _animatedButtonFactory.CreateCloseSkinButton(_uiParent, animate: false)
+        .AttachExternalCancellation(destroyCancellationToken)).Button.onClick;
+    }
+
+    private void OnPurchaseSuccess()
+    {
+      _unlockedObject.SetActive(true);
+      _audioSource.PlayOneShot(SkinShowSceneConfig.NewSkinSound);
+    }
+    private void InitSkinName(SkinType skinType)
     {
       string localizedSkinName = _publishService.GetPlayerLanguage() switch
       {
@@ -44,13 +76,6 @@ namespace Code.UI.SkinShow
       };
 
       _skinNameText.text = localizedSkinName.ToUpper();
-
-      EquipShownSkinButton equipShownSkinButton = await _equipShownSkinButtonFactory.Create(_uiParent).AttachExternalCancellation(destroyCancellationToken);
-      equipShownSkinButton.Initialize(skinType);
-
-      await UniTask.WaitForSeconds(SkinShowSceneConfig.DelayBeforeCloseButtonCreation).AttachExternalCancellation(destroyCancellationToken);
-
-      CloseSkinButtonClick = (await _animatedButtonFactory.CreateCloseSkinButton(_uiParent).AttachExternalCancellation(destroyCancellationToken)).Button.onClick;
     }
   }
 }

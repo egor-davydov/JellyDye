@@ -29,7 +29,7 @@ namespace Code.Infrastructure.States
 
     private void MoveToNextState()
     {
-      _gameStateMachine.Enter<WarmUpState>();
+      _gameStateMachine.Enter<CheckForUnprocessedPurchasesState>();
     }
   }
 }
