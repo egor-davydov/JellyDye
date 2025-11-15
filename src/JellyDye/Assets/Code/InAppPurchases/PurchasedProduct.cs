@@ -6,6 +6,6 @@ namespace Code.InAppPurchases
   [Serializable]
   public class PurchasedProduct
   {
-    [field: Preserve] public string ProductID;
+    [field: Preserve] public string ProductId;
   }
 }

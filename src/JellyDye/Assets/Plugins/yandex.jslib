@@ -154,7 +154,7 @@ const library = {
     const productId = UTF8ToString(productIdPtr);
 
     yandexGames.billing.purchase({ id: productId }).then(function (purchaseResponse) {
-      purchaseResponse = { purchaseData: purchaseResponse.purchaseData, signature: purchaseResponse.signature };
+      purchaseResponse = { PurchaseData: purchaseResponse.purchaseData, Signature: purchaseResponse.signature };
 
       const purchasedProductJson = JSON.stringify(purchaseResponse);
       const purchasedProductJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(purchasedProductJson);
@@ -171,17 +171,15 @@ const library = {
       console.log('on yandexGames.billing.getCatalog()');
 	  const products = [];
 
-      for (var catalogIterator = 0; catalogIterator < productCatalogResponse.length; catalogIterator++) {
-        const product = productCatalogResponse[catalogIterator];
-		console.log('Processing product:', product);
+      for (var purchasesIterator = 0; purchasesIterator < productCatalogResponse.length; purchasesIterator++) {
+        const product = productCatalogResponse[purchasesIterator];
+		console.log('Product in catalog:', product);
 		
-		products[catalogIterator] = {
+		products[purchasesIterator] = {
 		  Id: product.id,
           PriceCurrencyImage: "https:" + product.getPriceCurrencyImage('medium'),
           PriceValue: product.priceValue,
         };
-      	console.log('Processed product:', products[catalogIterator]);
-
 	  }
 
       productCatalogResponse = { Products: products	};
@@ -196,7 +194,18 @@ const library = {
   },
   BillingGetPurchasedProducts: function (successCallbackPtr) {
     yandexGames.billing.getPurchases().then(function (purchasesResponse) {
-      purchasesResponse = { purchasedProducts: purchasesResponse };
+      const purchases = [];
+
+      for (var purchasesIterator = 0; purchasesIterator < purchasesResponse.length; purchasesIterator++) {
+        const purchase = purchasesResponse[purchasesIterator];
+      	console.log('Purchased product:', purchase);
+		
+		purchases[purchasesIterator] = {
+		  ProductId: purchase.productID,
+        };
+	  }
+
+	  purchasesResponse = { PurchasedProducts: purchases };
 
       const purchasedProductsJson = JSON.stringify(purchasesResponse);
       const purchasedProductsJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(purchasedProductsJson);

@@ -211,10 +211,8 @@ namespace Code.Services
     {
       WebDebug.Log("InitYandexInApps");
       ProductCatalog = await GetProductCatalog();
-      WebDebug.Log("After GetProductCatalog");
       WebDebug.Log($"PriceCurrencyImage={ProductCatalog[0].PriceCurrencyImage}");
       CurrencyTexture = await ProductCatalog[0].PriceCurrencyImage.GetTextureFromUrlAsync();
-      WebDebug.Log("After GetTextureFromUrlAsync");
     }
 
     public bool IsPlatformMobile()

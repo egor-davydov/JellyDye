@@ -2,6 +2,7 @@
 using Code.Enums;
 using Code.InAppPurchases;
 using Code.Infrastructure.States.Interfaces;
+using Code.Logging;
 using Code.Services;
 using Code.Services.Progress;
 using Code.Services.Progress.SaveLoad;
@@ -37,9 +38,10 @@ namespace Code.Infrastructure.States
       bool isValid = true;
       foreach (PurchasedProduct purchasedProduct in purchasedProducts)
       {
-        SkinType observableSkinType = _publishService.ProductIdToSkinType(purchasedProduct.ProductID);
+        SkinType observableSkinType = _publishService.ProductIdToSkinType(purchasedProduct.ProductId);
         if (IsPlayerDontHaveInProgressPurchasedSkin(observableSkinType))
         {
+          WebDebug.Log($"Skin \"{purchasedProduct.ProductId}\" has already been purchased.");
           _progress.ForSkins.OpenSkin(observableSkinType);
           isValid = false;
         }
